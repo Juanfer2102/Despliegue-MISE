@@ -1,0 +1,4 @@
+<i class="fa-solid fa-envelope"></i>           /////E-mail
+<i class="fa-solid fa-lock"></i>               /////Candado Contraseña
+<i class="fa-solid fa-id-card-clip"></i>       /////Tarjeta identificacion
+<i class="fa-solid fa-id-card"></i>            /////Tarjeta identificacion v2
