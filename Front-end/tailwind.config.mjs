@@ -4,8 +4,10 @@ export default {
   theme: {
     colors: {
       principalGreen: "#729517",
-	  secondaryGreen: "#577004",
-	  links: "#FEEF08"
+      secondaryGreen: "#577004",
+      links: "#FEEF08",
+      grey: "#F5F5F4",
+      black: "#000000"
     },
     extend: {},
   },
