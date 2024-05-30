@@ -1,21 +1,97 @@
 ---
-interface Props {
-	title: string;
-	body: string;
-	href: string;
-}
-
-const { href, title, body } = Astro.props;
+import Layout from "../layouts/Layout.astro";
+import Logo from "../components/Logo.astro";
 ---
 
-<li class="link-card">
-	<a href={href}>
-		<h2>
-			{title}
-			<span>&rarr;</span>
-		</h2>
-		<p>
-			{body}
-		</p>
-	</a>
-</li>
+<Layout title="Iniciar Sesion">
+  <main>
+    <div class="h-full w-full absolute z-10 bg-black bg-opacity-60"></div>
+    <img
+      src="../src/images/loginImg/bg.jpg"
+      alt=""
+      class="w-full h-full fixed z-0"
+    />
+    <div class="all relative z-20 flex h-screen">
+      <div class="w-1/2 h-full">
+        <div class="logo h-full flex items-center justify-center">
+          <Logo />
+        </div>
+      </div>
+      <div
+        class="login-container text-white w-1/2 h-full
+      flex flex-col justify-center align-middle p-24 gap-12 text-center"
+      >
+        <p class="font-bold text-3xl">Iniciar Sesion</p>
+        <p class="text-lg">Inicia sesion</p>
+        <form action="" class="form flex flex-col gap-6">
+          <div
+            class="mail h-16 rounded-lg flex items-center  border border-solid border-white"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon icon-tabler icon-tabler-mail"
+              width="44"
+              height="44"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="#ffffff"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path
+                d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"
+              ></path>
+              <path d="M3 7l9 6l9 -6"></path>
+            </svg>
+            <input
+              class="h-full w-full rounded-lg bg-inherit caret-black bg-inherit"
+              type="email"
+              name="email"
+              id="1"
+              value="Email"
+            />
+          </div>
+          <div
+            class="mail h-16 rounded-lg flex items-center border border-solid border-white"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon icon-tabler icon-tabler-lock"
+              width="44"
+              height="44"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="#ffffff"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path
+                d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"
+              ></path>
+              <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path>
+              <path d="M8 11v-4a4 4 0 1 1 8 0v4"></path>
+            </svg>
+            <input
+              class="h-full w-full rounded-lg caret-black"
+              type="password"
+              name="password"
+              id="2"
+              value="Email"
+            />
+          </div>
+          <div class="flex h-8 gap-2 items-center justify-center">
+            <input class="border border-solid border-principalGreen h-full w-8" type="checkbox" name="showpassword" id="3" />
+            <p class="text-xl">Mostrar contraseña</p>
+          </div>
+        </form>
+        <div class="flex justify-center">
+        <button class="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg"> Iniciar sesion </button>
+      </div>
+      </div>
+    </div>
+  </main>
+</Layout>

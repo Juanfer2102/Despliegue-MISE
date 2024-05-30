@@ -7,7 +7,8 @@ export default {
       secondaryGreen: "#577004",
       links: "#FEEF08",
       grey: "#F5F5F4",
-      black: "#000000"
+      black: "#000000",
+      white: "#FFFFFF",
     },
     extend: {},
   },
