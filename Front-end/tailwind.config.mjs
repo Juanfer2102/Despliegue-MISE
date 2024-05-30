@@ -9,6 +9,7 @@ export default {
       grey: "#F5F5F4",
       black: "#000000",
       white: "#FFFFFF",
+      transparent: "#00FF0000",
     },
     extend: {},
   },
