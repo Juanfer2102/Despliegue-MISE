@@ -4,6 +4,14 @@ interface Props {
 }
 
 const { title } = Astro.props;
+
+import { library, icon } from "@fortawesome/fontawesome-svg-core";
+import { faYoutube } from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope, faGamepad } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faYoutube, faEnvelope, faGamepad);
+
+const gamepadIcon = icon({ prefix: "fas", iconName: faGamepad.iconName });
 ---
 
 <!doctype html>
