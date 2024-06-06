@@ -8,12 +8,7 @@ interface props {
 const { inputType, inputPlaceholder } = Astro.props;
 ---
 
-<div
-  class="mail h-16 rounded-lg flex items-center border border-solid border-white px-2 shadow-xl gap-2"
-> 
-  <slot name="icon" >
-    
-  </slot>
+<div class="mail h-16 rounded-lg flex items-center border border-solid border-white px-2 shadow-xl gap-2"> 
   <input
     class="h-full w-full rounded-lg bg-inherit caret-black bg-inherit bg-transparent"
     type={inputType}
