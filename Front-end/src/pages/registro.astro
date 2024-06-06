@@ -1,0 +1,84 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Logo from "../components/logo.astro";
+import InputText from "../components/inputs/InputText.astro";
+---
+
+<Layout title="Registro Persona">
+    <main>
+        <div class="h-full w-full absolute z-10 bg-black bg-opacity-60"></div>
+        <img
+            src="../src/images/loginImg/bg.jpg"
+            alt=""
+            class="w-full h-full fixed z-0"
+        />
+        <div
+            class="all relative z-20 flex h-screen items-center justify-center gap-0"
+        >
+            <div
+                class="login-container text-white w-full h-full
+          flex flex-col justify-center pl-40 gap-5 text-center"
+            >
+                <p class="font-bold text-3xl text-left">Registro Persona</p>
+                <form action="" class="form flex flex-col gap-6">
+                    <div class="flex flex-row w-full gap-5">
+                        <InputText inputType="email" inputPlaceholder="Email">
+                            <i class="fa-regular fa-envelope text-xl" slot="icon"
+                            ></i>
+                        </InputText>
+                        <InputText inputType="email" inputPlaceholder="Email">
+                            <i class="fa-regular fa-envelope text-xl" slot="icon"
+                            ></i>
+                        </InputText>
+                    </div>
+                    <div
+                        class="mail h-16 rounded-lg flex items-center border border-solid border-white px-2 shadow-xl gap-2"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="icon icon-tabler icon-tabler-lock"
+                            width="44"
+                            height="44"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="#ffffff"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"
+                            ></path>
+                            <path
+                                d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"
+                            ></path>
+                            <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"
+                            ></path>
+                            <path d="M8 11v-4a4 4 0 1 1 8 0v4"></path>
+                        </svg>
+                    </div>
+                    <div class="flex h-8 gap-2 items-center justify-center">
+                        <input
+                            class="border-2 border-solid border-principalGreen h-full w-8"
+                            type="checkbox"
+                            name="showpassword"
+                            id="3"
+                        />
+                        <p class="text-xl">Acepto terminos y condiciones</p>
+                    </div>
+                </form>
+                <div class="flex justify-center">
+                    <button
+                        class="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg"
+                    >
+                        Iniciar sesion
+                    </button>
+                </div>
+            </div>
+            <div class="w-full h-full">
+                <div class="flex w-full h-full items-center justify-center">
+                    <Logo />
+                </div>
+            </div>
+        </div>
+    </main>
+</Layout>
