@@ -25,20 +25,8 @@ import InputText from "../components/inputs/InputText.astro";
                 <p class="font-bold text-3xl text-left">Registro Persona</p>
                 <form action="" class="form flex flex-col gap-6">
                     <div class="flex flex-row w-full gap-5">
-                        <input
-                            class="h-full w-full rounded-lg caret-white bg-transparent outline-0 peer border border-blue-gray-200 px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                            placeholder="Nombres"
-                            type="text"
-                            name="Email"
-                            id="1"
-                        />
-                        <input
-                            class="h-full w-full rounded-lg caret-white bg-transparent outline-0 peer border border-blue-gray-200 px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                            placeholder="Apellidos"
-                            type="text"
-                            name="Email"
-                            id="1"
-                        />
+                        <InputText inputType="text" inputPlaceholder="Nombres"></InputText>
+                        <InputText inputType="text" inputPlaceholder="Apellidos"></InputText>
                     </div>
                     <div class="flex flex-row w-full gap-5">
                         <select
@@ -62,28 +50,10 @@ import InputText from "../components/inputs/InputText.astro";
                             >
                         </select>
 
-                        <input
-                            class="h-full w-full rounded-lg caret-white bg-transparent outline-0 peer border border-blue-gray-200 px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                            placeholder="No. Documento"
-                            type="number"
-                            name="Email"
-                            id="1"
-                        />
+                        <InputText inputType="number" inputPlaceholder="No. Documento"></InputText>
                     </div>
-                    <input
-                        class="h-full w-full rounded-lg caret-white bg-transparent outline-0 peer border border-blue-gray-200 px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                        placeholder="Correo Electronico"
-                        type="email"
-                        name="Email"
-                        id="1"
-                    />
-                    <input
-                        class="h-full w-full rounded-lg caret-white bg-transparent outline-0 peer border border-blue-gray-200 px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                        placeholder="Numero Celular"
-                        type="email"
-                        name="Email"
-                        id="1"
-                    />
+                    <InputText inputType="email" inputPlaceholder="Correo Electronico"></InputText>
+                    <InputText inputType="number" inputPlaceholder="Celular"></InputText>
                     <div class="flex flex-row w-full gap-5">
                         <select
                             placeholder="papa"

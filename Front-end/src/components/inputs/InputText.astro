@@ -1,6 +1,5 @@
 ---
-
-interface props {
+interface Props {
   inputType: string;
   inputPlaceholder: string;
 }
@@ -8,12 +7,21 @@ interface props {
 const { inputType, inputPlaceholder } = Astro.props;
 ---
 
-<div class="mail h-16 rounded-lg flex items-center border border-solid border-white px-2 shadow-xl gap-2"> 
-  <input
-    class="h-full w-full rounded-lg bg-inherit caret-black bg-inherit bg-transparent"
-    type={inputType}
-    name="email"
-    id="1"
-    placeholder={inputPlaceholder}
-  />
-</div>
+<style type="text/css">
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+</style>
+
+<input
+  class="h-full w-full rounded-lg caret-white bg-transparent outline-0 peer border border-blue-gray-200 px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+  placeholder={inputPlaceholder}
+  type={inputType}
+  name="Email"
+  id="1"
+/>
