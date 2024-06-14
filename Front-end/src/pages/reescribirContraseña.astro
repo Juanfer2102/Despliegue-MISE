@@ -29,26 +29,11 @@ import InputText from "../components/inputs/InputText.astro";
             >
                 <p class="font-bold text-3xl">¿Olvidaste tu contraseña?</p>
                 <p class="text-2xl -mt-14">
-                    Proporciona el correo electronico de tu cuenta para
-                    restablecer su contraseña.
+                    Recibiras un enlace para restablecer tu contraseña.
+                    Porfavor, revisa tu correo.
                 </p>
                 <form action="" class="form flex flex-col">
-                    <p class="text 30 w-full text-red">Correo electronico</p>
-                    <div class="flex gap-2 items-center">
-                        <div
-                            class="mail h-16 w-full rounded-lg flex items-center border border-solid border-red pl-2 shadow-xl gap-2"
-                        >
-                        </div>
-                        <svg class="h-6 w-6">
-                            <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1.5-5.009c0-.867.659-1.491 1.491-1.491.85 0 1.509.624 1.509 1.491 0 .867-.659 1.509-1.509 1.509-.832 0-1.491-.642-1.491-1.509zM11.172 6a.5.5 0 0 0-.499.522l.306 7a.5.5 0 0 0 .5.478h1.043a.5.5 0 0 0 .5-.478l.305-7a.5.5 0 0 0-.5-.522h-1.655z"
-                                fill="#EE0004"
-                            >
-                            </path>
-                        </svg>
-                    </div>
+                    <div class="flex gap-2 items-center"></div>
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                     <path
                         d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"
@@ -56,19 +41,20 @@ import InputText from "../components/inputs/InputText.astro";
                     <path d="M3 7l9 6l9 -6"></path>
                     <div></div>
 
-                    <p class="text 30 w-full">
-                        Correo incorrecto. Porfavor, ingresa un correo asociado.
-                    </p>
+                    <div class="flex justify-center mt-10">
+                        <button
+                            class="bg-principalGreen px-6 py-2 text-xl h-14 rounded-lg w-full"
+                        >
+                            Reescribir correo electronico
+                        </button>
+                    </div>
 
                     <div class="flex justify-center mt-10">
                         <button
                             class="bg-principalGreen px-6 py-2 text-xl h-14 rounded-lg w-full"
                         >
-                            Pedir enlace para restablecer contraseña
+                            Reenviar link
                         </button>
-                    </div>
-                    <div class="flex items-center justify-center mt-8">
-                        <p class="text-xl text-center w-full">Cancelar</p>
                     </div>
                 </form>
             </div>
