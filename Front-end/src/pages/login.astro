@@ -28,80 +28,9 @@ import InputText from "../components/inputs/InputText.astro";
         <p class="text-lg">Inicia sesion</p>
           
         <form action="" class="form flex flex-col gap-6">
-          <div class="relative mail h-16 rounded-lg flex items-center border border-solid border-white pl-2 shadow-xl gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon icon-tabler icon-tabler-mail"
-              width="44"
-              height="44"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="#ffffff"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path
-                d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"
-              ></path>
-              <path d="M3 7l9 6l9 -6"></path>
-            </svg>
-            <input
-              class="h-full w-full rounded-lg caret-white bg-transparent outline-0 peer border border-blue-gray-200 px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-              placeholder=" "
-              type="email"
-              name="Email"
-              id="1"
-            />
-            <label
-              class="before:content[' '] after:content[' '] pointer-events-none absolute flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[0px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-pink-500  peer-focus:after:border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500"
-            >
-              Required
-            </label>
-          </div>
-          <div
-            class="mail h-16 rounded-lg flex items-center border border-solid border-white pl-2 shadow-xl gap-2"
-          >
-            
-            <input
-              class="h-full w-full rounded-lg caret-white bg-transparent outline-0"
-              type="email"
-              name="Email"
-              id="1"
-              placeholder="Email"
-            />
-          </div>
-          <div
-            class="mail h-16 rounded-lg flex items-center border border-solid border-white pl-2 shadow-xl gap-2"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon icon-tabler icon-tabler-lock"
-              width="44"
-              height="44"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="#ffffff"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path
-                d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"
-              ></path>
-              <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path>
-              <path d="M8 11v-4a4 4 0 1 1 8 0v4"></path>
-            </svg>
-            <input
-              class="h-full w-full rounded-lg caret-white bg-transparent outline-0"
-              type="password"
-              name="password"
-              id="2"
-              placeholder="Contraseña"
-            />
-          </div>
+          
+          <InputText inputType="email" inputPlaceholder="Correo Electronico"></InputText>
+          <InputText inputType="password" inputPlaceholder="Contraseña"></InputText>
           <div class="flex h-8 gap-2 items-center justify-center">
             <input
               class="border border-solid border-principalGreen h-full w-8"
