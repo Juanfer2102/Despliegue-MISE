@@ -26,14 +26,13 @@ import InputText from "../components/inputs/InputText.astro";
       >
         <p class="font-bold text-3xl">Iniciar Sesion</p>
         <p class="text-lg">Inicia sesion</p>
-          
+
         <form action="" class="form flex flex-col gap-6">
-          
-          <InputText inputType="email" inputPlaceholder="Correo Electronico"></InputText>
-          <InputText inputType="password" inputPlaceholder="Contraseña"></InputText>
+          <InputText inputType="email" inputPlaceholder="Correo Electronico" />
+          <InputText inputType="password" inputPlaceholder="Contraseña" />
           <div class="flex h-8 gap-2 items-center justify-center">
             <input
-              class="border border-solid border-principalGreen h-full w-8"
+              class="border border-solid checked:bg-principalGreen border-principalGreen h-full w-8"
               type="checkbox"
               name="showpassword"
               id="3"
