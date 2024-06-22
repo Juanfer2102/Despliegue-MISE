@@ -1,0 +1,33 @@
+---
+import Logo from "../components/logo.astro";
+import NavBar from "../components/nav/NavBar.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Dashboard">
+  <main class="bg-greyBg w-screen h-screen relative z-0">
+    <div class="bg-greyBlack fixed top-0 h-[10%] w-full z-0"></div>
+
+    <div class="h-screen flex top-0 z-10">
+      <NavBar />
+      <div class="w-full h-full z-20 p-7 flex text-white">
+        <div class="left">
+          <div class="container bg-greyBlack rounded-xl p-8">
+            <p>Grafica de empresas desarrolladas</p>
+          </div>
+          <div class="container bg-greyBlack rounded-xl p-8">
+            <p>Empresas Desarrolladas</p>
+          </div>
+        </div>
+        <div class="right">
+          <div class="container bg-greyBlack rounded-xl p-8">
+            <p>Porcentaje de desarrollo</p>
+          </div>
+          <div class="container bg-greyBlack rounded-xl p-8">
+            <p>Empresas Aceptadas (69)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
