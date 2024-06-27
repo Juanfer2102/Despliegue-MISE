@@ -19,5 +19,8 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "astro": "^4.7.1",
     "tailwindcss": "^3.4.3"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.30"
   }
 }
