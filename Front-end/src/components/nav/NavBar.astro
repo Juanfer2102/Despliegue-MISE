@@ -2,25 +2,34 @@
 import Logo from "../logo.astro";
 ---
 
-<div class="bg-greyBlack sticky top-0 h-full w-[15%]">
-        <div class="flex flex-col w-full h-full">
-          <div class="bg-transparent w-full h-64 flex items-center px-6">
-            <Logo></Logo>
-          </div>
-          <div class="nav-items flex flex-col bg-greyBlack w-full h-full">
-            <div class="flex flex-col gap-5 p-10">
-              <p class="text-textBg font-medium">Dashboard</p>
-              <p class="text-textBg font-medium">Empresas Registradas</p>
-              <p class="text-textBg font-medium">Diagnostico</p>
-            </div>
-            <div class="line bg-white w-full h-[0.1px]"></div>
-            <div class="flex flex-col gap-5 p-6">
-              <p class="text-white font-medium">Admin Control</p>
-              <div class="flex flex-col px-4 gap-5">
-                <p class="text-textBg font-medium">Usuarios Regitrados</p>
-                <p class="text-textBg font-medium">Diagnostico</p>
-              </div>
-            </div>
-          </div>
+<div class="bg-greyBlack sticky top-0 h-full">
+  <div class="flex flex-col w-full h-full">
+    <div class="bg-transparent w-full h-64 flex justify-center items-center">
+      <Logo />
+    </div>
+    <div class="nav-items flex flex-col bg-greyBlack w-full h-full">
+      <div class="flex flex-col gap-5 pb-10 p-4">
+        <div class="flex gap-2 items-center font-medium text-textBg hover:bg-principalGreen hover:text-white duration-300 cursor-pointer hover:rounded-2xl pl-6 p-5">
+          <i class="fa-solid fa-chart-bar"></i>
+          <p class="">Dashboard</p>
+        </div>
+        <div class="flex gap-2 items-center font-medium text-textBg hover:bg-principalGreen hover:text-white duration-300 cursor-pointer hover:rounded-2xl pl-6 p-5">
+          <i class="fa-regular fa-building"></i>
+          <p class="">Empresas Registradas</p>
+        </div>
+        <div class="flex gap-2 items-center font-medium text-textBg hover:bg-principalGreen hover:text-white duration-300 cursor-pointer hover:rounded-2xl pl-6 p-5">
+          <i class="fa-solid fa-layer-group"></i>
+          <p class="">Diagnostico</p>
         </div>
       </div>
+      <div class="line bg-white w-full h-[0.1px]"></div>
+      <div class="flex flex-col gap-5 p-6">
+        <p class="text-white font-medium">Admin Control</p>
+        <div class="flex flex-col px-4 gap-5">
+          <p class="text-textBg font-medium">Usuarios Registrados</p>
+          <p class="text-textBg font-medium">Diagnostico</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
