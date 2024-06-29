@@ -1,17 +1,19 @@
 ---
-import type { ImageFunction } from 'astro:content';
+
 
 interface Props {
   numeroEmpresas: number;
   tipoTarjeta: string;
-  iconTarjeta: 
+  empresaicon: string
 }
 
-const { numeroEmpresas, tipoTarjeta } = Astro.props;
+const { numeroEmpresas, tipoTarjeta, empresaicon } = Astro.props;
 ---
 
 <div class="bg-greyBlack flex flex-row rounded-md p-3 justify-between w-46">
-  <Image src={myImportedImage} alt="descriptive text" />
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+    >{empresaicon}</svg
+  >
   <div class="flex flex-col text-white">
     <h1 class="text-4xl font-medium">{numeroEmpresas}</h1>
     <h2>{tipoTarjeta}</h2>
