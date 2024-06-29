@@ -2,7 +2,7 @@
 import Logo from "../components/logo.astro";
 import NavBar from "../components/nav/NavBar.astro";
 import LayoutDashboard from "../layouts/LayoutDashboard.astro";
-import Progress from "../components/progress.jsx";
+import Progress from "../components/progressBar.astro";
 
 ---
 
@@ -29,7 +29,7 @@ import Progress from "../components/progress.jsx";
           </div>
         </div>
         <div class="right flex flex-col gap-5">
-          <Progress porcentaje=30 />
+          <Progress porcentaje={40} />
           <div class="container bg-greyBlack rounded-xl p-8">
             <p>Empresas Aceptadas (69)</p>
           </div>
