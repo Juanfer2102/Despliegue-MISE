@@ -1,22 +1,150 @@
 ---
 import Logo from "../components/logo.astro";
-import Tarjetas from "../components/tarjetasdashboard/tarjetasEmpresasreg.astro";
 import NavBar from "../components/nav/NavBar.astro";
 import LayoutDashboard from "../layouts/LayoutDashboard.astro";
 ---
 
-<LayoutDashboard title="empresasRegistradas">
+<LayoutDashboard title="Dashboard">
   <main class="bg-greyBg w-screen h-screen relative z-0">
-    <div class="bg-greyBlack static top-0 h-[10%] w-full z-0"></div>
+    <div class="bg-greyBlack static top-0 h-[10%]  w-full z-0"></div>
 
-    <div class="h-screen flex z-10">
+    <div class="h-full flex z-10">
       <div class="h-full w-[17%]">
         <NavBar />
       </div>
-      <div>
-        <h1 class="text-white font-semibold">Empresas Registradas</h1>
-        <div><Tarjetas numeroEmpresas={2} tipoTarjeta="Empresas nuevas" empresaicon=""></div>
+      <div class="w-full h-full p-7 flex text-white gap-5">
+        <div class="left flex flex-col gap-5">
+          <div class="">
+            <p class="text-xl">
+              Empresas registradas  
+            </p>
+          </div>
+          
+            <div class="flex gap-12  p-5 pl-12 ">
+              <div class="container bg-greyBlack rounded-xl p-8 ">
+                <i class="fa-solid fa-building-user text-4xl"> 666 </i>
+                <p class="mt-3">  empresas  registradas  </p>
+              </div>
+              <div class="container bg-greyBlack rounded-xl p-8">
+                <i class="fa-solid fa-building-circle-check text-4xl"> 666 </i>
+                <p class="mt-3"> nuevas empresas </p>
+              </div>
+              <div class="container bg-greyBlack rounded-xl p-8">
+                <i class="fa-solid fa-building-circle-exclamation text-4xl "> 666 </i>
+                <p class="mt-3"> nuevas solicitudes </p>
+              </div>
+              <div class="container bg-greyBlack rounded-xl p-8">
+                <i class="fa-solid fa-building-user text-4xl"> 666 </i>
+                <p class="mt-3">  empresas  registradas  </p>
+              </div>
+            </div>
+
+            
+        <div class="flex gap-10  p-8 pl-12 w-full justify-center">
+        <div class="container bg-greyBlack rounded-xl p-7  ">
+
+        
+        <div class="overflow-auto rounded-xl">
+          <table class="overflow-auto w-full justify-center rounded">
+            <thead class="bg-principalGreen border rounded-xl ">
+              <th class="w-28 p-5  text-left ">No.</th>
+              <th class="w-28 p-5  text-left">Details</th>
+              <th class="w-15 p-5  text-left">Status</th>
+              <th class="w-6  p-5 pr-20 text-left">Total</th>
+            </thead >
+            <tbody class="overflow-auto divide-y border border-white rounded">
+            <tr class="bg-greyBg border-white">
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">
+                <a href="#" class=" text-blue-500 hover:underline">10001</a>
+              </td>
+              <td class="p-5 text-sm text-white whitespace-nowrap">
+                Kring New Fit 
+              </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap border-white">
+              <span
+                class="p-1.5 text-xs font-medium uppercase tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50">Delivered</span>
+              </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">$200.00</td>
+            </tr>
+           
+            <tr class="bg-greyBg border-white ">
+              <td class="p-5 text-sm  whitespace-nowrap">
+                <a href="#" class=" text-blue-500 hover:underline">10002</a>
+              </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">Kring New Fit </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">
+              <span
+                class="p-1.5 text-xs font-medium uppercase tracking-wider text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-50">Shipped</span>
+              </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">$200.00</td>
+            </tr>
+            
+            <tr class="bg-greyBg border-white overflow-auto">
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap border-white">
+                <a href="#" class=" hover:underline">10002</a>
+              </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">Kring New Fit </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">
+              <span
+                class="p-1.5 text-xs font-medium uppercase tracking-wider text-gray-800 bg-gray-200 rounded-lg bg-opacity-50">Cancelled</span>
+              </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">$200.00</td>
+            </tr>
+
+            <tr class="bg-greyBg border-white">
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap border-white">
+                <a href="#" class=" hover:underline">10002</a>
+              </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">Kring New Fit </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">
+              <span
+                class="p-1.5 text-xs font-medium uppercase tracking-wider text-gray-800 bg-gray-200 rounded-lg bg-opacity-50">Cancelled</span>
+              </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">$200.00</td>
+            </tr>
+
+            <tr class="bg-greyBg border-white">
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap border-white">
+                <a href="#" class=" hover:underline">10002</a>
+              </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">Kring New Fit </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">
+              <span
+                class="p-1.5 text-xs font-medium uppercase tracking-wider text-gray-800 bg-gray-200 rounded-lg bg-opacity-50">Cancelled</span>
+              </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">$200.00</td>
+            </tr>
+
+            <tr class="bg-greyBg border-white">
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap border-white">
+                <a href="#" class=" hover:underline">10002</a>
+              </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">Kring New Fit </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">
+              <span
+                class="p-1.5 text-xs font-medium uppercase tracking-wider text-gray-800 bg-gray-200 rounded-lg bg-opacity-50">Cancelled</span>
+              </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">$200.00</td>
+            </tr>
+
+            <tr class="bg-greyBg border-white">
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap border-white rounded-lg">
+                <a href="#" class=" hover:underline ">10002</a>
+              </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">Kring New Fit </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">
+              <span
+                class="p-1.5 text-xs font-medium uppercase tracking-wider text-gray-800 bg-gray-200 rounded-lg bg-opacity-50">Cancelled</span>
+              </td>
+              <td class="p-5 text-sm text-gray-700 whitespace-nowrap">$200.00</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        </div>
       </div>
+
     </div>
   </main>
 </LayoutDashboard>
