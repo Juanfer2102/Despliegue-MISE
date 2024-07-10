@@ -1,0 +1,22 @@
+---
+import Logo from "../components/logo.astro";
+import Tarjetas from "../components/tarjetasdashboard/tarjetasEmpresasreg.astro";
+import NavBar from "../components/nav/NavBar.astro";
+import LayoutDashboard from "../layouts/LayoutDashboard.astro";
+---
+
+<LayoutDashboard title="empresasRegistradas">
+  <main class="bg-greyBg w-screen h-screen relative z-0">
+    <div class="bg-greyBlack static top-0 h-[10%] w-full z-0"></div>
+
+    <div class="h-screen flex z-10">
+      <div class="h-full w-[17%]">
+        <NavBar />
+      </div>
+      <div>
+        <h1 class="text-white font-semibold">Empresas Registradas</h1>
+        <div><Tarjetas numeroEmpresas={2} tipoTarjeta="Empresas nuevas" empresaicon=""></div>
+      </div>
+    </div>
+  </main>
+</LayoutDashboard>
