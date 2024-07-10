@@ -2,17 +2,20 @@
 import Logo from "../components/logo.astro";
 import NavBar from "../components/nav/NavBar.astro";
 import LayoutDashboard from "../layouts/LayoutDashboard.astro";
+import Progress from "../components/progressBar.astro";
+
 ---
 
 <LayoutDashboard title="Dashboard">
-  <main class="bg-greyBg w-screen h-screen relative z-0">
-    <div class="bg-greyBlack static top-0 h-[10%] w-full z-0"></div>
-
-    <div class="h-screen flex z-10">
-      <div class="h-full w-[17%]">
-        <NavBar />
+  <main class="flex h-screen bg-greyBg">
+    <div class="h-full w-[17%]">
+      <NavBar />
+    </div>
+    <div class="w-full h-full flex flex-col text-white gap-5">
+      <div class="w-full">
+        <div class="bg-greyBlack h-24 w-full"></div>
       </div>
-      <div class="w-full h-full z-20 p-7 flex text-white gap-5">
+      <div class="flex gap-5 p-10 w-full h-full">
         <div class="left flex flex-col gap-5">
           <div class="container bg-greyBlack rounded-xl p-8">
             <p>
@@ -26,22 +29,13 @@ import LayoutDashboard from "../layouts/LayoutDashboard.astro";
           </div>
         </div>
         <div class="right flex flex-col gap-5">
-          <div class="container bg-greyBlack rounded-xl p-8">
-            <p>Porcentaje de desarrollo</p>
-            <div class="card border-white p-10 text-white flex flex-col gap-2">
-              <p>No desarrollado</p>
-              <div class="container">
-                <div class="circular-progress">
-                  <span class="progress-value">0%</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Progress porcentaje={40} />
           <div class="container bg-greyBlack rounded-xl p-8">
             <p>Empresas Aceptadas (69)</p>
           </div>
         </div>
       </div>
     </div>
+    
   </main>
 </LayoutDashboard>
