@@ -28,6 +28,20 @@ export default {
       textBg: "#64748B",
       red: "#EE0004",
     },
+    screens: {
+      mq1850: {
+        raw: "screen and (max-width: 1850px)",
+      },
+      mq1350: {
+        raw: "screen and (max-width: 1350px)",
+      },
+      mq925: {
+        raw: "screen and (max-width: 925px)",
+      },
+      mq450: {
+        raw: "screen and (max-width: 450px)",
+      },
+    },
     fontFamily: {
       "base-medium": "Poppins",
       roboto: "Roboto",
