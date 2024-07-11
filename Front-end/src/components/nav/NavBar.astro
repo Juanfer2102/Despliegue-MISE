@@ -2,34 +2,258 @@
 import Logo from "../logo.astro";
 ---
 
-<div class="bg-greyBlack sticky top-0 h-full">
-  <div class="flex flex-col w-full h-full">
-    <div class="bg-transparent w-full h-64 flex justify-center items-center">
-      <Logo />
+<div
+  class="w-full relative shadow-[0px_16px_44px_rgba(0,_0,_0,_0.07)] rounded-2xl bg-darkslategray flex flex-col items-start justify-start gap-[24px] leading-[normal] tracking-[normal]"
+>
+  <section
+    class="self-stretch flex flex-row items-start justify-start py-padding-navbar px-[71px] relative gap-[12px] text-center text-[9px] text-color-white font-roboto"
+  >
+    <div
+      class="h-6 w-6 !m-[0] absolute top-[28px] right-[-12px] rounded-80xl bg-olivedrab flex flex-row items-center justify-start p-1 box-border"
+    >
+      <img
+        class="h-4 w-4 relative overflow-hidden shrink-0"
+        loading="lazy"
+        alt=""
+        src="/public/iconsolidchevronleft.svg"
+      />
     </div>
-    <div class="nav-items flex flex-col bg-greyBlack w-full h-full">
-      <div class="flex flex-col gap-5 pb-10 p-4">
-        <div class="flex gap-2 items-center font-medium text-textBg hover:bg-principalGreen hover:text-white duration-300 cursor-pointer hover:rounded-2xl pl-6 p-5">
-          <i class="fa-solid fa-chart-bar"></i>
-          <p class="">Dashboard</p>
-        </div>
-        <div class="flex gap-2 items-center font-medium text-textBg hover:bg-principalGreen hover:text-white duration-300 cursor-pointer hover:rounded-2xl pl-6 p-5">
-          <i class="fa-regular fa-building"></i>
-          <p class="">Empresas Registradas</p>
-        </div>
-        <div class="flex gap-2 items-center font-medium text-textBg hover:bg-principalGreen hover:text-white duration-300 cursor-pointer hover:rounded-2xl pl-6 p-5">
-          <i class="fa-solid fa-layer-group"></i>
-          <p class="">Diagnostico</p>
+    <div
+      class="flex-1 shadow-[20px_20px_4px_rgba(0,_0,_0,_0.25)] overflow-hidden flex flex-col items-start justify-start pt-[33.3px] pb-[17.3px] pr-[7px] pl-3 gap-[4.2px]"
+    >
+      <div class="flex flex-row items-start justify-start py-0 px-11">
+        <img
+          class="h-[9.1px] w-[11.3px] relative"
+          loading="lazy"
+          alt=""
+          src="/public/vector.svg"
+        />
+      </div>
+      <div
+        class="self-stretch flex flex-row items-start justify-start py-0 pr-1 pl-px"
+      >
+        <div class="h-[37px] flex-1 relative">
+          <img
+            class="absolute top-[0.7px] left-[0px] w-[39.8px] h-[35.6px]"
+            loading="lazy"
+            alt=""
+            src="/public/vector-1.svg"
+          />
+
+          <img
+            class="absolute top-[0.8px] left-[89.5px] w-[24.8px] h-[35.5px]"
+            alt=""
+            src="/public/vector-2.svg"
+          />
+
+          <img
+            class="absolute top-[0px] left-[58.1px] w-[26.2px] h-[37px]"
+            loading="lazy"
+            alt=""
+            src="/public/vector-3.svg"
+          />
+
+          <img
+            class="absolute top-[27.5px] left-[43.2px] w-[11.3px] h-[9px]"
+            loading="lazy"
+            alt=""
+            src="/public/vector-4.svg"
+          />
+
+          <img
+            class="absolute top-[18.5px] left-[43.1px] w-[11.3px] h-[9.1px] z-[1]"
+            alt=""
+            src="/public/vector-5.svg"
+          />
+
+          <img
+            class="absolute top-[9.4px] left-[43.2px] w-[11.1px] h-[9px]"
+            loading="lazy"
+            alt=""
+            src="/public/vector-6.svg"
+          />
+
+          <img
+            class="absolute top-[0.6px] left-[43.3px] w-[10.9px] h-[8.8px]"
+            loading="lazy"
+            alt=""
+            src="/public/vector-7.svg"
+          />
         </div>
       </div>
-      <div class="line bg-white w-full h-[0.1px]"></div>
-      <div class="flex flex-col gap-5 p-6">
-        <p class="text-white font-medium">Admin Control</p>
-        <div class="flex flex-col px-4 gap-5">
-          <p class="text-textBg font-medium">Usuarios Registrados</p>
-          <p class="text-textBg font-medium">Diagnostico</p>
+      <div
+        class="self-stretch relative tracking-[0.14em] [text-shadow:0px_4px_4px_rgba(0,_0,_0,_0.25)]"
+      >
+        Modelo Integral de Servicios Empresariales
+      </div>
+    </div>
+  </section>
+  <section
+    class="self-stretch flex flex-col items-start justify-start gap-[327px] text-left text-base text-color-text-secondary font-roboto"
+  >
+    <div
+      class="self-stretch flex flex-col items-start justify-start gap-[23.5px]"
+    >
+      <div
+        class="self-stretch flex flex-col items-start justify-start py-0 px-padding-navbar gap-[4px]"
+      >
+        <div
+          class="self-stretch rounded-80xl overflow-hidden flex flex-row items-center justify-start py-3 px-4"
+        >
+          <div
+            class="flex-1 flex flex-row items-start justify-start relative gap-[12px]"
+          >
+            <div class="flex flex-row items-start justify-start">
+              <img
+                class="h-5 w-5 relative overflow-hidden shrink-0"
+                loading="lazy"
+                alt=""
+                src="/public/icon.svg"
+              />
+            </div>
+            <a
+              class="[text-decoration:none] relative leading-[20px] font-medium text-[inherit]"
+              >Dashboard</a
+            >
+            <div
+              class="h-2 w-2 !m-[0] absolute top-[13px] left-[-1px] rounded-80xl bg-darkorange box-border hidden z-[2] border-[1px] border-solid border-color-white"
+            >
+            </div>
+          </div>
+        </div>
+        <div
+          class="self-stretch rounded-80xl overflow-hidden flex flex-row items-center justify-start py-3 px-4"
+        >
+          <div
+            class="flex-1 flex flex-row items-start justify-start relative gap-[12px]"
+          >
+            <div class="flex flex-row items-start justify-start">
+              <img
+                class="h-5 w-5 relative overflow-hidden shrink-0"
+                loading="lazy"
+                alt=""
+                src="/public/iconoutlineinbox.svg"
+              />
+            </div>
+            <div class="relative leading-[20px] font-medium">
+              Empresas Registradas
+            </div>
+            <div
+              class="h-2 w-2 !m-[0] absolute top-[13px] left-[-1px] rounded-80xl bg-darkorange box-border hidden z-[2] border-[1px] border-solid border-color-white"
+            >
+            </div>
+          </div>
+        </div>
+        <div
+          class="self-stretch rounded-80xl overflow-hidden flex flex-row items-center justify-start py-3 px-4"
+        >
+          <div
+            class="flex-1 flex flex-row items-start justify-start relative gap-[12px]"
+          >
+            <div class="flex flex-row items-start justify-start">
+              <img
+                class="h-5 w-5 relative overflow-hidden shrink-0"
+                loading="lazy"
+                alt=""
+                src="/public/icon-1.svg"
+              />
+            </div>
+            <div class="relative leading-[20px] font-medium">Modulos</div>
+            <div
+              class="h-2 w-2 !m-[0] absolute top-[13px] left-[-1px] rounded-80xl bg-darkorange box-border hidden z-[2] border-[1px] border-solid border-color-white"
+            >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="self-stretch h-px relative box-border border-t-[1px] border-solid border-color-border"
+      >
+      </div>
+      <div
+        class="self-stretch flex flex-col items-start justify-start py-0 px-padding-navbar gap-[4px]"
+      >
+        <div
+          class="relative text-[17px] leading-[20px] font-medium text-color-white inline-block min-w-[110px]"
+        >
+          Admin Control
+        </div>
+        <div
+          class="self-stretch rounded-80xl overflow-hidden flex flex-row items-center justify-start py-3 px-4"
+        >
+          <div
+            class="flex-1 flex flex-row items-start justify-start relative gap-[12px]"
+          >
+            <div class="flex flex-row items-start justify-start">
+              <img
+                class="h-5 w-5 relative overflow-hidden shrink-0"
+                loading="lazy"
+                alt=""
+                src="/public/icon-2.svg"
+              />
+            </div>
+            <div class="flex-1 relative leading-[20px] font-medium">
+              Usuarios Registrados
+            </div>
+            <div
+              class="h-2 w-2 !m-[0] absolute top-[13px] left-[-1px] rounded-80xl bg-darkorange box-border hidden z-[2] border-[1px] border-solid border-color-white"
+            >
+            </div>
+          </div>
+        </div>
+        <div
+          class="self-stretch rounded-80xl overflow-hidden flex flex-row items-center justify-start py-3 px-4"
+        >
+          <div
+            class="flex-1 flex flex-row items-start justify-start relative gap-[12px]"
+          >
+            <div class="flex flex-row items-start justify-start">
+              <img
+                class="h-5 w-5 relative overflow-hidden shrink-0"
+                loading="lazy"
+                alt=""
+                src="/public/icon-3.svg"
+              />
+            </div>
+            <div class="flex-1 relative leading-[20px] font-medium">
+              Settings
+            </div>
+            <div
+              class="h-2 w-2 !m-[0] absolute top-[13px] left-[-1px] rounded-80xl bg-darkorange box-border hidden z-[2] border-[1px] border-solid border-color-white"
+            >
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    <div
+      class="self-stretch flex flex-row items-center justify-start pt-[22px] px-padding-navbar pb-padding-navbar gap-[12px] text-xs text-darkgray font-base-medium border-t-[1px] border-solid border-color-border"
+    >
+      <div class="flex-1 flex flex-row items-center justify-start gap-[12px]">
+        <img
+          class="h-10 w-10 relative rounded-80xl overflow-hidden shrink-0 object-contain"
+          loading="lazy"
+          alt=""
+          src="/public/avatar@2x.png"
+        />
+
+        <div class="flex-1 flex flex-col items-start justify-start gap-[2px]">
+          <div class="self-stretch relative leading-[20px] font-medium">
+            Welcome back 👋
+          </div>
+          <div
+            class="self-stretch relative text-sm leading-[20px] font-medium text-color-white"
+          >
+            Johnathan
+          </div>
+        </div>
+      </div>
+      <img
+        class="h-5 w-5 relative overflow-hidden shrink-0"
+        loading="lazy"
+        alt=""
+        src="/public/caret.svg"
+      />
+    </div>
+  </section>
 </div>
