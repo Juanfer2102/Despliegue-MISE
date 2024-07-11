@@ -3,35 +3,6 @@ from django.db import models
 
 # Create your models here.
 
-class Coordinador(models.Model):
-    id_coordinador = models.IntegerField(primary_key=True)
-    nombres_coordinador = models.TextField()
-    apellidos_coordinador = models.TextField()
-    contraseña = models.TextField()
-    correo = models.TextField()
-    programa = models.TextField()
-    celular = models.IntegerField()
-    documento = models.IntegerField()
-    id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_usuario')
-
-    class Meta:
-        managed = False
-        db_table = 'coordinador'
-
-
-class Director(models.Model):
-    id_director = models.IntegerField(primary_key=True)
-    nombres_director = models.TextField()
-    apellidos_director = models.TextField()
-    correo = models.IntegerField()
-    documento = models.IntegerField()
-    celular = models.IntegerField()
-    contraseña = models.TextField()
-    id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_usuario')
-
-    class Meta:
-        managed = False
-        db_table = 'director'
 class Empresas(models.Model):
     nit = models.IntegerField(db_column='NIT', primary_key=True)  # Field name made lowercase.
     nombre_empresa = models.TextField()
@@ -55,18 +26,6 @@ class Empresas(models.Model):
     class Meta:
         managed = False
         db_table = 'empresas'
-
-
-class MisePrueba(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    done = models.IntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'mise_prueba'
-
 
 class Modulos(models.Model):
     id_modulo = models.IntegerField(primary_key=True)
