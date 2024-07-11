@@ -13,6 +13,7 @@ import LayoutDashboard from "../layouts/LayoutDashboard.astro";
         <NavBar />
       </div>
       <div class="w-full h-full z-20 p-7 flex text-white gap-5">
+        
         <div class="left flex flex-col gap-5">
           <div class="">
             <p class="text-xl">
@@ -42,9 +43,13 @@ import LayoutDashboard from "../layouts/LayoutDashboard.astro";
             
         <div class="flex gap-10  p-7 w-full justify-center">
         <div class="container bg-greyBlack rounded-xl p-7  ">
+        <div class="flex items-center justify-between ">
+          <i class="fa-solid fa-magnifying-glass gap-9"></i>
+        </div>
 
         
         <div class="overflow-auto rounded-xl">
+          <div>
           <table class="overflow-auto w-full justify-center rounded">
             <thead class="bg-principalGreen border rounded-xl ">
               <th class="w-28 p-5  text-left ">No.</th>
@@ -140,6 +145,7 @@ import LayoutDashboard from "../layouts/LayoutDashboard.astro";
             </tr>
             </tbody>
           </table>
+        </div>
         </div>
 
         </div>
