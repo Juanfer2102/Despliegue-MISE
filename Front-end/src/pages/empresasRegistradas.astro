@@ -6,10 +6,10 @@ import LayoutDashboard from "../layouts/LayoutDashboard.astro";
 
 <LayoutDashboard title="Dashboard">
   <main class="bg-greyBg w-screen h-screen relative z-0">
-    <div class="bg-greyBlack static top-0 h-[10%] w-full z-0"></div>
+    <div class="bg-greyBlack static "></div>
 
     <div class="h-full flex z-10">
-      <div class="h-full w-[17%]">
+      <div class="h-full">
         <NavBar />
       </div>
       <div class="w-full h-full z-20 p-7 flex text-white gap-5">
@@ -39,31 +39,22 @@ import LayoutDashboard from "../layouts/LayoutDashboard.astro";
             </div>
           </div>
 
-
-
-
-
-
-
-
           <div class="flex gap-10 p-7 w-full justify-center">
             <div class="container bg-greyBlack rounded-xl p-7">
               
                     <div class="flex items-center">
                         <input
                             type="text"
-                            placeholder="Buscar"
+                            placeholder=""
                             class=" border border-white rounded-lg  bg-greyBlack" />
                         <i class="fa-solid fa-magnifying-glass text-white "></i>
                         <div class="flex items-center">
-                            <div class=" items-center flex gap-2 border-2 rounded-lg border-red bg-transpsrent text-red text-left p">
+                            <div class=" items-center flex gap-2 border-2 rounded-lg border-white bg-transpsrent text-white text-left p">
                                 <p>filtrar</p>
                                 <i class="fa-solid fa-filter"></i>
                             </div>
                         </div>
                     </div>
-
-
               <div class="overflow-auto rounded-xl">
                 <div>
                   <table class="overflow-auto w-full justify-center rounded">
@@ -102,162 +93,6 @@ import LayoutDashboard from "../layouts/LayoutDashboard.astro";
                             </button>
                           </div></td
                         >
-                      </tr>
-
-                      <tr class="bg-greyBg border-white">
-                        <td class="p-5 text-sm whitespace-nowrap">
-                          <a href="#" class="text-blue-500 hover:underline"
-                            >mojang</a
-                          >
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap"
-                          >Videojuegos
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap">
-                          <span
-                            class="p-1.5 text-xs font-medium  tracking-wider text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-50"
-                            >11 Feb 2024</span
-                          >
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap"
-                          ><div class="pr-3 items-center">
-                            <button
-                              class="p-2 pl-4 pr-5 tracking-wide text-sm transition-colors duration-200 transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
-                            >
-                              ver detalles
-                            </button>
-                          </div></td
-                        >
-                      </tr>
-
-                      <tr class="bg-greyBg border-white overflow-auto">
-                        <td
-                          class="p-5 text-sm text-gray-700 whitespace-nowrap border-white"
-                        >
-                          <a href="#" class="hover:underline">carnosito</a>
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap"
-                          >ganaderia
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap">
-                          <span
-                            class="p-1.5 text-xs font-medium  tracking-wider text-gray-800 bg-gray-200 rounded-lg bg-opacity-50"
-                            >27 Ene 2024</span
-                          >
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap"
-                          ><div class="pr-3 items-center">
-                            <button
-                              class="p-2 pl-4 pr-5 tracking-wide text-sm transition-colors duration-200 transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
-                            >
-                              ver detalles
-                            </button>
-                          </div></td
-                        >
-                      </tr>
-
-                      <tr class="bg-greyBg border-white">
-                        <td
-                          class="p-5 text-sm text-gray-700 whitespace-nowrap border-white"
-                        >
-                          <a href="#" class="hover:underline">carnosito</a>
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap"
-                          >ganaderia
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap">
-                          <span
-                            class="p-1.5 text-xs font-medium tracking-wider text-gray-800 bg-gray-200 rounded-lg bg-opacity-50"
-                            >27 Ene 2024</span
-                          >
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap"
-                          ><div class="pr-3 items-center">
-                            <button
-                              class="p-2 pl-4 pr-5 tracking-wide text-sm transition-colors duration-200 transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
-                            >
-                              ver detalles
-                            </button>
-                          </div></td
-                        >
-                      </tr>
-
-                      <tr class="bg-greyBg border-white">
-                        <td
-                          class="p-5 text-sm text-gray-700 whitespace-nowrap border-white"
-                        >
-                          <a href="#" class="hover:underline">carnosito</a>
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap"
-                          >ganaderia
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap">
-                          <span
-                            class="p-1.5 text-xs font-medium  tracking-wider text-gray-800 bg-gray-200 rounded-lg bg-opacity-50"
-                            >27 Ene 2024</span
-                          >
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap"
-                          ><div class="pr-3 items-center">
-                            <button
-                              class="p-2 pl-4 pr-5 tracking-wide text-sm transition-colors duration-200 transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
-                            >
-                              ver detalles
-                            </button>
-                          </div></td
-                        >
-                      </tr>
-
-                      <tr class="bg-greyBg border-white">
-                        <td
-                          class="p-5 text-sm text-gray-700 whitespace-nowrap border-white"
-                        >
-                          <a href="#" class="hover:underline">carnosito</a>
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap"
-                          >ganaderia
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap">
-                          <span
-                            class="p-1.5 text-xs font-medium tracking-wider text-gray-800 bg-gray-200 rounded-lg bg-opacity-50"
-                            >27 Ene 2024</span
-                          >
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap"
-                          ><div class="pr-3 items-center">
-                            <button
-                              class="p-2 pl-4 pr-5 tracking-wide text-sm transition-colors duration-200 transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
-                            >
-                              ver detalles
-                            </button>
-                          </div></td
-                        >
-                      </tr>
-
-                      <tr class="bg-greyBg border-white">
-                        <td
-                          class="p-5 text-sm text-gray-700 whitespace-nowrap border-white rounded-lg"
-                        >
-                          <a href="#" class="hover:underline">carnosito</a>
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap"
-                          >ganaderia
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap">
-                          <span
-                            class="p-1.5 text-xs font-medium tracking-wider text-gray-800 bg-gray-200 rounded-lg bg-opacity-50"
-                            >27 Ene 2024</span
-                          >
-                        </td>
-                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap">
-                          <div class="pr-3 items-center">
-                            <button
-                              class="p-2 pl-4 pr-5 tracking-wide text-sm  transition-colors duration-200 transform  rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
-                            >
-                              ver detalles
-                            </button>
-                          </div>
-                        </td>
                       </tr>
                     </tbody>
                   </table>
