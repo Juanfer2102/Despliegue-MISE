@@ -3,6 +3,7 @@ import NavBar from "../components/nav/NavBar.astro";
 import LayoutDashboard from "../layouts/LayoutDashboard.astro";
 import Boton from "../components/inputs/boton.astro";
 import iconGB from "../images/icons/iconsEditUser/GoBack.png";
+import iconUser from "../images/icons/iconsEditUser/User.png";
 ---
 
 <LayoutDashboard title="Editar Usuario">
@@ -14,10 +15,13 @@ import iconGB from "../images/icons/iconsEditUser/GoBack.png";
       >
         <Boton />
       </div>
-      <div class="bg-greyBg h-full w-full">
-        <div class="flex flex-row gap-3 text-textBg font-semibold">
-          <img src={iconGB} alt="" />
-          <p>Usuarios Registrados / Juan Fernando Grajales Ibargüen</p>
+      <div class="bg-greyBg flex flex-col h-full w-full">
+        <div class="flex flex-row gap-3 text-textBg p-7 font-semibold">
+          <img src={iconGB.src} alt="" />
+          <p class="">Usuarios Registrados / Juan Fernando Grajales Ibargüen</p>
+        </div>
+        <div class="bg-greyBlack w-auto h-auto">
+          <img src={iconUser} alt="" />
         </div>
       </div>
     </div>
