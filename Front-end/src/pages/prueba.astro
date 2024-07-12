@@ -1,10 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Componenteprueba from "../components/pruebas/componenteprueba.astro"
+import { Componenteprueba } from "../components/pruebas/componenteprueba.jsx"
+import  Componenteprueba2  from "../components/pruebas/componenteprueba2.astro"
 
+export const prerender = false
 
 ---
 
 <Layout title="Prueba">
-  <Componenteprueba />
+  <Componenteprueba client:load />
+  <Componenteprueba2 client:load />
 </Layout>
