@@ -1,17 +1,25 @@
-import React, { useEffect } from 'react';
-import { getAllCompanies } from "../../../api/pruebas.api";
+import React, { useEffect, useState } from "react";
+import { getAllCompanies } from "../../api/pruebas.api";
 
-export const Componenteprueba = () => {
+export function Componenteprueba() {
+  const [roles, setRol] = useState([]);
+
   useEffect(() => {
     async function loadCompany() {
       const res = await getAllCompanies();
-      console.log(res.data);
+      setRol(res.data);
     }
     loadCompany();
   }, []); // El segundo argumento vacío asegura que se ejecute solo una vez
 
   return (
-    <h1>Test Company</h1>
+    <div>
+      {roles.map((rol) => (
+        <div key={rol.id_rol}>
+          <h1>{rol.id_rol}</h1>
+          <p>{rol.descripcion}</p>
+        </div>
+      ))}
+    </div>
   );
-};
-
+}

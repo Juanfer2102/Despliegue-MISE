@@ -1,0 +1,11 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { FormCreateRol } from "../components/pruebas/formCreateRol.jsx"
+
+export const prerender = false
+
+---
+
+<Layout title="prueba">
+    <FormCreateRol client:load />
+</Layout>
