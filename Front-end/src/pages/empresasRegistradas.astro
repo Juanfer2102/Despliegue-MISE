@@ -2,47 +2,46 @@
 import Logo from "../components/logo.astro";
 import NavBar from "../components/nav/NavBar.astro";
 import LayoutDashboard from "../layouts/LayoutDashboard.astro";
+import Modal1 from "../components/modales/modal1.astro";
 ---
 
 <LayoutDashboard title="Dashboard">
-  <main class="bg-greyBg w-screen h-full pb-5 relative z-0">
+  <main class="bg-greyBg flex flex-row w-screen h-screen pb-5 relative z-0">
     <div class="flex flex-row w-full">
-      <div class="sticky">
-        <NavBar />
-      </div>
+      
       <div>
-        <div class="bg-greyBlack static h-20 w-full"></div>
-        <div class="flex z-10">
-          <div class="w-full h-full z-20 px-7 flex text-white gap-5">
-            <div class="left flex flex-col gap-5">
-              <div class="pt-10">
+        <div class="bg-greyBlack  h-20 w-screen"></div>
+        <div class="flex justify-center z-10">
+          <div class="w-screen justify-center h-full z-20 px-7 flex text-white gap-5">
+            <div class=" flex flex-col">
+              <div class="pt-5">
                 <p class="text-xl">Empresas registradas</p>
               </div>
 
-              <div class="flex gap-10 text-sm p-5 pl-7">
+              <div class="flex gap-10 text-sm p-4 pl-7">
                 <div class="container bg-greyBlack rounded-xl p-8">
                   <i class="fa-solid fa-building-user text-4xl"> 666 </i>
-                  <p class="mt-3">empresas registradas</p>
+                  <p class="mt-3">Empresas registradas</p>
                 </div>
                 <div class="container bg-greyBlack rounded-xl p-8">
                   <i class="fa-solid fa-building-circle-check text-4xl">
                     666
                   </i>
-                  <p class="mt-3">nuevas empresas</p>
+                  <p class="mt-3">Nuevas empresas</p>
                 </div>
                 <div class="container bg-greyBlack rounded-xl p-8">
                   <i class="fa-solid fa-building-circle-exclamation text-4xl">
                     666
                   </i>
-                  <p class="mt-3">nuevas solicitudes</p>
+                  <p class="mt-3">Nuevas solicitudes</p>
                 </div>
                 <div class="container bg-greyBlack rounded-xl p-8">
                   <i class="fa-solid fa-building-user text-4xl"> 666 </i>
-                  <p class="mt-3">empresas registradas</p>
+                  <p class="mt-3">Empresas registradas</p>
                 </div>
               </div>
 
-              <div class="flex flex-row gap-10 px-7 w-full justify-center">
+              <div class="flex flex-row gap-8 pl-7 pr-4 w-full justify-center">
                 <div class="container bg-greyBlack rounded-xl p-7">
                   <div
                     class="flex items-center p-3 gap-4 text-left justify-end text-sm"
@@ -57,13 +56,13 @@ import LayoutDashboard from "../layouts/LayoutDashboard.astro";
                       <div
                         class="items-center flex gap-4 border-2 rounded-lg border-white bg-transpsrent text-white text-left p-2 pr-3 pl-3"
                       >
-                        <p>mas nuevas</p>
+                        <p>Mas nuevas</p>
                         <i class="fa-solid fa-filter"></i>
                       </div>
                     </div>
                   </div>
                   <div class="overflow-auto rounded-xl">
-                    <div>
+                    <div class="">
                       <table
                         class="overflow-auto w-full justify-center rounded"
                       >
@@ -108,13 +107,141 @@ import LayoutDashboard from "../layouts/LayoutDashboard.astro";
                               </div></td
                             >
                           </tr>
+                          <tr class="bg-greyBg border-white">
+                            <td
+                              class="p-5 text-sm text-gray-700 whitespace-nowrap"
+                            >
+                              <a href="#" class="text-blue-500 hover:underline"
+                                >Netflix</a
+                              >
+                            </td>
+                            <td
+                              class="p-5 text-sm text-white whitespace-nowrap"
+                            >
+                              Entretenimiento
+                            </td>
+                            <td
+                              class="p-5 text-sm text-gray-700 whitespace-nowrap border-white"
+                            >
+                              <span
+                                class="p-1.5 text-xs font-medium tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50"
+                                >01 may 2024</span
+                              >
+                            </td>
+                            <td
+                              class="p-5 text-sm text-gray-700 whitespace-nowrap"
+                              ><div class="pr-3 items-center">
+                                <button
+                                  class="p-2 pl-4 pr-5 tracking-wide text-sm transition-colors duration-200 transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
+                                >
+                                  Ver Detalles
+                                </button>
+                              </div></td
+                            >
+                          </tr>
+                          <tr class="bg-greyBg border-white">
+                            <td
+                              class="p-5 text-sm text-gray-700 whitespace-nowrap"
+                            >
+                              <a href="#" class="text-blue-500 hover:underline"
+                                >Netflix</a
+                              >
+                            </td>
+                            <td
+                              class="p-5 text-sm text-white whitespace-nowrap"
+                            >
+                              Entretenimiento
+                            </td>
+                            <td
+                              class="p-5 text-sm text-gray-700 whitespace-nowrap border-white"
+                            >
+                              <span
+                                class="p-1.5 text-xs font-medium tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50"
+                                >01 may 2024</span
+                              >
+                            </td>
+                            <td
+                              class="p-5 text-sm text-gray-700 whitespace-nowrap"
+                              ><div class="pr-3 items-center">
+                                <button
+                                  class="p-2 pl-4 pr-5 tracking-wide text-sm transition-colors duration-200 transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
+                                >
+                                  Ver Detalles
+                                </button>
+                              </div></td
+                            >
+                          </tr>
+                          <tr class="bg-greyBg border-white">
+                            <td
+                              class="p-5 text-sm text-gray-700 whitespace-nowrap"
+                            >
+                              <a href="#" class="text-blue-500 hover:underline"
+                                >Netflix</a
+                              >
+                            </td>
+                            <td
+                              class="p-5 text-sm text-white whitespace-nowrap"
+                            >
+                              Entretenimiento
+                            </td>
+                            <td
+                              class="p-5 text-sm text-gray-700 whitespace-nowrap border-white"
+                            >
+                              <span
+                                class="p-1.5 text-xs font-medium tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50"
+                                >01 may 2024</span
+                              >
+                            </td>
+                            <td
+                              class="p-5 text-sm text-gray-700 whitespace-nowrap"
+                              ><div class="pr-3 items-center">
+                                <button
+                                  class="p-2 pl-4 pr-5 tracking-wide text-sm transition-colors duration-200 transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
+                                >
+                                  Ver Detalles
+                                </button>
+                              </div></td
+                            >
+                          </tr>
+                          <tr class="bg-greyBg border-white">
+                            <td
+                              class="p-5 text-sm text-gray-700 whitespace-nowrap"
+                            >
+                              <a href="#" class="text-blue-500 hover:underline"
+                                >Netflix</a
+                              >
+                            </td>
+                            <td
+                              class="p-5 text-sm text-white whitespace-nowrap"
+                            >
+                              Entretenimiento
+                            </td>
+                            <td
+                              class="p-5 text-sm text-gray-700 whitespace-nowrap border-white"
+                            >
+                              <span
+                                class="p-1.5 text-xs font-medium tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50"
+                                >01 may 2024</span
+                              >
+                            </td>
+                            <td
+                              class="p-5 text-sm text-gray-700 whitespace-nowrap"
+                              ><div class="pr-3 items-center">
+                                <button
+                                  class="p-2 pl-4 pr-5 tracking-wide text-sm transition-colors duration-200 transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
+                                >
+                                  Ver Detalles
+                                </button>
+                              </div></td
+                            >
+                          </tr>
                         </tbody>
                       </table>
                     </div>
                   </div>
                 </div>
                 <div
-                  class="flex flex-col justify-center align-middle bg-darkslategray rounded-lg w-[20rem] h-full"
+                  class="flex flex-col justify-center align-middle bg-darkslategray rounded-lg w-[21rem] h-full"
                 >
                   <div class="py-5 px-7 flex flex-row gap-4 justify-start">
                     <svg
