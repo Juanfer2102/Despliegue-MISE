@@ -3,6 +3,7 @@ import NavBar from "../components/nav/NavBar.astro";
 import LayoutDashboard from "../layouts/LayoutDashboard.astro";
 import Boton from "../components/inputs/boton.astro";
 import iconGB from "../images/icons/iconsEditUser/GoBack.png";
+import Input3 from "../components/inputs/input3.astro";
 ---
 
 <LayoutDashboard title="Editar Usuario">
@@ -14,12 +15,25 @@ import iconGB from "../images/icons/iconsEditUser/GoBack.png";
       >
         <Boton />
       </div>
-      <div class="bg-greyBg flex flex-col px-10 h-full w-full">
-        <div class="flex flex-row gap-3 text-textBg pt-3 pb-3 font-semibold">
+      <div class="bg-greyBg flex flex-col px-8 h-full w-full">
+        <div class="flex flex-row gap-3 text-textBg pt-5 pb-3 items-center font-semibold">
           <img src={iconGB.src} alt="" />
           <p class="">Editar Porcentajes</p>
         </div>
-        <div class="bg-greyBlack flex flex-col px-10 w-full rounded-md"></div>
+        <div class="bg-greyBlack gap-8 flex flex-col p-8 w-full rounded-md">
+          <div class="flex flex-col gap-5">
+            <Input3 DataType="Nombre" inputPlaceholder="No Desarrollado" inputType="text" />
+            <Input3 DataType="Porcentaje de Desarrollo" inputPlaceholder="25%" inputType="number" />
+          </div>
+          <div class="flex flex-col gap-5">
+            <Input3 DataType="Nombre" inputPlaceholder="No Desarrollado" inputType="text" />
+            <Input3 DataType="Porcentaje de Desarrollo" inputPlaceholder="25%" inputType="number" />
+          </div>
+          <div class="flex flex-col gap-5">
+            <Input3 DataType="Nombre" inputPlaceholder="No Desarrollado" inputType="text" />
+            <Input3 DataType="Porcentaje de Desarrollo" inputPlaceholder="25%" inputType="number" />
+          </div>
+        </div>
       </div>
     </div>
   </main>
