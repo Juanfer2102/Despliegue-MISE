@@ -2,40 +2,103 @@
 import Logo from "../components/logo.astro";
 import NavBar from "../components/nav/NavBar.astro";
 import LayoutDashboard from "../layouts/LayoutDashboard.astro";
-import Progress from "../components/progress.jsx";
-
 ---
 
 <LayoutDashboard title="Dashboard">
-  <main class="flex h-screen bg-greyBg">
-    <div class="h-full w-[17%]">
-      <NavBar />
-    </div>
-    <div class="w-full h-full flex flex-col text-white gap-5">
-      <div class="w-full">
-        <div class="bg-greyBlack h-24 w-full"></div>
-      </div>
-      <div class="flex gap-5 p-10 w-full h-full">
+  <main class="bg-greyBg flex flex-col w-screen h-screen relative z-0">
+    <NavBar>
+      <div class="w-full h-full z-20 p-7 flex text-white gap-5">
         <div class="left flex flex-col gap-5">
-          <div class="container bg-greyBlack rounded-xl p-8">
-            <p>
-              Grafica de empresas desarrolladas <span class="opacity-50"
-                >(2023-2024)</span
-              >
-            </p>
+          <div class="">
+            <p class="text-xl">Empresas registradas</p>
           </div>
-          <div class="container bg-greyBlack rounded-xl p-8">
-            <p>Empresas Desarrolladas</p>
+
+          <div class="flex gap-10 text-sm p-5 pl-12">
+            <div class="container bg-greyBlack rounded-xl p-8">
+              <i class="fa-solid fa-building-user text-4xl"> 666 </i>
+              <p class="mt-3">empresas registradas</p>
+            </div>
+            <div class="container bg-greyBlack rounded-xl p-8">
+              <i class="fa-solid fa-building-circle-check text-4xl"> 666 </i>
+              <p class="mt-3">nuevas empresas</p>
+            </div>
+            <div class="container bg-greyBlack rounded-xl p-8">
+              <i class="fa-solid fa-building-circle-exclamation text-4xl">
+                666
+              </i>
+              <p class="mt-3">nuevas solicitudes</p>
+            </div>
+            <div class="container bg-greyBlack rounded-xl p-8">
+              <i class="fa-solid fa-building-user text-4xl"> 666 </i>
+              <p class="mt-3">empresas registradas</p>
+            </div>
           </div>
-        </div>
-        <div class="right flex flex-col gap-5">
-          <Progress porcentaje=30 />
-          <div class="container bg-greyBlack rounded-xl p-8">
-            <p>Empresas Aceptadas (69)</p>
+
+          <div class="flex gap-10 p-7 w-full justify-center">
+            <div class="container bg-greyBlack rounded-xl p-7">
+              <div class="flex items-center p-3 gap-4 text-left justify-end">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="border border-white rounded-lg bg-greyBlack"
+                />
+                <i class="fa-solid fa-magnifying-glass text-white"></i>
+                <div class="flex items-center">
+                  <div
+                    class="items-center flex gap-4 border-2 rounded-lg border-white bg-transpsrent text-white text-left p-1 pr-3 pl-3"
+                  >
+                    <p>mas nuevas</p>
+                    <i class="fa-solid fa-filter"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="overflow-auto rounded-xl">
+                <div>
+                  <table class="overflow-auto w-full justify-center rounded">
+                    <thead class="bg-principalGreen border rounded-xl">
+                      <th class="w-28 p-5 text-left">Nombre</th>
+                      <th class="w-52 p-5 text-left">Sector empresarial</th>
+                      <th class="w-15 p-5 text-left">Fecha</th>
+                      <th class="w-6 p-5 pr-20 text-center">Informacion</th>
+                    </thead>
+                    <tbody
+                      class="overflow-auto divide-y border border-white rounded"
+                    >
+                      <tr class="bg-greyBg border-white">
+                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap">
+                          <a href="#" class="text-blue-500 hover:underline"
+                            >Netflix</a
+                          >
+                        </td>
+                        <td class="p-5 text-sm text-white whitespace-nowrap">
+                          Entretenimiento
+                        </td>
+                        <td
+                          class="p-5 text-sm text-gray-700 whitespace-nowrap border-white"
+                        >
+                          <span
+                            class="p-1.5 text-xs font-medium tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50"
+                            >01 may 2024</span
+                          >
+                        </td>
+                        <td class="p-5 text-sm text-gray-700 whitespace-nowrap"
+                          ><div class="pr-3 items-center">
+                            <button
+                              class="p-2 pl-4 pr-5 tracking-wide text-sm transition-colors duration-200 transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
+                            >
+                              Ver Detalles
+                            </button>
+                          </div></td
+                        >
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    
+    </NavBar>
   </main>
 </LayoutDashboard>
