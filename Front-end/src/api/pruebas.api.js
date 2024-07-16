@@ -1,10 +1,19 @@
+// archivo rolApi.js
+
 import axios from "axios";
 
-const rolApi = axios.create({
-  baseURL: "http://localhost:8000/mise/api/v1/rol/",
-});
+function getType(type) {
+  const miseApi = axios.create({
+    baseURL: "http://localhost:8000/mise/api/v1/"+ type+"/",
+  });
 
-export const getAllCompanies = () => rolApi.get("/");
+  const getAllInfo = () => miseApi.get("/");
 
-export const createCompany = (rol) => rolApi.post("/", rol);
- 
+  return {
+    getAllInfo,
+  };
+}
+
+export default getType;
+
+export const createCompany = (rol) => miseApi.post("/", rol);

@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { Componenteprueba } from "../components/pruebas/componenteprueba.jsx"
+import { GetTypeNeeded } from "../components/pruebas/get.jsx"
 import  Componenteprueba2  from "../components/pruebas/componenteprueba2.astro"
 
 export const prerender = false
@@ -8,6 +8,6 @@ export const prerender = false
 ---
 
 <Layout title="Prueba">
-  <Componenteprueba client:load />
+  <GetTypeNeeded client:load />
   <Componenteprueba2 />
 </Layout>
