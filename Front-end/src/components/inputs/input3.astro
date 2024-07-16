@@ -3,9 +3,11 @@ interface Props {
   inputType: string;
   inputPlaceholder: string;
   DataType: string;
+  width: string;
+  widthInput: string;
 }
 
-const { inputType, inputPlaceholder, DataType } = Astro.props;
+const { inputType, inputPlaceholder, DataType, width, widthInput } = Astro.props;
 ---
 
 <style type="text/css">
@@ -20,11 +22,11 @@ const { inputType, inputPlaceholder, DataType } = Astro.props;
   </style>
 
 <div class="text-textBg items-center text-left content-center flex flex-row">
-    <div class="w-80">
+    <div class={width}>
         <p>{DataType}</p>
     </div>
     <div>
-        <input class="border w-80 h-12 rounded-md peer border-solid border-white bg-transparent placeholder:pl-2"
+        <input class=`border ${widthInput} h-10 rounded-md peer border-solid border-white bg-transparent placeholder:pl-2`
        placeholder={inputPlaceholder} 
        type={inputType}
     />
