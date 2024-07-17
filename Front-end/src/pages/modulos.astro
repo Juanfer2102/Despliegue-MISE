@@ -2,13 +2,16 @@
 import Logo from "../components/logo.astro";
 import NavBar from "../components/nav/NavBar.astro";
 import LayoutDashboard from "../layouts/LayoutDashboard.astro";
+import Modal from "../components/inputs/modal.astro";
+import Modal1 from "../components/modales/modal1.astro";
+import Aadirmodulo from "../components/inputs/añadirmodulo.astro";
 ---
 
 <LayoutDashboard title="Dashboard">
-    <main class="bg-greyBg w-screen h-screen relative z-0">
-        <div class="bg-greyBlack static"></div>
+    <main class="bg-greyBg w-screen min-h-screen relative z-0">
+        
 
-        <div class="h-full flex z-10">
+        <div class="h-full w-full flex z-10">
             <div class="h-full">
                 <NavBar />
             </div>
@@ -20,35 +23,49 @@ import LayoutDashboard from "../layouts/LayoutDashboard.astro";
                             <p class="text-xl">Modulos</p>
                         </div>
 
-                        <div
-                            class="container h-full bg-greyBlack rounded-xl p-8"
-                        >
+                        <div class="container h-full bg-greyBlack rounded-xl p-8 ">
+                   <div class="flex flex-wrap gap-10 items-center ">
+                    <Modal texto={"CAPACIDADES GERENCIALES"}/>
+                    <Modal texto={"MEJORA DE OPERACIONES"}/>
+                    <Modal texto={"GERENCIA DE MARKETING"}/>
+                    <Modal texto={"GERENCIA DE VENTAS"}/>
+                    <Modal texto={"GERENCIA DE TALENTO HUMANO"}/>
+                    <Modal texto={"FINANZAS GERENCIALES"}/>
+                    <Aadirmodulo/>    
+                          
+                    </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="w-7/12 flex text-white">
+
+
+
+
+            <div class="w-8/12 flex text-white">
                 <div class="left w-full flex flex-col gap-5 p-7">
                     <div class="">
                         <p class="text-xl">Sueños</p>
                     </div>
-                    <div class="flex w-full justify-center whitespace-nowrap">
+                    
+                    
+                    <div class=" w-full justify-center whitespace-nowrap overflow-auto shadow hidden md:block">
                         <div class="container bg-greyBlack rounded-xl p-7">
                             <div
-                                class="flex items-center justify-center gap-28 p-3"
+                                class="flex items-center justify-end gap-5 p-3"
                             >
                                 <input
                                     type="text"
                                     placeholder=""
-                                    class="border border-white rounded-lg bg-greyBlack p-1 w-60"
+                                    class="border border-white rounded-lg bg-greyBlack p-1 w-full"
                                 />
                                 <i
                                     class="fa-solid fa-magnifying-glass text-white"
                                 ></i>
                                 <div class="flex items-center">
                                     <div
-                                        class="items-center flex gap-5 border rounded-lg border-white bg-transpsrent text-white text-left p-1 pl-3 pr-3"
+                                        class="items-center flex  border rounded-lg border-white bg-transpsrent text-white text-left p-1 pr-3 pl-3 gap-3 "
                                     >
                                         <p>filtrar</p>
                                         <i class="fa-solid fa-filter"></i>
@@ -65,13 +82,13 @@ import LayoutDashboard from "../layouts/LayoutDashboard.astro";
                                             class="bg-principalGreen border rounded-xl"
                                         >
                                             <th class="w-28 p-5 text-left"
-                                                >Nombre</th
+                                                >ID</th
                                             >
                                             <th class="w-15 p-5 text-left"
-                                                >Sector empresarial</th
+                                                >Calificacion</th
                                             >
                                             <th class="w-52 p-5 text-left"
-                                                >Fecha</th
+                                                >Modulo</th
                                             >
                                         </thead>
                                         <tbody
@@ -84,20 +101,20 @@ import LayoutDashboard from "../layouts/LayoutDashboard.astro";
                                                     <a
                                                         href="#"
                                                         class="text-blue-500 hover:underline"
-                                                        >Netflix</a
+                                                        >abc</a
                                                     >
                                                 </td>
                                                 <td
-                                                    class="p-5 text-sm text-white whitespace-nowrap rounded-lg"
+                                                    class="p-5 text-sm  whitespace-nowrap rounded-lg text-red"
                                                 >
-                                                    Entretenimiento
+                                                    45,5
                                                 </td>
                                                 <td
                                                     class="p-5 text-sm text-gray-700 whitespace-nowrap border-white"
                                                 >
                                                     <span
                                                         class="p-1.5 text-xs font-medium tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50"
-                                                        >01 may 2024</span
+                                                        > </span
                                                     >
                                                 </td>
                                             </tr>
@@ -109,31 +126,35 @@ import LayoutDashboard from "../layouts/LayoutDashboard.astro";
                                                     <a
                                                         href="#"
                                                         class="text-blue-500 hover:underline"
-                                                        >mojang</a
+                                                        >abc</a
                                                     >
                                                 </td>
                                                 <td
-                                                    class="p-5 text-sm text-gray-700 whitespace-nowrap rounded-lg"
-                                                    >Videojuegos
+                                                    class="p-5 text-sm text-gray-700 whitespace-nowrap rounded-lg text-red"
+                                                    >30,5
                                                 </td>
                                                 <td
                                                     class="p-5 text-sm text-gray-700 whitespace-nowrap"
                                                 >
                                                     <span
                                                         class="p-1.5 text-xs font-medium text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-50"
-                                                        >11 Feb 2024</span
+                                                        > </span
                                                     >
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
+
                                 </div>
+                                
                             </div>
+                            
                             <div
                                 class="container h-30 bg-greyBlack rounded-xl p-8"
                             >
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>

@@ -42,15 +42,15 @@ const gamepadIcon = icon({ prefix: "fas", iconName: faGamepad.iconName });
 
       let progress = setInterval(() => {
         progressStartValue++;
-        progressValue.textContent = `${progressStartValue}%`;
-        circularProgress.style.background = `conic-gradient(#EE0004 ${progressStartValue * 3.6}deg, #ededed 0deg)`;
+      
+        circularProgress;
         if (progressStartValue == progressEndValue) {
           clearInterval(progress);
         }
       }, speed);
     </script>
   </head>
-  <body>
+  <body class="min-h-full w-screen">
     <slot />
   </body>
 </html>
