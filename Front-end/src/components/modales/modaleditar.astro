@@ -1,0 +1,23 @@
+---
+interface Props {
+    texto?: string;
+    texto1: string;
+}
+
+const { texto, texto1 } = Astro.props;
+
+import Input3 from "../inputs/input3.astro";
+---
+
+<div class="flex flex-col gap-3">
+    <div
+        class="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start"
+    >
+        <p class="text-xl h-5 pb-10 text-white">{texto1}</p>
+        <div class="flex flex-col justify-center items-center gap-6">
+            <Input3 DataType="Nombre" inputPlaceholder="Nombre Modulo" inputType="text" width="w-[10rem]" widthInput="w-[15rem]" />
+            <Input3 DataType="Preguntas" inputPlaceholder="Preguntas Modulo" inputType="text" width="w-[10rem]" widthInput="w-[15rem]" />
+            <Input3 DataType="Sueños" inputPlaceholder="SUEÑOS EXPRESS" inputType="text" width="w-[10rem]" widthInput="w-[15rem]" />
+        </div>
+    </div>
+</div>
