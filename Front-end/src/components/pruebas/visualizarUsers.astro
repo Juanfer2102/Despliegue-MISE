@@ -1,0 +1,174 @@
+---
+import NavBar from "../../components/nav/NavBar.astro";
+import LayoutDashboard from "../../layouts/LayoutDashboard.astro";
+import Boton from "../../components/inputs/boton.astro";
+import iconGB from "../../images/icons/iconsEditUser/GoBack.png";
+import Input3 from "../../components/inputs/input3.astro";
+import { GetTypeNeeded } from "../../components/pruebas/get.jsx"
+
+
+export const prerender = false
+---
+
+<LayoutDashboard title="Editar Usuario">
+  <main class="flex flex-row w-full bg-greyBlack h-screen">
+    <NavBar />
+    <div class="flex flex-col w-full h-full">
+      <div
+        class="bg-greyBlack flex content-center pr-5 justify-end h-20 w-full"
+      >
+      </div>
+      <div class="bg-greyBg flex flex-col px-8 py-5 h-full w-full">
+        <div class="bg-greyBlack gap-8 flex flex-col p-8 w-full rounded-md">
+          <div class="overflow-auto rounded-xl flex flex-col gap-3">
+            <div
+                    class="flex items-center p-2 gap-4 text-left justify-end text-sm"
+                  >
+                    <p class="pr-[15rem] text-white font-bold text-xl">Usuarios Registrados</p>
+                    <input
+                      type="text"
+                      placeholder=""
+                      class="border w-[20rem] border-white rounded-lg bg-greyBlack -m-2 p-1"
+                    />
+                    <i class="fa-solid fa-magnifying-glass text-white"></i>
+                    <div class="flex items-center">
+                      <div
+                        class="items-center flex gap-4 border-2 rounded-lg border-white bg-transpsrent text-white text-left p-2 pr-3 pl-3"
+                      >
+                        <p>Coordinador</p>
+                        <i class="fa-solid fa-filter"></i>
+                      </div>
+                    </div>
+                  </div>
+                    <div class="rounded-xl">
+                      <table
+                        class="overflow-auto w-full justify-center rounded-xl"
+                      >
+                        <thead class="bg-principalGreen border rounded-xl text-white">
+                          <th class="w-[2rem] p-5 text-left">Nombre</th>
+                          <th class=" p-5 text-center">MISE encargado</th>
+                          <th class="w-28 p-5 text-right">Rol</th>
+                        </thead>
+                        <tbody
+                          class="overflow-auto divide-y border border-white rounded"
+                        >
+                          <tr class="bg-greyBlack border-white">
+                            <td
+                              class="p-5 text-sm whitespace-nowrap"
+                            >
+                              <p class="text-white w-[8rem]"
+                                >Juan Fernando Grajales Ibarguen</p
+                              >
+                            </td>
+                            <td
+                              class="p-5 text-sm w-40 text-center text-white whitespace-nowrap"
+                            >
+                            MISE - Fortalecimiento
+                            </td>
+                            <td
+                              class="p-5 text-sm w-40 text-right whitespace-nowrap border-white"
+                            >
+                              <span
+                                class="p-1.5 font-medium tracking-wider text-white rounded-lg"
+                                >Coordinador</span
+                              >
+                            </td>
+                          </tr>
+                          <tr class="bg-greyBlack border-white">
+                            <td
+                              class="p-5 text-sm whitespace-nowrap"
+                            >
+                              <p class="text-white w-[8rem]"
+                                >Juan Fernando Grajales Ibarguen</p
+                              >
+                            </td>
+                            <td
+                              class="p-5 text-sm w-40 text-center text-white whitespace-nowrap"
+                            >
+                            MISE - Fortalecimiento
+                            </td>
+                            <td
+                              class="p-5 text-sm w-40 text-right whitespace-nowrap border-white"
+                            >
+                              <span
+                                class="p-1.5 font-medium tracking-wider text-white rounded-lg"
+                                >Coordinador</span
+                              >
+                            </td>
+                          </tr>
+                          <tr class="bg-greyBlack border-white">
+                            <td
+                              class="p-5 text-sm whitespace-nowrap"
+                            >
+                              <p class="text-white w-[8rem]"
+                                >Juan Fernando Grajales Ibarguen</p
+                              >
+                            </td>
+                            <td
+                              class="p-5 text-sm w-40 text-center text-white whitespace-nowrap"
+                            >
+                            MISE - Fortalecimiento
+                            </td>
+                            <td
+                              class="p-5 text-sm w-40 text-right whitespace-nowrap border-white"
+                            >
+                              <span
+                                class="p-1.5 font-medium tracking-wider text-white rounded-lg"
+                                >Coordinador</span
+                              >
+                            </td>
+                          </tr>
+                          <tr class="bg-greyBlack border-white">
+                            <td
+                              class="p-5 text-sm whitespace-nowrap"
+                            >
+                              <p class="text-white w-[8rem]"
+                                >Juan Fernando Grajales Ibarguen</p
+                              >
+                            </td>
+                            <td
+                              class="p-5 text-sm w-40 text-center text-white whitespace-nowrap"
+                            >
+                            MISE - Fortalecimiento
+                            </td>
+                            <td
+                              class="p-5 text-sm w-40 text-right whitespace-nowrap border-white"
+                            >
+                              <span
+                                class="p-1.5 font-medium tracking-wider text-white rounded-lg"
+                                >Coordinador</span
+                              >
+                            </td>
+                          </tr>
+                          <tr class="bg-greyBlack border-white">
+                            <td
+                              class="p-5 text-sm whitespace-nowrap"
+                            >
+                              <p class="text-white w-[8rem]"
+                                >Juan Fernando Grajales Ibarguen</p
+                              >
+                            </td>
+                            <td
+                              class="p-5 text-sm w-40 text-center text-white whitespace-nowrap"
+                            >
+                            MISE - Fortalecimiento
+                            </td>
+                            <td
+                              class="p-5 text-sm w-40 text-right whitespace-nowrap border-white"
+                            >
+                              <span
+                                class="p-1.5 font-medium tracking-wider text-white rounded-lg"
+                                >Coordinador</span
+                              >
+                            </td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</LayoutDashboard>

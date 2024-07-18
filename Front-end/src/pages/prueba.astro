@@ -1,0 +1,13 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { GetTypeNeeded } from "../components/pruebas/get.jsx"
+import  Componenteprueba2  from "../components/pruebas/componenteprueba2.astro"
+
+export const prerender = false
+
+---
+
+<Layout title="Prueba">
+  <GetTypeNeeded client:load />
+  <Componenteprueba2 />
+</Layout>
