@@ -5,16 +5,17 @@ import LayoutDashboard from "../layouts/LayoutDashboard.astro";
 import Modal from "../components/inputs/modal.astro";
 import Modal1 from "../components/modales/modal1.astro";
 import Aadirmodulo from "../components/inputs/añadirmodulo.astro";
+import Modalopciones from "../components/inputs/modalopciones.astro";
 ---
 
 <LayoutDashboard title="Dashboard">
     <main class="bg-greyBg w-screen min-h-screen relative z-0">
-        
-
         <div class="h-full w-full flex z-10">
             <div class="h-full">
                 <NavBar />
             </div>
+            <div class="flex flex-col"></div>
+            <div class="bg-greyBlack flex content-center pr-5 h-20"></div>
 
             <div class="w-full h-full flex text-white">
                 <div class="w-full flex text-white">
@@ -23,140 +24,34 @@ import Aadirmodulo from "../components/inputs/añadirmodulo.astro";
                             <p class="text-xl">Modulos</p>
                         </div>
 
-                        <div class="container h-full bg-greyBlack rounded-xl p-8 ">
-                   <div class="flex flex-wrap gap-10 items-center ">
-                    <Modal texto={"CAPACIDADES GERENCIALES"}/>
-                    <Modal texto={"MEJORA DE OPERACIONES"}/>
-                    <Modal texto={"GERENCIA DE MARKETING"}/>
-                    <Modal texto={"GERENCIA DE VENTAS"}/>
-                    <Modal texto={"GERENCIA DE TALENTO HUMANO"}/>
-                    <Modal texto={"FINANZAS GERENCIALES"}/>
-                    <Aadirmodulo/>    
-                          
-                    </div>
+                        <div
+                            class="container h-full bg-greyBlack rounded-xl p-8"
+                        >
+                            <div class="flex flex-wrap gap-10 items-center">
+                                <Modal texto={"CAPACIDADES GERENCIALES"} />
+                                <Modal texto={"MEJORA DE OPERACIONES"} />
+                                <Modal texto={"GERENCIA DE MARKETING"} />
+                                <Modal texto={"GERENCIA DE VENTAS"} />
+                                <Modal texto={"GERENCIA DE TALENTO HUMANO"} />
+                                <Modal texto={"FINANZAS GERENCIALES"} />
+                                <Modal texto={"FINANZAS GERENCIALES"} />
+                                <Modal texto={"FINANZAS GERENCIALES"} />
+                                <Modal texto={"FINANZAS GERENCIALES"} />
+                                <Modal texto={"FINANZAS GERENCIALES"} />
+                                <Aadirmodulo />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-
-
-
-
-            <div class="w-8/12 flex text-white">
-                <div class="left w-full flex flex-col gap-5 p-7">
-                    <div class="">
-                        <p class="text-xl">Sueños</p>
-                    </div>
-                    
-                    
-                    <div class=" w-full justify-center whitespace-nowrap overflow-auto shadow hidden md:block">
-                        <div class="container bg-greyBlack rounded-xl p-7">
-                            <div
-                                class="flex items-center justify-end gap-5 p-3"
-                            >
-                                <input
-                                    type="text"
-                                    placeholder=""
-                                    class="border border-white rounded-lg bg-greyBlack p-1 w-full"
-                                />
-                                <i
-                                    class="fa-solid fa-magnifying-glass text-white"
-                                ></i>
-                                <div class="flex items-center">
-                                    <div
-                                        class="items-center flex  border rounded-lg border-white bg-transpsrent text-white text-left p-1 pr-3 pl-3 gap-3 "
-                                    >
-                                        <p>filtrar</p>
-                                        <i class="fa-solid fa-filter"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="overflow-auto rounded-xl">
-                                <div>
-                                    <table
-                                        class="overflow-auto w-full justify-center rounded"
-                                    >
-                                        <thead
-                                            class="bg-principalGreen border rounded-xl"
-                                        >
-                                            <th class="w-28 p-5 text-left"
-                                                >ID</th
-                                            >
-                                            <th class="w-15 p-5 text-left"
-                                                >Calificacion</th
-                                            >
-                                            <th class="w-52 p-5 text-left"
-                                                >Modulo</th
-                                            >
-                                        </thead>
-                                        <tbody
-                                            class="overflow-auto divide-y border border-white rounded-lg"
-                                        >
-                                            <tr class="bg-greyBg border-white">
-                                                <td
-                                                    class="p-5 text-sm text-gray-700 whitespace-nowrap"
-                                                >
-                                                    <a
-                                                        href="#"
-                                                        class="text-blue-500 hover:underline"
-                                                        >abc</a
-                                                    >
-                                                </td>
-                                                <td
-                                                    class="p-5 text-sm  whitespace-nowrap rounded-lg text-red"
-                                                >
-                                                    45,5
-                                                </td>
-                                                <td
-                                                    class="p-5 text-sm text-gray-700 whitespace-nowrap border-white"
-                                                >
-                                                    <span
-                                                        class="p-1.5 text-xs font-medium tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50"
-                                                        > </span
-                                                    >
-                                                </td>
-                                            </tr>
-
-                                            <tr class="bg-greyBg border-white">
-                                                <td
-                                                    class="p-5 text-sm whitespace-nowrap"
-                                                >
-                                                    <a
-                                                        href="#"
-                                                        class="text-blue-500 hover:underline"
-                                                        >abc</a
-                                                    >
-                                                </td>
-                                                <td
-                                                    class="p-5 text-sm text-gray-700 whitespace-nowrap rounded-lg text-red"
-                                                    >30,5
-                                                </td>
-                                                <td
-                                                    class="p-5 text-sm text-gray-700 whitespace-nowrap"
-                                                >
-                                                    <span
-                                                        class="p-1.5 text-xs font-medium text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-50"
-                                                        > </span
-                                                    >
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                                
-                            </div>
-                            
-                            <div
-                                class="container h-30 bg-greyBlack rounded-xl p-8"
-                            >
-                            </div>
-                        </div>
-                        
-                    </div>
+            <div class="w-8/12 flex text-white ">
+                <div class="left w-full flex flex-col p-7 justify-center gap-16 ">
+                    <Modalopciones texto={"sueños"} />
+                    <Modalopciones texto={"fornite"} />
+                        <Modalopciones texto={"sueños"}/>
                 </div>
             </div>
         </div>
-    </main></LayoutDashboard>
+    </main>
+</LayoutDashboard>
