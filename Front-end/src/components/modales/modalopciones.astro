@@ -1,10 +1,9 @@
 ---
 interface Props {
     texto? : string;
-    URL?: string;
 }
 
-const {texto, URL} = Astro.props
+const {texto} = Astro.props
 ---
 
 
@@ -14,7 +13,7 @@ const {texto, URL} = Astro.props
     <div class="flex justify-center items-center">
         <button
           class="p-3 pl-4 pr-5 w-44 border-principalGreen bg-principalGreen tracking-wide font-semibold text-lg transition-colors duration-150 transform border-solid rounded-lg hover:bg-white text-white hover:text-principalGreen hover:border-white hover:border-solid border ">
-          <a class=" hover:text-principalGreen" href={URL}>Ver {texto}</a>
+          <p class=" hover:text-principalGreen">Ver {texto}</p>
         </button>
       </div>
     </div>
