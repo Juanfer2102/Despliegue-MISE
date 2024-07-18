@@ -6,13 +6,13 @@ import Modal1 from "../components/modales/modal1.astro";
 ---
 
 <LayoutDashboard title="Dashboard">
-  <main class="bg-greyBg flex flex-row w-full h-full pb-5 relative z-0 overflow-x-hidden">
+  <main class="bg-greyBg flex flex-row w-screen h-full pb-5 relative z-0 overflow-x-hidden">
     <div class="flex flex-row w-full">
       <NavBar />
-      <div class="w-full">
-        <div class="bg-greyBlack h-20"></div>
-        <div class="flex w-full justify-center">
-          <div class="justify-start h-full flex text-white gap-5">
+      <div class="w-[68.5rem]">
+        <div class="bg-greyBlack  h-20 w-full"></div>
+        <div class="flex justify-center">
+          <div class="w-screen justify-center h-full flex text-white gap-5">
             <div class=" flex flex-col">
               <div class="pt-5">
                 <p class="text-2xl pl-4">Empresas registradas</p>
@@ -381,7 +381,7 @@ import Modal1 from "../components/modales/modal1.astro";
             </div>
           </div>
         </div>
-
+      </div>
     </div>
   </main>
 </LayoutDashboard>
