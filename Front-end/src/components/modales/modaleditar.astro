@@ -1,37 +1,105 @@
 ---
 interface Props {
-    texto?: string;
-    texto1: string;
+    condicion: number;
 }
 
-const { texto, texto1 } = Astro.props;
+const { condicion } = Astro.props;
 
 import Input3 from "../inputs/input3.astro";
 ---
 
-<div class="flex flex-col gap-3">
-    <div
-        class="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start"
-    >
-        <p class="text-xl h-5 pb-10 text-white">{texto1}</p>
-        <div class="flex flex-col justify-center items-center gap-6">
-            <Input3 DataType="Nombre" inputPlaceholder="Nombre Modulo" inputType="text" width="w-[10rem]" widthInput="w-[15rem]" />
-            <Input3 DataType="Preguntas" inputPlaceholder="Preguntas Modulo" inputType="text" width="w-[10rem]" widthInput="w-[15rem]" />
-            <Input3 DataType="Sueños" inputPlaceholder="SUEÑOS EXPRESS" inputType="text" width="w-[10rem]" widthInput="w-[15rem]" />
-        </div>
+{condicion === 1 && (
+    // Nuevo Modulo
+    <div class="flex flex-col gap-3">
+      <div
+          class="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start"
+      >
+          <p class="text-xl h-5 pb-10 text-white">Nuevo Modulo</p>
+          <div class="flex flex-col justify-center items-center gap-6">
+              <Input3 DataType="Nombre" inputPlaceholder="Nombre Modulo" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" />
+              <Input3 DataType="Preguntas" inputPlaceholder="Preguntas Modulo" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" />
+              <Input3 DataType="Sueños" inputPlaceholder="SUEÑOS EXPRESS" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" />
+          </div>
+      </div>
     </div>
-</div>
+  )}
 
-<div class="flex flex-col gap-3">
-    <div
-        class="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start"
-    >
-        <p class="text-xl h-5 pb-10 text-white">{texto1}</p>
-        <div class="flex flex-col justify-center items-center gap-6">
-            <Input3 DataType="Sueño" inputPlaceholder="Nombre Sueño" inputType="text" width="w-[10rem]" widthInput="w-[15rem]" />
-            <Input3 DataType="Medición" inputPlaceholder="Pregadadads" inputType="text" width="w-[10rem]" widthInput="w-[15rem]" />
-            <Input3 DataType="Modulo" inputPlaceholder="Preguntas Modulo" inputType="text" width="w-[10rem]" widthInput="w-[15rem]" />
-            <Input3 DataType="Nivel" inputPlaceholder="SUEÑOS EXPRESS" inputType="text" width="w-[10rem]" widthInput="w-[15rem]" />
-        </div>
+{condicion === 2 && (
+    // Editar Modulo
+    <div class="flex flex-col gap-3">
+      <div
+          class="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start"
+      >
+          <p class="text-xl h-5 pb-10 text-white">Editar Modulo</p>
+          <div class="flex flex-col justify-center items-center gap-6">
+              <Input3 DataType="Nombre" inputPlaceholder="Nombre Modulo" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" />
+              <Input3 DataType="Preguntas" inputPlaceholder="Preguntas Modulo" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" />
+              <Input3 DataType="Sueños" inputPlaceholder="SUEÑOS EXPRESS" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" />
+          </div>
+      </div>
     </div>
-</div>
+  )}
+  
+  {condicion === 3 && (
+    // Nuevo Sueño
+    <div class="flex flex-col gap-3">
+      <div
+          class="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start"
+      >
+          <p class="text-xl h-5 pb-10 text-white">Nuevo Sueño</p>
+          <div class="flex flex-col justify-center items-center gap-6">
+              <Input3 DataType="Sueño" inputPlaceholder="Nombre Sueño" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" />
+              <Input3 DataType="Medición" inputPlaceholder="Pregadadads" inputType="text" height="h-[9rem]" width="w-[10rem]" widthInput="w-[15rem]" />
+              <Input3 DataType="Modulo" inputPlaceholder="Preguntas Modulo" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" />
+              <Input3 DataType="Nivel" inputPlaceholder="SUEÑOS EXPRESS" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" />
+          </div>
+      </div>
+    </div>
+  )}
+
+{condicion === 4 && (
+    // Editar Sueños
+    <div class="flex flex-col gap-3">
+      <div
+          class="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start"
+      >
+          <p class="text-xl h-5 pb-10 text-white">Editar Sueño</p>
+          <div class="flex flex-col justify-center items-center gap-6">
+              <Input3 DataType="Sueño" inputPlaceholder="Nombre Sueño" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" />
+              <Input3 DataType="Medición" inputPlaceholder="Pregadadads" inputType="text" height="h-[9rem]" width="w-[10rem]" widthInput="w-[15rem]" />
+              <Input3 DataType="Modulo" inputPlaceholder="Preguntas Modulo" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" />
+              <Input3 DataType="Nivel" inputPlaceholder="SUEÑOS EXPRESS" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" />
+          </div>
+      </div>
+    </div>
+  )}
+
+{condicion === 5 && (
+    // Nueva Pregunta
+    <div class="flex flex-col gap-3">
+      <div
+          class="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start"
+      >
+          <p class="text-xl h-5 pb-10 text-white">Editar Pregunta</p>
+          <div class="flex flex-col justify-center items-center gap-6">
+              <Input3 DataType="Pregunta" inputPlaceholder="¿La gerencia utiliza herramientas para la gestión de su tiempo y actividades?" inputType="text" height="h-[6rem]" width="w-[10rem]" widthInput="w-[17rem]" />
+              <Input3 DataType="Modulo" inputPlaceholder="CAPACIDADES GERENCIALES" inputType="text" height="h-[4rem]" width="w-[10rem]" widthInput="w-[17rem]" />
+          </div>
+      </div>
+    </div>
+  )}
+
+{condicion === 6 && (
+    // Editar Preguntas
+    <div class="flex flex-col gap-3">
+      <div
+          class="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start"
+      >
+          <p class="text-xl h-5 pb-10 text-white">Editar Pregunta</p>
+          <div class="flex flex-col justify-center items-center gap-6">
+              <Input3 DataType="Pregunta" inputPlaceholder="¿La gerencia utiliza herramientas para la gestión de su tiempo y actividades?" inputType="text" height="h-[6rem]" width="w-[10rem]" widthInput="w-[17rem]" />
+              <Input3 DataType="Modulo" inputPlaceholder="CAPACIDADES GERENCIALES" inputType="text" height="h-[4rem]" width="w-[10rem]" widthInput="w-[17rem]" />
+          </div>
+      </div>
+    </div>
+  )}

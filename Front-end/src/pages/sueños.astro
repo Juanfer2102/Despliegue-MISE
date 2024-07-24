@@ -7,15 +7,40 @@ import Modal1 from "../components/modales/modal1.astro";
 import Aadirmodulo from "../components/modales/añadirmodulo.astro";
 import Modalopciones from "../components/modales/modalopciones.astro";
 import Modaleditar from "../components/modales/modaleditar.astro";
+import Boton from "../components/inputs/boton.astro";
 ---
 
-<LayoutDashboard title="Modulos">
+<style>
+
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 13px; /* Ancho de la barra de desplazamiento */
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #262B32; /* Color de fondo de la barra de desplazamiento */
+      border-radius: 12px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #888; /* Color del pulgar (thumb) de la barra de desplazamiento */
+      border-radius: 10px; /* Redondea las esquinas del pulgar */
+      cursor: pointer;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #555; /* Color del pulgar al pasar el ratón por encima */
+    }
+    
+    </style>
+
+<LayoutDashboard title="Sueños">
     <main class="flex flex-row w-full bg-greyBlack h-screen">
         <NavBar />
         <div class="flex flex-col w-full h-full">
             <div
                 class="bg-greyBlack flex content-center pr-5 justify-end h-20 w-full"
             >
+            <Boton />
             </div>
             <div class="bg-greyBg flex flex-col px-8 py-5 h-full w-full">
                 <div class="pb-5">
@@ -23,7 +48,7 @@ import Modaleditar from "../components/modales/modaleditar.astro";
                 </div>  
                         <div class="left flex flex-row gap-5 p-1">
                             <div
-                                class="container w-[53rem] h-full bg-greyBlack rounded-xl p-8"
+                                class="container w-[53rem] max-h-[50rem] bg-greyBlack rounded-xl p-8 overflow-y-auto custom-scrollbar"
                             >
                                 <div class="flex flex-wrap gap-8 items-center">
                                     <Modal texto={"Deseo definir mi propósito empresarial"} colorborde="border-azulclaro" colorhover="hover:bg-azulclaro" />
@@ -43,9 +68,9 @@ import Modaleditar from "../components/modales/modaleditar.astro";
                             </div>
                             <div class="w-[30rem] h-full flex flex-col gap-[5rem] justify-center">
                                 <Modalopciones texto="Modulos" URL="/modulos" />
-                                <Modalopciones texto="Preguntas" />
+                                <Modalopciones texto="Preguntas" URL="/preguntas" />
                                 <Modalopciones texto="Talleres" />
-                                <!-- <Modaleditar texto1="Nuevo Modulo"/> -->
+                                <!-- <Modaleditar condicion={5} /> -->
                             </div>
                         </div>
             </div>
