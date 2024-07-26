@@ -3,12 +3,13 @@ import Logo from "../components/logo.astro";
 import NavBar from "../components/nav/NavBar.astro";
 import LayoutDashboard from "../layouts/LayoutDashboard.astro";
 import Modal1 from "../components/modales/modal1.astro";
+import SideBar from "../components/nav/sideBar.astro";
 ---
 
 <LayoutDashboard title="Dashboard">
   <main class="bg-greyBg flex flex-row w-full h-full pb-5 relative z-0 overflow-x-hidden">
     <div class="flex flex-row">
-      <NavBar />
+      <SideBar />
       <div class="w-full h-full">
         <div class="bg-greyBlack  h-20 "></div>
         <div class="flex w-full justify-center">
