@@ -6,6 +6,7 @@ import Modal from "../components/inputs/modal.astro";
 import Modal1 from "../components/modales/modal1.astro";
 import Aadirmodulo from "../components/inputs/añadirmodulo.astro";
 import Modalopciones from "../components/inputs/modalopciones.astro";
+import Modaltaller from "../components/inputs/modaltaller.astro";
 ---
 
 <LayoutDashboard title="Dashboard">
@@ -21,23 +22,23 @@ import Modalopciones from "../components/inputs/modalopciones.astro";
                 <div class="w-full flex text-white">
                     <div class="left w-full flex flex-col gap-5 p-7">
                         <div class="">
-                            <p class="text-xl">Modulos</p>
+                            <p class="text-xl">Ver Talleres</p>
                         </div>
 
                         <div
                             class="container h-full bg-greyBlack rounded-xl p-10"
                         >
                             <div class="flex flex-wrap gap-10 items-center">
-                                <Modal texto={"CAPACIDADES GERENCIALES"} />
-                                <Modal texto={"MEJORA DE OPERACIONES"} />
-                                <Modal texto={"GERENCIA DE MARKETING"} />
-                                <Modal texto={"GERENCIA DE VENTAS"} />
-                                <Modal texto={"GERENCIA DE TALENTO HUMANO"} />
-                                <Modal texto={"FINANZAS GERENCIALES"} />
-                                <Modal texto={"FINANZAS GERENCIALES"} />
-                                <Modal texto={"FINANZAS GERENCIALES"} />
-                                <Modal texto={"FINANZAS GERENCIALES"} />
-                                <Modal texto={"FINANZAS GERENCIALES"} />
+                                <Modaltaller texto={"CAPACIDADES GERENCIALES"} />
+                                <Modaltaller texto={"MEJORA DE OPERACIONES"} />
+                                <Modaltaller texto={"GERENCIA DE MARKETING"} />
+                                <Modaltaller texto={"GERENCIA DE VENTAS"} />
+                                <Modaltaller texto={"GERENCIA DE TALENTO HUMANO"} />
+                                <Modaltaller texto={"FINANZAS GERENCIALES"} />
+                                <Modaltaller texto={"FINANZAS GERENCIALES"} />
+                                <Modaltaller texto={"FINANZAS GERENCIALES"} />
+                                <Modaltaller texto={"FINANZAS GERENCIALES"} />
+                                <Modaltaller texto={"FINANZAS GERENCIALES"} />
                                 <Aadirmodulo />
                             </div>
                         </div>
