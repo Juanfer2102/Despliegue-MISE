@@ -22,7 +22,7 @@ const { condicion } = Astro.props;
     class="sidebar hidden sm:flex w-[18rem] h-full bg-greyBlack rounded-md transition-all duration-500 ease-in-out"
     id="sidebar"
 >
-    <div class="flex flex-col gap-5 w-full">
+    <div class="cajasidebar1 flex flex-col gap-5  w-full" id="cajasidebar1">
         <div class="absolute w-15 h-15 justify-end">
             <img
             id="toggleBtn"
@@ -105,6 +105,7 @@ const { condicion } = Astro.props;
     document.addEventListener("DOMContentLoaded", () => {
         const sidebar = document.getElementById("sidebar");
         const cajaicon = document.querySelectorAll(".cajaelemento");
+        const cadasidebar = document.getElementById("cajasidebar1");
         const cajaadmin = document.getElementById("admincaja");
         const toggleButton = document.getElementById("toggleBtn");
         const sidebarLogomini = document.getElementById("logo-min");
@@ -117,6 +118,7 @@ const { condicion } = Astro.props;
             if (sidebar.classList.contains("w-[18rem]")) {
                 sidebar.classList.remove("w-[18rem]");
                 sidebar.classList.add("w-[5rem]");
+                cadasidebar.classList.add("pt-[6rem]");
                 profilesideBar.classList.remove("block");
                 profilesideBar.classList.add("hidden");
                 profilesideBar1.classList.remove("block");
@@ -136,6 +138,7 @@ const { condicion } = Astro.props;
             } else {
                 sidebar.classList.remove("w-[5rem]");
                 sidebar.classList.add("w-[18rem]");
+                cadasidebar.classList.remove("pt-[6rem]");
                 sidebarLogomini.classList.remove("block");
                 sidebarLogomini.classList.add("hidden");
                 profilesideBar.classList.remove("hidden");
@@ -174,7 +177,7 @@ const { condicion } = Astro.props;
     class="sidebar hidden sm:flex w-[18rem] h-full bg-greyBlack rounded-md transition-all duration-500 ease-in-out"
     id="sidebar"
 >
-    <div class="flex flex-col gap-5 w-full">
+    <div class="cajasidebar1 flex flex-col gap-5 w-full" id="cajasidebar1">
         <div class="absolute w-15 h-15 justify-end">
             <img
             id="toggleBtn"
@@ -244,6 +247,7 @@ const { condicion } = Astro.props;
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const sidebar = document.getElementById("sidebar");
+        const cadasidebar = document.getElementById("cajasidebar1");
         const cajaicon = document.querySelectorAll(".cajaelemento");
         const toggleButton = document.getElementById("toggleBtn");
         const sidebarLogomini = document.getElementById("logo-min");
@@ -256,6 +260,7 @@ const { condicion } = Astro.props;
             if (sidebar.classList.contains("w-[18rem]")) {
                 sidebar.classList.remove("w-[18rem]");
                 sidebar.classList.add("w-[5rem]");
+                cadasidebar.classList.add("pt-[6rem]");
                 profilesideBar.classList.remove("block");
                 profilesideBar.classList.add("hidden");
                 profilesideBar1.classList.remove("block");
@@ -274,6 +279,7 @@ const { condicion } = Astro.props;
             } else {
                 sidebar.classList.remove("w-[5rem]");
                 sidebar.classList.add("w-[18rem]");
+                cadasidebar.classList.remove("pt-[6rem]");
                 sidebarLogomini.classList.remove("block");
                 sidebarLogomini.classList.add("hidden");
                 profilesideBar.classList.remove("hidden");
