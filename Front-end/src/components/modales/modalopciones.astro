@@ -1,0 +1,21 @@
+---
+interface Props {
+    texto? : string;
+    URL?: string;
+}
+
+const {texto, URL} = Astro.props
+---
+
+
+<div class="flex flex-col gap-3">
+    <p class="text-xl text-white">{texto}</p>
+    <div class="container bg-greyBlack rounded-xl  gap-3 text-center h-40 flex justify-center items-center">
+    <div class="flex justify-center items-center">
+        <button
+          class="p-3 pl-4 pr-5 w-44 border-principalGreen bg-principalGreen tracking-wide font-semibold text-lg transition-colors duration-150 transform border-solid rounded-lg hover:bg-white text-white hover:text-principalGreen hover:border-white hover:border-solid border ">
+          <a class=" hover:text-principalGreen" href={URL}>Ver {texto}</a>
+        </button>
+      </div>
+    </div>
+</div>

@@ -32,9 +32,9 @@ import SideBar from "../components/nav/sideBar.astro";
       background: #555; /* Color del pulgar al pasar el ratón por encima */
     }
     
-</style>
+    </style>
 
-<LayoutDashboard title="Modulos">
+<LayoutDashboard title="Sueños">
     <main class="flex flex-row w-full bg-greyBlack h-screen">
         <SideBar condicion={1} />
         <div class="flex flex-col w-full h-full">
@@ -45,31 +45,33 @@ import SideBar from "../components/nav/sideBar.astro";
             </div>
             <div class="bg-greyBg flex flex-col px-8 py-5 h-full w-full">
                 <div class="pb-1">
-                    <p class="text-2xl text-white">Modulos</p>
+                    <p class="text-2xl text-white">Sueños</p>
                 </div>  
                         <div class="left flex flex-row gap-5 p-1">
                             <div
                                 class="container w-[53rem] max-h-[50rem] bg-greyBlack rounded-xl p-8 overflow-y-auto custom-scrollbar"
                             >
                                 <div class="flex flex-wrap gap-8 items-center">
-                                    <Modal texto={"CAPACIDADES GERENCIALES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"MEJORA DE OPERACIONES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"GERENCIA DE MARKETING"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"GERENCIA DE VENTAS"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"GERENCIA DE TALENTO HUMANO"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"FINANZAS GERENCIALES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"FINANZAS GERENCIALES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"FINANZAS GERENCIALES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"FINANZAS GERENCIALES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"FINANZAS GERENCIALES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
+                                    <Modal texto={"Deseo definir mi propósito empresarial"} colorborde="border-azulclaro" colorhover="hover:bg-azulclaro" />
+                                    <Modal texto={"Deseo definir mi modelo de negocio"} colorborde="border-azulclaro" colorhover="hover:bg-azulclaro" />
+                                    <Modal texto={"Deseo implementar mi estrategia empresarial"} colorborde="border-azulclaro" colorhover="hover:bg-azulclaro" />
+                                    <Modal texto={"Deseo caracterizar o documentar mis operaciones"} colorborde="border-amarillo" colorhover="hover:bg-amarillo" />
+                                    <Modal
+                                        texto={"Deseo implementar indicadores clave de desempeño (KPI's) para hacer seguimiento a mi estrategia"} colorborde="border-amarillo" colorhover="hover:bg-amarillo"/>
+                                    <Modal texto={"Deseo definir mi estructura de costos operacionales"} colorborde="border-amarillo" colorhover="hover:bg-amarillo" />
+                                    <Modal texto={"Deseo definir mi margen de contribución"} colorborde="border-amarillo" colorhover="hover:bg-amarillo" />
+                                    <Modal texto={"Deseo definir mis estrategias de promoción y publicidad"} colorborde="border-fucsia" colorhover="hover:bg-fucsia" />
+                                    <Modal texto={"Deseo definir el perfil de mi cliente ideal y el segmento de mercado al que me dirijo"} colorborde="border-fucsia" colorhover="hover:bg-fucsia" />
+                                    <Modal texto={"Deseo definir estrategias de marketing inbound y de contenidos"} colorborde="border-fucsia" colorhover="hover:bg-fucsia" />
+                                    <Modal texto={"Deseo tener un manual de conceptualización de mi marca"} colorborde="border-fucsia" colorhover="hover:bg-fucsia" />
                                     <Aadirmodulo />
                                 </div>
                             </div>
                             <div class="w-[30rem] h-full flex flex-col gap-[5rem] justify-center">
-                                <Modalopciones texto="Sueños" URL="/sueños" />
+                                <!-- <Modalopciones texto="Modulos" URL="/modulos" />
                                 <Modalopciones texto="Preguntas" URL="/preguntas" />
-                                <Modalopciones texto="Talleres" URL="/sueños" />
-                                <!-- <Modaleditar texto1="Nuevo Modulo"/> -->
+                                <Modalopciones texto="Talleres" /> -->
+                                <Modaleditar condicion={4} />
                             </div>
                         </div>
             </div>

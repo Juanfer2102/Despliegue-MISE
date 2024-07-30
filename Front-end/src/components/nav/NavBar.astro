@@ -3,9 +3,10 @@ import Logo from "../../images/sideBarImg/Logo.png";
 import IconExpand from "../../images/sideBarImg/Expand icon.png";
 ---
 
-<aside class="hidden sm:flex w-[21rem] bg-greyBlack rounded-md">
+<aside class=" sidebar-menu hidden sm:flex w-[21rem] bg-greyBlack rounded-md">
   <div class="flex flex-col gap-8">
     <img
+      id="toggleBtn"
       src={IconExpand.src}
       class="absolute pl-[16rem] pt-6 cursor-pointer"
       alt=""
@@ -16,6 +17,7 @@ import IconExpand from "../../images/sideBarImg/Expand icon.png";
     <div class="flex flex-col gap-3">
       <div
         class="flex flex-row pl-6 justify-start items-center align-middle rounded-md gap-3 cursor-pointer hover:text-white group hover:bg-principalGreen"
+        data-tooltip="Yono"
       >
         <svg
           class="group-hover:stroke-white"
@@ -71,6 +73,7 @@ import IconExpand from "../../images/sideBarImg/Expand icon.png";
       </div>
       <div
         class="flex flex-row pl-6 justify-start align-middle gap-3 rounded-md hover:text-white group hover:bg-principalGreen" 
+        data-tooltip="Yoooo"
       >
         <svg
           class="group-hover:stroke-white"
@@ -89,13 +92,14 @@ import IconExpand from "../../images/sideBarImg/Expand icon.png";
           </g></svg
         >
         <a
-          class="font-semibold text-colortextsecondary pt-1.5 group-hover:text-white" href="/empresasRegistradas/"
+          class="font-semibold text-colortextsecondary pt-1.5 group-hover:text-white" href="/empresasRegistradas"
         >
           Empresas Registradas
         </a>
       </div>
       <div
         class="flex flex-row pl-6 justify-start align-middle gap-3 rounded-md hover:text-white group hover:bg-principalGreen"
+        data-tooltip="65146"
       >
         <svg
           fill="#64748B"
@@ -113,11 +117,11 @@ import IconExpand from "../../images/sideBarImg/Expand icon.png";
             ></path>
           </g></svg
         >
-        <p
-          class="font-semibold text-colortextsecondary pt-1.5 group-hover:text-white"
+        <a
+          class="font-semibold text-colortextsecondary pt-1.5 group-hover:text-white" href="/modulos"
         >
           Modulos
-        </p>
+        </a>
       </div>
     </div>
     <div class="border-t-2 border-t-white">
@@ -126,7 +130,8 @@ import IconExpand from "../../images/sideBarImg/Expand icon.png";
     <div class="flex flex-col gap-3">
       <div
         class="flex flex-row pl-6 justify-start align-middle gap-3 rounded-md hover:text-white group hover:bg-principalGreen"
-      >
+        data-tooltip="Tod"
+        >
         <svg
           class="group-hover:stroke-white"
           width="35px"
@@ -148,13 +153,14 @@ import IconExpand from "../../images/sideBarImg/Expand icon.png";
           </g></svg
         >
         <a
-          class="font-semibold text-colortextsecondary pt-1.5 group-hover:text-white" href="/verUsers"
+          class="font-semibold text-colortextsecondary pt-1.5 group-hover:text-white" href="/visualizarUsers"
         >
           Usuarios Registrados
         </a>
       </div>
       <div
         class="flex flex-row pl-6 justify-start align-middle gap-3 rounded-md hover:text-white group hover:bg-principalGreen"
+        data-tooltip="Hola"
       >
         <svg
           class="group-hover:stroke-white"
@@ -188,7 +194,7 @@ import IconExpand from "../../images/sideBarImg/Expand icon.png";
         </p>
       </div>
     </div>
-    <div class="border-t-2 flex flex-col pt-14 justify-end border-t-white">
+    <div class="border-t-2 flex flex-col pt-14 justify-end border-t-white" data-tooltip="Salir">
       <div
         class="w-full h-full relative bg-darkslategray box-border flex flex-row items-center justify-end p-6 gap-[12px] leading-[normal] tracking-[normal] text-left text-xs text-darkgray font-base-medium"
       >
@@ -221,3 +227,4 @@ import IconExpand from "../../images/sideBarImg/Expand icon.png";
     </div>
   </div>
 </aside>
+
