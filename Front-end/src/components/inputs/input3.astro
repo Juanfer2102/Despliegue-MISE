@@ -5,10 +5,9 @@ interface Props {
   DataType: string;
   width: string;
   widthInput: string;
-  height: string;
 }
 
-const { inputType, inputPlaceholder, DataType, width, widthInput, height } = Astro.props;
+const { inputType, inputPlaceholder, DataType, width, widthInput } = Astro.props;
 ---
 
 <style type="text/css">
@@ -20,40 +19,14 @@ const { inputType, inputPlaceholder, DataType, width, widthInput, height } = Ast
     input[type="number"] {
       -moz-appearance: textfield;
     }
-
-    .custom-scrollbar::-webkit-scrollbar {
-    width: 13px; /* Ancho de la barra de desplazamiento */
-  }
-  
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: #262B32; /* Color de fondo de la barra de desplazamiento */
-    border-radius: 12px;
-  }
-  
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #888; /* Color del pulgar (thumb) de la barra de desplazamiento */
-    border-radius: 10px; /* Redondea las esquinas del pulgar */
-    cursor: pointer;
-  }
-  
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Color del pulgar al pasar el ratón por encima */
-  }
-
-  .inputext {
-    word-wrap: break-word; /* Permite que el texto salte a la siguiente línea */
-    white-space: pre-wrap; /* Mantiene los espacios en blanco y permite saltos de línea */
-    resize: vertical;
-  }
-
   </style>
 
-<div class="text-textBg items-center text-start content-center flex flex-row">
+<div class="text-textBg items-center text-left content-center flex flex-row">
     <div class={width}>
-        <p class="font-semibold">{DataType}</p>
+        <p>{DataType}</p>
     </div>
     <div>
-        <input class=`inputext border ${widthInput} ${height} rounded-md peer border-solid border-white bg-transparent placeholder:text-start placeholder:pl-2 text:break-normal overflow-y-auto custom-scrollbar`
+        <input class=`border ${widthInput} h-10 rounded-md peer border-solid border-white bg-transparent placeholder:pl-2`
        placeholder={inputPlaceholder} 
        type={inputType}
     />

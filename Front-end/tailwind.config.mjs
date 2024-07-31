@@ -4,8 +4,6 @@ export default {
   theme: {
     colors: {
       darkslategray: "#262b32",
-      azulclaro: "#00B0F0",
-      fucsia: "#FF33CC",
       colorborder: "#e2e8f0",
       colorwhite: "#fff",
       darkgray: "#969ca4",
@@ -14,7 +12,7 @@ export default {
       olivedrab: "#729517",
       mediumseagreen: "#35af66",
       dimgray: "#5c5c5c",
-      amarillo: "#B8FF00",
+      gold: "#d5c425",
       principalGreen: "#729517",
       secondaryGreen: "#577004",
       links: "#FEEF08",
@@ -33,7 +31,5 @@ export default {
     },
     extend: {},
   },
-  plugins: [
-    
-  ],
+  plugins: [],
 };
