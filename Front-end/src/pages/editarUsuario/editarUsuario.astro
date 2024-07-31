@@ -24,58 +24,68 @@ import SideBar from "../../components/nav/sideBar.astro";
         </div>
         <div class="bg-greyBlack flex flex-col px-10 w-full rounded-md">
           <div class="flex flex-row py-2">
-            <img src={iconUser.src} class="p-5 w-36 h-36" alt="" />
+            <img src={iconUser.src} class="p-12" alt="" />
             <div
-              class="flex flex-col justify-center gap-5 pl-5 text-white font-semibold"
+              class="flex flex-col justify-center gap-5 p-12 text-white font-semibold"
             >
-              <p class="text-2xl">Brian Marin Salchimonster</p>
+              <p class="text-4xl">Brian Marin Salchimonster</p>
               <p>briandmh365@gmail.com</p>
-              <p>Administrador</p>
+              <p class="font-medium">Administrador</p>
             </div>
           </div>
-          <div class="flex flex-col px-5">
-            <p class="text-white font-semibold text-2xl">
+          <div class="flex flex-col w-full px-14">
+            <p class="text-white  text-3xl">
               Informacion Personal
             </p>
             <div
-              class="flex flex-col text-textBg pl-3 font-semibold gap-4 py-5 overflow-y-visible"
+              class="flex flex-col text-textBg w-full pl-3 font-semibold gap-x-20 py-5 overflow-y-visible"
             >
               <Input3
                 width="w-44"
-                widthInput="w-[29.2rem]"
+                widthInput="w-full"
                 DataType="Nombre"
                 inputPlaceholder="Nombre Completo"
                 inputType="text"
+                height="h-12"
+                additionalClass="w-full"
               />
               <Input3
                 width="w-44"
-                widthInput="w-[29.2rem]"
+                widthInput="w-full"
                 DataType="Email"
                 inputPlaceholder="Correo Electronico"
                 inputType="email"
+                height="h-12"
+                additionalClass=""
               />
               <div class="flex flex-row gap-5">
                 <Input3
                 width="w-44"
-                widthInput="w-[9rem]"
+                widthInput="w-full"
                 DataType="Celular"
                 inputPlaceholder="Prefijo"
                 inputType="number"
+                height="h-12"
+                additionalClass=""
               />
               <Input3
                 width="w-4"
-                widthInput="w-[18rem]"
+                widthInput="w-full"
                 DataType=""
                 inputPlaceholder="Numero Celular"
                 inputType="number"
+                height="h-12"
+                additionalClass=""
               />
               </div>
               <Input3
                 width="w-44"
-                widthInput="w-[29.2rem]"
+                widthInput="w-full"
                 DataType="Contraseña"
                 inputPlaceholder="*********"
                 inputType="password"
+                height="h-12"
+                additionalClass=""
               />
             </div>
           </div>

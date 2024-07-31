@@ -19,7 +19,7 @@ const { condicion } = Astro.props;
 
 {condicion === 1 && (
     <aside
-    class="sidebar hidden sm:flex w-[18rem] h-full bg-greyBlack rounded-md transition-all duration-500 ease-in-out"
+    class="sidebar hidden sm:flex w-[23rem] h-screen bg-greyBlack rounded-md transition-all duration-500 ease-in-out"
     id="sidebar"
 >
     <div class="cajasidebar1 flex flex-col gap-5  w-full" id="cajasidebar1">
@@ -46,7 +46,7 @@ const { condicion } = Astro.props;
                 alt=""
             />
         </div>
-        <div class="flex flex-col gap-3 px-2">
+        <div class="flex flex-col gap-3 px-5">
             {
                 Elementoscript.map((Elementoscript, index) => (
                     <Elemento
@@ -115,8 +115,8 @@ const { condicion } = Astro.props;
         const profilesideBar1 = document.getElementById("profile-1");
 
         toggleButton.addEventListener("click", () => {
-            if (sidebar.classList.contains("w-[18rem]")) {
-                sidebar.classList.remove("w-[18rem]");
+            if (sidebar.classList.contains("w-[23rem]")) {
+                sidebar.classList.remove("w-[23rem]");
                 sidebar.classList.add("w-[5rem]");
                 cadasidebar.classList.add("pt-[6rem]");
                 profilesideBar.classList.remove("block");
@@ -137,7 +137,7 @@ const { condicion } = Astro.props;
 
             } else {
                 sidebar.classList.remove("w-[5rem]");
-                sidebar.classList.add("w-[18rem]");
+                sidebar.classList.add("w-[23rem]");
                 cadasidebar.classList.remove("pt-[6rem]");
                 sidebarLogomini.classList.remove("block");
                 sidebarLogomini.classList.add("hidden");

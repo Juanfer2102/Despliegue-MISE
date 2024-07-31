@@ -6,9 +6,10 @@ interface Props {
   width: string;
   widthInput: string;
   height: string;
+  additionalClass: string;
 }
 
-const { inputType, inputPlaceholder, DataType, width, widthInput, height } = Astro.props;
+const { inputType, inputPlaceholder, DataType, width, widthInput, height, additionalClass } = Astro.props;
 ---
 
 <style type="text/css">
@@ -48,14 +49,15 @@ const { inputType, inputPlaceholder, DataType, width, widthInput, height } = Ast
 
   </style>
 
-<div class="text-textBg items-center text-start content-center flex flex-row">
+<div class={`text-textBg items-center text-start content-center flex flex-row ${additionalClass}`}>
     <div class={width}>
         <p class="font-semibold">{DataType}</p>
     </div>
     <div>
-        <input class=`inputext border ${widthInput} ${height} rounded-md peer border-solid border-white bg-transparent placeholder:text-start placeholder:pl-2 text:break-normal overflow-y-auto custom-scrollbar`
+        <input class=`inputext border ${widthInput} ${height} rounded-md peer border-solid border-white bg-transparent placeholder:text-start placeholder:pl-2 text:break-normal overflow-y-auto custom-scrollbar `
        placeholder={inputPlaceholder} 
        type={inputType}
+       
     />
     </div>
     

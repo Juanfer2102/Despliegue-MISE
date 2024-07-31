@@ -49,9 +49,10 @@ import SideBar from "../../components/nav/sideBar.astro";
                 </div>  
                         <div class="left flex flex-row gap-5 p-1">
                             <div
-                                class="container w-[53rem] max-h-[50rem] bg-greyBlack rounded-xl p-8 overflow-y-auto custom-scrollbar"
+                                class="container
+                                 bg-greyBlack rounded-xl overflow-y-auto custom-scrollbar"
                             >
-                                <div class="flex flex-wrap gap-8 items-center">
+                                <div class="grid grid-cols-3 gap-8 p-4 items-center w-full">
                                     <Modal texto={"CAPACIDADES GERENCIALES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
                                     <Modal texto={"MEJORA DE OPERACIONES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
                                     <Modal texto={"GERENCIA DE MARKETING"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
@@ -65,7 +66,7 @@ import SideBar from "../../components/nav/sideBar.astro";
                                     <Aadirmodulo />
                                 </div>
                             </div>
-                            <div class="w-[30rem] h-full flex flex-col gap-[5rem] justify-center">
+                            <div class=" h-full flex flex-col gap-[5rem] justify-center">
                                 <!-- <Modalopciones texto="Sueños" URL="/sueños" />
                                 <Modalopciones texto="Preguntas" URL="/preguntas" />
                                 <Modalopciones texto="Talleres" URL="/sueños" /> -->
