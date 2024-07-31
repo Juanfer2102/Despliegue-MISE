@@ -1,7 +1,7 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Logo from "../components/logo.astro";
-import Input2 from "../components/inputs/input2.astro";
+import Layout from "../../layouts/Layout.astro";
+import Logo from "../../components/logo.astro";
+import InputText from "../../components/inputs/InputText.astro";
 ---
 
 <Layout title="Correofallido">
@@ -25,38 +25,39 @@ import Input2 from "../components/inputs/input2.astro";
 
             <div
                 class="login-container text-white w-full h-full
-                 flex flex-col justify-center px-56 gap-28"
+                 flex flex-col justify-center px-56 gap-16"
             >
-        <p class="font-bold text-3xl">¿Olvidaste tu contraseña?</p>
-        <p class="text-2xl -mt-14">
-          Proporciona el correo electronico de tu cuenta para restablecer su
-          contraseña.
+        <p class="font-bold text-3xl">LINK EXPIRADO</p>
+        <p class="text-2xl ">
+            Tu link se ha expirado porque no lo usaste, prueba a enviar otro.
         </p>
 
         <form action="" class="form flex flex-col">
-          <p class="text 30 w-full">Correo electronico</p>
-          <Input2 inputType="email" inputPlaceholder="correo Electronico"></Input2>
+          <p class="text 30 w-full"></p>
+          <div
+            
+          >
             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
             <path
               d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"
             ></path>
             <path d="M3 7l9 6l9 -6"></path>
-          
-      
+          </div>
+        
         <div>
           <div class="flex justify-center mt-10">
             <button
               class="bg-principalGreen px-6 py-2 text-xl h-14 rounded-lg w-full"
             >
-              Pedir enlace para restablecer contraseña
+            Reenviar otro link
             </button>
           </div>
           <div class="flex items-center justify-center mt-8">
             <p class="text-xl text-center w-full">Cancelar</p>
           </div>
         </div>
-      </form>
       </div>
+    </form>
     </div>
   </main>
 </Layout>
