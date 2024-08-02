@@ -1,5 +1,5 @@
 ---
-import { Elementosempresas } from '../../helpers/elementsempresas';
+
 
 interface Props {
   numeroEmpresas: number;
@@ -10,10 +10,12 @@ interface Props {
 const { numeroEmpresas, tipoTarjeta, empresaicon } = Astro.props;
 ---
 
-<div class="container bg-greyBlack rounded-xl p-8">
-  <div class="flex flex-row">
-    <i class=`fa-solid ${empresaicon} text-4xl`></i>
-    <p class="pl-2 text-4xl">{numeroEmpresas}</p>
+<div class="bg-greyBlack flex flex-row rounded-md p-3 justify-between w-46">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+    >{empresaicon}</svg
+  >
+  <div class="flex flex-col text-white">
+    <h1 class="text-4xl font-medium">{numeroEmpresas}</h1>
+    <h2>{tipoTarjeta}</h2>
   </div>
-  <p class="mt-3 text-xl">{tipoTarjeta}</p>
 </div>
