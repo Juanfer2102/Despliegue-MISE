@@ -34,6 +34,6 @@ export default {
     extend: {},
   },
   plugins: [
-    
+    require('@headlessui/tailwindcss'), require('@tailwindcss/forms')
   ],
 };
