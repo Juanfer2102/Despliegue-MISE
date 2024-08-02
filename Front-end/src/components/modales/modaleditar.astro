@@ -6,8 +6,6 @@ interface Props {
 const { condicion } = Astro.props;
 
 import Input3 from "../inputs/input3.astro";
-import { TextareaHero } from "../inputs/TextArea";
-
 ---
 <style>
 
@@ -99,8 +97,7 @@ import { TextareaHero } from "../inputs/TextArea";
           <p class="text-xl h-5 pb-10 text-white">Nuevo Sueño</p>
           <div class="flex flex-col justify-center items-center gap-6">
               <Input3 DataType="Sueño" inputPlaceholder="Nombre Sueño" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" additionalClass=""/>
-              <TextareaHero DataType="Medición" />
-              {/* <Input3 DataType="Medición" inputPlaceholder="Pregadadads" inputType="text" height="h-[9rem]" width="w-[10rem]" widthInput="w-[15rem]" additionalClass=""/> */}
+              <Input3 DataType="Medición" inputPlaceholder="Pregadadads" inputType="text" height="h-[9rem]" width="w-[10rem]" widthInput="w-[15rem]" additionalClass=""/>
               <Input3 DataType="Modulo" inputPlaceholder="Preguntas Modulo" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" additionalClass=""/>
               <Input3 DataType="Nivel" inputPlaceholder="SUEÑOS EXPRESS" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" additionalClass=""/>
           </div>
@@ -144,7 +141,7 @@ import { TextareaHero } from "../inputs/TextArea";
           
           <div class="flex flex-col justify-center items-center gap-6">
               <Input3 DataType="Sueño" inputPlaceholder="Deseo definir mi propósito empresarial" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" additionalClass=""/>
-              <TextareaHero DataType="Medición" />
+              <Input3 DataType="Medición" inputPlaceholder="Empresario con modelo de Marco filosófico: Propósito superior, propósito empresarial, visión, misión y valores corporativos" inputType="text" height="h-[9rem]" width="w-[10rem]" widthInput="w-[15rem]" additionalClass=""/>
               <Input3 DataType="Modulo" inputPlaceholder="Estrategia y dirección gerencial" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" additionalClass=""/>
               <Input3 DataType="Nivel" inputPlaceholder="SUEÑOS EXPRESS" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" additionalClass=""/>
           </div>
@@ -159,7 +156,7 @@ import { TextareaHero } from "../inputs/TextArea";
           class="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start"
       >
           <p class="text-xl h-5 pb-10 text-white">Informacion de Pregunta</p>
-          <div class="flex flex-col justify-center items-center gap-6">
+          <divzzz class="flex flex-col justify-center items-center gap-6">
             <div class="flex flex-row items-center text-start content-center h-[4rem]">
               <p class="font-semibold text-textBg w-[10rem]">Pregunta</p>
               <p class="w-[17rem] text-textBg font-semibold">¿La gerencia utiliza herramientas para la gestión de su tiempo y actividades?</p>
@@ -168,14 +165,14 @@ import { TextareaHero } from "../inputs/TextArea";
               <p class="font-semibold text-textBg w-[10rem]">Modulo</p>
               <p class="w-[17rem] text-textBg font-semibold">CAPACIDADES GERENCIALES</p>
              </div>
-          </div>
+          </divzzz>
       </div>
       <div
           class="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start"
       >
           <p class="text-xl h-5 pb-10 text-white">Editar Pregunta</p>
           <div class="flex flex-col justify-center items-center gap-6">
-              <TextareaHero DataType="Pregunta" height={} />
+              <Input3 DataType="Pregunta" inputPlaceholder="¿La gerencia utiliza herramientas para la gestión de su tiempo y actividades?" inputType="text" height="h-[6rem]" width="w-[10rem]" widthInput="w-[17rem]" additionalClass=""/>
               <Input3 DataType="Modulo" inputPlaceholder="CAPACIDADES GERENCIALES" inputType="text" height="h-[4rem]" width="w-[10rem]" widthInput="w-[17rem]" additionalClass=""/>
           </div>
       </div>
