@@ -36,7 +36,7 @@ import TarjetasModulos from "../../components/tarjetasdashboard/tarjetasModulos.
               </div>
 
               <div class="flex gap-7 pl-3 pr-3.5 w-[93.5rem]">
-                <div class="container bg-greyBlack rounded-xl px-10 py-6 flex gap-2 flex-col">
+                <div class="container bg-greyBlack rounded-xl px-10 pt-5 pb-10 h-full flex gap-2 flex-col overflow-y-auto custom-scrollbar">
                   <div
                     class="flex items-center py-3 gap-4 text-left justify-end text-sm"
                   >
@@ -55,8 +55,8 @@ import TarjetasModulos from "../../components/tarjetasdashboard/tarjetasModulos.
                       </div>
                     </div>
                   </div>
-                  <div class="overflow-auto rounded-xl">
-                    <div class="">
+                  <div class="overflow-y-auto custom-scrollbar rounded-xl">
+                    <div class="max-h-[30rem] overflow-y-auto custom-scrollbar">
                       <TablasEmpresas />
                     </div>
                   </div>
