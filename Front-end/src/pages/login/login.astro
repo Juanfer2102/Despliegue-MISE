@@ -25,7 +25,6 @@ import InputText from "../../components/inputs/InputText.astro";
       flex flex-col justify-center pr-40 gap-12 text-center"
       >
         <p class="font-bold text-3xl">Iniciar Sesion</p>
-        <p class="text-lg">Inicia sesion</p>
 
         <form action="" class="form flex flex-col gap-6">
           <InputText inputType="email" inputPlaceholder="Correo Electronico" />
@@ -42,12 +41,32 @@ import InputText from "../../components/inputs/InputText.astro";
         </form>
         <div class="flex justify-center">
           <button
+            id="login-button"
             class="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg"
           >
-            Iniciar sesion
+            Iniciar sesión
           </button>
         </div>
       </div>
     </div>
+
+    <!-- Script para manejar el evento de clic en el botón -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('#login-button').addEventListener('click', () => {
+          console.log('Marin es una loca');
+        });
+      });
+    </script>
   </main>
 </Layout>
+
+
+
+
+
+<!-- <script>
+  function handleClick() {
+    console.log('Botón clickeado');
+  }
+</script> -->

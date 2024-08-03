@@ -1,0 +1,31 @@
+---
+interface Props {
+    nombre: string;
+    MISE: string;
+    rol: string;
+}
+
+const { nombre, MISE, rol } = Astro.props;
+---
+
+
+<tr class="bg-transparent border-transparent ">
+    <td class="p-5 py-8 text-sm whitespace-nowrap">
+        <p class="text-white w-[8rem]">
+            {nombre}
+        </p>
+    </td>
+    <td
+        class="p-5 text-sm w-40 text-center text-white whitespace-nowrap"
+    >
+        {MISE}
+    </td>
+    <td
+        class="p-5 text-sm w-40 text-right whitespace-nowrap  border-b-0 border-b-transparent"
+    >
+        <span
+            class="p-1.5 font-medium tracking-wider text-white rounded-lg"
+            >{rol}</span
+        >
+    </td>
+</tr>

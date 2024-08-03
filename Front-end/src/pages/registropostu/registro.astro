@@ -2,6 +2,25 @@
 import Layout from "../../layouts/Layout.astro";
 import Logo from "../../components/logo.astro";
 import InputText from "../../components/inputs/InputText.astro";
+import Selectores from "../../components/inputs/selectores.astro";
+
+const optionsdocu = [
+  { value: 'option1', label: 'Cedula de Ciudadania' },
+  { value: 'option2', label: 'Cedula de Extranjeria' },
+  { value: 'option3', label: 'Permiso Especial de Permanencia' },
+];
+
+const optionsgender = [
+  { value: 'option1', label: 'Masculino' },
+  { value: 'option2', label: 'Femenino' },
+];
+
+const optionscity = [
+  { value: 'option1', label: 'Palmira' },
+  { value: 'option2', label: 'Florida' },
+  { value: 'option3', label: 'Pradera' },
+  { value: 'option4', label: 'Candelaria' },
+];
 ---
 
 <Layout title="Registro Persona">
@@ -29,74 +48,14 @@ import InputText from "../../components/inputs/InputText.astro";
                         <InputText inputType="text" inputPlaceholder="Apellidos"></InputText>
                     </div>
                     <div class="flex flex-row w-full gap-5">
-                        <select
-                            placeholder="papa"
-                            id="Documento"
-                            class="bg-transparent caret-white px-2 py-2.5 h-full w-full rounded-lg outline-0 peer border font-sans text-lg font-normal focus:bg-transparent"
-                        >
-                            <option
-                                value="N/A"
-                                class="bg-transparent text-black "
-                                >Tipo de Documento</option
-                            >
-                            <option value="CC" class="bg-transparent text-black"
-                                >Cedula de Ciudadania</option
-                            >
-                            <option value="CE" class="bg-transparent text-black"
-                                >Cedula de Extranjeria</option
-                            >
-                            <option value="PE" class="bg-transparent text-black"
-                                >Permiso Especial de Permanencia</option
-                            >
-                        </select>
-
+                        <Selectores options={optionsdocu} />
                         <InputText inputType="number" inputPlaceholder="No. Documento"></InputText>
                     </div>
                     <InputText inputType="email" inputPlaceholder="Correo Electronico"></InputText>
                     <InputText inputType="number" inputPlaceholder="Celular"></InputText>
                     <div class="flex flex-row w-full gap-5">
-                        <select
-                            placeholder="papa"
-                            id="Genero"
-                            class="bg-transparent caret-white px-2 py-2.5 h-full w-full rounded-lg outline-0 peer border font-sans text-lg font-normal focus:bg-transparent"
-                        >
-                            <option
-                                value="N/A"
-                                class="bg-transparent text-black text-opacity-5"
-                                >Genero</option
-                            >
-
-                            <option value="CC" class="bg-transparent text-black"
-                                >Masculino</option
-                            >
-                            <option value="CE" class="bg-transparent text-black"
-                                >Femenino</option
-                            >
-                        </select>
-                        <select
-                            placeholder="papa"
-                            id="Genero"
-                            class="bg-transparent caret-white p-5 h-full w-full rounded-lg outline-0 peer border font-sans text-lg font-normal focus:bg-transparent "
-                        >
-                            <option
-                                value="N/A"
-                                class="bg-transparent text-black text-opacity-5 "
-                                >Municipio</option
-                            >
-
-                            <option value="CC" class="bg-transparent text-black"
-                                >Palmira</option
-                            >
-                            <option value="CE" class="bg-transparent text-black"
-                                >Florida</option
-                            >
-                            <option value="CE" class="bg-transparent text-black"
-                                >Pradera</option
-                            >
-                            <option value="CE" class="bg-transparent text-black"
-                                >Candelaria</option
-                            >
-                        </select>
+                        <Selectores options={optionsgender} />
+                        <Selectores options={optionscity} />
                     </div>
                     <div class="flex h-8 gap-2 items-center justify-start ">
                         <input

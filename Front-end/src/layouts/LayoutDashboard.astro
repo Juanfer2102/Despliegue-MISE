@@ -9,6 +9,8 @@ import { library, icon } from "@fortawesome/fontawesome-svg-core";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faGamepad } from "@fortawesome/free-solid-svg-icons";
 
+import { ViewTransitions } from "astro:transitions";
+
 library.add(faYoutube, faEnvelope, faGamepad);
 
 const gamepadIcon = icon({ prefix: "fas", iconName: faGamepad.iconName });
@@ -17,6 +19,7 @@ const gamepadIcon = icon({ prefix: "fas", iconName: faGamepad.iconName });
 <!doctype html>
 <html lang="en">
   <head>
+    
     <meta charset="UTF-8" />
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
@@ -31,8 +34,9 @@ const gamepadIcon = icon({ prefix: "fas", iconName: faGamepad.iconName });
     />
     <script
       src="https://kit.fontawesome.com/4c59fd786d.js"
-      crossorigin="anonymous"></script>
-
+      crossorigin="anonymous">
+    </script>
+    <ViewTransitions />
     <script>
       let circularProgress = document.querySelector(".circular-progress"),
         progressValue = document.querySelector(".progress-value");
@@ -49,6 +53,7 @@ const gamepadIcon = icon({ prefix: "fas", iconName: faGamepad.iconName });
         }
       }, speed);
     </script>
+    
   </head>
   <body class="min-h-full w-screen">
     <slot />
