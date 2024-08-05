@@ -1,9 +1,12 @@
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-from django.contrib.auth import authenticate
+from rest_framework import status, generics
+from django.contrib.auth import authenticate, get_user_model
 from .serializers import UserSerializer
+
+
+User = get_user_model()
 
 class LoginView(APIView):
     def post(self, request):
@@ -20,3 +23,7 @@ class LoginView(APIView):
             })
         else:
             return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+        
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

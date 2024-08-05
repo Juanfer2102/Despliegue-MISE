@@ -137,19 +137,19 @@ class Talleres(models.Model):
         db_table = 'talleres'
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
-        if not email:
+    def create_user(self, correo, password=None, **extra_fields):
+        if not correo:
             raise ValueError('The Email field must be set')
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
+        correo = self.normalize_email(correo)
+        user = self.model(correo=correo, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password=None, **extra_fields):
+    def create_superuser(self, correo, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        return self.create_user(email, password, **extra_fields)
+        return self.create_user(correo, password, **extra_fields)
 
 
 
@@ -206,8 +206,11 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['nombres', 'apellidos', 'documento']
 
     class Meta:
         managed = False
         db_table = 'usuario'
+
+    def __str__(self):
+        return self.correo
