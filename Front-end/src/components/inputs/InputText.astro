@@ -2,9 +2,10 @@
 interface Props {
   inputType: string;
   inputPlaceholder: string;
+  names: string;
 }
 
-const { inputType, inputPlaceholder } = Astro.props;
+const { inputType, inputPlaceholder, names } = Astro.props;
 ---
 
 <style type="text/css">
@@ -22,6 +23,6 @@ const { inputType, inputPlaceholder } = Astro.props;
   class="h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white "
   placeholder={inputPlaceholder}
   type={inputType}
-  name="Email"
+  name={names}
   id="1"
 />
