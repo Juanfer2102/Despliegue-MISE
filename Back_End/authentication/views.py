@@ -25,5 +25,5 @@ class LoginView(APIView):
             return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
         
 class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
+    queryset =  User.objects.all()
     serializer_class = UserSerializer

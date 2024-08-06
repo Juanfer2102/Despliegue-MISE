@@ -186,18 +186,18 @@ class Director(models.Model):
 
 
 class User(AbstractBaseUser):
-    email = models.EmailField(unique=True)
-    name = models.CharField(max_length=30)
-    id_usuario = models.IntegerField(primary_key=True)
+    email = models.EmailField(unique=True, db_column='correo')
+    name = models.CharField(max_length=30, db_column='nombres')
+    id_usuario = models.IntegerField(primary_key=True, db_column='id_usuario')
     id_rol = models.ForeignKey(Rol, models.DO_NOTHING, db_column='id_rol')
-    descripcion = models.TextField()
-    estado = models.TextField()
-    correo = models.TextField()
-    celular = models.IntegerField()
-    documento = models.IntegerField()
-    programa = models.TextField()
-    password = models.TextField()
-    apellidos = models.TextField()
+    descripcion = models.TextField(db_column='descripcion')
+    estado = models.TextField(db_column='estado')
+
+    celular = models.IntegerField(db_column='celular')
+    documento = models.IntegerField(db_column='documento')
+    programa = models.TextField(db_column='programa')
+    password = models.TextField(db_column='contraseña')
+    apellidos = models.TextField(db_column='apellidos')
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -214,3 +214,11 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.correo
+    
+    def set_password(self, raw_password):
+    #HASH DE CONTRASEÑA
+        self.contrasena = bcrypt.hashpw(raw_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+    #FUNCION QUE ME PERMITE VALIDAR MI CONTRASEÑA
+    def check_password(self, raw_password):        
+        return bcrypt.checkpw(raw_password.encode('utf-8'), self.contrasena.encode('utf-8'))

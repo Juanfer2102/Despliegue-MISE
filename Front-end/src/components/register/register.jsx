@@ -8,7 +8,7 @@ const Register = () => {
         descripcion: '',
         estado: true,
         celular: '',
-        documento_dni: '',
+        documento: '',
         programa: '',
         nombres: '',
         apellidos: ''
@@ -41,7 +41,7 @@ const Register = () => {
             <input type="text" name="id_rol" value={userData.id_rol} onChange={handleChange} placeholder="Role ID" />
             <input type="text" name="descripcion" value={userData.descripcion} onChange={handleChange} placeholder="Description" />
             <input type="text" name="celular" value={userData.celular} onChange={handleChange} placeholder="Cellphone" />
-            <input type="text" name="documento_dni" value={userData.documento_dni} onChange={handleChange} placeholder="DNI" />
+            <input type="text" name="documento" value={userData.documento} onChange={handleChange} placeholder="DNI" />
             <input type="text" name="programa" value={userData.programa} onChange={handleChange} placeholder="Program" />
             <input type="text" name="nombres" value={userData.nombres} onChange={handleChange} placeholder="First Name" />
             <input type="text" name="apellidos" value={userData.apellidos} onChange={handleChange} placeholder="Last Name" />

@@ -17,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
             descripcion=validated_data['descripcion'],
             estado=validated_data['estado'],
             celular=validated_data['celular'],
-            documento_dni=validated_data['documento'],
+            documento=validated_data['documento'],
             programa=validated_data['programa'],
             name=validated_data['name'],
             apellidos=validated_data['apellidos']
