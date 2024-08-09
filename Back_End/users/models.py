@@ -1,20 +1,51 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+import bcrypt
+
+
+class Coordinador(models.Model):
+    id_coordinador = models.IntegerField()
+    nombres_coordinador = models.TextField()
+    apellidos_coordinador = models.TextField()
+    contraseña = models.TextField()
+    correo = models.TextField()
+    programa = models.TextField()
+    celular = models.IntegerField()
+    documento = models.IntegerField()
+    id_usuario = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'coordinador'
+
+
+class Director(models.Model):
+    id_director = models.IntegerField()
+    nombres_director = models.TextField()
+    apellidos_director = models.TextField()
+    correo = models.IntegerField()
+    documento = models.IntegerField()
+    celular = models.IntegerField()
+    contrasena = models.TextField()
+    id_usuario = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'director'
 
 class Empresas(models.Model):
-    nit = models.IntegerField(db_column='NIT', primary_key=True)  # Field name made lowercase.
+    nit = models.IntegerField(db_column='NIT', primary_key=True) 
     nombre_empresa = models.TextField()
     celular = models.IntegerField()
     razon_social = models.TextField()
     direccion = models.TextField()
     act_economica = models.TextField()
     gerente = models.TextField()
-    producto_servicio = models.TextField(db_column='producto/servicio')  # Field renamed to remove unsuitable characters.
+    producto_servicio = models.TextField(db_column='producto/servicio')
     correo = models.TextField()
     pagina_web = models.TextField()
     fecha_creacion = models.DateField()
-    ventas_ult_año = models.IntegerField()
-    costos_ult_año = models.IntegerField()
+    ventas_ult_ano = models.IntegerField()
+    costos_ult_ano = models.IntegerField()
     empleados_perm = models.IntegerField()
     sector = models.TextField()
     estado = models.TextField()
@@ -24,17 +55,6 @@ class Empresas(models.Model):
     class Meta:
         managed = False
         db_table = 'empresas'
-
-
-class MisePrueba(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    done = models.IntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'mise_prueba'
 
 
 class Modulos(models.Model):
@@ -96,7 +116,7 @@ class Registros(models.Model):
     hora = models.IntegerField()
     fecha = models.DateField()
     comentarios = models.TextField()
-    id_usuario = models.ForeignKey('User', models.DO_NOTHING, db_column='id_usuario')
+    id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_usuario')
     id_modulo = models.ForeignKey(Modulos, models.DO_NOTHING, db_column='id_modulo')
 
     class Meta:
@@ -113,12 +133,12 @@ class Rol(models.Model):
         db_table = 'rol'
 
 
-class Sueños(models.Model):
-    id_sueño = models.IntegerField(primary_key=True)
-    nombre_sueño = models.IntegerField()
+class Suenos(models.Model):
+    id_sueno = models.IntegerField(primary_key=True)
+    nombre_sueno = models.IntegerField()
     contenido = models.IntegerField()
     alcance = models.IntegerField()
-    nit = models.ForeignKey(Empresas, models.DO_NOTHING, db_column='NIT')  # Field name made lowercase.
+    nit = models.ForeignKey(Empresas, models.DO_NOTHING, db_column='NIT')
     id_modulo = models.ForeignKey(Modulos, models.DO_NOTHING, db_column='id_modulo')
 
     class Meta:
@@ -136,85 +156,24 @@ class Talleres(models.Model):
         managed = False
         db_table = 'talleres'
 
-class UserManager(BaseUserManager):
-    def create_user(self, correo, password=None, **extra_fields):
-        if not correo:
-            raise ValueError('The Email field must be set')
-        correo = self.normalize_email(correo)
-        user = self.model(correo=correo, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
 
-    def create_superuser(self, correo, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        return self.create_user(correo, password, **extra_fields)
-
-
-
-class Coordinador(models.Model):
-    id_coordinador = models.IntegerField(primary_key=True)
-    nombres_coordinador = models.TextField()
-    apellidos_coordinador = models.TextField()
-    contraseña = models.TextField()
-    correo = models.TextField()
-    programa = models.TextField()
-    celular = models.IntegerField()
-    documento = models.IntegerField()
-    id_usuario = models.ForeignKey('User', models.DO_NOTHING, db_column='id_usuario')
-
-    class Meta:
-        managed = False
-        db_table = 'coordinador'
-
-
-class Director(models.Model):
-    id_director = models.IntegerField(primary_key=True)
-    nombres_director = models.TextField()
-    apellidos_director = models.TextField()
-    correo = models.IntegerField()
-    documento = models.IntegerField()
-    celular = models.IntegerField()
-    contraseña = models.TextField()
-    id_usuario = models.ForeignKey('User', models.DO_NOTHING, db_column='id_usuario')
-
-    class Meta:
-        managed = False
-        db_table = 'director'
-
-
-
-class User(AbstractBaseUser):
-    email = models.EmailField(unique=True, db_column='correo')
-    name = models.CharField(max_length=30, db_column='nombres')
-    id_usuario = models.IntegerField(primary_key=True, db_column='id_usuario')
+class Usuario(models.Model):
+    id_usuario = models.IntegerField(primary_key=True)
     id_rol = models.ForeignKey(Rol, models.DO_NOTHING, db_column='id_rol')
-    descripcion = models.TextField(db_column='descripcion')
-    estado = models.TextField(db_column='estado')
-
-    celular = models.IntegerField(db_column='celular')
-    documento = models.IntegerField(db_column='documento')
-    programa = models.TextField(db_column='programa')
-    password = models.TextField(db_column='contraseña')
-    apellidos = models.TextField(db_column='apellidos')
-
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default=False)
-
-    objects = UserManager()
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['nombres', 'apellidos', 'documento']
+    descripcion = models.TextField()
+    estado = models.TextField()
+    correo = models.TextField()
+    celular = models.IntegerField()
+    documento = models.IntegerField()
+    programa = models.TextField()
+    contrasena = models.TextField()
+    nombres = models.TextField()
+    apellidos = models.TextField()
 
     class Meta:
         managed = False
         db_table = 'usuario'
-
-    def __str__(self):
-        return self.correo
-    
+        
     def set_password(self, raw_password):
     #HASH DE CONTRASEÑA
         self.contrasena = bcrypt.hashpw(raw_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
