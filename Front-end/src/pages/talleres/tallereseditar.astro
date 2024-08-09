@@ -9,9 +9,12 @@ import Modalopciones from "../../components/modales/modalopciones.astro";
 import Modaltaller from "../../components/modales/modaltaller.astro";
 import SideBar from "../../components/nav/sideBar.astro";
 import Boton from "../../components/inputs/boton.astro";
+import Modaleditar from "../../components/modales/modaleditar.astro";
 ---
 
-<LayoutDashboard title="talleres">
+
+
+<LayoutDashboard title="tallereditar">
     <main class="flex flex-row w-full bg-greyBlack h-screen">
         <SideBar condicion={1} />
         <div class="flex flex-col w-full h-full">
@@ -39,16 +42,12 @@ import Boton from "../../components/inputs/boton.astro";
                             </div>
                             </div>
 
-            <div class="w-8/12 flex text-white ">
-                <div class="left w-full flex flex-col p-7 justify-center gap-16 ">
-                    <Modalopciones texto={"Sueños"} />
-                    <Modalopciones texto={"Preguntas"} />
-                    <Modalopciones texto={"Talleres"}/>
-                </div>
-            </div>
+                            <div class="w-[60rem] max-h-[50rem] flex flex-col  justify-center">
+                                <!-- <Modalopciones texto="Modulos" URL="/modulos" />
+                                <Modalopciones texto="Preguntas" URL="/preguntas" />
+                                <Modalopciones texto="Talleres" /> -->
+                                <Modaleditar condicion={7} />
+                            </div>
         </div>
     </main>
 </LayoutDashboard>
-
-
-
