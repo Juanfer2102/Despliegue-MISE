@@ -1,0 +1,20 @@
+---
+interface Props {
+    Select: string;
+    options: Array;
+}
+
+
+const { options, Select } = Astro.props;
+---
+
+<select
+id="{Select}"
+class="bg-transparent caret-white px-4 py-2.5 h-full w-full rounded-lg outline-0 peer border font-sans text-lg font-normal focus:bg-transparent">
+
+{options.map((option) => (
+    <option class="text-black" value={option.value}>{option.label}</option>
+  ))}
+</select>
+
+  

@@ -9,6 +9,8 @@ import { library, icon } from "@fortawesome/fontawesome-svg-core";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faGamepad } from "@fortawesome/free-solid-svg-icons";
 
+import { ViewTransitions } from "astro:transitions";
+
 library.add(faYoutube, faEnvelope, faGamepad);
 
 const gamepadIcon = icon({ prefix: "fas", iconName: faGamepad.iconName });
@@ -17,6 +19,7 @@ const gamepadIcon = icon({ prefix: "fas", iconName: faGamepad.iconName });
 <!doctype html>
 <html lang="en">
   <head>
+    
     <meta charset="UTF-8" />
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
@@ -31,8 +34,9 @@ const gamepadIcon = icon({ prefix: "fas", iconName: faGamepad.iconName });
     />
     <script
       src="https://kit.fontawesome.com/4c59fd786d.js"
-      crossorigin="anonymous"></script>
-
+      crossorigin="anonymous">
+    </script>
+    <ViewTransitions />
     <script>
       let circularProgress = document.querySelector(".circular-progress"),
         progressValue = document.querySelector(".progress-value");
@@ -49,6 +53,7 @@ const gamepadIcon = icon({ prefix: "fas", iconName: faGamepad.iconName });
         }
       }, speed);
     </script>
+    
   </head>
   <body class="min-h-full w-screen">
     <slot />
@@ -88,4 +93,28 @@ const gamepadIcon = icon({ prefix: "fas", iconName: faGamepad.iconName });
     font-weight: 600;
     color: #EE0004;
   }
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 13px; /* Ancho de la barra de desplazamiento */
+}
+  
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #262B32; /* Color de fondo de la barra de desplazamiento */
+    border-radius: 12px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #888; /* Color del pulgar (thumb) de la barra de desplazamiento */
+    border-radius: 10px; /* Redondea las esquinas del pulgar */
+    cursor: pointer;
+}
+  
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color del pulgar al pasar el ratón por encima */
+}
+  
+.inputext {
+    word-wrap: break-word; /* Permite que el texto salte a la siguiente línea */
+    white-space: pre-wrap; /* Mantiene los espacios en blanco y permite saltos de línea */
+    resize: vertical;
+}
 </style>

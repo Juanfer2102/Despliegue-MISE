@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import Logo from "../../components/logo.astro";
 import InputText from "../../components/inputs/InputText.astro";
+import Formlogin from "../../components/forms/formslogin.jsx";
 ---
 
 <Layout title="Iniciar Sesion">
@@ -25,28 +26,9 @@ import InputText from "../../components/inputs/InputText.astro";
       flex flex-col justify-center pr-40 gap-12 text-center"
       >
         <p class="font-bold text-3xl">Iniciar Sesion</p>
-        <p class="text-lg">Inicia sesion</p>
 
-        <form action="" class="form flex flex-col gap-6">
-          <InputText inputType="email" inputPlaceholder="Correo Electronico" />
-          <InputText inputType="password" inputPlaceholder="Contraseña" />
-          <div class="flex h-8 gap-2 items-center justify-center">
-            <input
-              class="border border-solid checked:bg-principalGreen border-principalGreen h-full w-8"
-              type="checkbox"
-              name="showpassword"
-              id="3"
-            />
-            <p class="text-xl">Mostrar contraseña</p>
-          </div>
-        </form>
-        <div class="flex justify-center">
-          <button
-            class="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg"
-          >
-            Iniciar sesion
-          </button>
-        </div>
+        <Formlogin client:visible />
+        
       </div>
     </div>
   </main>

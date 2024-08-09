@@ -1,16 +1,15 @@
 ---
 interface Props {
     texto? : string;
-    colorhover?: string;
-    colorborde?: string;
+    colorborde : string;
+    colorhover : string;
 }
 
 const {texto, colorborde, colorhover} = Astro.props
+
 ---
 
 
-<div class=`flex w-60 h-40 border cursor-pointer text-white ${colorborde} rounded-xl justify-center items-center text-sm uppercase p-1 overflow-hidden ease-in duration-150
-    ${colorhover} hover:text-white
-    `>
-    <p class="text-center font-semibold">{texto}</p>
+<div class=`flex w-60 h-40 border ${colorborde} rounded-xl justify-center items-center text-sm uppercase p-10 overflow-hidden ${colorhover} ease-in duration-150`>
+    <p class="text-center font-semibold text-white"> {texto}  </p>
 </div>
