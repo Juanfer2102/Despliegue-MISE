@@ -10,10 +10,10 @@ def login (request):
     
     if request.method == 'POST':
         #DATOS RECIBIDOS
-        numDocumento = request.data.get('numerodocumento')
+        correo = request.data.get('correo')
         contrasena = request.data.get('contrasena')
         
-        oneUser = Usuario.objects.filter(numerodocumento = numDocumento).first()
+        oneUser = Usuario.objects.filter(correo = correo).first()
         #CONDICIONAL SI EL USUARIO NO FUE ENCONTRADO
         if not oneUser:
             return Response('No se encontró el usuario', status=status.HTTP_400_BAD_REQUEST)
@@ -27,10 +27,10 @@ def login (request):
         dataUser = UsuarioSerializer(oneUser)
         
         dataUserClean = {
-            "idUsuario" : dataUser.data.get('idusuario'),
-            "nombre" : dataUser.data.get('nombre'),
-            "urlImg" : dataUser.data.get('urlimg'),
-            "idrol" : dataUser.data.get('idrol')
+            "descripcion" : dataUser.data.get('descripcion'),
+            "nombres" : dataUser.data.get('nombres'),
+            "apellidos" : dataUser.data.get('apellidos'),
+            "estado" : dataUser.data.get('estado')
         }
         
         return Response(

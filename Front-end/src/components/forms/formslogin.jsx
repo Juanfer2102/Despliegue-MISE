@@ -7,7 +7,7 @@ const Form = () => {
     // Estado para almacenar los valores de los inputs
     const [values, setValues] = useState({
         correo: "",
-        contraseña: "",
+        contrasena: "",
     });
 
     // Función para manejar cambios en los inputs de texto
@@ -36,7 +36,7 @@ const Form = () => {
         <>
             <form onSubmit={handleForm} class="form flex flex-col gap-6">
                 <input className="h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white " type="email" value={values.correo} name="correo" placeholder="Ingrese su correo..." autoComplete="off" onChange={handleInputChange} />
-                <input className="h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white " type={showPassword ? "text" : "password"} value={values.contraseña} name="contraseña" placeholder="Ingrese su contraseña..." onChange={handleInputChange} />
+                <input className="h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white " type={showPassword ? "text" : "password"} value={values.contrasena} name="contrasena" placeholder="Ingrese su contraseña..." onChange={handleInputChange} />
 
                 <div class="flex h-8 gap-2 items-center justify-center">
                     <input
