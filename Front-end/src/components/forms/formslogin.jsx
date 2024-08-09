@@ -1,31 +1,29 @@
-import { useState } from "react";
-import InputText from "../inputs/InputText.astro";
-
-
-
+import React, { useState } from "react";
 
 const Form = () => {
-    console.log("Form component rendered");
 
+    const [showPassword, setShowPassword] = useState(false);
+
+    // Estado para almacenar los valores de los inputs
     const [values, setValues] = useState({
         correo: "",
         contraseña: "",
     });
 
-    const [showPassword, setShowPassword] = useState(false);
-
+    // Función para manejar cambios en los inputs de texto
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setValues({
             ...values,
-            [name]: value
+            [name]: value,
         });
-        console.log("Input change:", name, value);
-    };
+    }
 
+    // Función para manejar el envío del formulario
     const handleForm = (event) => {
+        console.log('pito');
         event.preventDefault();
-        console.log(values);
+        console.log("Inputs value:", values); // Mostrar los valores de los inputs en la consola
     }
 
     const toggleShowPassword = () => {
@@ -55,12 +53,7 @@ const Form = () => {
                     <button
                         id="login-button"
                         class="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg"
-                        type="submit"
-                        onClick={(event) => {
-                            event.preventDefault();
-                            handleForm(event);
-                          }}
-                    >
+                        type="submit">
                         Iniciar sesión
                     </button>
                 </div>
@@ -72,3 +65,4 @@ const Form = () => {
 };
 
 export default Form;
+
