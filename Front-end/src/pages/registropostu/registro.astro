@@ -2,26 +2,11 @@
 import Layout from "../../layouts/Layout.astro";
 import Logo from "../../components/logo.astro";
 import InputText from "../../components/inputs/InputText.astro";
-import Selectores from "../../components/inputs/selectores.astro";
+import { FormRegistro } from "../../components/forms/formsregistro.jsx";
 
-const optionsdocu = [
-  { value: 'option1', label: 'Cedula de Ciudadania' },
-  { value: 'option2', label: 'Cedula de Extranjeria' },
-  { value: 'option3', label: 'Permiso Especial de Permanencia' },
-];
 
-const optionsgender = [
-  { value: 'option1', label: 'Masculino' },
-  { value: 'option2', label: 'Femenino' },
-];
-
-const optionscity = [
-  { value: 'option1', label: 'Palmira' },
-  { value: 'option2', label: 'Florida' },
-  { value: 'option3', label: 'Pradera' },
-  { value: 'option4', label: 'Candelaria' },
-];
 ---
+
 
 <Layout title="Registro Persona">
     <main>
@@ -42,38 +27,7 @@ const optionscity = [
           flex flex-col justify-center pl-28 gap-5 text-center"
             >
                 <p class="font-bold text-3xl text-left">Registro Persona</p>
-                <form action="" class="form flex flex-col gap-6">
-                    <div class="flex flex-row w-full gap-5">
-                        <InputText inputType="text" inputPlaceholder="Nombres"></InputText>
-                        <InputText inputType="text" inputPlaceholder="Apellidos"></InputText>
-                    </div>
-                    <div class="flex flex-row w-full gap-5">
-                        <Selectores options={optionsdocu} />
-                        <InputText inputType="number" inputPlaceholder="No. Documento"></InputText>
-                    </div>
-                    <InputText inputType="email" inputPlaceholder="Correo Electronico"></InputText>
-                    <InputText inputType="number" inputPlaceholder="Celular"></InputText>
-                    <div class="flex flex-row w-full gap-5">
-                        <Selectores options={optionsgender} />
-                        <Selectores options={optionscity} />
-                    </div>
-                    <div class="flex h-8 gap-2 items-center justify-start ">
-                        <input
-                            class="border-2 border-solid border-principalGreen h-full w-8"
-                            type="checkbox"
-                            name="showpassword"
-                            id="3"
-                        />
-                        <p class="text-xl">Acepto terminos y condiciones</p>
-                    </div>
-                </form>
-                <div class="flex justify-center pt-8">
-                    <button
-                        class="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg"
-                    >
-                        Siguiente
-                    </button>
-                </div>
+                <FormRegistro client:visible />
             </div>
 
             <div class="flex w-full h-full items-center justify-center">
