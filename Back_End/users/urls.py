@@ -6,5 +6,6 @@ from users import views
 router = routers.DefaultRouter()
 
 urlpatterns = [
-    path('login', views.login)
+    path('login', views.login),
+    path('user', views.user)
 ]

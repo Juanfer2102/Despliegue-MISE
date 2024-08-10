@@ -27,9 +27,9 @@ def login (request):
         dataUser = UsuarioSerializer(oneUser)
         
         dataUserClean = {
-            "descripcion" : dataUser.data.get('descripcion'),
             "nombres" : dataUser.data.get('nombres'),
             "apellidos" : dataUser.data.get('apellidos'),
+            "correo" : dataUser.data.get('correo'),
             "estado" : dataUser.data.get('estado')
         }
         
@@ -37,3 +37,24 @@ def login (request):
             {"message": "Login con exito" , "data" : dataUserClean, "token" : "aqui debe ir mi token"}, 
             status=status.HTTP_200_OK
             )
+        
+@api_view(['POST'])
+def user(request):
+    #request es un objeto que contiene muchos atributos, uno de esos es method, que me retorna
+    #el metodo http que se utilizó en la peticion
+    
+    #Crear Persona y Usuario
+    if request.method == 'POST':
+        userSerializer = UsuarioSerializer(data = request.data)
+        
+        if userSerializer.is_valid():
+            userSerializer.save()
+            return Response(
+                {"message" : "Usuario creado" , "Usuario" : userSerializer.data }, 
+                status=status.HTTP_200_OK
+                )
+        
+        return Response(
+            {"message" : "¡Algo ha fallado!" , "error" : userSerializer.errors}, 
+            status=status.HTTP_400_BAD_REQUEST
+            )        

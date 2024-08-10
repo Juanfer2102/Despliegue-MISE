@@ -160,7 +160,6 @@ class Talleres(models.Model):
 class Usuario(models.Model):
     id_usuario = models.IntegerField(primary_key=True)
     id_rol = models.ForeignKey(Rol, models.DO_NOTHING, db_column='id_rol')
-    descripcion = models.TextField()
     estado = models.TextField()
     correo = models.TextField()
     celular = models.IntegerField()

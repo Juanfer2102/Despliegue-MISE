@@ -68,7 +68,7 @@ class TalleresAdmin(admin.ModelAdmin):
 
 @admin.register(Usuario)
 class UsuarioAdmin(admin.ModelAdmin):
-    list_display = ('id_usuario', 'id_rol', 'descripcion', 'estado', 'correo', 'celular', 'documento', 'programa', 'contrasena', 'nombres', 'apellidos')
+    list_display = ('id_usuario', 'id_rol', 'estado', 'correo', 'celular', 'documento', 'programa', 'contrasena', 'nombres', 'apellidos')
     search_fields = ('correo', 'nombres', 'apellidos')
     list_filter = ('estado', 'id_rol')
 
