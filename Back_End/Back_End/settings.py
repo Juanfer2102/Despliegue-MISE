@@ -131,7 +131,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALOWED_ORIGIN = []
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4321",  # Cambia este valor según la URL de tu frontend
+]
 
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',

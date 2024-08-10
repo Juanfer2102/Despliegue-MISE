@@ -24,9 +24,9 @@ export const FormsNuevouser = () => {
         correo: "",
         celular: "",
         contrasena: "",
-        ID_usuario: "",
-        ID_rol: "",
-        programa: "MISE - Fortalecimiento",
+        id_usuario: "",
+        id_rol: "1",
+        programa: "MISE - Fortalecimiento"
     });
 
     const handleInputChange = (name, value) => {
@@ -36,9 +36,31 @@ export const FormsNuevouser = () => {
         });
     };
 
-    const handleForm = (event) => {
+    const handleForm = async (event) => {
         event.preventDefault();
         console.log("Inputs value:", values); // Mostrar los valores de los inputs en la consola
+
+        try {
+            const response = await fetch('http://localhost:8000/api/v2/user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log("Server response:", data); // Mostrar la respuesta del servidor en la consola
+                // Aquí puedes agregar lógica para manejar la respuesta positiva, como mostrar un mensaje de éxito
+            } else {
+                console.error("Error submitting form:", data); // Mostrar errores en la consola
+                // Aquí puedes agregar lógica para manejar errores, como mostrar un mensaje de error
+            }
+        } catch (error) {
+            console.error("Network error:", error); // Mostrar errores de red en la consola
+        }
     }
 
 
@@ -85,7 +107,7 @@ export const FormsNuevouser = () => {
                         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
 
                     />
-                    <SelectComponent Select="ID_rol" options={roles} value={values.ID_rol} onChange={handleInputChange} />
+                    <SelectComponent Select="id_rol" options={roles} value={values.id_rol} onChange={handleInputChange} />
                 </div>
 
                 <div className='flex flex-col pl-3 font-semibold gap-5 py-4'>
@@ -138,8 +160,8 @@ export const FormsNuevouser = () => {
                         inputType="number"
                         height="h-12"
                         additionalClass=""
-                        name="ID_usuario"
-                        value={values.ID_usuario}
+                        name="id_usuario"
+                        value={values.id_usuario}
                         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
 
                     />
