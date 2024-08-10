@@ -24,8 +24,8 @@ const InputComponent = ({
           placeholder={inputPlaceholder}
           type={inputType}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
           name={name}
+          onChange={onChange}
         />
       </div>
     </div>
