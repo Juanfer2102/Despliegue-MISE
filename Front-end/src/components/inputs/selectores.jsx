@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SelectComponent = ({ id, options, value, onChange }) => {
+const SelectComponent = ({ id, options, value, onChange, type }) => {
   return (
     <select
       id={id}
@@ -8,7 +8,7 @@ const SelectComponent = ({ id, options, value, onChange }) => {
       value={value}
       onChange={(e) => onChange(e.target.value)}
     >
-      <option value="" disabled>Seleccionar...</option>
+      <option value="" disabled>{type}</option>
       {options.map((option) => (
         <option key={option.value} className="text-black" value={option.value}>
           {option.label}

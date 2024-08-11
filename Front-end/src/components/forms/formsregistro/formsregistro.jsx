@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SelectComponent from "../inputs/selectores.jsx";
+import SelectComponent from "../../inputs/selectores.jsx";
 import './formsregistro.css';
 
 export const FormRegistro = () => {
@@ -104,7 +104,7 @@ export const FormRegistro = () => {
             setIsModalVisible(true);
         } else {
             console.log("Inputs value:", values);
-            window.location.href = "/registroEmpresa/registroEmpresa"; // Cambia esto a la URL deseada
+            // window.location.href = "/registroEmpresa/registroEmpresa";
         }
     }
 
@@ -137,6 +137,7 @@ export const FormRegistro = () => {
                 </div>
                 <div className="flex flex-row w-full gap-5">
                     <SelectComponent
+                        type={"Tipo de Documento..."}
                         Select="documento"
                         options={optionsdocu}
                         value={values.documento}
@@ -172,6 +173,7 @@ export const FormRegistro = () => {
                 />
                 <div className="flex flex-row w-full gap-5">
                     <SelectComponent
+                        type={"Genero..."}
                         Select="genero"
                         options={optionsgender}
                         value={values.genero}
@@ -179,6 +181,7 @@ export const FormRegistro = () => {
                         className={`${errors.genero ? 'border-red-500' : ''}`}
                     />
                     <SelectComponent
+                        type={"Ciudad..."}
                         Select="ciudad"
                         options={optionscity}
                         value={values.ciudad}

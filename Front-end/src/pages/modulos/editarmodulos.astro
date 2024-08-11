@@ -9,7 +9,6 @@ import Modalopciones from "../../components/modales/modalopciones.astro";
 import Modaleditar from "../../components/modales/modaleditar.astro";
 import SideBar from "../../components/nav/sideBar.astro";
 import BotonGuardar from "../../components/modales/modalprueba.jsx";
-
 import { Button } from '@tremor/react';
 ---
 
@@ -50,23 +49,11 @@ import { Button } from '@tremor/react';
                     <p class="text-2xl text-white">Modulos</p>
                 </div>  
                         <div class="left flex flex-row gap-5 p-1">
-                            <div
-                                class="container
-                                 bg-greyBlack rounded-xl max-h-[29em] overflow-y-auto custom-scrollbar"
-                            >
-                                <div class="grid grid-cols-3 gap-8 p-4 items-center w-full">
-                                    <a href="/modulos/editarmodulos"><Modal texto={"CAPACIDADES GERENCIALES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" /></a>
-                                    <Modal texto={"MEJORA DE OPERACIONES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"GERENCIA DE MARKETING"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"GERENCIA DE VENTAS"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"GERENCIA DE TALENTO HUMANO"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"FINANZAS GERENCIALES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"FINANZAS GERENCIALES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"FINANZAS GERENCIALES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"FINANZAS GERENCIALES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal texto={"FINANZAS GERENCIALES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Aadirmodulo />
-                                </div>
+                            <div class=" h-full flex flex-col gap-[5rem] justify-center">
+                                <!-- <Modalopciones texto="Sueños" URL="/sueños" />
+                                <Modalopciones texto="Preguntas" URL="/preguntas" />
+                                <Modalopciones texto="Talleres" URL="/sueños" /> -->
+                                 <Modaleditar condicion={2} />
                             </div>
                         </div>
             </div>

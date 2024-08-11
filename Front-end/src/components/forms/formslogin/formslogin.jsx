@@ -33,15 +33,6 @@ const Form = () => {
             if (values.contraseña.length < 6) {
                 newErrors.contraseña = "La contraseña debe tener al menos 6 caracteres.";
             }
-            if (!/[A-Z]/.test(values.contraseña)) {
-                newErrors.contraseña = "La contraseña debe contener al menos una letra mayúscula.";
-            }
-            if (!/\d/.test(values.contraseña)) {
-                newErrors.contraseña = "La contraseña debe contener al menos un número.";
-            }
-            if (!/[!@#$%^&*]/.test(values.contraseña)) {
-                newErrors.contraseña = "La contraseña debe contener al menos un carácter especial.";
-            }
         }
 
         return newErrors;
