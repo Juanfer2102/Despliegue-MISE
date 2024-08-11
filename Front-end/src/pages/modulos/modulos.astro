@@ -6,7 +6,7 @@ import Modal from "../../components/modales/modal.astro";
 import Modal1 from "../../components/modales/modal1.astro";
 import Aadirmodulo from "../../components/modales/añadirmodulo.astro";
 import Modalopciones from "../../components/modales/modalopciones.astro";
-import Modaleditar from "../../components/modales/modaleditar.astro";
+import Modaleditar from "../../components/modales/modaleditar.jsx";
 import SideBar from "../../components/nav/sideBar.astro";
 import BotonGuardar from "../../components/modales/modalprueba.jsx";
 
@@ -55,7 +55,7 @@ import { Button } from '@tremor/react';
                                  bg-greyBlack rounded-xl max-h-[29em] overflow-y-auto custom-scrollbar"
                             >
                                 <div class="grid grid-cols-3 gap-8 p-4 items-center w-full">
-                                    <a href="/modulos/editarmodulos"><Modal texto={"CAPACIDADES GERENCIALES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" /></a>
+                                    <Modal texto={"CAPACIDADES GERENCIALES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
                                     <Modal texto={"MEJORA DE OPERACIONES"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
                                     <Modal texto={"GERENCIA DE MARKETING"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
                                     <Modal texto={"GERENCIA DE VENTAS"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
