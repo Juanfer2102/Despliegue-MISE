@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SelectComponent from "../../inputs/selectores.jsx";
+import SelectComponent from "../../inputs/selectores/selectores.jsx";
 import './formsregistro.css';
 
 export const FormRegistro = () => {

@@ -1,10 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Input3 from '../inputs/input3/input3.jsx';
+import Boton from '../inputs/boton.jsx';
 import { TextareaHero } from '../inputs/textarea/TextArea.jsx';
+import ConfirmModal from './modalconfirm.jsx';
+import MultiSelectComponent from '../inputs/selectores/selectormultiple.jsx';
 
 const ModalComponent = ({ condicion }) => {
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setValues({
+            ...values,
+            [name]: value,
+        });
+    }
+
+    const handleForm = (event) => {
+        console.log("Inputs value:", values);
+    };
+
+    const [values, setValues] = useState({
+        nom_mod_edit: "",
+    });
+
+    const [selectedOptions, setSelectedOptions] = useState([]);
+
+    const handleSelectionChange = (selectedValues) => {
+        setSelectedOptions(selectedValues);
+    };
+
+    const options = [
+        { value: 'option1', label: 'Opción 1' },
+        { value: 'option2', label: 'Opción 2' },
+        { value: 'option3', label: 'Opción 3' },
+        { value: 'option4', label: 'Opción 4' },
+    ];
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const openModal = () => setIsOpen(true);
+    const closeModal = () => setIsOpen(false);
+
+    const handleConfirm = () => {
+        // Lógica de confirmación
+        console.log("Inputs value:", values);
+        closeModal();
+        location.reload()
+    };
+
     return (
         <>
+            <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleConfirm} />
+
             {condicion === 1 && (
                 // Nuevo Modulo
                 <div className="flex">
@@ -40,11 +87,22 @@ const ModalComponent = ({ condicion }) => {
                     </div>
                     <div className="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start">
                         <p className="text-xl h-5 pb-10 text-white">Editar Modulo</p>
-                        <div className="flex flex-col justify-center items-center gap-6">
-                            <Input3 DataType="Nombre" inputPlaceholder="Nombre Modulo" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" additionalClass="" />
-                            <Input3 DataType="Preguntas" inputPlaceholder="Preguntas Modulo" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" additionalClass="" />
-                            <Input3 DataType="Sueños" inputPlaceholder="SUEÑOS EXPRESS" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" additionalClass="" />
-                        </div>
+                        <form onSubmit={handleForm} className="flex flex-col justify-center items-center gap-6">
+                            <Input3 value={values.nom_mod_edit} name={"nom_mod_edit"} onChange={handleInputChange} DataType="Nombre" inputPlaceholder="Nombre Modulo" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" additionalClass="" />
+                            <MultiSelectComponent
+                                id="multi-select"
+                                options={options}
+                                selectedValues={selectedOptions}
+                                onChange={handleSelectionChange}
+                                type="Selecciona opciones"
+                            />
+                            <ul>
+                                {selectedOptions.map((option, index) => (
+                                    <li key={index}>{option}</li>
+                                ))}
+                            </ul>
+                        </form>
+                        <Boton onClick={openModal} />
                     </div>
                 </div>
             )}
@@ -127,6 +185,7 @@ const ModalComponent = ({ condicion }) => {
                     </div>
                 </div>
             )}
+
         </>
     );
 };

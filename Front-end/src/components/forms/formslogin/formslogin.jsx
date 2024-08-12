@@ -7,6 +7,7 @@ const Form = () => {
         correo: "",
         contraseña: "",
     });
+    
     const [errors, setErrors] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -16,7 +17,7 @@ const Form = () => {
             ...values,
             [name]: value,
         });
-    }
+    };
 
     const validateForm = () => {
         const newErrors = {};
@@ -36,7 +37,7 @@ const Form = () => {
         }
 
         return newErrors;
-    }
+    };
 
     const handleForm = (event) => {
         event.preventDefault();
@@ -50,7 +51,7 @@ const Form = () => {
             // Redirige a la URL deseada si todo es válido
             // window.location.href = "/empresasRegistradas/empresasRegistradas";
         }
-    }
+    };
 
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
@@ -58,7 +59,7 @@ const Form = () => {
 
     const closeModal = () => {
         setIsModalVisible(false);
-    }
+    };
 
     return (
         <>
