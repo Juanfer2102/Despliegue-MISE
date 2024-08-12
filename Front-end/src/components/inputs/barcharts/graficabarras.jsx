@@ -6,105 +6,70 @@ import { BarChart, Card, Divider, Switch } from '@tremor/react';
 const data = [
   {
     date: 'Jan 23',
-    'This Year': 68560,
-    'Last Year': 28560,
+    'Este Año': 60,
+    'Año Anterior': 28,
   },
   {
     date: 'Feb 23',
-    'This Year': 70320,
-    'Last Year': 30320,
+    'Este Año': 70,
+    'Año Anterior': 30,
   },
   {
     date: 'Mar 23',
-    'This Year': 80233,
-    'Last Year': 70233,
+    'Este Año': 80,
+    'Año Anterior': 70,
   },
   {
     date: 'Apr 23',
-    'This Year': 55123,
-    'Last Year': 45123,
+    'Este Año': 55,
+    'Año Anterior': 45,
   },
   {
     date: 'May 23',
-    'This Year': 56000,
-    'Last Year': 80600,
+    'Este Año': 56,
+    'Año Anterior': 80,
   },
   {
     date: 'Jun 23',
-    'This Year': 100000,
-    'Last Year': 85390,
-  },
-  {
-    date: 'Jul 23',
-    'This Year': 85390,
-    'Last Year': 45340,
-  },
-  {
-    date: 'Aug 23',
-    'This Year': 80100,
-    'Last Year': 70120,
-  },
-  {
-    date: 'Sep 23',
-    'This Year': 75090,
-    'Last Year': 69450,
-  },
-  {
-    date: 'Oct 23',
-    'This Year': 71080,
-    'Last Year': 63345,
-  },
-  {
-    date: 'Nov 23',
-    'This Year': 61210,
-    'Last Year': 100330,
-  },
-  {
-    date: 'Dec 23',
-    'This Year': 60143,
-    'Last Year': 45321,
-  },
+    'Este Año': 100,
+    'Año Anterior': 85,
+  }
 ];
 
 function valueFormatter(number) {
-  const formatter = new Intl.NumberFormat('en-US', {
-    maximumFractionDigits: 0,
-    notation: 'compact',
-    compactDisplay: 'short',
-    style: 'currency',
-    currency: 'USD',
-  });
-
-  return formatter.format(number);
+  return number.toLocaleString();
 }
 
 export default function Grafica() {
   const [showComparison, setShowComparison] = useState(false);
+
   return (
     <>
-      <Card className=" bg-greyBlack border-greyBlack sm:mx-auto sm:max-w-2xl">
+      <Card className="bg-greyBlack w-[35rem] rounded-xl border-greyBlack sm:mx-auto sm:max-w-2xl">
         <h3 className="ml-1 mr-1 font-semibold text-white dark:text-dark-tremor-content-strong">
-          Grafica de empresas desarrolladas (2023-2024)
+          Gráfica de empresas desarrolladas (2023-2024)
         </h3>
         <BarChart
           data={data}
           index="date"
           categories={
-            showComparison ? ['Last Year', 'This Year'] : ['This Year']
+            showComparison ? ['Año Anterior', 'Este Año'] : ['Este Año']
           }
           colors={showComparison ? ['cyan', 'blue'] : ['blue']}
           valueFormatter={valueFormatter}
           yAxisWidth={50}
+          yAxisDomain={[0, 100]} // Establecer el rango del eje Y de 0 a 100
           className="mt-6 hidden h-60 sm:block"
         />
         <BarChart
           data={data}
           index="date"
           categories={
-            showComparison ? ['Last Year', 'This Year'] : ['This Year']
+            showComparison ? ['Año Anterior', 'Este Año'] : ['Este Año']
           }
           colors={showComparison ? ['cyan', 'blue'] : ['blue']}
           valueFormatter={valueFormatter}
+          yAxisDomain={[0, 100]} // Establecer el rango del eje Y de 0 a 100
           showYAxis={false}
           className="mt-4 h-56 sm:hidden"
         />
@@ -118,7 +83,7 @@ export default function Grafica() {
             htmlFor="comparison"
             className="text-tremor-default text-tremor-content dark:text-dark-tremor-content"
           >
-            Show same period last year
+            Mostrar mismo periodo el año pasado
           </label>
         </div>
       </Card>

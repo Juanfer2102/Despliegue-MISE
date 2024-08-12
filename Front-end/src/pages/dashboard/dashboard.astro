@@ -3,6 +3,7 @@ import Logo from "../../components/logo.astro";
 import SideBar from "../../components/nav/sideBar.astro";
 import LayoutDashboard from "../../layouts/LayoutDashboard.astro";
 import Grafica from "../../components/inputs/barcharts/graficabarras.jsx";
+import { ProgressCircleHero } from "../../components/inputs/porcentaje/porcentaje.jsx";
 ---
 
 <LayoutDashboard title="Dashboard">
@@ -13,9 +14,18 @@ import Grafica from "../../components/inputs/barcharts/graficabarras.jsx";
         class="bg-greyBlack flex content-center pr-5 pt-3.5 justify-end h-20 w-full"
       >
       </div>
-      <div class="bg-greyBg flex flex-col px-8 py-5 h-full w-full">
-        <div class="flex flex-row">
+      <div class="bg-greyBg flex flex-col gap-8 px-8 py-5 h-full w-full">
+        <div class="flex flex-row gap-5">
           <Grafica client:visible />
+          <div class="flex flex-col bg-greyBlack content-start h-[21rem] rounded-xl p-5 text-white items-start">
+            <p>Porcentaje de Desarrollo</p>
+            <div class="flex flex-row gap-5 pt-5">
+              <ProgressCircleHero value={25} color={"violet"} />
+              <ProgressCircleHero value={25} color={"violet"} />
+              <ProgressCircleHero value={50} color={"violet"} />
+            </div>
+           
+          </div>
         </div>
       </div>
     </div>

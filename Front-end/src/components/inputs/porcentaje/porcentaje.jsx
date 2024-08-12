@@ -1,13 +1,12 @@
 import { ProgressCircle } from '@tremor/react';
 
-export function ProgressCircleUsageExample() {
-    return (
-        <div className="flex justify-center space-x-5 items-center">
-            <ProgressCircle value={75} size="md" color="indigo">
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100 text-sm font-medium text-indigo-500">
-                    SV
-                </span>
+export const ProgressCircleHero = ({value, color}) => (
+    <div className="mx-auto grid grid-cols-1 gap-12 border-2 p-5 rounded-xl border-white">
+        <p className='text-center'>No desarrollado</p>
+        <div className="flex justify-center">
+            <ProgressCircle value={value} color={color} csize="lg">
+                <span className="text-sm items-center justify-center font-bold text-slate-700">{value}%</span>
             </ProgressCircle>
         </div>
-    );
-}
+    </div>
+);
