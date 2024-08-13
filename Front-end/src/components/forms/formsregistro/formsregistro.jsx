@@ -191,7 +191,7 @@ export const FormRegistro = () => {
                 </div>
                 <div className="flex h-8 gap-2 items-center justify-start">
                     <input
-                        className={`border-2 border-solid ${errors.TyC ? 'border-red-500' : 'border-principalGreen'} h-full w-8`}
+                        className={`border-2 border-solid ${errors.TyC ? 'border-red' : 'border-principalGreen'} h-full w-8`}
                         type="checkbox"
                         name="TyC"
                         id="TyC"
