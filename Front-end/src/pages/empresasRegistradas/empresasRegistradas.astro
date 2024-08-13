@@ -16,7 +16,7 @@ import TarjetasModulos from "../../components/tarjetasdashboard/tarjetasModulos.
       <div class="w-full h-full">
         <div class="bg-greyBlack  h-20 "></div>
         <div class="  w-full px-8 py-5">
-          <div class=" h-full text-white gap-5">
+          <div class=" h-full text-white gap-6">
             <div class=" flex-col">
               <div class="">
                 <p class="text-2xl pl-4">Empresas registradas</p>
@@ -34,15 +34,15 @@ import TarjetasModulos from "../../components/tarjetasdashboard/tarjetasModulos.
               }
               </div>
 
-              <div class="flex gap-7 pl-3 pr-3.5 w-[93.5rem]">
-                <div class="container bg-greyBlack rounded-xl px-10 pt-5 pb-10 h-full flex gap-2 flex-col overflow-y-auto custom-scrollbar">
+              <div class="flex gap-10 w-[75rem]">
+                <div class="container rounded-xl px-10 pt-5 pb-10 h-full flex gap-2 flex-col overflow-y-auto custom-scrollbar">
                   <div
                     class="flex items-center py-3 gap-4 text-left justify-end text-sm"
                   >
                     <input
                       type="text"
                       placeholder=""
-                      class="border border-white rounded-lg bg-greyBlack -m-2 p-1"
+                      class="border border-white rounded-lg bg-transparent -m-2 p-1"
                     />
                     <i class="fa-solid fa-magnifying-glass text-white"></i>
                     <div class="flex items-center">
@@ -61,7 +61,7 @@ import TarjetasModulos from "../../components/tarjetasdashboard/tarjetasModulos.
                   </div>
                 </div>
                 <div
-                  class=" static flex flex-col justify-center align-middle bg-darkslategray rounded-lg h-full w-[25rem]"
+                  class=" static flex flex-col justify-center align-middle bg-darkslategray rounded-lg overflow-y-auto custom-scrollbar max-h-[19rem] w-[25rem]"
                 >
                   <TarjetasModulos tipoTarjeta="General" moduloicon="fa-table-cells" />
                   <TarjetasModulos tipoTarjeta="Capacidades Gerenciales" moduloicon="fa-table-cells" />
