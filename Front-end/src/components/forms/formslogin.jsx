@@ -22,6 +22,8 @@ const Form = () => {
     // Función para manejar el envío del formulario
     const handleForm = async (event) => {
         event.preventDefault();
+
+        console.log("Inputs value:", values);
         
         try {
             const response = await fetch("http://localhost:8000/api/v2/login", {
@@ -31,15 +33,16 @@ const Form = () => {
                 },
                 body: JSON.stringify(values),
             });
-
+    
             const data = await response.json();
             
             if (response.ok) {
                 console.log("Login con éxito:", data);
-                // Aquí puedes manejar el token y redirigir al usuario o almacenar el token en localStorage
+                localStorage.setItem("access_token", data.access_token);
+                localStorage.setItem("refresh_token", data.refresh_token);
+                // Redirigir o cargar datos del usuario
             } else {
                 console.log("Error al iniciar sesión:", data);
-                // Aquí puedes mostrar un mensaje de error al usuario
             }
         } catch (error) {
             console.error("Error en la solicitud:", error);

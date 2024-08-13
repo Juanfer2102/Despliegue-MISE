@@ -1,6 +1,6 @@
 // UserTable.js
 import React, { useEffect, useState } from 'react';
-import InfoUser from './infoUser.astro';
+import InfoUser from './infoUser';
 
 const UserTable = () => {
     const [usuarios, setUsuarios] = useState([]);
@@ -10,9 +10,10 @@ const UserTable = () => {
             try {
                 const response = await fetch('http://localhost:8000/api/v2/usuario/');
                 const data = await response.json();
+                
                 setUsuarios(data);
             } catch (error) {
-                console.error('Error al obtener los usuarios:', error);
+                console.log('Error al obtener los usuarios:', error);
             }
         };
 
@@ -34,7 +35,7 @@ const UserTable = () => {
                         key={usuario.id_usuario}
                         nombre={`${usuario.nombres} ${usuario.apellidos}`}
                         MISE={usuario.programa}
-                        rol={usuario.id_rol.descripcion}
+                        rol={usuario.id_rol}
                     />
                 ))}
             </tbody>

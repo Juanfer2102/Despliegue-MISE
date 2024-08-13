@@ -2,43 +2,77 @@ from django.shortcuts import render
 from .models import Coordinador, Director, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 from .serializer import UsuarioSerializer, CoordinadorSerializer, DirectorSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from rest_framework import status, generics
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+
+from django.contrib.auth import get_user_model
+
+
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import get_user_model
 
 @api_view(['POST'])
-def login (request):
-    
-    if request.method == 'POST':
-        #DATOS RECIBIDOS
+def login(request):
+    try:
         correo = request.data.get('correo')
         contrasena = request.data.get('contrasena')
-        
-        oneUser = Usuario.objects.filter(correo = correo).first()
-        #CONDICIONAL SI EL USUARIO NO FUE ENCONTRADO
-        if not oneUser:
-            return Response('No se encontró el usuario', status=status.HTTP_400_BAD_REQUEST)
-               
-        if not oneUser.check_password(contrasena):
-            return Response(
-                {"message" : "Login sin exito"}, 
-                status=status.HTTP_400_BAD_REQUEST
-                )
-        #SE RESUME LA INFORMACION PARA QUE EL FRONTEND NO RECIBA TODOS LOS DATOS DEL USUARIO
-        dataUser = UsuarioSerializer(oneUser)
-        
+        print(f"Correo: {correo}, Contraseña: {contrasena}")
+
+        try:
+            user = Usuario.objects.filter(correo=correo).first()
+        except Exception as e:
+            print(f"Error al buscar usuario en la base de datos: {e}")
+            print(f"Campos disponibles en Usuario: {[field.name for field in Usuario._meta.get_fields()]}")
+            return Response({'error': 'Error al buscar usuario en la base de datos'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        if user is None:
+            return Response({'error': 'Usuario no encontrado'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            if not user.check_password(contrasena):
+                return Response({'error': 'Contraseña incorrecta'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            print(f"Error al verificar la contraseña: {e}")
+            return Response({'error': 'Error al verificar la contraseña'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        try:
+            # Generar los tokens
+            refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
+            refresh_token = str(refresh)
+        except Exception as e:
+            print(f"Error al generar el token JWT: {e}")
+            return Response({'error': 'Error al generar el token JWT'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         dataUserClean = {
-            "nombres" : dataUser.data.get('nombres'),
-            "apellidos" : dataUser.data.get('apellidos'),
-            "correo" : dataUser.data.get('correo'),
-            "estado" : dataUser.data.get('estado')
+            "nombres": user.nombres,
+            "apellidos": user.apellidos,
+            "correo": user.correo,
+            "estado": user.estado,
         }
-        
-        return Response(
-            {"message": "Login con exito" , "data" : dataUserClean, "token" : "aqui debe ir mi token"}, 
-            status=status.HTTP_200_OK
-            )
-        
+
+        return Response({
+            'message': 'Login con éxito',
+            'data': dataUserClean,
+            'access_token': access_token,
+            'refresh_token': refresh_token
+        }, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(f"Error general en la vista login: {e}")
+        return Response({'error': 'Error interno del servidor'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+#proteccion de rutas
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_detail(request):
+    user = request.user
+    serializer = UsuarioSerializer(user)
+    return Response(serializer.data)
+
 @api_view(['POST'])
 def user(request):
     #request es un objeto que contiene muchos atributos, uno de esos es method, que me retorna
