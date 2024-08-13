@@ -1,7 +1,6 @@
-// InfoUser.jsx
 import React from 'react';
 
-const InfoUser = ({ nombre, MISE, rol }) => {
+const InfoUser = ({ nombre, MISE, dataRol }) => {
     return (
         <tr className="bg-transparent border-transparent">
             <td className="p-5 py-8 text-sm whitespace-nowrap">
@@ -20,7 +19,7 @@ const InfoUser = ({ nombre, MISE, rol }) => {
                 <span
                     className="p-1.5 font-medium tracking-wider text-white rounded-lg"
                 >
-                    {rol}
+                    {dataRol}
                 </span>
             </td>
         </tr>

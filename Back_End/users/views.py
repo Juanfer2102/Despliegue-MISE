@@ -93,6 +93,22 @@ def user(request):
             {"message" : "¡Algo ha fallado!" , "error" : userSerializer.errors}, 
             status=status.HTTP_400_BAD_REQUEST
             )        
+        
+@api_view(['GET'])
+def lista_usuarios(request):
+    usuarios = Usuario.objects.select_related('id_rol').all()
+    data = []
+
+    for usuario in usuarios:
+        data.append({
+            'id_usuario': usuario.id_usuario,
+            'nombres': usuario.nombres,
+            'apellidos': usuario.apellidos,
+            'programa': usuario.programa,
+            'rol': usuario.id_rol.descripcion  # Asegúrate de que este campo se llama 'descripcion' en el modelo Rol
+        })
+
+    return Response(data, status=status.HTTP_200_OK)
 
 class CoordinadorListCreate(generics.ListCreateAPIView):
     queryset = Coordinador.objects.all()
