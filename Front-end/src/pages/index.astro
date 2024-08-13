@@ -3,26 +3,23 @@ import Layout from "../layouts/Layout.astro";
 import Olvidastecontra from "./olvidasteContraseña/olvidasteContraseña.astro";
 import Rescribircontrase from "./olvidasteContraseña/reescribirContraseña.astro";
 import Correofallido from "./olvidasteContraseña/correoFallido.astro";
-import Login from "./login/login.astro";
 import Expirado from "./olvidasteContraseña/expiracion.astro";
 import Credencial from "./olvidasteContraseña/credenciales.astro";
 import Registro from "./registropostu/registro.astro";
+import Dashboard from "./dashboard/dashboard.astro";
 import RegistroEmpresa from "./registroEmpresa/registroEmpresa.astro";
 import EditarPorcentaje from "./editarPorcentajeDesarr/editarPorcentaje.astro";
 import EditarUsuario from "./editarUsuario/editarUsuario.astro";
 import VerUsers from "./visualizarUsers/visualizarUsers.astro";
 import EmpresasRegistradas from "./empresasRegistradas/empresasRegistradas.astro";
 import { imageConfig } from "astro:assets";
-import Preguntas from "./preguntas/preguntas.astro";
-import Dashboard from "./dashboard/dashboard.astro";
-import Actualizacioncontra from "./olvidasteContraseña/actualizacioncontra.astro";
 import Modulos from "./modulos/modulos.astro";
-import Editarmodulos from "./modulos/editarmodulos.astro";
-import Sueños from "./sueños/sueños.astro";
-import Talleres from "./talleres/vertalleres.astro";
-import NuevoUsuario from "./nuevoUser/nuevoUser.astro";
-import Tallereseditar from "./talleres/tallereseditar.astro";
+import Preguntas from "./preguntas/preguntas.astro";
+import App from "../pruebaComponentes/app"
+
+import Login from "./login/login.astro"
+
+
 ---
-<Layout title="MISE">
-  <Modulos />
-</Layout>
+
+<Login client:load/>
