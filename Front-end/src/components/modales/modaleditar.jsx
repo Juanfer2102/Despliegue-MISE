@@ -185,6 +185,27 @@ const ModalComponent = ({ condicion }) => {
                     </div>
                 </div>
             )}
+       
+            {condicion === 6 && (
+  // Editar preguntas taller
+      <div
+          class="container flex-col bg-greyBlack rounded-xl gap-3 text-start p-5 flex justify-center "
+      >
+        <p class="text-xl p-3 text-white">Editar Taller</p>
+          
+          <div class="flex flex-col items-center justify-center gap-4">
+              <Input3 DataType="Modulo" inputPlaceholder="CAPACIDADES GERENCIALES" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
+              <Input3 DataType="Tema o titulo de la formacion" inputPlaceholder="MISE Labs: Maneja tu tiempo y actividades con Trello" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
+              <Input3 DataType="Obgetivo" inputPlaceholder="Desarrollar habilidades practicas para manejo de tiempo y actividades con Trello" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
+              <Input3 DataType="Alcanze de la formacion" inputPlaceholder="Ruta de acompañamiento para la apropiacion de conocimientos" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
+              <Input3 DataType="Contenido" inputPlaceholder="Habilidades gerenciales, Creacion de cuenta de trello, creacion de tablero en trello" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
+              <Input3 DataType="Conferencista y facilitador" inputPlaceholder="Marybel Salazar, Líder CRM Viernes estrategia empresarial" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
+              <Input3 DataType="Fecha" inputPlaceholder="Martes, abril 16,2024" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
+              <Input3 DataType="Horario" inputPlaceholder="2:00pm a 5:00pm" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
+              <Input3 DataType="Ubicacion" inputPlaceholder="Cámara de Comercio de Palmira - Calle 28 N° 31-30" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
+          </div>
+      </div>
+)}
 
         </>
     );
