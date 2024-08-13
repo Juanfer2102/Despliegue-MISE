@@ -6,8 +6,8 @@ import Modal from "../../components/modales/modal.astro";
 import Modal1 from "../../components/modales/modal1.astro";
 import Aadirmodulo from "../../components/modales/añadirmodulo.astro";
 import Modalopciones from "../../components/modales/modalopciones.astro";
-import Modaleditar from "../../components/modales/modaleditar.astro";
-import Boton from "../../components/inputs/boton.astro";
+import Modaleditar from "../../components/modales/modaleditar.jsx";
+import Boton from "../../components/inputs/boton.jsx";
 import SideBar from "../../components/nav/sideBar.astro";
 ---
 
@@ -41,7 +41,7 @@ import SideBar from "../../components/nav/sideBar.astro";
             <div
                 class="bg-greyBlack flex content-center pr-5 pt-3.5  justify-end h-20 w-full"
             >
-            <Boton />
+        
             </div>
             <div class="bg-greyBg flex flex-col px-8 py-5 h-full w-full">
                 <div class="pb-1">
@@ -88,11 +88,10 @@ import SideBar from "../../components/nav/sideBar.astro";
                                     <Aadirmodulo />
                                 </div>
                             </div>
-                            <div class="w-[30rem] h-full flex flex-col gap-[5rem] justify-center">
-                                <Modalopciones texto="Modulos" URL="/modulos" />
-                                <Modalopciones texto="Sueños" URL="/sueños" />
+                            <div class="w-[30rem] h-full flex flex-col gap-[5rem] justify-center text-white">
+                                <Modalopciones texto="Modulos" />
+                                <Modalopciones texto="Sueños"/>
                                 <Modalopciones texto="Talleres" />
-                                <!-- <Modaleditar condicion={5} /> -->
                             </div>
                         </div>
             </div>

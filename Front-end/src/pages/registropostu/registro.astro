@@ -2,7 +2,11 @@
 import Layout from "../../layouts/Layout.astro";
 import Logo from "../../components/logo.astro";
 import InputText from "../../components/inputs/InputText.astro";
+import { FormRegistro } from "../../components/forms/formsregistro/formsregistro.jsx";
+
+
 ---
+
 
 <Layout title="Registro Persona">
     <main>
@@ -23,98 +27,7 @@ import InputText from "../../components/inputs/InputText.astro";
           flex flex-col justify-center pl-28 gap-5 text-center"
             >
                 <p class="font-bold text-3xl text-left">Registro Persona</p>
-                <form action="" class="form flex flex-col gap-6">
-                    <div class="flex flex-row w-full gap-5">
-                        <InputText inputType="text" inputPlaceholder="Nombres"></InputText>
-                        <InputText inputType="text" inputPlaceholder="Apellidos"></InputText>
-                    </div>
-                    <div class="flex flex-row w-full gap-5">
-                        <select
-                            placeholder="papa"
-                            id="Documento"
-                            class="bg-transparent caret-white px-2 py-2.5 h-full w-full rounded-lg outline-0 peer border font-sans text-lg font-normal focus:bg-transparent"
-                        >
-                            <option
-                                value="N/A"
-                                class="bg-transparent text-black "
-                                >Tipo de Documento</option
-                            >
-                            <option value="CC" class="bg-transparent text-black"
-                                >Cedula de Ciudadania</option
-                            >
-                            <option value="CE" class="bg-transparent text-black"
-                                >Cedula de Extranjeria</option
-                            >
-                            <option value="PE" class="bg-transparent text-black"
-                                >Permiso Especial de Permanencia</option
-                            >
-                        </select>
-
-                        <InputText inputType="number" inputPlaceholder="No. Documento"></InputText>
-                    </div>
-                    <InputText inputType="email" inputPlaceholder="Correo Electronico"></InputText>
-                    <InputText inputType="number" inputPlaceholder="Celular"></InputText>
-                    <div class="flex flex-row w-full gap-5">
-                        <select
-                            placeholder="papa"
-                            id="Genero"
-                            class="bg-transparent caret-white px-2 py-2.5 h-full w-full rounded-lg outline-0 peer border font-sans text-lg font-normal focus:bg-transparent"
-                        >
-                            <option
-                                value="N/A"
-                                class="bg-transparent text-black text-opacity-5"
-                                >Genero</option
-                            >
-
-                            <option value="CC" class="bg-transparent text-black"
-                                >Masculino</option
-                            >
-                            <option value="CE" class="bg-transparent text-black"
-                                >Femenino</option
-                            >
-                        </select>
-                        <select
-                            placeholder="papa"
-                            id="Genero"
-                            class="bg-transparent caret-white p-5 h-full w-full rounded-lg outline-0 peer border font-sans text-lg font-normal focus:bg-transparent "
-                        >
-                            <option
-                                value="N/A"
-                                class="bg-transparent text-black text-opacity-5 "
-                                >Municipio</option
-                            >
-
-                            <option value="CC" class="bg-transparent text-black"
-                                >Palmira</option
-                            >
-                            <option value="CE" class="bg-transparent text-black"
-                                >Florida</option
-                            >
-                            <option value="CE" class="bg-transparent text-black"
-                                >Pradera</option
-                            >
-                            <option value="CE" class="bg-transparent text-black"
-                                >Candelaria</option
-                            >
-                        </select>
-                    </div>
-                    <div class="flex h-8 gap-2 items-center justify-start ">
-                        <input
-                            class="border-2 border-solid border-principalGreen h-full w-8"
-                            type="checkbox"
-                            name="showpassword"
-                            id="3"
-                        />
-                        <p class="text-xl">Acepto terminos y condiciones</p>
-                    </div>
-                </form>
-                <div class="flex justify-center pt-8">
-                    <button
-                        class="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg"
-                    >
-                        Siguiente
-                    </button>
-                </div>
+                <FormRegistro client:visible />
             </div>
 
             <div class="flex w-full h-full items-center justify-center">

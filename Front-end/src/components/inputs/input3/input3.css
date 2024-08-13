@@ -1,0 +1,37 @@
+/* Estilos para los inputs */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Estilos para la barra de desplazamiento personalizada */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 13px; /* Ancho de la barra de desplazamiento */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #262B32; /* Color de fondo de la barra de desplazamiento */
+  border-radius: 12px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888; /* Color del pulgar (thumb) de la barra de desplazamiento */
+  border-radius: 10px; /* Redondea las esquinas del pulgar */
+  cursor: pointer;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color del pulgar al pasar el ratón por encima */
+}
+
+/* Estilos para el input */
+.inputext {
+  word-wrap: break-word; /* Permite que el texto salte a la siguiente línea */
+  white-space: pre-wrap; /* Mantiene los espacios en blanco y permite saltos de línea */
+  resize: vertical;
+}

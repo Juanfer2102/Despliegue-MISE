@@ -1,0 +1,41 @@
+---
+import Boton from "../../components/inputs/boton.jsx";
+import FormsNuevouser from "../../components/forms/formsNuevouser/formsNuevouser.jsx";
+import LayoutDashboard from "../../layouts/LayoutDashboard.astro";
+import iconGB from "../../images/icons/iconsEditUser/GoBack.png";
+import iconUser from "../../images/icons/iconsEditUser/User.png";
+import Input3 from "../../components/inputs/input3/input3.jsx";
+import SideBar from "../../components/nav/sideBar.astro";
+
+const handleFormSubmit = (formData) => {
+  console.log("Formulario enviado:", formData);
+};
+---
+
+<LayoutDashboard title="Editar Usuario">
+  <main class="flex flex-row w-full bg-greyBlack h-screen">
+    <SideBar condicion={1} />
+    <div class="flex flex-col w-full h-full">
+      <div
+        class="bg-greyBlack flex content-center pt-4 pr-5 justify-end h-20 w-full"
+      >
+      </div>
+      <div class="bg-greyBg flex flex-col px-6 h-full w-full">
+        <div
+          class="flex flex-row gap-3 items-center text-textBg pt-3 pb-3 font-semibold"
+        >
+          <a href="/visualizarUsers/visualizarUsers"><img src={iconGB.src} alt="" /></a>
+          <p class="">Usuarios Registrados / Nuevo Usuario</p>
+        </div>
+        <div class="bg-greyBlack flex flex-col px-6 py-5 w-full rounded-md">
+          <div class="flex flex-col w-full px-6">
+            <p class="text-white text-3xl">
+              Informacion para Creacion de Usuario
+            </p>
+            <FormsNuevouser client:visible />
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</LayoutDashboard>

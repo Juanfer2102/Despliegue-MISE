@@ -1,0 +1,12 @@
+---
+interface Props {
+    texto? : string;
+}
+
+const {texto} = Astro.props
+---
+
+
+<div class="flex w-60 h-40 border border-principalGreen rounded-xl text-white justify-center items-center text-sm uppercase p-10 overflow-hidden hover:bg-principalGreen ease-in duration-150">
+    <p class="text-center font-semibold">Taller: {texto}  </p>
+</div>

@@ -14,13 +14,15 @@ import VerUsers from "./visualizarUsers/visualizarUsers.astro";
 import EmpresasRegistradas from "./empresasRegistradas/empresasRegistradas.astro";
 import { imageConfig } from "astro:assets";
 import Preguntas from "./preguntas/preguntas.astro";
-import Dashboard from "./dashboard.astro";
+import Dashboard from "./dashboard/dashboard.astro";
 import Actualizacioncontra from "./olvidasteContraseña/actualizacioncontra.astro";
-import Modulos from "./modulos.astro";
+import Modulos from "./modulos/modulos.astro";
+import Editarmodulos from "./modulos/editarmodulos.astro";
 import Sueños from "./sueños/sueños.astro";
-import Talleres from "./vertalleres.astro";
+import Talleres from "./talleres/vertalleres.astro";
+import NuevoUsuario from "./nuevoUser/nuevoUser.astro";
 import Tallereseditar from "./talleres/tallereseditar.astro";
 ---
 <Layout title="MISE">
-  <Tallereseditar />
+  <Modulos />
 </Layout>
