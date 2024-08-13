@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import InputComponent from '../../inputs/input3';
+import InputComponent from '../../inputs/input3/input3.jsx';
 import Boton from '../../inputs/boton.jsx';
-import SelectComponent from '../../inputs/selectores.jsx';
+import SelectComponent from '../../inputs/selectores/selectores.jsx';
 
 export const FormsNuevouser = () => {
 
