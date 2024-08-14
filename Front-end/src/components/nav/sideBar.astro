@@ -8,6 +8,7 @@ import Logomini from "../../images/sideBarImg/Logomini.png";
 import { Elementoscriptadmin } from "../../helpers/elementsadmin";
 import IconLogOut from "../../images/sideBarsvg/log_out.svg";
 import SidebarModalManager from "./managerModal.jsx";
+import IconProfile from "../../images/sideBarImg/avatar@2x.png";
 
 
 interface Props {
@@ -92,7 +93,7 @@ function toggleModal() {
                     class="h-10 w-10 relative rounded-[99px] overflow-hidden shrink-0 object-cover"
                     loading="lazy"
                     alt=""
-                    src="/public/avatar@2x.png"
+                    src={IconProfile.src}
                 />
 
                 <div class="flex-1 hidden flex-col items-start justify-start gap-[2px]" id="profile">
@@ -105,14 +106,6 @@ function toggleModal() {
                 </div>
             </div>
             <SidebarModalManager client:visible />
-            {/* <img
-                class="h-6 w-6 relative overflow-hidden shrink-0 block cursor-pointer"
-                loading="lazy"
-                alt=""
-                id="profile-1"
-                src={IconLogOut.src}
-                
-            /> */}
         </div>
        
     </div>
@@ -243,7 +236,7 @@ function toggleModal() {
                     class="h-10 w-10 relative rounded-[99px] overflow-hidden shrink-0 object-cover"
                     loading="lazy"
                     alt=""
-                    src="/public/avatar@2x.png"
+                    src={IconProfile.src}
                 />
 
                 <div class="flex-1 hidden flex-col items-start justify-start gap-[2px]" id="profile">
