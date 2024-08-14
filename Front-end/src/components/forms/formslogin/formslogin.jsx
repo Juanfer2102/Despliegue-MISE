@@ -50,6 +50,7 @@ const Form = () => {
             setIsModalVisible(true);
         } else {
             console.log("Inputs value:", values);
+            setIsModalIsVisible(true);
             // Redirige a la URL deseada si todo es válido
             // window.location.href = "/empresasRegistradas/empresasRegistradas";
         }
