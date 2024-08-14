@@ -20,7 +20,7 @@ const InputComponent = ({
       </div>
       <div>
         <input
-          className={`inputext border ${widthInput} ${height} rounded-md peer border-solid border-white bg-transparent placeholder:text-start placeholder:pl-2 text:break-normal overflow-y-auto custom-scrollbar`}
+          className={`inputext border ${widthInput} ${height} rounded-md text-white peer border-solid border-white bg-transparent placeholder:text-start pl-2 text:break-normal overflow-y-auto custom-scrollbar`}
           placeholder={inputPlaceholder}
           type={inputType}
           value={value}
