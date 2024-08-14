@@ -113,16 +113,21 @@ const Form = () => {
                     onChange={handleInputChange}
                 />
 
-                <div className="flex h-8 gap-2 items-center justify-center">
-                    <input
-                        className="border border-solid checked:bg-principalGreen border-principalGreen h-full w-8"
-                        type="checkbox"
-                        name="showpassword"
-                        id="3"
-                        checked={showPassword}
-                        onChange={toggleShowPassword}
-                    />
-                    <p className="text-xl">Mostrar contraseña</p>
+                <div className="flex gap-2 items-center justify-between">
+                    <div className="flex h-7">
+                        <input
+                            className="border border-solid checked:bg-principalGreen border-principalGreen h-full w-8"
+                            type="checkbox"
+                            name="showpassword"
+                            id="3"
+                            checked={showPassword}
+                            onChange={toggleShowPassword}
+                        />
+                        <p className="text-xl">Mostrar contraseña</p>
+                    </div>
+                    <div className="h-7">
+                        <a href="/olvidasteContraseña/olvidasteContraseña" className="text-xl hover:underline">¿Olvidaste tu contraseña?</a>
+                    </div>
                 </div>
 
                 <div className="flex justify-center">

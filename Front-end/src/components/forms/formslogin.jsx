@@ -59,16 +59,21 @@ const Form = () => {
                 <input className="h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white " type="email" value={values.correo} name="correo" placeholder="Ingrese su correo..." autoComplete="off" onChange={handleInputChange} />
                 <input className="h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white " type={showPassword ? "text" : "password"} value={values.contrasena} name="contrasena" placeholder="Ingrese su contraseña..." onChange={handleInputChange} />
 
-                <div className="flex h-8 gap-2 items-center justify-center">
-                    <input
-                        className="border border-solid checked:bg-principalGreen border-principalGreen h-full w-8"
-                        type="checkbox"
-                        name="showpassword"
-                        id="3"
-                        checked={showPassword}
-                        onChange={toggleShowPassword}
-                    />
-                    <p className="text-xl">Mostrar contraseña</p>
+                <div className="flex gap-2 items-center justify-between">
+                    <div className="flex h-7">
+                        <input
+                            className="border border-solid checked:bg-principalGreen border-principalGreen h-full w-8"
+                            type="checkbox"
+                            name="showpassword"
+                            id="3"
+                            checked={showPassword}
+                            onChange={toggleShowPassword}
+                        />
+                        <p className="text-xl">Mostrar contraseña</p>
+                    </div>
+                    <div className="h-7">
+                        <a href="/olvidasteContraseña/olvidasteContraseña" className="text-xl hover:underline">¿Olvidaste tu contraseña?</a>
+                    </div>
                 </div>
                 <div className="flex justify-center">
                     <button
