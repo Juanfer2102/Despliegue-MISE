@@ -133,6 +133,7 @@ function toggleModal() {
 
         toggleButton.addEventListener("click", () => {
             if (sidebar.classList.contains("w-[5.5rem]")) {
+                console.log("1")
                 sidebar.classList.remove("w-[5.5rem]");
                 sidebar.classList.add("w-[18rem]");
                 sidebar.classList.remove("sticky");
@@ -152,6 +153,7 @@ function toggleModal() {
                     element.classList.add("flex");
                 });
             } else {
+                console.log("2")
                 sidebar.classList.remove("w-[18rem]");
                 sidebar.classList.add("w-[5.5rem]");
                 sidebar.classList.remove("absolute");
