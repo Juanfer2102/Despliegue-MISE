@@ -8,11 +8,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 
-
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import get_user_model
+from rest_framework_simplejwt.tokens import RefreshToken, UntypedToken
 
 @api_view(['POST'])
 def login(request):
@@ -64,7 +62,19 @@ def login(request):
         print(f"Error general en la vista login: {e}")
         return Response({'error': 'Error interno del servidor'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+@api_view(['POST'])
+def check_auth(request):
+    token = request.data.get('access_token')
 
+    if not token:
+        return Response({'isAuthenticated': False}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        UntypedToken(token)  # Valida el token
+        return Response({'isAuthenticated': True}, status=status.HTTP_200_OK)
+    except Exception:
+        return Response({'isAuthenticated': False}, status=status.HTTP_401_UNAUTHORIZED)
+    
 #proteccion de rutas
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

@@ -2,13 +2,14 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 from users import views
-from .views import CoordinadorListCreate, CoordinadorRetrieveUpdateDestroy, DirectorListCreate, DirectorRetrieveUpdateDestroy, EmpresasListCreate, EmpresasRetrieveUpdateDestroy, ModulosListCreate, ModulosRetrieveUpdateDestroy, PostulanteListCreate, PostulanteRetrieveUpdateDestroy, PreguntasListCreate, PreguntasRetrieveUpdateDestroy, ProgramasListCreate, ProgramasRetrieveUpdateDestroy, RegistrosListCreate, RegistrosRetrieveUpdateDestroy, RolListCreate, RolRetrieveUpdateDestroy, SuenosListCreate, SuenosRetrieveUpdateDestroy, TalleresListCreate, TalleresRetrieveUpdateDestroy, UsuarioListCreate, UsuarioRetrieveUpdateDestroy
+from .views import check_auth, CoordinadorListCreate, CoordinadorRetrieveUpdateDestroy, DirectorListCreate, DirectorRetrieveUpdateDestroy, EmpresasListCreate, EmpresasRetrieveUpdateDestroy, ModulosListCreate, ModulosRetrieveUpdateDestroy, PostulanteListCreate, PostulanteRetrieveUpdateDestroy, PreguntasListCreate, PreguntasRetrieveUpdateDestroy, ProgramasListCreate, ProgramasRetrieveUpdateDestroy, RegistrosListCreate, RegistrosRetrieveUpdateDestroy, RolListCreate, RolRetrieveUpdateDestroy, SuenosListCreate, SuenosRetrieveUpdateDestroy, TalleresListCreate, TalleresRetrieveUpdateDestroy, UsuarioListCreate, UsuarioRetrieveUpdateDestroy
 
 router = routers.DefaultRouter()
 
 urlpatterns = [
     path('login', views.login),
     path('user', views.user),
+    path('check-auth/', check_auth, name='check_auth'),
 
     path('coordinador/', CoordinadorListCreate.as_view(), name='coordinador-list-create'),
     path('coordinador/<int:pk>/', CoordinadorRetrieveUpdateDestroy.as_view(), name='coordinador-retrieve-update-destroy'),
