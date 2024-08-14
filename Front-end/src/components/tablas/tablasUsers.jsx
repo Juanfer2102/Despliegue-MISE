@@ -35,7 +35,7 @@ const UserTable = () => {
 
     return (
         <table className="overflow-auto w-full justify-center rounded-xl">
-            <thead className="bg-greyBlack border-textBg rounded-xl text-white sticky top-0 z-10">
+            <thead className="bg-greyBlack border-textBg rounded-xl text-white  top-0 z-10">
                 <tr>
                     <th className="w-[2rem] p-5 text-left">Nombre</th>
                     <th className="p-5 text-center">MISE encargado</th>

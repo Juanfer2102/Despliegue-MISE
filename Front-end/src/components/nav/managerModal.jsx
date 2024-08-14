@@ -1,6 +1,6 @@
 // SidebarModalManager.jsx
 import React, { useState } from 'react';
-import ModalLogout from "./modalcs.jsx";
+import ModalLogout from "../modales/modalcs.jsx";
 import IconLogOut from "../../images/sideBarsvg/log_out.svg";
 
 const SidebarModalManager = () => {

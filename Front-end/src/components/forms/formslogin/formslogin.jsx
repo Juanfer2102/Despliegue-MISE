@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import './formslogin.css';
+import ModalLogIn from '../../modales/modalis.jsx'; 
 
 const Form = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -10,6 +11,7 @@ const Form = () => {
     
     const [errors, setErrors] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isModalisVisible, setIsModalIsVisible] = useState(false);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -64,6 +66,7 @@ const Form = () => {
             const data = await response.json();
             
             if (response.ok) {
+                setIsModalIsVisible(true);
                 console.log("Login con éxito:", data);
                 localStorage.setItem("access_token", data.access_token);
                 localStorage.setItem("refresh_token", data.refresh_token);
@@ -82,6 +85,10 @@ const Form = () => {
 
     const closeModal = () => {
         setIsModalVisible(false);
+    };
+
+    const closeModalis = () => {
+        setIsModalIsVisible(false);
     };
 
     return (
@@ -152,6 +159,10 @@ const Form = () => {
                     </ul>
                 </div>
             </div>
+            <ModalLogIn 
+                isOpen={isModalisVisible} 
+                onConfirm={closeModalis} 
+            />
         </>
     );
 };
