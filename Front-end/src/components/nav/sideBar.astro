@@ -6,6 +6,9 @@ import Elemento from "../nav/elementSidebar.astro";
 import ElementSidebar from "../nav/elementSidebar.astro";
 import Logomini from "../../images/sideBarImg/Logomini.png";
 import { Elementoscriptadmin } from "../../helpers/elementsadmin";
+import IconLogOut from "../../images/sideBarsvg/log_out.svg";
+import SidebarModalManager from "./managerModal.jsx";
+import IconProfile from "../../images/sideBarImg/avatar@2x.png";
 
 
 interface Props {
@@ -15,88 +18,94 @@ interface Props {
 
 const { condicion } = Astro.props;
 
+let showModal = false;
+
+function handleLogOut() {
+    // Lógica para cerrar sesión
+    console.log("Sesión cerrada");
+}
+
+function toggleModal() {
+    showModal = !showModal;
+}
+
 
 ---
 
 {condicion === 1 && (
     <aside
-    class="sidebar hidden sm:flex w-[23rem] h-screen bg-greyBlack rounded-md transition-all duration-500 ease-in-out"
+    class="sidebar hidden sticky sm:flex w-[5.5rem] h-screen bg-greyBlack rounded-md transition-all duration-700 ease-in-out"
     id="sidebar"
 >
-    <div class="cajasidebar1 flex flex-col gap-5  w-full" id="cajasidebar1">
-        <div class="absolute w-15 h-15 justify-end">
-            <img
-            id="toggleBtn"
-            src={IconExpand.src}
-            class="cursor-pointer"
-            alt=""
-        />
-        </div>
+    <div class="cajasidebar1 flex flex-col gap-5 w-full" id="cajasidebar1">
         
-        <div class="flex justify-center">
+        <div class="flex justify-center relative">
             <img
                 src={Logo.src}
-                class="w-[10rem] h-[10em] block"
+                class="w-[10rem] h-[10em]  hidden"
                 alt=""
                 id="logo"
             />
             <img
                 src={Logomini.src}
-                class="w-[2.5rem] h-[3.5rem] pt-5 hidden"
+                class="w-[2.5rem] h-[3.5rem] pt-5 block"
                 id="logo-min"
+                alt=""
+            />
+            <img
+                id="toggleBtn"
+                src={IconExpand.src}
+                class="cursor-pointer absolute right-[-10px] top-[20px]"
                 alt=""
             />
         </div>
         <div class="flex flex-col gap-3 px-4">
             {
-                Elementoscript.map((Elementoscript, index) => (
+                Elementoscript.map((elemento, index) => (
                     <Elemento
-                        icon={Elementoscript.icon}
-                        texto={Elementoscript.texto}
-                        URL={Elementoscript.URL}
+                        key={index}
+                        icon={elemento.icon}
+                        texto={elemento.texto}
+                        URL={elemento.URL}
                     />
                 ))
             }
         </div>
 
         <div class=" flex flex-col gap-3 px-4 border-t-2 pt-5 border-white">
-            <p class="text-white text-lg font-semibold pl-2" id="admincaja">Admin Control</p>
+            <p class="text-white text-lg font-semibold pl-2 hidden" id="admincaja">Admin Control</p>
             {
-                Elementoscriptadmin.map((Elementoscriptadmin, index) => (
+                Elementoscriptadmin.map((elemento, index) => (
                     <Elemento
-                        icon={Elementoscriptadmin.icon}
-                        texto={Elementoscriptadmin.texto}
-                        URL={Elementoscriptadmin.URL}
+                        key={index}
+                        icon={elemento.icon}
+                        texto={elemento.texto}
+                        URL={elemento.URL}
                     />
                 ))
             }
         </div>
 
-        <div class="mt-auto usuariofinal w-full bg-darkslategray box-border flex flex-row items-center justify-end p-6 gap-[12px] leading-[normal] tracking-[normal] text-left text-xs text-darkgray font-base-medium">
+        <div class="mt-auto usuariofinal w-full bg-darkslategray box-border flex flex-col items-center justify-end p-6 gap-[20px] leading-[normal] tracking-[normal] text-left text-xs text-darkgray font-base-medium"
+        id="usuariofinal">
             <div class="flex-1 flex flex-row items-center justify-start gap-[12px]">
                 <img
                     class="h-10 w-10 relative rounded-[99px] overflow-hidden shrink-0 object-cover"
                     loading="lazy"
                     alt=""
-                    src="/public/avatar@2x.png"
+                    src={IconProfile.src}
                 />
 
-                <div class="flex-1 flex flex-col items-start justify-start gap-[2px]" id="profile">
+                <div class="flex-1 hidden flex-col items-start justify-start gap-[2px]" id="profile">
                     <div class="self-stretch relative leading-[20px] font-medium">
-                        Welcome back 👋
+                        Bienvenido👋
                     </div>
                     <div class="self-stretch relative text-sm leading-[20px] font-medium text-white">
                         Johnathan
                     </div>
                 </div>
             </div>
-            <img
-                class="h-5 w-5 relative overflow-hidden shrink-0 block"
-                loading="lazy"
-                alt=""
-                id="profile-1"
-                src="/public/log_out.svg"
-            />
+            <SidebarModalManager client:visible />
         </div>
        
     </div>
@@ -106,6 +115,7 @@ const { condicion } = Astro.props;
     document.addEventListener("DOMContentLoaded", () => {
         const sidebar = document.getElementById("sidebar");
         const cajaicon = document.querySelectorAll(".cajaelemento");
+        const usuariofinal = document.getElementById("usuariofinal");
         const cadasidebar = document.getElementById("cajasidebar1");
         const cajaadmin = document.getElementById("admincaja");
         const toggleButton = document.getElementById("toggleBtn");
@@ -113,120 +123,127 @@ const { condicion } = Astro.props;
         const sidebarLogo = document.getElementById("logo");
         const elements = document.querySelectorAll(".sidebar-element");
         const profilesideBar = document.getElementById("profile");
-        const profilesideBar1 = document.getElementById("profile-1");
+        const logOutIcon = document.getElementById('profile-1');
+
+        if (logOutIcon) {
+            logOutIcon.addEventListener('click', () => {
+                toggleModal();
+            });
+        }
 
         toggleButton.addEventListener("click", () => {
-            if (sidebar.classList.contains("w-[23rem]")) {
-                sidebar.classList.remove("w-[23rem]");
-                sidebar.classList.add("w-[5.5rem]");
-                cadasidebar.classList.add("pt-[6rem]");
-                profilesideBar.classList.remove("block");
-                profilesideBar.classList.add("hidden");
-                profilesideBar1.classList.remove("block");
-                profilesideBar1.classList.add("hidden");
-                cajaadmin.classList.add("hidden");
-                sidebarLogomini.classList.remove("hidden");
-                sidebarLogomini.classList.add("block");
-                sidebarLogo.classList.add("hidden");
-
-                elements.forEach((element) => {
-                    element.classList.add("hidden");
-                });
-                cajaicon.forEach(element => {
-                    element.classList.remove("flex");
-                });
-
-            } else {
+            if (sidebar.classList.contains("w-[5.5rem]")) {
+                console.log("1")
                 sidebar.classList.remove("w-[5.5rem]");
-                sidebar.classList.add("w-[23rem]");
-                cadasidebar.classList.remove("pt-[6rem]");
-                sidebarLogomini.classList.remove("block");
-                sidebarLogomini.classList.add("hidden");
+                sidebar.classList.add("w-[18rem]");
+                sidebar.classList.remove("sticky");
+                sidebar.classList.add("absolute");
                 profilesideBar.classList.remove("hidden");
                 profilesideBar.classList.add("block");
-                profilesideBar1.classList.remove("hidden");
-                profilesideBar1.classList.add("block");
-                sidebarLogo.classList.remove("hidden");
+                
                 cajaadmin.classList.remove("hidden");
-                sidebarLogo.classList.add("block");
+                sidebarLogomini.classList.add("hidden");
+                sidebarLogo.classList.remove("hidden");
+                usuariofinal.classList.remove("flex-col", "gap-[20px]");
+                usuariofinal.classList.add("flex-row", "gap-[12px]");
                 elements.forEach((element) => {
                     element.classList.remove("hidden");
                 });
                 cajaicon.forEach((element) => {
                     element.classList.add("flex");
                 });
+            } else {
+                console.log("2")
+                sidebar.classList.remove("w-[18rem]");
+                sidebar.classList.add("w-[5.5rem]");
+                sidebar.classList.remove("absolute");
+                sidebar.classList.add("sticky");
+                profilesideBar.classList.add("hidden");
+                cajaadmin.classList.add("hidden");
+                sidebarLogomini.classList.remove("hidden");
+                sidebarLogo.classList.add("hidden");
+                usuariofinal.classList.remove("flex-row", "gap-[12px]");
+                usuariofinal.classList.add("flex-col", "gap-[20px]");
+                elements.forEach((element) => {
+                    element.classList.add("hidden");
+                });
+                cajaicon.forEach((element) => {
+                    element.classList.remove("flex");
+                });
             }
         });
     });
 
     const iconContainers = document.querySelectorAll(".icon-container");
-        iconContainers.forEach(iconContainer => {
-            iconContainer.addEventListener("click", () => {
-                const url = iconContainer.getAttribute("data-url");
-                if (url) {
-                    window.location.href = url;
-                }
-            });
+    iconContainers.forEach(iconContainer => {
+        iconContainer.addEventListener("click", () => {
+            const url = iconContainer.getAttribute("data-url");
+            if (url) {
+                window.location.href = url;
+            }
         });
+    });
 </script>
-
 
 )}
 
 {condicion === 2 && (
     <aside
-    class="sidebar hidden sm:flex w-[18rem] h-full bg-greyBlack rounded-md transition-all duration-500 ease-in-out"
+    class="sidebar hidden sticky sm:flex w-[5.5rem] h-screen bg-greyBlack rounded-md transition-all duration-700 ease-in-out"
     id="sidebar"
 >
-    <div class="cajasidebar1 flex flex-col gap-5 w-full" id="cajasidebar1">
-        <div class="absolute w-15 h-15 justify-end">
-            <img
-            id="toggleBtn"
-            src={IconExpand.src}
-            class="cursor-pointer"
-            alt=""
-        />
-        </div>
+    <div class="cajasidebar1 flex flex-col gap-5 pt-[6rem] w-full" id="cajasidebar1">
         
-        <div class="flex justify-center">
+        <div class="flex justify-center relative">
             <img
                 src={Logo.src}
-                class="w-[10rem] h-[10em] block"
+                class="w-[10rem] h-[10em]  hidden"
                 alt=""
                 id="logo"
             />
             <img
                 src={Logomini.src}
-                class="w-[2.5rem] h-[3.5rem] pt-5 hidden"
+                class="w-[2.5rem] h-[3.5rem] pt-5 block"
                 id="logo-min"
                 alt=""
             />
+            <img
+                id="toggleBtn"
+                src={IconExpand.src}
+                class="cursor-pointer absolute right-[-10px] top-[20px]"
+                alt=""
+            />
         </div>
-        <div class="flex flex-col gap-3 px-2">
+        <div class="flex flex-col gap-3 px-4">
             {
-                Elementoscript.map((Elementoscript, index) => (
+                Elementoscript.map((elemento, index) => (
                     <Elemento
-                        icon={Elementoscript.icon}
-                        texto={Elementoscript.texto}
-                        URL={Elementoscript.URL}
+                        key={index}
+                        icon={elemento.icon}
+                        texto={elemento.texto}
+                        URL={elemento.URL}
                     />
                 ))
             }
         </div>
 
+        <div class=" flex flex-col gap-3 px-4 border-t-2 pt-5 border-white">
 
-        <div class="mt-auto usuariofinal w-full bg-darkslategray box-border flex flex-row items-center justify-end p-6 gap-[12px] leading-[normal] tracking-[normal] text-left text-xs text-darkgray font-base-medium">
+        </div>
+
+        <div class="mt-auto usuariofinal w-full bg-darkslategray box-border flex flex-col items-center justify-end p-6 gap-[20px] leading-[normal] tracking-[normal] text-left text-xs text-darkgray font-base-medium"
+        id="usuariofinal">
             <div class="flex-1 flex flex-row items-center justify-start gap-[12px]">
                 <img
                     class="h-10 w-10 relative rounded-[99px] overflow-hidden shrink-0 object-cover"
                     loading="lazy"
                     alt=""
-                    src="/public/avatar@2x.png"
+                    src={IconProfile.src}
                 />
 
-                <div class="flex-1 flex flex-col items-start justify-start gap-[2px]" id="profile">
+                <div class="flex-1 hidden flex-col items-start justify-start gap-[2px]" id="profile">
                     <div class="self-stretch relative leading-[20px] font-medium">
-                        Welcome back 👋
+                        Bienvenido👋
                     </div>
                     <div class="self-stretch relative text-sm leading-[20px] font-medium text-white">
                         Johnathan
@@ -234,11 +251,11 @@ const { condicion } = Astro.props;
                 </div>
             </div>
             <img
-                class="h-5 w-5 relative overflow-hidden shrink-0 block"
+                class="h-6 w-6 relative overflow-hidden shrink-0 block"
                 loading="lazy"
                 alt=""
                 id="profile-1"
-                src="/public/caret.svg"
+                src={IconLogOut.src}
             />
         </div>
        
@@ -248,66 +265,68 @@ const { condicion } = Astro.props;
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const sidebar = document.getElementById("sidebar");
-        const cadasidebar = document.getElementById("cajasidebar1");
         const cajaicon = document.querySelectorAll(".cajaelemento");
+        const usuariofinal = document.getElementById("usuariofinal");
+        const cadasidebar = document.getElementById("cajasidebar1");
+        const cajaadmin = document.getElementById("admincaja");
         const toggleButton = document.getElementById("toggleBtn");
         const sidebarLogomini = document.getElementById("logo-min");
         const sidebarLogo = document.getElementById("logo");
-        const elements = document.querySelectorAll(".sidebar div.flex a");
+        const elements = document.querySelectorAll(".sidebar-element");
         const profilesideBar = document.getElementById("profile");
-        const profilesideBar1 = document.getElementById("profile-1");
 
         toggleButton.addEventListener("click", () => {
-            if (sidebar.classList.contains("w-[18rem]")) {
-                sidebar.classList.remove("w-[18rem]");
-                sidebar.classList.add("w-[5rem]");
-                cadasidebar.classList.add("pt-[6rem]");
-                profilesideBar.classList.remove("block");
-                profilesideBar.classList.add("hidden");
-                profilesideBar1.classList.remove("block");
-                profilesideBar1.classList.add("hidden");
-                sidebarLogomini.classList.remove("hidden");
-                sidebarLogomini.classList.add("block");
-                sidebarLogo.classList.add("hidden");
-
-                elements.forEach((element) => {
-                    element.classList.add("hidden");
-                });
-                cajaicon.forEach(element => {
-                    element.classList.remove("flex");
-                });
-
-            } else {
-                sidebar.classList.remove("w-[5rem]");
+            if (sidebar.classList.contains("w-[5.5rem]")) {
+                sidebar.classList.remove("w-[5.5rem]");
                 sidebar.classList.add("w-[18rem]");
+                sidebar.classList.remove("sticky");
+                sidebar.classList.add("absolute");
                 cadasidebar.classList.remove("pt-[6rem]");
-                sidebarLogomini.classList.remove("block");
-                sidebarLogomini.classList.add("hidden");
                 profilesideBar.classList.remove("hidden");
                 profilesideBar.classList.add("block");
-                profilesideBar1.classList.remove("hidden");
-                profilesideBar1.classList.add("block");
+                
+                cajaadmin.classList.remove("hidden");
+                sidebarLogomini.classList.add("hidden");
                 sidebarLogo.classList.remove("hidden");
-                sidebarLogo.classList.add("block");
+                usuariofinal.classList.remove("flex-col", "gap-[20px]");
+                usuariofinal.classList.add("flex-row", "gap-[12px]");
                 elements.forEach((element) => {
                     element.classList.remove("hidden");
                 });
                 cajaicon.forEach((element) => {
                     element.classList.add("flex");
                 });
+            } else {
+                sidebar.classList.remove("w-[18rem]");
+                sidebar.classList.add("w-[5.5rem]");
+                sidebar.classList.remove("absolute");
+                sidebar.classList.add("sticky");
+                cadasidebar.classList.add("pt-[6rem]");
+                profilesideBar.classList.add("hidden");
+                cajaadmin.classList.add("hidden");
+                sidebarLogomini.classList.remove("hidden");
+                sidebarLogo.classList.add("hidden");
+                usuariofinal.classList.remove("flex-row", "gap-[12px]");
+                usuariofinal.classList.add("flex-col", "gap-[20px]");
+                elements.forEach((element) => {
+                    element.classList.add("hidden");
+                });
+                cajaicon.forEach((element) => {
+                    element.classList.remove("flex");
+                });
             }
         });
     });
 
     const iconContainers = document.querySelectorAll(".icon-container");
-        iconContainers.forEach(iconContainer => {
-            iconContainer.addEventListener("click", () => {
-                const url = iconContainer.getAttribute("data-url");
-                if (url) {
-                    window.location.href = url;
-                }
-            });
+    iconContainers.forEach(iconContainer => {
+        iconContainer.addEventListener("click", () => {
+            const url = iconContainer.getAttribute("data-url");
+            if (url) {
+                window.location.href = url;
+            }
         });
+    });
 </script>
 
 

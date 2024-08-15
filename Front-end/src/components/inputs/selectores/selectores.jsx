@@ -15,7 +15,6 @@ const SelectComponent = ({ id, options, value, onChange, type }) => {
         </option>
       ))}
     </select>
-  );
-};
+)};
 
-export default SelectComponent;
+  export default SelectComponent;

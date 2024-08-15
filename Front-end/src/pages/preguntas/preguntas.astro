@@ -1,6 +1,5 @@
 ---
 import Logo from "../../components/logo.astro";
-import NavBar from "../../components/nav/NavBar.astro";
 import LayoutDashboard from "../../layouts/LayoutDashboard.astro";
 import Modal from "../../components/modales/modal.astro";
 import Modal1 from "../../components/modales/modal1.astro";
@@ -49,15 +48,15 @@ import SideBar from "../../components/nav/sideBar.astro";
                 </div>  
                         <div class="left flex flex-row gap-5 p-1">
                             <div
-                                class="container w-[54rem] max-h-[50rem] bg-greyBlack rounded-xl p-8 overflow-y-auto custom-scrollbar"
+                                class="container
+                                 bg-greyBlack rounded-xl p-4 max-h-[29rem] overflow-y-auto custom-scrollbar"
                             >
                                 <div class="flex flex-wrap gap-8 items-center">
-                                    <Modal texto={"¿La gerencia utiliza herramientas para la gestión de su tiempo y actividades?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
+                                    <a href="/preguntas/editarpreguntas"><Modal texto={"¿La gerencia utiliza herramientas para la gestión de su tiempo y actividades?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" /></a>
                                     <Modal texto={"¿La gerencia tiene definida la propuesta de valor que ofrece a sus clientes? ¿Sus colaboradores la tienen interiorizada?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
                                     <Modal texto={"¿La gerencia cuenta con objetivos y metas claras en cada área (financiera, clientes/mercado, procesos, desarrollo y aprendizaje) de su empresa?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
                                     <Modal texto={" ¿La empresa tiene caracterizadas sus operaciones? (Financieras, comerciales, productivas y de desarrollo y aprendizaje)"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Modal
-                                        texto={"¿La empresa cuenta con indicadores (KPI) que permitan hacer seguimiento a sus operaciones?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen"/>
+                                    <Modal texto={"¿La empresa cuenta con indicadores (KPI) que permitan hacer seguimiento a sus operaciones?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen"/>
                                     <Modal texto={"¿La empresa sabe cómo utilizar sus datos para tomar decisiones?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
                                     <Modal texto={"¿La empresa conoce cómo analizar sus datos para tomar decisiones?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
                                     <Modal texto={"¿La empresa tiene claro qué significa y transmite su marca a sus clientes?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
@@ -85,13 +84,13 @@ import SideBar from "../../components/nav/sideBar.astro";
                                     <Modal texto={"¿La empresa analiza sus estados financieros antes de realizar inversiones?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
                                     <Modal texto={"¿La empresa conoce las diferentes fuentes de financiamiento disponibles para apalancar el crecimiento de su empresa?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
                                     <Modal texto={"¿La empresa conoce cuál es el valor de su empresa en el mercado a partir de técnicas de valoración reconocidas (flujo de caja libre descontado, EBITDA o EVA)?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                                    <Aadirmodulo />
+                                    <a href="/preguntas/nuevapregunta"><Aadirmodulo /></a>
                                 </div>
                             </div>
-                            <div class="w-[30rem] h-full flex flex-col gap-[5rem] justify-center text-white">
-                                <Modalopciones texto="Modulos" />
-                                <Modalopciones texto="Sueños"/>
-                                <Modalopciones texto="Talleres" />
+                            <div class="flex flex-col gap-10 justify-center">
+                                <Modalopciones texto="Modulos" URL="/modulos/modulos" />
+                                <Modalopciones texto="Sueños" URL="/sueños/sueños"/>
+                                <Modalopciones texto="Talleres" URL="/talleres/talleres" />
                             </div>
                         </div>
             </div>

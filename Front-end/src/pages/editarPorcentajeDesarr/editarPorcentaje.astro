@@ -1,40 +1,20 @@
 ---
-import NavBar from "../../components/nav/NavBar.astro";
 import LayoutDashboard from "../../layouts/LayoutDashboard.astro";
 import Boton from "../../components/inputs/boton.jsx";
-import iconGB from "../../images/icons/iconsEditUser/GoBack.png";
-import Input3 from "../../components/inputs/input3/input3.jsx";
 import SideBar from "../../components/nav/sideBar.astro";
+import { Formseditporc } from "../../components/forms/formseditporc/formseditporc";
 ---
 
 <LayoutDashboard title="Editar Usuario">
   <main class="flex flex-row w-full bg-greyBlack h-screen">
-    <NavBar />
+    <SideBar condicion={1} />
     <div class="flex flex-col w-full h-full">
       <div
         class="bg-greyBlack flex content-center pt-4 pr-5 justify-end h-20 w-full"
       >
-        <Boton />
       </div>
       <div class="bg-greyBg flex flex-col px-8 h-full w-full">
-        <div class="flex flex-row gap-3 text-textBg pt-5 pb-3 items-center font-semibold">
-          <img src={iconGB.src} alt="" />
-          <p class="">Editar Porcentajes</p>
-        </div>
-        <div class="bg-greyBlack gap-8 flex flex-col p-8 w-full rounded-md">
-          <div class="flex flex-col gap-5">
-            <Input3 width="w-80" widthInput="w-[18rem]" DataType="Nombre" inputPlaceholder="No Desarrollado" inputType="text" />
-            <Input3 width="w-80" widthInput="w-[18rem]"  DataType="Porcentaje de Desarrollo" inputPlaceholder="25%" inputType="number" />
-          </div>
-          <div class="flex flex-col gap-5">
-            <Input3 width="w-80" widthInput="w-[18rem]" DataType="Nombre" inputPlaceholder="No Desarrollado" inputType="text" />
-            <Input3 width="w-80" widthInput="w-[18rem]"  DataType="Porcentaje de Desarrollo" inputPlaceholder="25%" inputType="number" />
-          </div>
-          <div class="flex flex-col gap-5">
-            <Input3 width="w-80" widthInput="w-[18rem]"  DataType="Nombre" inputPlaceholder="No Desarrollado" inputType="text" />
-            <Input3 width="w-80" widthInput="w-[18rem]"  DataType="Porcentaje de Desarrollo" inputPlaceholder="25%" inputType="number" />
-          </div>
-        </div>
+        <Formseditporc client:load />
       </div>
     </div>
   </main>

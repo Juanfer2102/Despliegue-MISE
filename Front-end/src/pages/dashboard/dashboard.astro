@@ -17,14 +17,18 @@ import { ProgressCircleHero } from "../../components/inputs/porcentaje/porcentaj
       <div class="bg-greyBg flex flex-col gap-8 px-8 py-5 h-full w-full">
         <div class="flex flex-row gap-5">
           <Grafica client:visible />
-          <div class="flex flex-col bg-greyBlack content-start h-[21rem] rounded-xl p-5 text-white items-start">
-            <p>Porcentaje de Desarrollo</p>
-            <div class="flex flex-row gap-5 pt-5">
-              <ProgressCircleHero value={25} color={"violet"} />
-              <ProgressCircleHero value={25} color={"violet"} />
-              <ProgressCircleHero value={50} color={"violet"} />
+          <div
+            class="flex flex-col bg-greyBlack content-start h-[17rem] rounded-xl p-5 text-white items-start"
+          >
+            <div class="flex flex-row gap-[11.5rem]">
+              <p class="pt-1 align-middle text-center">Porcentaje de Desarrollo</p>
+              <a href="/editarPorcentajeDesarr/editarPorcentaje"><button class="bg-principalGreen text-center rounded-xl h-[2rem] w-[10rem] hover:bg-white hover:text-principalGreen hover:border-principalGreen hover:border">Editar Porcentaje</button></a>
             </div>
-           
+            <div class="flex flex-row gap-5 pt-5">
+              <ProgressCircleHero text={"No Desarrollado"} value={25} />
+              <ProgressCircleHero text={"Parcialmente Desa.."} value={25} />
+              <ProgressCircleHero text={"Desarrollado"} value={50} />
+            </div>
           </div>
         </div>
       </div>

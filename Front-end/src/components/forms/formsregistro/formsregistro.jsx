@@ -114,7 +114,7 @@ export const FormRegistro = () => {
 
     return (
         <>
-            <form onSubmit={handleForm} className="form flex flex-col gap-6">
+            <form onSubmit={handleForm} className="form flex flex-col gap-6 bg-greyBlack p-3 rounded-xl">
                 <div className="flex flex-row w-full gap-5">
                     <input
                         className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.nombre ? 'border-red-500' : ''}`}
@@ -191,7 +191,7 @@ export const FormRegistro = () => {
                 </div>
                 <div className="flex h-8 gap-2 items-center justify-start">
                     <input
-                        className={`border-2 border-solid ${errors.TyC ? 'border-red-500' : 'border-principalGreen'} h-full w-8`}
+                        className={`border-2 border-solid ${errors.TyC ? 'border-red' : 'border-principalGreen'} h-full w-8`}
                         type="checkbox"
                         name="TyC"
                         id="TyC"

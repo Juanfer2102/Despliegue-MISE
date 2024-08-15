@@ -1,10 +1,8 @@
 ---
-import NavBar from "../../components/nav/NavBar.astro";
 import LayoutDashboard from "../../layouts/LayoutDashboard.astro";
 import Boton from "../../components/inputs/boton.jsx";
-import iconGB from "../../images/icons/iconsEditUser/GoBack.png";
-import Input3 from "../../components/inputs/input3/input3.jsx";
-import TablasUsers from "../../components/tablas/tablasUsers.astro";
+import Input3 from "../../components/inputs/input3.jsx";
+import TablasUsers from "../../components/tablas/tablasUsers";
 import SideBar from "../../components/nav/sideBar.astro";
 ---
 
@@ -45,8 +43,8 @@ import SideBar from "../../components/nav/sideBar.astro";
                 </div>
               </div>
             </div>
-            <div class="max-h-[25rem] overflow-y-auto custom-scrollbar rounded-xl">
-              <TablasUsers />
+            <div class="max-h-[40rem] overflow-y-auto custom-scrollbar rounded-xl">
+              <TablasUsers client:load/>
             </div>
           </div>
         </div>
