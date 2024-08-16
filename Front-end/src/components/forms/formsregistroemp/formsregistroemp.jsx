@@ -20,25 +20,112 @@ export const FormRegistro = () => {
         const data = JSON.parse(localStorage.getItem('representanteData'));
         setRepresentanteData(data);
     }, []);
+import { DatePicker } from '@tremor/react';
+import ConfirmModal from '../../modales/modalconfirm.jsx';
+import Boton from '../../inputs/boton.jsx';
+
+export const FormRegistro = () => {
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
+
+    const openModal = () => setIsOpen(true);
+    const closeModal = () => setIsOpen(false);
+
+    const optionseducacion = [
+        { value: 'Bachiller', label: 'Bachiller' },
+        { value: 'Tecnico', label: 'Tecnico' },
+        { value: 'Maestria', label: 'Maestria' },
+    ];
+
+    const [values, setValues] = useState({
+        educacion: '',
+        producto: '',
+        fecha_inicio: '',
+        celular: '',
+        razon_social: '',
+        nit: '',
+        no_empleados: '',
+        ventas_anopasado: '',
+        gastos_costos: '',
+        fecha_registro: null,
+    });
+
+    const handleConfirm = () => {
+        const now = new Date();
+        const updatedValues = {
+            ...values,
+            fecha_registro: now.toLocaleString(),
+        };
+        console.log('Inputs value:', updatedValues);
+        setValues(updatedValues);  // Actualizamos los valores antes de cerrar el modal
+        closeModal();
+        // window.location.href = "/registroEmpresa/registroEmpresa";
+        // location.reload();
+    };
+
+    const formatCurrency = (value) => {
+        const number = parseFloat(value.replace(/[^0-9.-]+/g, ''));
+        if (isNaN(number)) return '';
+        return new Intl.NumberFormat('es-CO', {
+            style: 'currency',
+            currency: 'COP',
+            minimumFractionDigits: 0,
+        }).format(number);
+    };
+    
+
+    const handleBlur = (name) => {
+        if (name === 'gastos_costos' || name === 'ventas_anopasado') {
+            setValues(prevValues => ({
+                ...prevValues,
+                [name]: formatCurrency(prevValues[name]),
+            }));
+        }
+    };
+
+
 
     const handleInputChange = (name, value) => {
-        setValues({
-            ...values,
+        if (name === 'celular' && value.length > 10) {
+            return; // No actualiza el valor si excede 10 dígitos
+        }
+        if (name === 'nit' && value.length > 9) {
+            return; // No actualiza el valor si excede 9 dígitos
+        }
+        if (name === 'no_empleados' && value.length > 3) {
+            return; // No actualiza el valor si excede 10 dígitos
+        }
+        if (name === 'ventas_anopasado', 'ventas_anopasado' && value.length > 10) {
+            return; // No actualiza el valor si excede 10 dígitos
+        }
+        setValues(prevValues => ({
+            ...prevValues,
             [name]: value,
-        });
+        }));
     };
 
     const handleForm = (event) => {
         event.preventDefault();
+<<<<<<< HEAD
         console.log("Datos del Representante:", representanteData);
         console.log("Datos de la Empresa:", values);
         // Lógica para enviar los datos
+=======
+>>>>>>> origin/Juan-Grajales
     };
 
     return (
         <>
+<<<<<<< HEAD
             <div className="flex flex-row w-[40rem] justify-between">
                 <p className="font-bold text-3xl text-left">Registro Empresa</p>
+=======
+            <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleConfirm} />
+
+            <div class="flex flex-row w-full justify-between">
+                <p class="font-bold text-3xl text-left">Registro Empresa</p>
+>>>>>>> origin/Juan-Grajales
                 <svg
                     fill="#ffffff"
                     height="45px"
@@ -69,8 +156,70 @@ export const FormRegistro = () => {
                     </g>
                 </svg>
             </div>
+<<<<<<< HEAD
             <form onSubmit={handleForm} className="form bg-greyBlack rounded-xl p-3 flex flex-col">
                 <div className='flex flex-col gap-3'>
+=======
+            <form onSubmit={handleForm} className="form bg-greyBlack rounded-xl p-3 flex flex-row">
+                <div className="flex flex-col gap-3 w-full">
+                    <div className='flex flex-row gap-3'>
+                        <SelectComponent
+                            type={"Educacion Superior..."}
+                            Select="educacion"
+                            options={optionseducacion}
+                            value={values.educacion}
+                            onChange={(value) => handleInputChange("educacion", value)}
+                        />
+                        <DatePicker
+                            name="fecha_inicio"
+                            className="mx-auto pt-2 h-[3.5rem] colors:tremor-background-subtle"
+                            onValueChange={(value) => {
+                                handleInputChange('fecha_inicio', value);
+                            }}
+                        />
+                    </div>
+                    <div className='flex flex-row gap-3'>
+                        <input
+                            className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                            type="text"
+                            value={values.producto}
+                            name="producto"
+                            placeholder="Producto o Servicio..."
+                            autoComplete="off"
+                            onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+                        />
+                        <input
+                            className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                            type="number"
+                            value={values.celular}
+                            name="celular"
+                            placeholder="Ingrese su número de celular..."
+                            autoComplete="off"
+                            onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+                        />
+                    </div>
+                    <div className='flex flex-row gap-3'>
+                        <input
+                            className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                            type="text"
+                            value={values.razon_social}
+                            name="razon_social"
+                            placeholder="Razon Social de la Empresa..."
+                            autoComplete="off"
+                            onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+                        />
+                        <input
+                            className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                            type="number"
+                            value={values.nit}
+                            name="nit"
+                            placeholder="Ingrese el NIT de la empresa"
+                            autoComplete="off"
+                            onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+                        />
+                    </div>
+
+>>>>>>> origin/Juan-Grajales
                     <input
                         className="h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white"
                         type="date"
@@ -80,6 +229,32 @@ export const FormRegistro = () => {
                         autoComplete="off"
                         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                     />
+<<<<<<< HEAD
+=======
+                    <input
+                        className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                        type="text"
+                        value={values.ventas_anopasado}
+                        name="ventas_anopasado"
+                        placeholder="Ingrese el total de ventas del año anterior..."
+                        autoComplete="off"
+                        onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+                        onBlur={() => handleBlur('ventas_anopasado')}
+                    />
+                    <input
+                        className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                        type="text"
+                        value={values.gastos_costos}
+                        name="gastos_costos"
+                        placeholder="Ingrese el total de gastos y costos del año anterior..."
+                        autoComplete="off"
+                        onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+                        onBlur={() => handleBlur('gastos_costos')}
+                    />
+                    <div className="flex justify-start">
+                        <Boton text={"Enviar"} onClick={openModal} />
+                    </div>
+>>>>>>> origin/Juan-Grajales
                 </div>
                 <div className='flex flex-row gap-3'>
                     <input
