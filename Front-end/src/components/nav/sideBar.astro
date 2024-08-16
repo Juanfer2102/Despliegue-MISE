@@ -34,7 +34,7 @@ function toggleModal() {
 
 {condicion === 1 && (
     <aside
-    class="sidebar hidden sticky sm:flex w-[5.5rem] h-screen bg-greyBlack rounded-md transition-all duration-700 ease-in-out"
+    class="sidebar hidden sticky sm:flex w-[95px] h-screen bg-greyBlack rounded-md transition-all duration-700 ease-in-out"
     id="sidebar"
 >
     <div class="cajasidebar1 flex flex-col gap-5 w-full" id="cajasidebar1">
@@ -114,7 +114,7 @@ function toggleModal() {
     </div>
 </aside>
 
-<script is:client>
+<script is:inline>
   let iconContainers = [];
   let logOutIcon;
 
@@ -139,9 +139,9 @@ function toggleModal() {
 
     // Evento para el botón de toggle
     toggleButton.addEventListener("click", () => {
-      if (sidebar.classList.contains("w-[5.5rem]")) {
-        sidebar.classList.remove("w-[5.5rem]");
-        sidebar.classList.add("w-[18rem]");
+      if (sidebar.classList.contains("w-[95px]")) {
+        sidebar.classList.remove("w-[95px]");
+        sidebar.classList.add("w-[280px]");
         sidebar.classList.remove("sticky");
         sidebar.classList.add("absolute");
         profilesideBar.classList.remove("hidden");
@@ -159,8 +159,8 @@ function toggleModal() {
         });
         toggleButton.innerHTML = '<i class="fa-solid fa-angle-left"></i>';
       } else {
-        sidebar.classList.remove("w-[18rem]");
-        sidebar.classList.add("w-[5.5rem]");
+        sidebar.classList.remove("w-[280px]");
+        sidebar.classList.add("w-[95px]");
         sidebar.classList.remove("absolute");
         sidebar.classList.add("sticky");
         profilesideBar.classList.add("hidden");
@@ -308,9 +308,9 @@ function toggleModal() {
         const profilesideBar = document.getElementById("profile");
 
         toggleButton.addEventListener("click", () => {
-            if (sidebar.classList.contains("w-[5.5rem]")) {
-                sidebar.classList.remove("w-[5.5rem]");
-                sidebar.classList.add("w-[18rem]");
+            if (sidebar.classList.contains("w-[95px]")) {
+                sidebar.classList.remove("w-[95px]");
+                sidebar.classList.add("w-[280px]");
                 sidebar.classList.remove("sticky");
                 sidebar.classList.add("absolute");
                 cadasidebar.classList.remove("pt-[6rem]");
@@ -329,8 +329,8 @@ function toggleModal() {
                     element.classList.add("flex");
                 });
             } else {
-                sidebar.classList.remove("w-[18rem]");
-                sidebar.classList.add("w-[5.5rem]");
+                sidebar.classList.remove("w-[280px]");
+                sidebar.classList.add("w-[95px]");
                 sidebar.classList.remove("absolute");
                 sidebar.classList.add("sticky");
                 cadasidebar.classList.add("pt-[6rem]");

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SelectComponent from '../../inputs/selectores/selectores';
 import './formsregistroemp.css';
+import { DatePicker } from '@tremor/react';
 
 export const FormRegistro = () => {
 
@@ -81,6 +82,7 @@ export const FormRegistro = () => {
                             value={values.educacion}
                             onChange={(value) => handleInputChange("educacion", value)}
                         />
+                        <DatePicker className="mx-auto max-w-sm" />
                         <input
                             className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                             type="date"

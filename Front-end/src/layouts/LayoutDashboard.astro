@@ -8,7 +8,7 @@ const { title } = Astro.props;
 import { library, icon } from "@fortawesome/fontawesome-svg-core";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faGamepad } from "@fortawesome/free-solid-svg-icons";
-
+import SideBar from "../components/nav/sideBar.astro";
 import { ViewTransitions } from "astro:transitions";
 
 library.add(faYoutube, faEnvelope, faGamepad);
@@ -55,7 +55,8 @@ const gamepadIcon = icon({ prefix: "fas", iconName: faGamepad.iconName });
     </script>
     
   </head>
-  <body class="min-h-full w-screen">
+  <body class="flex flex-row min-h-full w-screen">
+    <SideBar condicion={1} client:visible />
     <slot />
   </body>
 </html>
