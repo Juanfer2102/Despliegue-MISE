@@ -5,7 +5,7 @@ import Modal1 from "../../components/modales/modal1.astro";
 import SideBar from "../../components/nav/sideBar.astro";
 import { Elementosempresas } from "../../helpers/elementosempresas";
 import TarjetasEmpresasreg from "../../components/tarjetasdashboard/tarjetasEmpresasreg.astro";
-import TablasEmpresas from "../../components/tablas/tablasEmpresas.astro";
+import { TablasEmpresas } from "../..//components/tablas/tablasEmpresas"
 import TarjetasModulos from "../../components/tarjetasdashboard/tarjetasModulos.astro";
 ---
 
@@ -56,7 +56,7 @@ import TarjetasModulos from "../../components/tarjetasdashboard/tarjetasModulos.
                   </div>
                   <div class="overflow-y-auto custom-scrollbar rounded-xl">
                     <div class="max-h-[30rem] overflow-y-auto custom-scrollbar">
-                      <TablasEmpresas />
+                      <TablasEmpresas client:load/>
                     </div>
                   </div>
                 </div>
