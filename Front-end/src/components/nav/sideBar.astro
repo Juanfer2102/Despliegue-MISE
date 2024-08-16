@@ -52,12 +52,15 @@ function toggleModal() {
                 id="logo-min"
                 alt=""
             />
-            <img
+            {/* <img
                 id="toggleBtn"
                 src={IconExpand.src}
                 class="cursor-pointer absolute right-[-10px] top-[20px]"
                 alt=""
-            />
+            /> */}
+            <div class="w-[24px] h-[24px] rounded-full bg-principalGreen text-sm text-white flex justify-center items-center absolute right-[-10px] top-[20px] cursor-pointer" id="toggleBtn">
+                <i class="fa-solid fa-angle-right"></i>
+            </div>
         </div>
         <div class="flex flex-col gap-3 px-4">
             {
@@ -111,79 +114,108 @@ function toggleModal() {
     </div>
 </aside>
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const sidebar = document.getElementById("sidebar");
-        const cajaicon = document.querySelectorAll(".cajaelemento");
-        const usuariofinal = document.getElementById("usuariofinal");
-        const cadasidebar = document.getElementById("cajasidebar1");
-        const cajaadmin = document.getElementById("admincaja");
-        const toggleButton = document.getElementById("toggleBtn");
-        const sidebarLogomini = document.getElementById("logo-min");
-        const sidebarLogo = document.getElementById("logo");
-        const elements = document.querySelectorAll(".sidebar-element");
-        const profilesideBar = document.getElementById("profile");
-        const logOutIcon = document.getElementById('profile-1');
+<script is:client>
+  let iconContainers = [];
+  let logOutIcon;
 
-        if (logOutIcon) {
-            logOutIcon.addEventListener('click', () => {
-                toggleModal();
-            });
-        }
+  const initializeSidebar = () => {
+    const sidebar = document.getElementById("sidebar");
+    const cajaicon = document.querySelectorAll(".cajaelemento");
+    const usuariofinal = document.getElementById("usuariofinal");
+    const cajaadmin = document.getElementById("admincaja");
+    const toggleButton = document.getElementById("toggleBtn");
+    const sidebarLogomini = document.getElementById("logo-min");
+    const sidebarLogo = document.getElementById("logo");
+    const elements = document.querySelectorAll(".sidebar-element");
+    const profilesideBar = document.getElementById("profile");
 
-        toggleButton.addEventListener("click", () => {
-            if (sidebar.classList.contains("w-[5.5rem]")) {
-                console.log("1")
-                sidebar.classList.remove("w-[5.5rem]");
-                sidebar.classList.add("w-[18rem]");
-                sidebar.classList.remove("sticky");
-                sidebar.classList.add("absolute");
-                profilesideBar.classList.remove("hidden");
-                profilesideBar.classList.add("block");
-                
-                cajaadmin.classList.remove("hidden");
-                sidebarLogomini.classList.add("hidden");
-                sidebarLogo.classList.remove("hidden");
-                usuariofinal.classList.remove("flex-col", "gap-[20px]");
-                usuariofinal.classList.add("flex-row", "gap-[12px]");
-                elements.forEach((element) => {
-                    element.classList.remove("hidden");
-                });
-                cajaicon.forEach((element) => {
-                    element.classList.add("flex");
-                });
-            } else {
-                console.log("2")
-                sidebar.classList.remove("w-[18rem]");
-                sidebar.classList.add("w-[5.5rem]");
-                sidebar.classList.remove("absolute");
-                sidebar.classList.add("sticky");
-                profilesideBar.classList.add("hidden");
-                cajaadmin.classList.add("hidden");
-                sidebarLogomini.classList.remove("hidden");
-                sidebarLogo.classList.add("hidden");
-                usuariofinal.classList.remove("flex-row", "gap-[12px]");
-                usuariofinal.classList.add("flex-col", "gap-[20px]");
-                elements.forEach((element) => {
-                    element.classList.add("hidden");
-                });
-                cajaicon.forEach((element) => {
-                    element.classList.remove("flex");
-                });
-            }
+    // Evento del botón de cerrar sesión
+    logOutIcon = document.getElementById("profile-1");
+    if (logOutIcon) {
+      logOutIcon.addEventListener('click', () => {
+        toggleModal();
+      });
+    }
+
+    // Evento para el botón de toggle
+    toggleButton.addEventListener("click", () => {
+      if (sidebar.classList.contains("w-[5.5rem]")) {
+        sidebar.classList.remove("w-[5.5rem]");
+        sidebar.classList.add("w-[18rem]");
+        sidebar.classList.remove("sticky");
+        sidebar.classList.add("absolute");
+        profilesideBar.classList.remove("hidden");
+        profilesideBar.classList.add("block");
+        cajaadmin.classList.remove("hidden");
+        sidebarLogomini.classList.add("hidden");
+        sidebarLogo.classList.remove("hidden");
+        usuariofinal.classList.remove("flex-col", "gap-[20px]");
+        usuariofinal.classList.add("flex-row", "gap-[12px]");
+        elements.forEach((element) => {
+          element.classList.remove("hidden");
         });
+        cajaicon.forEach((element) => {
+          element.classList.add("flex");
+        });
+        toggleButton.innerHTML = '<i class="fa-solid fa-angle-left"></i>';
+      } else {
+        sidebar.classList.remove("w-[18rem]");
+        sidebar.classList.add("w-[5.5rem]");
+        sidebar.classList.remove("absolute");
+        sidebar.classList.add("sticky");
+        profilesideBar.classList.add("hidden");
+        cajaadmin.classList.add("hidden");
+        sidebarLogomini.classList.remove("hidden");
+        sidebarLogo.classList.add("hidden");
+        usuariofinal.classList.remove("flex-row", "gap-[12px]");
+        usuariofinal.classList.add("flex-col", "gap-[20px]");
+        elements.forEach((element) => {
+          element.classList.add("hidden");
+        });
+        cajaicon.forEach((element) => {
+          element.classList.remove("flex");
+        });
+        toggleButton.innerHTML = '<i class="fa-solid fa-angle-right"></i>';
+      }
     });
 
-    const iconContainers = document.querySelectorAll(".icon-container");
+    // Evento para los iconos del contenedor
+    iconContainers = document.querySelectorAll(".icon-container");
     iconContainers.forEach(iconContainer => {
-        iconContainer.addEventListener("click", () => {
-            const url = iconContainer.getAttribute("data-url");
-            if (url) {
-                window.location.href = url;
-            }
-        });
+      iconContainer.addEventListener("click", () => {
+        const url = iconContainer.getAttribute("data-url");
+        if (url) {
+          window.location.href = url;
+        }
+      });
     });
+  };
+
+  const cleanupSidebar = () => {
+    // Elimina los listeners sin clonar los elementos
+    if (logOutIcon) {
+      logOutIcon.removeEventListener('click', toggleModal);
+    }
+
+    iconContainers.forEach(iconContainer => {
+      // Reemplazar sólo los eventos, no los elementos
+      const clonedIconContainer = iconContainer.cloneNode(false); // Clona el nodo sin su contenido
+      clonedIconContainer.innerHTML = iconContainer.innerHTML; // Mantén el contenido intacto
+      iconContainer.replaceWith(clonedIconContainer);
+    });
+  };
+
+  // Escucha eventos de Astro
+  document.addEventListener('astro:before-swap', cleanupSidebar);
+  document.addEventListener('astro:after-swap', initializeSidebar);
+
+  // Inicializa la funcionalidad cuando la página cargue por primera vez
+  document.addEventListener("DOMContentLoaded", () => {
+    initializeSidebar();
+  });
 </script>
+
+
 
 )}
 
