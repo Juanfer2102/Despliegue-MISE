@@ -9,9 +9,9 @@ export const FormRegistro = () => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
+    const [errors, setErrors] = useState({});
 
-    const openModal = () => setIsOpen(true);
-    const closeModal = () => setIsOpen(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     const optionseducacion = [
         { value: 'Bachiller', label: 'Bachiller' },
@@ -86,9 +86,60 @@ export const FormRegistro = () => {
         }));
     };
 
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!values.educacion) {
+            newErrors.educacion = "El nombre es obligatorio.";
+        }
+
+        if (!values.fecha_inicio) {
+            newErrors.fecha_inicio = "El apellido es obligatorio.";
+        }
+
+        if (!values.celular) {
+            newErrors.celular = "Debe seleccionar un tipo de documento.";
+        }
+
+        if (!values.razon_social) {
+            newErrors.razon_social = "El número de documento es obligatorio.";
+        } 
+
+        if (!values.nit) {
+            newErrors.nit = "El correo electrónico es obligatorio.";
+        } 
+
+        if (!values.no_empleados) {
+            newErrors.no_empleados = "El número de celular es obligatorio.";
+        } 
+        if (!values.ventas_anopasado) {
+            newErrors.ventas_anopasado = "Debe seleccionar un género.";
+        }
+
+        if (!values.gastos_costos) {
+            newErrors.gastos_costos = "Debe seleccionar una ciudad.";
+        }
+
+
+        return newErrors;
+    }
+
     const handleForm = (event) => {
         event.preventDefault();
-    };
+
+        const validationErrors = validateForm();
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            setIsModalVisible(true);
+        } else {
+            handleConfirm();
+            // window.location.href = "/registroEmpresa/registroEmpresa";
+        }
+    }
+
+    const closeModal = () => {
+        setIsModalVisible(false);
+    }
 
     return (
         <>
@@ -219,6 +270,32 @@ export const FormRegistro = () => {
                     </div>
                 </div>
             </form>
+
+            {/* Modal para mostrar los errores */}
+            <div
+                className={`fixed top-10 right-0 rounded-l-3xl w-1/3 bg-white shadow-lg transform ${
+                    isModalVisible ? 'translate-x-0' : 'translate-x-full'
+                } transition-transform duration-500 ease-in-out`}
+            >
+                <div className="bg-red rounded-tl-3xl text-white p-4">
+                    <h2 className="text-xl font-bold">Error de Registro</h2>
+                    <button
+                        className="absolute top-2 right-2 text-white"
+                        onClick={closeModal}
+                    >
+                        X
+                    </button>
+                </div>
+                <div className="p-4">
+                    <ul>
+                        {Object.values(errors).map((error, index) => (
+                            <li key={index} className="text-black">
+                                {error}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
         </>
     );
 }
