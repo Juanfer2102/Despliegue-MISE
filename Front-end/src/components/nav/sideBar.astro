@@ -2,8 +2,8 @@
 import Logo from "../../images/logos/logoPrincipal.svg";
 import IconExpand from "../../images/sideBarImg/Expand icon.png";
 import { Elementoscript } from "../../helpers/elements";
-import Elemento from "../nav/elementSidebar.astro";
-import ElementSidebar from "../nav/elementSidebar.astro";
+import Elemento from "../nav/elementsidebar.astro";
+//import ElementSidebar from "../nav/elementSidebar.astro";
 import Logomini from "../../images/sideBarImg/Logomini.png";
 import { Elementoscriptadmin } from "../../helpers/elementsadmin";
 import IconLogOut from "../../images/sideBarsvg/log_out.svg";
@@ -66,7 +66,6 @@ function toggleModal() {
             {
                 Elementoscript.map((elemento, index) => (
                     <Elemento
-                        key={index}
                         icon={elemento.icon}
                         texto={elemento.texto}
                         URL={elemento.URL}
@@ -80,7 +79,6 @@ function toggleModal() {
             {
                 Elementoscriptadmin.map((elemento, index) => (
                     <Elemento
-                        key={index}
                         icon={elemento.icon}
                         texto={elemento.texto}
                         URL={elemento.URL}
@@ -250,7 +248,6 @@ function toggleModal() {
             {
                 Elementoscript.map((elemento, index) => (
                     <Elemento
-                        key={index}
                         icon={elemento.icon}
                         texto={elemento.texto}
                         URL={elemento.URL}
