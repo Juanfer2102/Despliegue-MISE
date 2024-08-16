@@ -3,6 +3,20 @@ import SelectComponent from "../../inputs/selectores/selectores.jsx";
 import './formsregistro.css';
 
 export const FormRegistro = () => {
+
+    const [values, setValues] = useState({
+        nombre: "",
+        apellido: "",
+        documento: "",
+        ndocumento: "",
+        correo: "",
+        celular: "",
+        genero: "",
+        ciudad: "",
+        educacion: "",
+        TyC: false,
+    });
+    
     const optionsdocu = [
         { value: 'Cedula de Ciudadania', label: 'Cedula de Ciudadania' },
         { value: 'Cedula de Extranjeria', label: 'Cedula de Extranjeria' },
@@ -21,18 +35,11 @@ export const FormRegistro = () => {
         { value: 'Candelaria', label: 'Candelaria' },
     ];
 
-    const [values, setValues] = useState({
-        nombre: "",
-        apellido: "",
-        documento: "",
-        ndocumento: "",
-        correo: "",
-        celular: "",
-        genero: "",
-        ciudad: "",
-        TyC: false,
-    });
-
+    const optionseducacion = [
+        { value: 'Bachiller', label: 'Bachiller' },
+        { value: 'Tecnico', label: 'Tecnico' },
+        { value: 'Maestria', label: 'Maestria' },
+    ];
     const [errors, setErrors] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -94,32 +101,33 @@ export const FormRegistro = () => {
 
         return newErrors;
     }
-
-    const handleForm = (event) => {
-        event.preventDefault();
-
-        const validationErrors = validateForm();
-        if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
-            setIsModalVisible(true);
-        } else {
-            console.log("Inputs value:", values);
-            // window.location.href = "/registroEmpresa/registroEmpresa";
-        }
-    }
-
     const closeModal = () => {
         setIsModalVisible(false);
     }
 
+    
+
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const validationErrors = validateForm();
+
+        if (Object.keys(validationErrors).length === 0) {
+            // Aquí redirigimos usando `window.location`
+            window.location.href = '/registroEmpresa/registroEmpresa'; // Cambia '/empresa-form' a la ruta de tu formulario de empresa
+        } else {
+            setErrors(validationErrors);
+            setIsModalVisible(true);
+        }
+    };
     return (
         <>
-            <form onSubmit={handleForm} className="form flex flex-col gap-6 bg-greyBlack p-3 rounded-xl">
+            <form onSubmit={handleSubmit} className="form flex flex-col gap-6 bg-greyBlack p-3 rounded-xl">
                 <div className="flex flex-row w-full gap-5">
                     <input
                         className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.nombre ? 'border-red-500' : ''}`}
                         type="text"
-                        value={values.nombre}
+                        value={values.nombre || ''}
                         name="nombre"
                         placeholder="Ingrese su nombre..."
                         autoComplete="off"
@@ -128,7 +136,7 @@ export const FormRegistro = () => {
                     <input
                         className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.apellido ? 'border-red-500' : ''}`}
                         type="text"
-                        value={values.apellido}
+                        value={values.apellido || ''}
                         name="apellido"
                         placeholder="Ingrese su apellido..."
                         autoComplete="off"
@@ -140,13 +148,14 @@ export const FormRegistro = () => {
                         type={"Tipo de Documento..."}
                         Select="documento"
                         options={optionsdocu}
-                        value={values.documento}
+                        value={values.documento || ''}
                         onChange={(value) => handleInputChange("documento", value)}
+                        className={`${errors.documento ? 'border-red-500' : ''}`}
                     />
                     <input
                         className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.ndocumento ? 'border-red-500' : ''}`}
                         type="number"
-                        value={values.ndocumento}
+                        value={values.ndocumento || ''}
                         name="ndocumento"
                         placeholder="Ingrese su número de documento..."
                         autoComplete="off"
@@ -156,7 +165,7 @@ export const FormRegistro = () => {
                 <input
                     className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.correo ? 'border-red-500' : ''}`}
                     type="email"
-                    value={values.correo}
+                    value={values.correo || ''}
                     name="correo"
                     placeholder="Ingrese su correo..."
                     autoComplete="off"
@@ -165,7 +174,7 @@ export const FormRegistro = () => {
                 <input
                     className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.celular ? 'border-red-500' : ''}`}
                     type="number"
-                    value={values.celular}
+                    value={values.celular || ''}
                     name="celular"
                     placeholder="Ingrese su número de celular..."
                     autoComplete="off"
@@ -176,7 +185,7 @@ export const FormRegistro = () => {
                         type={"Genero..."}
                         Select="genero"
                         options={optionsgender}
-                        value={values.genero}
+                        value={values.genero || ''}
                         onChange={(value) => handleInputChange("genero", value)}
                         className={`${errors.genero ? 'border-red-500' : ''}`}
                     />
@@ -184,18 +193,27 @@ export const FormRegistro = () => {
                         type={"Ciudad..."}
                         Select="ciudad"
                         options={optionscity}
-                        value={values.ciudad}
+                        value={values.ciudad || ''}
                         onChange={(value) => handleInputChange("ciudad", value)}
                         className={`${errors.ciudad ? 'border-red-500' : ''}`}
                     />
                 </div>
+                <div className="flex w-full">
+                    <SelectComponent
+                        type={"Educación Superior..."}
+                        Select="educacion"
+                        options={optionseducacion}
+                        value={values.educacion || ''}
+                        onChange={(value) => handleInputChange("educacion", value)}
+                    />
+                </div>
                 <div className="flex h-8 gap-2 items-center justify-start">
                     <input
-                        className={`border-2 border-solid ${errors.TyC ? 'border-red' : 'border-principalGreen'} h-full w-8`}
+                        className={`border-2 border-solid ${errors.TyC ? 'border-red-500' : 'border-principalGreen'} h-full w-8`}
                         type="checkbox"
                         name="TyC"
                         id="TyC"
-                        checked={values.TyC}
+                        checked={values.TyC || false}
                         onChange={(e) => handleInputChange(e.target.name, e.target.checked)}
                     />
                     <p className="text-xl">Acepto términos y condiciones</p>
@@ -212,9 +230,9 @@ export const FormRegistro = () => {
 
             {/* Modal para mostrar los errores */}
             <div
-                className={`fixed top-10 right-0 rounded-l-3xl w-1/3 bg-white shadow-lg transform ${
-                    isModalVisible ? 'translate-x-0' : 'translate-x-full'
-                } transition-transform duration-500 ease-in-out`}
+                className={`fixed top-10 right-0 rounded-l-3xl w-1/3 bg-white shadow-lg transform ${isModalVisible ? 'translate-x-0' : 'translate-x-full'
+                    } transition-transform duration-500 ease-in-out`}
+
             >
                 <div className="bg-red rounded-tl-3xl text-white p-4">
                     <h2 className="text-xl font-bold">Error de Registro</h2>
@@ -235,6 +253,7 @@ export const FormRegistro = () => {
                     </ul>
                 </div>
             </div>
+
         </>
     );
 }
