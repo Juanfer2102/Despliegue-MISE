@@ -4,7 +4,8 @@ import Boton from '../inputs/boton.jsx';
 import { TextareaHero } from '../inputs/textarea/TextArea.jsx';
 import ConfirmModal from './modalconfirm.jsx';
 import iconGB from "./../../images/icons/iconsEditUser/GoBack.png";
-import MultiSelectComponent from '../inputs/selectores/selectormultiple.jsx';
+import Selectormultiple from '../inputs/selectores/selectormultiple.jsx';
+
 
 const ModalComponent = ({ condicion }) => {
 
@@ -20,8 +21,24 @@ const ModalComponent = ({ condicion }) => {
         event.preventDefault(); // Evitar el recargo de la página
     };
 
+    const [selectedOptions, setSelectedOptions] = useState([]);
+
+    const handleMultiSelectChange = (name, values) => {
+        setSelectedOptions((prevOptions) => ({
+            ...prevOptions,
+            [name]: values,
+        }));
+
+        setValues((prevValues) => ({
+            ...prevValues,
+            [name]: values,
+        }));
+    };
+
     const [values, setValues] = useState({
         nom_mod_edit: "",
+        preg_mod_edit: "",
+        sue_mod_edit: "",
         nom_sue_edit: "",
         medi_sue_edit: "",
         nom_preg_edit: "",
@@ -30,6 +47,8 @@ const ModalComponent = ({ condicion }) => {
         tem_form_edit: "",
         ubi_tall_edit: "",
         new_mod: "",
+        new_preg_mod: "",
+        new_sue_mod: "",
         new_sue: "",
         new_medi: "",
         new_preg: "",
@@ -40,14 +59,6 @@ const ModalComponent = ({ condicion }) => {
 
     });
 
-    const [selectedOptions, setSelectedOptions] = useState([]);
-
-    const options = [
-        { value: 'option1', label: 'Opción 1' },
-        { value: 'option2', label: 'Opción 2' },
-        { value: 'option3', label: 'Opción 3' },
-        { value: 'option4', label: 'Opción 4' },
-    ];
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -62,11 +73,15 @@ const ModalComponent = ({ condicion }) => {
             case 1: // Nuevo Modulo
                 filteredValues = {
                     new_mod: values.new_mod,
+                    new_preg_mod: values.new_preg_mod,
+                    new_sue_mod: values.new_sue_mod,
                 };
                 break;
             case 2: // Editar Modulo
                 filteredValues = {
                     nom_mod_edit: values.nom_mod_edit,
+                    preg_mod_edit: values.preg_mod_edit,
+                    sue_mod_edit: values.sue_mod_edit,
                 };
                 break;
             case 3: // Nuevo Sueño
@@ -131,8 +146,8 @@ const ModalComponent = ({ condicion }) => {
                     <form onSubmit={handleForm} className="flex-col bg-greyBlack rounded-xl gap-3 text-center p-10 flex justify-center items-start">
                         <div className="flex flex-col justify-start gap-6">
                             <Input3 name={"new_mod"} value={values.new_mod} onChange={handleInputChange} DataType="Nombre" inputPlaceholder="Nombre Modulo" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[25rem]" additionalClass="" />
-                            <Input3 DataType="Preguntas" inputPlaceholder="Preguntas Modulo" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[25rem]" additionalClass="" />
-                            <Input3 DataType="Sueños" inputPlaceholder="SUEÑOS EXPRESS" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[25rem]" additionalClass="" />
+                            <Selectormultiple name={"new_preg_mod"} onChange={(values) => handleMultiSelectChange("new_preg_mod", values)} DataType="Preguntas" height="h-10" width="w-[10rem]" widthInput="w-[25rem]" />
+                            <Selectormultiple name={"new_sue_mod"} onChange={(values) => handleMultiSelectChange("new_sue_mod", values)} DataType="Sueños" height="h-10" width="w-[10rem]" widthInput="w-[25rem]" />
                             <Boton onClick={openModal} />
                         </div>
                     </form>
@@ -168,6 +183,8 @@ const ModalComponent = ({ condicion }) => {
                             <div className="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start">
                                 <form onSubmit={handleForm} className="flex flex-col justify-center items-center gap-6">
                                     <Input3 value={values.nom_mod_edit} name={"nom_mod_edit"} onChange={handleInputChange} DataType="Nombre" inputPlaceholder="Nombre Modulo" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" additionalClass="" />
+                                    <Selectormultiple name={"preg_mod_edit"} onChange={(values) => handleMultiSelectChange("preg_mod_edit", values)} DataType="Preguntas" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" />
+                                    <Selectormultiple name={"sue_mod_edit"} onChange={(values) => handleMultiSelectChange("sue_mod_edit", values)} DataType="Sueños" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" />
                                 </form>
                                 <Boton onClick={openModal} />
                             </div>
