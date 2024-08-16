@@ -1,0 +1,96 @@
+---
+import Logo from "../../components/logo.astro";
+import LayoutDashboard from "../../layouts/LayoutDashboard.astro";
+import Modal from "../../components/modales/modal.astro";
+import SideBar from "../../components/nav/sideBar.astro";
+import BotonGuardar from "../../components/modales/modalprueba.jsx";
+import { Button } from "@tremor/react";
+import FormAuto from "../../components/forms/formsautoevaluacion/formsautoevaluacion";
+---
+
+<LayoutDashboard title="Sueños">
+    <main
+        class="flex flex-col w-full bg-greyBlack h-screen text-white justify-center"
+    >
+        <div
+            class="bg-greyBg flex flex-col h-full w-full justify-center items-center gap-5"
+        >
+            <div
+                class="bg-greyBg flex flex-row h-full w-full items-center justify-center gap-5"
+            >
+                <div class="flex flex-col gap-5">
+                    <div
+                        class="bg-greyBlack w-max h-full p-12 flex flex-col gap-5 rounded-2xl"
+                    >
+                        <div class="flex flex-row justify-between">
+                            <p class="font-bold text-3xl text-left">
+                                AUTODIAGNÓSTICO DE FORMACIÓN <br />EMPRESARIAL
+                            </p>
+                        </div>
+                        <p>* Indica que la pregunta es obligatoria</p>
+                    </div>
+
+                    <div
+                        class="bg-greyBlack w-max h-full p-12 flex flex-col gap-5 rounded-2xl"
+                    >
+                        <div class="flex flex-col justify-between">
+                            <p class="font-bold text-3xl text-left">
+                                Programa Mise    
+                            </p>
+                            <p>
+                                De acuerdo con su respuesta, el <b
+                                    >Modelo Integral de Servicios Empresarial<br
+                                    />(MISE) es el programa que más se ajusta a
+                                    sus necesidades.</b
+                                >
+                            </p>
+                        </div>
+                        <p>
+                            El MISE es una ruta de acompañamiento integral,
+                            gratuita y presencial <br /> diseñada a su medida.<br
+                            />
+                        </p>
+                        <div>
+                            Diseñamos su ruta MISE de acuerdo con sus
+                            necesidades para que <br> pueda cumplir sus sueños
+                            empresariales. La ruta <br> MISE se  compone de  los
+                            ejes:
+                        </div>
+                            <ol>
+                                <li>Información de valor para su empresa</li><li
+                                >
+                                    Consultoría
+                                </li><li>
+                                    Contactos de valor y <i>networking</i>
+                                </li><li>Asesoría personalizada<br /></li><li>
+                                    Formación especializada en 6 áreas
+                                    empresariales:
+                                </li>
+                            </ol><ul>
+                                <li>
+                                    <span>CAPACIDADES GERENCIALES&nbsp;</span>
+                                </li><li>
+                                    MEJORA DE OPERACIONES APLICANDO <br>BUSINESS
+                                    INTELLIGENCE<br />
+                                </li><li>GERENCIA DE MARKETING<br /></li><li>
+                                    <span>GERENCIA DE VENTAS</span>
+                                </li><li>
+                                    GERENCIA DE TALENTO HUMANO Y <br> REGLAMENTACIÓN
+                                    JURIDICA EMPRESARIAL&nbsp;<br />
+                                </li><li>FINANZAS GERENCIALES<br /></li>
+                            </ul>
+                            <div>
+                                <span>Conoce más aquí:<i>&nbsp;</i></span><span
+                                    ><a href="https://ccpalmira.org.co/mise/"
+                                        >https://ccpalmira.org.co/mise/</a
+                                    ></span
+                                >    
+                        </div>
+                        </div>
+                    </div>
+                    <FormAuto client:load />
+                </div>
+            </div>
+        </div>
+    </main>
+</LayoutDashboard>
