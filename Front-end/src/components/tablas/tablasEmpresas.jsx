@@ -18,6 +18,9 @@ export const TablasEmpresas = () => {
         fetchEmpresas();
     }, []);
 
+    // Filtrar empresas con estado 2
+    const empresasConEstado2 = empresas.filter(empresa => empresa.estado === "2");    
+
     return (
         <table className="overflow-auto w-full justify-center rounded-xl">
             <thead className="bg-greyBlack border-textBg rounded-xl w-[20rem] text-white top-0 z-10">
@@ -29,7 +32,7 @@ export const TablasEmpresas = () => {
                 </tr>
             </thead>
             <tbody className="overflow-auto divide-y border border-textBg border-t-0 rounded">
-                {empresas.map((empresa) => (
+                {empresasConEstado2.map((empresa) => (
                     <InfoEmpresas
                         key={empresa.nit}
                         nombre={empresa.nombre_empresa}

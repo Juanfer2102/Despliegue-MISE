@@ -1,3 +1,3 @@
 export const Elementoscriptadmin = [
-    {icon:"fa-solid fa-users", texto:"Usuarios Registrados", URL:"/visualizarUsers/visualizarUsers"}
+    {icon:"fa-solid fa-users", texto:"Usuarios Registrados", URL:"/visualizarUsers"}
 ]
