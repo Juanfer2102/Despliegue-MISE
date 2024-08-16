@@ -6,7 +6,7 @@ import Modal1 from "../../components/modales/modal1.astro";
 import SideBar from "../../components/nav/sideBar.astro";
 import { Elementosempresas } from "../../helpers/elementosempresas";
 import TarjetasEmpresasreg from "../../components/tarjetasdashboard/tarjetasEmpresasreg.astro";
-import { TablasEmpresas } from "../..//components/tablas/tablasEmpresas"
+import Tablasaceptarempresa from "../../components/tablas/tablasaceptarempresa.astro";
 import TarjetasModulos from "../../components/tarjetasdashboard/tarjetasModulos.astro";
 ---
 
@@ -20,25 +20,15 @@ import TarjetasModulos from "../../components/tarjetasdashboard/tarjetasModulos.
           <div class=" h-full text-white gap-6">
             <div class=" flex-col">
               <div class="">
-                <p class="text-2xl pl-4">Empresas registradas</p>
+                <p class="text-2xl pl-4 p-5">Aceptacion de empresas</p>
               </div>
 
-              <div class="flex gap-6 text-sm p-3 pl-3">
-                {
-                  Elementosempresas.map((Elementosempresas, index) => (
-                      <TarjetasEmpresasreg
-                          empresaicon={Elementosempresas.empresaicon}
-                          tipoTarjeta={Elementosempresas.tipoTarjeta}
-                          numeroEmpresas={Elementosempresas.numeroEmpresas}
-                      />
-                  ))
-              }
-              </div>
+             
 
-              <div class="flex gap-10 w-[75rem]">
-                <div class="container rounded-xl px-10 pt-5 pb-10 h-full flex gap-2 flex-col overflow-y-auto custom-scrollbar">
+              <div class="flex gap-10 w-[75rem] ">
+                <div class="container rounded-xl px-10 pt-5 pb-10 h-full flex gap-2 flex-col overflow-y-auto custom-scrollba  bg-greyBlack">
                   <div
-                    class="flex items-center py-3 gap-4 text-left justify-end text-sm"
+                    class="flex items-center py-3 gap-4 text-left justify-end text-sm "
                   >
                     <input
                       type="text"
@@ -57,22 +47,11 @@ import TarjetasModulos from "../../components/tarjetasdashboard/tarjetasModulos.
                   </div>
                   <div class="overflow-y-auto custom-scrollbar rounded-xl">
                     <div class="max-h-[30rem] overflow-y-auto custom-scrollbar">
-                      <TablasEmpresas client:load/>
+                      <Tablasaceptarempresa />
                     </div>
                   </div>
                 </div>
-                <div
-                  class=" static flex flex-col justify-center align-middle bg-darkslategray rounded-lg overflow-y-auto custom-scrollbar max-h-[19rem] w-[25rem]"
-                >
-                  <TarjetasModulos tipoTarjeta="General" moduloicon="fa-table-cells" />
-                  <TarjetasModulos tipoTarjeta="Capacidades Gerenciales" moduloicon="fa-table-cells" />
-                  <TarjetasModulos tipoTarjeta="Mejora de Operaciones" moduloicon="fa-table-cells" />
-                  <TarjetasModulos tipoTarjeta="Gerencia de Marketing" moduloicon="fa-table-cells" />
-                  <TarjetasModulos tipoTarjeta="Gerencia de Ventas" moduloicon="fa-table-cells" />
-                  <TarjetasModulos tipoTarjeta="Gerencia de Talento Humano" moduloicon="fa-table-cells" />
-                  <TarjetasModulos tipoTarjeta="Financias Gerenciales" moduloicon="fa-table-cells" />
-                  
-                </div>
+             
               </div>
             </div>
           </div>
