@@ -12,6 +12,7 @@ const Form = () => {
     const [errors, setErrors] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isModalisVisible, setIsModalIsVisible] = useState(false);
+    const [nombres, setNombres] = useState('');  // Estado para almacenar los nombres
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -50,9 +51,6 @@ const Form = () => {
             setIsModalVisible(true);
         } else {
             console.log("Inputs value:", values);
-            setIsModalIsVisible(true);
-            // Redirige a la URL deseada si todo es válido
-            // window.location.href = "/empresasRegistradas/empresasRegistradas";
         }
 
         try {
@@ -67,11 +65,11 @@ const Form = () => {
             const data = await response.json();
 
             if (response.ok) {
-                setIsModalIsVisible(true);
-                console.log("Login con éxito:", data);
+                setNombres(data.data.nombres);  // Asigna el nombre del usuario al estado
+                setIsModalIsVisible(true);  // Abre el modal
+                console.log("Nombre del usuario:", data.data.nombres); // Verifica que el nombre del usuario esté presente
                 localStorage.setItem("access_token", data.access_token);
                 localStorage.setItem("refresh_token", data.refresh_token);
-                // Redirigir o cargar datos del usuario
             } else {
                 console.log("Error al iniciar sesión:", data);
             }
@@ -90,6 +88,7 @@ const Form = () => {
 
     const closeModalis = () => {
         setIsModalIsVisible(false);
+        window.location.href = "/dashboard/dashboard"
     };
 
     return (
@@ -142,7 +141,6 @@ const Form = () => {
                 </div>
             </form>
 
-            {/* Modal para mostrar los errores */}
             <div
                 className={`modal-container ${isModalVisible ? 'show' : ''}`}
             >
@@ -165,9 +163,11 @@ const Form = () => {
                     </ul>
                 </div>
             </div>
+
             <ModalLogIn
-                isOpen={isModalisVisible}
+                isOpen={isModalisVisible && nombres}  // Verifica que 'nombres' esté definido
                 onConfirm={closeModalis}
+                nombre={nombres || ''}  // En caso de que no esté definido, pasa una cadena vacía
             />
         </>
     );

@@ -1,18 +1,18 @@
 from django.shortcuts import render
-from .models import Coordinador, Director, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
-from .serializer import UsuarioSerializer, CoordinadorSerializer, DirectorSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
-from rest_framework import status, generics
+from .models import Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .serializer import UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
+from rest_framework import status, generics, serializers
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 
+from rest_framework_simplejwt.tokens import RefreshToken, UntypedToken
 
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import get_user_model
+from rest_framework.views import APIView
 
 @api_view(['POST'])
 def login(request):
@@ -64,7 +64,49 @@ def login(request):
         print(f"Error general en la vista login: {e}")
         return Response({'error': 'Error interno del servidor'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+@api_view(['POST'])
+def check_auth(request):
+    token = request.data.get('access_token')
 
+    if not token:
+        return Response({'isAuthenticated': False}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        UntypedToken(token)  # Valida el token
+        return Response({'isAuthenticated': True}, status=status.HTTP_200_OK)
+    except Exception:
+        return Response({'isAuthenticated': False}, status=status.HTTP_401_UNAUTHORIZED)
+    
+
+class PostulanteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Postulante
+        fields = '__all__'
+
+class EmpresaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Empresas
+        fields = '__all__'
+
+class RegistroPostulanteView(APIView):
+
+    def post(self, request, *args, **kwargs):
+        empresa_data = request.data.get('empresa')
+        postulante_data = request.data.get('postulante')
+
+        empresa_serializer = EmpresaSerializer(data=empresa_data)
+        if empresa_serializer.is_valid():
+            empresa = empresa_serializer.save()
+
+            postulante_data['empresa'] = empresa.id
+            postulante_serializer = PostulanteSerializer(data=postulante_data)
+            if postulante_serializer.is_valid():
+                postulante_serializer.save()
+                return Response(postulante_serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(postulante_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(empresa_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #proteccion de rutas
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -109,23 +151,6 @@ def lista_usuarios(request):
         })
 
     return Response(data, status=status.HTTP_200_OK)
-
-class CoordinadorListCreate(generics.ListCreateAPIView):
-    queryset = Coordinador.objects.all()
-    serializer_class = CoordinadorSerializer
-
-class CoordinadorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Coordinador.objects.all()
-    serializer_class = CoordinadorSerializer
-
-# Director Views
-class DirectorListCreate(generics.ListCreateAPIView):
-    queryset = Director.objects.all()
-    serializer_class = DirectorSerializer
-
-class DirectorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Director.objects.all()
-    serializer_class = DirectorSerializer
 
 # Empresas Views
 class EmpresasListCreate(generics.ListCreateAPIView):

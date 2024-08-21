@@ -1,39 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager    
 import bcrypt
 
 
-class Coordinador(models.Model):
-    id_coordinador = models.IntegerField()
-    nombres_coordinador = models.TextField()
-    apellidos_coordinador = models.TextField()
-    contraseña = models.TextField()
-    correo = models.TextField()
-    programa = models.TextField()
-    celular = models.IntegerField()
-    documento = models.IntegerField()
-    id_usuario = models.IntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'coordinador'
-
-
-class Director(models.Model):
-    id_director = models.IntegerField()
-    nombres_director = models.TextField()
-    apellidos_director = models.TextField()
-    correo = models.IntegerField()
-    documento = models.IntegerField()
-    celular = models.IntegerField()
-    contrasena = models.TextField()
-    id_usuario = models.IntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'director'
-
 class Empresas(models.Model):
-    nit = models.IntegerField(db_column='NIT', primary_key=True) 
+    nit = models.IntegerField(db_column='NIT', primary_key=True)
     nombre_empresa = models.TextField()
     celular = models.IntegerField()
     razon_social = models.TextField()
@@ -55,6 +26,18 @@ class Empresas(models.Model):
     class Meta:
         managed = False
         db_table = 'empresas'
+
+
+
+class MisePrueba(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    done = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'mise_prueba'
 
 
 class Modulos(models.Model):
@@ -138,12 +121,12 @@ class Suenos(models.Model):
     nombre_sueno = models.IntegerField()
     contenido = models.IntegerField()
     alcance = models.IntegerField()
-    nit = models.ForeignKey(Empresas, models.DO_NOTHING, db_column='NIT')
+    nit = models.ForeignKey(Empresas, models.DO_NOTHING, db_column='NIT')  # Field name made lowercase.
     id_modulo = models.ForeignKey(Modulos, models.DO_NOTHING, db_column='id_modulo')
 
     class Meta:
         managed = False
-        db_table = 'sue±os'
+        db_table = 'suenos'
 
 
 class Talleres(models.Model):
@@ -165,7 +148,7 @@ class Usuario(models.Model):
     celular = models.IntegerField()
     documento = models.IntegerField()
     programa = models.TextField()
-    contrasena = models.TextField()
+    contrasena = models.TextField(db_collation='utf8mb4_0900_ai_ci')
     nombres = models.TextField()
     apellidos = models.TextField()
 

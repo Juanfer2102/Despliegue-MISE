@@ -1,0 +1,51 @@
+---
+import Logo from "../../components/logo.astro";
+import LayoutDashboard from "../../layouts/LayoutDashboard.astro";
+//import ElementSidebar from "../../components/nav/elementSidebar.astro";
+import Modal1 from "../../components/modales/modal1.astro";
+import SideBar from "../../components/nav/sideBar.astro";
+import { Elementosempresas } from "../../helpers/elementosempresas";
+import TarjetasEmpresasreg from "../../components/tarjetasdashboard/tarjetasEmpresasreg.astro";
+import Tablasaceptarempresa from '../../components/tablas/tablasaceptarempresa'
+import TarjetasModulos from "../../components/tarjetasdashboard/tarjetasModulos.astro";
+---
+
+<LayoutDashboard title="Dashboard">
+  <main class="bg-greyBg  h-screen w-screen relative z-0 overflow-x-hidden">
+    <div class="flex flex-row ">
+      
+      <div class="w-full h-full">
+        <div class="bg-greyBlack  h-20 "></div>
+        <div class="  w-full px-8 py-5 h-full text-white gap-6">
+                <p class="text-2xl pl-4 p-5">Aceptacion de empresas</p>
+
+                <div class="rounded-xl px-10 pt-5 pb-10 h-full flex gap-2 flex-col overflow-y-auto custom-scrollba  bg-greyBlack">
+                  <div
+                    class="flex items-center py-3 gap-4 text-left justify-end text-sm "
+                  >
+                    <input
+                      type="text"
+                      placeholder=""
+                      class="border border-white rounded-lg bg-transparent -m-2 p-1"
+                    />
+                    <i class="fa-solid fa-magnifying-glass text-white"></i>
+                    <div class="flex items-center">
+                      <div
+                        class="items-center flex gap-4 border-2 rounded-lg border-white bg-transpsrent text-white text-left p-2 pr-3 pl-3"
+                      >
+                        <p>Mas nuevas</p>
+                        <i class="fa-solid fa-filter"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="overflow-y-auto custom-scrollbar rounded-xl">
+                    <div class="max-h-[30rem] overflow-y-auto custom-scrollbar">
+                      <Tablasaceptarempresa client:load/>
+                    </div>
+                  </div>
+                </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</LayoutDashboard>

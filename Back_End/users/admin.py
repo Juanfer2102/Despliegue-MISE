@@ -1,17 +1,5 @@
 from django.contrib import admin
-from .models import Coordinador, Director, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
-
-@admin.register(Coordinador)
-class CoordinadorAdmin(admin.ModelAdmin):
-    list_display = ('id_coordinador', 'nombres_coordinador', 'apellidos_coordinador', 'correo', 'programa', 'celular', 'documento', 'id_usuario')
-    search_fields = ('nombres_coordinador', 'apellidos_coordinador', 'correo')
-    list_filter = ('programa',)
-
-@admin.register(Director)
-class DirectorAdmin(admin.ModelAdmin):
-    list_display = ('id_director', 'nombres_director', 'apellidos_director', 'correo', 'documento', 'celular', 'id_usuario')
-    search_fields = ('nombres_director', 'apellidos_director', 'correo')
-    list_filter = ('documento',)
+from .models import Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 
 @admin.register(Empresas)
 class EmpresasAdmin(admin.ModelAdmin):
