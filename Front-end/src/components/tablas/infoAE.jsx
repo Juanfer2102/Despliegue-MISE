@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
 import ConfirmModal from '../modales/modalconfirm';
+import CancelModal from "../modales/modalcancel";
 
 const InfoAE = ({ nombre_empresa, representante, razon_social }) => {
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isCOpen, setIsCOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
+  const closeCModal = () => setIsCOpen(false);
   const openModal = () => setIsOpen(true);
+  const openCModal = () => setIsCOpen(true);
 
   const handleConfirm = () => {
+    console.log("1")
     closeModal();
+  };
+
+  const handleCancel = () => {
+    console.log("0")
+    closeCModal();
   };
 
   return (
     <>
-      <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleConfirm} />
+      
       <tr className="bg-transparent border-transparent">
         <td className="p-5 py-8 text-lg w-[4rem] text-white whitespace-nowrap">
           {nombre_empresa}
@@ -38,7 +48,7 @@ const InfoAE = ({ nombre_empresa, representante, razon_social }) => {
           <button onClick={openModal} className="p-4 pl-5 pr-5 tracking-wide text-xl transition-colors duration-200 bg-principalGreen transform border-solid rounded-tl-lg rounded-bl-lg hover:text-principalGreen hover:bg-colorwhite">
             <i className="fa-solid fa-check"></i>
           </button>
-          <button onClick={openModal} className="p-4 pl-5 pr-5 tracking-wide text-xl transition-colors duration-200 bg-red transform border-solid rounded-br-lg rounded-tr-lg hover:bg-h hover:text-red hover:bg-colorwhite">
+          <button onClick={openCModal} className="p-4 pl-5 pr-5 tracking-wide text-xl transition-colors duration-200 bg-red transform border-solid rounded-br-lg rounded-tr-lg hover:bg-h hover:text-red hover:bg-colorwhite">
             <i className="fa-solid fa-xmark"></i>
           </button>
         </td>

@@ -268,7 +268,7 @@ export const FormRegistro = () => {
                         onBlur={() => handleBlur('gastos_costos')}
                     />
                     <div className="flex justify-start">
-                        <Boton text={"Enviar"} onClick={openModal} />
+                        <Boton text={"Siguiente"} onClick={openModal} />
                     </div>
                 </div>
             </form>
