@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import ConfirmModal from '../../components/modales/modalconfirm';
-import ModalCarga from '../../components/modales/modalcarga/modalcarga'
+import Modalcarga from '../../components/modales/modalcarga/modalcarga'
 import CancelModal from "../../components/modales/modalcancel";
 
-const InfoAE = ({ nombre_empresa, representante, razon_social }) => {
+export const InfoAE = ({ nombre_empresa, representante, razon_social }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isCOpen, setIsCOpen] = useState(false);
@@ -66,10 +66,9 @@ const InfoAE = ({ nombre_empresa, representante, razon_social }) => {
       </tr>
       {/* Modal de éxito */}
       {isSuccessModalVisible && (
-        <ModalCarga />
+        <Modalcarga />
       )}
     </>
   );
 };
 
-export default InfoAE;
