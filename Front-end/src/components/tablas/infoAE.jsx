@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import ConfirmModal from '../modales/modalconfirm';
-import ModalCarga from '../modales/modalcarga/modalcarga';
-import CancelModal from "../modales/modalcancel";
+import ConfirmModal from '../../components/modales/modalconfirm';
+import ModalCarga from '../../components/modales/modalcarga/modalcarga'
+import CancelModal from "../../components/modales/modalcancel";
 
 const InfoAE = ({ nombre_empresa, representante, razon_social }) => {
 
