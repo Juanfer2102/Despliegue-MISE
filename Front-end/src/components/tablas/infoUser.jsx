@@ -1,8 +1,11 @@
 import React from 'react';
 
 const InfoUser = ({ nombre, MISE, dataRol }) => {
+
+    const userClassName = nombre.toLowerCase().replace(/\s+/g, '-');
+    
     return (
-        <tr className="bg-transparent border-transparent">
+        <tr className={`${userClassName} bg-transparent border-transparent`}>
             <td className="p-5 py-8 text-sm whitespace-nowrap">
                 <p className="text-white w-[8rem]">
                     {nombre}

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import InfoUser from './infoUser';
+import Buscador from '../inputs/buscador/buscador';
 
 const UserTable = () => {
     const [usuarios, setUsuarios] = useState([]);
     const [roles, setRoles] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchUsuarios = async () => {
@@ -33,7 +35,13 @@ const UserTable = () => {
     // Crear un mapa para acceder fácilmente al nombre del rol por id
     const roleMap = new Map(roles.map(role => [role.id_rol, role.descripcion]));
 
+    const handleSearch = (term) => {
+        setSearchTerm(term);
+    };
+
     return (
+        <>
+        <Buscador onSearch={handleSearch} />
         <table className="overflow-auto w-full justify-center rounded-xl">
             <thead className="bg-greyBlack border-textBg rounded-xl text-white  top-0 z-10">
                 <tr>
@@ -53,6 +61,7 @@ const UserTable = () => {
                 ))}
             </tbody>
         </table>
+        </>
     );
 };
 
