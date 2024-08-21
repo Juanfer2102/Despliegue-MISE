@@ -1,10 +1,52 @@
 import React, { useState } from 'react';
 import SelectComponent from '../../inputs/selectores/selectores';
 import './formsautoevaaluacion.css';
+import ConfirmModal from '../../modales/modalconfirm';
 
 export const FormAuto = () => {
 
-    const optionseducacion = [
+    const [isOpen, setIsOpen] = useState(false);
+    const [errors, setErrors] = useState({});
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
+
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!values.estrategia) {
+            newErrors.estrategia = "Debe ingresar una calificacion para estrategia.";
+        }
+
+        if (!values.operaciones) {
+            newErrors.operaciones = "Debe ingresar una calificacion para operaciones.";
+        }
+
+        if (!values.marketing) {
+            newErrors.marketing = "Debe ingresar una calificacion para marketing.";
+        }
+
+        if (!values.ventas) {
+            newErrors.ventas = "Debe ingresar una calificacion para ventas.";
+        }
+
+        if (!values.talentoHumano) {
+            newErrors.talentoHumano = "Debe ingresar una calificacion para talento humano.";
+        }
+
+        return newErrors;
+    }
+
+    const closeModalE = () => {
+        setIsModalVisible(false);
+    };
+
+    const closeModal = () => {
+        setIsOpen(false);
+    };
+
+    const openModal = () => setIsOpen(true);
+
+    const optionsautoevaluacion = [
         { value: '1', label: '1' },
         { value: '2', label: '2' },
         { value: '3', label: '3' },
@@ -34,80 +76,152 @@ export const FormAuto = () => {
 
     const handleForm = (event) => {
         event.preventDefault();
-        console.log("Inputs value:", values);
-        // window.location.href = "/registroEmpresa/registroEmpresa";
+        const validationErrors = validateForm();
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            closeModal();
+            setIsModalVisible(true);
+        } else {
+            console.log("Inputs value:", values);
+            closeModal();
+            openSuccessModal();
+        }
     }
 
+    const openSuccessModal = () => {
+        setIsSuccessModalVisible(true);
+        setTimeout(() => {
+            setIsSuccessModalVisible(false);
+            window.location.href = "https://www.ccpalmira.org.co/programas-y-servicios-empresariales/mise/";
+        }, 5000); // 5 segundos
+    };
+
     return (
-        <div className='bg-greyBlack rounded-2xl w-max h-max p-12 flex flex-col gap-6'>
-            <div className="flex flex-row justify-between">
-                <p className="font-bold text-3xl text-left">Diagnóstico</p>
+        <>
+            <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleForm} />
+            <div className='bg-greyBlack rounded-2xl w-max h-max p-12 flex flex-col gap-6'>
+                <div className="flex flex-row justify-between">
+                    <p className="font-bold text-3xl text-left">Diagnóstico</p>
+                </div>
+                <p>
+                    DE 1 A 10, SIENDO 1 LA CALIFICACIÓN MÁS BAJA Y 10 LA MÁS ALTA,<br />
+                    CALIFIQUE CÓMO EVALÚA EL DESEMPEÑO DE SU EMPRESA EN LAS<br />
+                    SIGUIENTES ÁREAS
+                </p>
+                <form className="form rounded-xl p-3 flex flex-col gap-4">
+                    <div className="flex flex-col gap-3 w-full">
+                        <div className='flex flex-row gap-3 items-center px-6'>
+                            <p className='text-xl w-full'>Estrategia y Dirección</p>
+                            <SelectComponent
+                                type={"Calificación..."}
+                                Select="estrategia"
+                                options={optionsautoevaluacion}
+                                value={values.estrategia}
+                                onChange={(value) => handleInputChange("estrategia", value)}
+                            />
+                        </div>
+                        <div className='flex flex-row gap-3 items-center px-6'>
+                            <p className='text-xl w-full'>Operaciones</p>
+                            <SelectComponent
+                                type={"Calificación..."}
+                                Select="operaciones"
+                                options={optionsautoevaluacion}
+                                value={values.operaciones}
+                                onChange={(value) => handleInputChange("operaciones", value)}
+                            />
+                        </div>
+                        <div className='flex flex-row gap-3 items-center px-6'>
+                            <p className='text-xl w-full'>Marketing</p>
+                            <SelectComponent
+                                type={"Calificación..."}
+                                Select="marketing"
+                                options={optionsautoevaluacion}
+                                value={values.marketing}
+                                onChange={(value) => handleInputChange("marketing", value)}
+                            />
+                        </div>
+                        <div className='flex flex-row gap-3 items-center px-6'>
+                            <p className='text-xl w-full'>Ventas</p>
+                            <SelectComponent
+                                type={"Calificación..."}
+                                Select="ventas"
+                                options={optionsautoevaluacion}
+                                value={values.ventas}
+                                onChange={(value) => handleInputChange("ventas", value)}
+                            />
+                        </div>
+                        <div className='flex flex-row gap-3 items-center px-6'>
+                            <p className='text-xl w-full'>Talento Humano</p>
+                            <SelectComponent
+                                type={"Calificación..."}
+                                Select="talentoHumano"
+                                options={optionsautoevaluacion}
+                                value={values.talentoHumano}
+                                onChange={(value) => handleInputChange("talentoHumano", value)}
+                            />
+                        </div>
+                        <div className="flex justify-start">
+                            <button onClick={openModal} type='button' className="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg">
+                                Postular
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <p>
-                DE 1 A 10, SIENDO 1 LA CALIFICACIÓN MÁS BAJA Y 10 LA MÁS ALTA,<br />
-                CALIFIQUE CÓMO EVALÚA EL DESEMPEÑO DE SU EMPRESA EN LAS<br />
-                SIGUIENTES ÁREAS
-            </p>
-            <form onSubmit={handleForm} className="form rounded-xl p-3 flex flex-col gap-4">
-                <div className="flex flex-col gap-3 w-full">
-                    <div className='flex flex-row gap-3 items-center px-6'>
-                        <p className='text-xl w-full'>Estrategia y Dirección</p>
-                        <SelectComponent
-                            type={"Calificación..."}
-                            Select="estrategia"
-                            options={optionseducacion}
-                            value={values.estrategia}
-                            onChange={(value) => handleInputChange("estrategia", value)}
-                        />
-                    </div>
-                    <div className='flex flex-row gap-3 items-center px-6'>
-                        <p className='text-xl w-full'>Operaciones</p>
-                        <SelectComponent
-                            type={"Calificación..."}
-                            Select="operaciones"
-                            options={optionseducacion}
-                            value={values.operaciones}
-                            onChange={(value) => handleInputChange("operaciones", value)}
-                        />
-                    </div>
-                    <div className='flex flex-row gap-3 items-center px-6'>
-                        <p className='text-xl w-full'>Marketing</p>
-                        <SelectComponent
-                            type={"Calificación..."}
-                            Select="marketing"
-                            options={optionseducacion}
-                            value={values.marketing}
-                            onChange={(value) => handleInputChange("marketing", value)}
-                        />
-                    </div>
-                    <div className='flex flex-row gap-3 items-center px-6'>
-                        <p className='text-xl w-full'>Ventas</p>
-                        <SelectComponent
-                            type={"Calificación..."}
-                            Select="ventas"
-                            options={optionseducacion}
-                            value={values.ventas}
-                            onChange={(value) => handleInputChange("ventas", value)}
-                        />
-                    </div>
-                    <div className='flex flex-row gap-3 items-center px-6'>
-                        <p className='text-xl w-full'>Talento Humano</p>
-                        <SelectComponent
-                            type={"Calificación..."}
-                            Select="talentoHumano"
-                            options={optionseducacion}
-                            value={values.talentoHumano}
-                            onChange={(value) => handleInputChange("talentoHumano", value)}
-                        />
-                    </div>
-                    <div className="flex justify-start">
-                        <button type='submit' className="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg">
-                            Postular
-                        </button>
+            {/* Modal para mostrar los errores */}
+            <div
+                className={`fixed top-10 right-0 rounded-l-3xl w-1/3 bg-white shadow-lg transform ${isModalVisible ? 'translate-x-0' : 'translate-x-full'
+                    } transition-transform duration-500 ease-in-out`}
+            >
+                <div className="bg-red rounded-tl-3xl text-white p-4">
+                    <h2 className="text-xl font-bold">Error de Registro</h2>
+                    <button
+                        className="absolute top-2 right-2 text-white"
+                        onClick={closeModalE}
+                    >
+                        X
+                    </button>
+                </div>
+                <div className="p-4">
+                    <ul>
+                        {Object.values(errors).map((error, index) => (
+                            <li key={index} className="text-black">
+                                {error}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+            {/* Modal de éxito */}
+            {isSuccessModalVisible && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-8 rounded-lg shadow-lg text-center">
+                        <h2 className="text-2xl font-bold">Su solicitud está en proceso</h2>
+                        <p className="mt-4">Muchas gracias por participar.</p>
+                        <div className="loading-balls">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
                     </div>
                 </div>
-            </form>
-        </div>
+            )}
+            {isSuccessModalVisible && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-8 rounded-lg shadow-lg text-center">
+                        <h2 className="text-2xl font-bold text-black">Su solicitud está en proceso</h2>
+                        <p className="mt-4 text-black">Muchas gracias por participar.</p>
+                        <div className="loading-balls">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+
+        </>
     );
 }
 

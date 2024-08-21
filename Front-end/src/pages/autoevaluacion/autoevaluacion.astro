@@ -6,9 +6,10 @@ import SideBar from "../../components/nav/sideBar.astro";
 import BotonGuardar from "../../components/modales/modalprueba.jsx";
 import { Button } from "@tremor/react";
 import FormAuto from "../../components/forms/formsautoevaluacion/formsautoevaluacion";
+import Layout from "../../layouts/Layout.astro";
 ---
 
-<LayoutDashboard title="Sueños">
+<Layout title="AutoEvaluacion">
     <main
         class="flex flex-col w-full bg-greyBlack h-screen text-white justify-center"
     >
@@ -19,23 +20,14 @@ import FormAuto from "../../components/forms/formsautoevaluacion/formsautoevalua
                 class="bg-greyBg flex flex-row h-full w-full items-center justify-center gap-5"
             >
                 <div class="flex flex-col gap-5">
-                    <div
-                        class="bg-greyBlack w-max h-full p-12 flex flex-col gap-5 rounded-2xl"
-                    >
-                        <div class="flex flex-row justify-between">
-                            <p class="font-bold text-3xl text-left">
-                                AUTODIAGNÓSTICO DE FORMACIÓN <br />EMPRESARIAL
-                            </p>
-                        </div>
-                        <p>* Indica que la pregunta es obligatoria</p>
-                    </div>
+
 
                     <div
                         class="bg-greyBlack w-max h-full p-12 flex flex-col gap-5 rounded-2xl"
                     >
                         <div class="flex flex-col justify-between">
                             <p class="font-bold text-3xl text-left">
-                                Programa Mise    
+                                AUTODIAGNÓSTICO DE FORMACIÓN <br />EMPRESARIAL
                             </p>
                             <p>
                                 De acuerdo con su respuesta, el <b
