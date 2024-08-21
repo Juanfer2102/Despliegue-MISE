@@ -32,19 +32,6 @@ export const FormRegistro = () => {
         fecha_registro: null,
     });
 
-    const handleConfirm = () => {
-        const now = new Date();
-        const updatedValues = {
-            ...values,
-            fecha_registro: now.toLocaleString(),
-        };
-        console.log('Inputs value:', updatedValues);
-        setValues(updatedValues);  // Actualizamos los valores antes de cerrar el modal
-        closeModal();
-        // window.location.href = "/registroEmpresa/registroEmpresa";
-        // location.reload();
-    };
-
     const formatCurrency = (value) => {
         const number = parseFloat(value.replace(/[^0-9.-]+/g, ''));
         if (isNaN(number)) return '';
@@ -54,7 +41,7 @@ export const FormRegistro = () => {
             minimumFractionDigits: 0,
         }).format(number);
     };
-    
+
 
     const handleBlur = (name) => {
         if (name === 'gastos_costos' || name === 'ventas_anopasado') {
@@ -90,56 +77,71 @@ export const FormRegistro = () => {
         const newErrors = {};
 
         if (!values.educacion) {
-            newErrors.educacion = "El nombre es obligatorio.";
+            newErrors.educacion = "Debe ingresar su nivel de educación.";
         }
 
         if (!values.fecha_inicio) {
-            newErrors.fecha_inicio = "El apellido es obligatorio.";
+            newErrors.fecha_inicio = "Debe ingresar la fecha de inicio de la empresa.";
         }
 
         if (!values.celular) {
-            newErrors.celular = "Debe seleccionar un tipo de documento.";
+            newErrors.celular = "Debe ingresar un numero de celular.";
         }
 
         if (!values.razon_social) {
-            newErrors.razon_social = "El número de documento es obligatorio.";
-        } 
+            newErrors.razon_social = "Debe ingresar la razon social de la empresa.";
+        }
 
         if (!values.nit) {
-            newErrors.nit = "El correo electrónico es obligatorio.";
-        } 
+            newErrors.nit = "Debe ingresar el NIT de la empresa.";
+        }
 
         if (!values.no_empleados) {
-            newErrors.no_empleados = "El número de celular es obligatorio.";
-        } 
+            newErrors.no_empleados = "Debe ingresar el numero de empleados de la empresa.";
+        }
         if (!values.ventas_anopasado) {
-            newErrors.ventas_anopasado = "Debe seleccionar un género.";
+            newErrors.ventas_anopasado = "Debe ingresar las ventas del año pasado.";
         }
 
         if (!values.gastos_costos) {
-            newErrors.gastos_costos = "Debe seleccionar una ciudad.";
+            newErrors.gastos_costos = "Debe ingresar los gastos o costos del año pasado.";
         }
 
 
         return newErrors;
     }
 
-    const handleForm = (event) => {
+    const handleConfirm = (event) => {
         event.preventDefault();
+        const now = new Date();
+        const updatedValues = {
+            ...values,
+            fecha_registro: now.toLocaleString(),
+        };
 
         const validationErrors = validateForm();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
+            closeModal();
             setIsModalVisible(true);
         } else {
-            handleConfirm();
+            console.log('Inputs value:', updatedValues);
+            setValues(updatedValues);  // Actualizamos los valores antes de cerrar el modal
+            closeModal();
             // window.location.href = "/registroEmpresa/registroEmpresa";
         }
-    }
+
+    };
+
+    const closeModalE = () => {
+        setIsModalVisible(false);
+    };
 
     const closeModal = () => {
-        setIsModalVisible(false);
-    }
+        setIsOpen(false);
+    };
+
+    const openModal = () => setIsOpen(true);
 
     return (
         <>
@@ -177,7 +179,7 @@ export const FormRegistro = () => {
                     </g>
                 </svg>
             </div>
-            <form onSubmit={handleForm} className="form bg-greyBlack rounded-xl p-3 flex flex-row">
+            <form className="form bg-greyBlack rounded-xl p-3 flex flex-row">
                 <div className="flex flex-col gap-3 w-full">
                     <div className='flex flex-row gap-3'>
                         <SelectComponent
@@ -273,15 +275,14 @@ export const FormRegistro = () => {
 
             {/* Modal para mostrar los errores */}
             <div
-                className={`fixed top-10 right-0 rounded-l-3xl w-1/3 bg-white shadow-lg transform ${
-                    isModalVisible ? 'translate-x-0' : 'translate-x-full'
-                } transition-transform duration-500 ease-in-out`}
+                className={`fixed top-10 right-0 rounded-l-3xl w-1/3 bg-white shadow-lg transform ${isModalVisible ? 'translate-x-0' : 'translate-x-full'
+                    } transition-transform duration-500 ease-in-out`}
             >
                 <div className="bg-red rounded-tl-3xl text-white p-4">
                     <h2 className="text-xl font-bold">Error de Registro</h2>
                     <button
                         className="absolute top-2 right-2 text-white"
-                        onClick={closeModal}
+                        onClick={closeModalE}
                     >
                         X
                     </button>
