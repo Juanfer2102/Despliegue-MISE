@@ -1,36 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ConfirmModal from '../modales/modalconfirm';
 
-const InfoAE = ({ nombre_empresa, representante, razon_social, openModal }) => {
+const InfoAE = ({ nombre_empresa, representante, razon_social }) => {
+
+  const [isOpen, setIsOpen] = useState(false);
+  const closeModal = () => setIsOpen(false);
+  const openModal = () => setIsOpen(true);
+
+  const handleConfirm = () => {
+    closeModal();
+  };
+
   return (
-    <tr className="bg-transparent border-transparent">
-      <td className="p-5 py-8 text-lg w-[4rem] text-white whitespace-nowrap">
-        {nombre_empresa}
-      </td>
-      <td className="p-5 text-lg w-[4rem] text-white whitespace-nowrap">
-        {representante}
-      </td>
-      <td className="p-5 text-lg w-[4rem] text-left whitespace-nowrap">
-        <span className="font-medium tracking-wider text-white rounded-lg">
-          {razon_social}
-        </span>
-      </td>
-      <td className="p-5 text-sm w-[4rem] text-center whitespace-nowrap">
-        <button
-          onClick={openModal} // Llama a openModal al hacer clic
-          className="p-4 pl-4 pr-4 tracking-wide text-lg transition-colors duration-200 bg-transparent transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
-        >
-          Ver Empresa
-        </button>
-      </td>
-      <td className="text-xl w-[4rem] text-center whitespace-nowrap">
-        <button className="p-4 pl-5 pr-5 tracking-wide text-xl transition-colors duration-200 bg-principalGreen transform border-solid rounded-lg hover:bg-principalGreen hover:text-principalGreen hover:bg-colorwhite">
-          <i className="fa-solid fa-check"></i>
-        </button>
-        <button className="p-4 pl-5 pr-5 tracking-wide text-xl transition-colors duration-200 bg-red transform border-solid rounded-lg hover:bg-h hover:text-red hover:bg-colorwhite">
-          <i className="fa-solid fa-xmark"></i>
-        </button>
-      </td>
-    </tr>
+    <>
+      <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleConfirm} />
+      <tr className="bg-transparent border-transparent">
+        <td className="p-5 py-8 text-lg w-[4rem] text-white whitespace-nowrap">
+          {nombre_empresa}
+        </td>
+        <td className="p-5 text-lg w-[4rem] text-white whitespace-nowrap">
+          {representante}
+        </td>
+        <td className="p-5 text-lg w-[4rem] text-left whitespace-nowrap">
+          <span className="font-medium tracking-wider text-white rounded-lg">
+            {razon_social}
+          </span>
+        </td>
+        <td className="p-5 text-sm w-[4rem] text-center whitespace-nowrap">
+          <button
+             // Llama a openModal al hacer clic
+            className="p-4 pl-4 pr-4 tracking-wide text-lg transition-colors duration-200 bg-transparent transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
+          >
+            Ver Empresa
+          </button>
+        </td>
+        <td className="text-xl w-[4rem] text-center whitespace-nowrap">
+          <button onClick={openModal} className="p-4 pl-5 pr-5 tracking-wide text-xl transition-colors duration-200 bg-principalGreen transform border-solid rounded-tl-lg rounded-bl-lg hover:text-principalGreen hover:bg-colorwhite">
+            <i className="fa-solid fa-check"></i>
+          </button>
+          <button onClick={openModal} className="p-4 pl-5 pr-5 tracking-wide text-xl transition-colors duration-200 bg-red transform border-solid rounded-br-lg rounded-tr-lg hover:bg-h hover:text-red hover:bg-colorwhite">
+            <i className="fa-solid fa-xmark"></i>
+          </button>
+        </td>
+      </tr>
+    </>
   );
 };
 

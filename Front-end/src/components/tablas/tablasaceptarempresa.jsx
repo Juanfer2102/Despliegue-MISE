@@ -28,14 +28,13 @@ const TableComponent = () => {
           </tr>
         </thead>
         <tbody className="overflow-auto divide-y border border-textBg border-t-0 rounded">
-          {empresas.map((empresa) => (
+        
             <InfoAE
-              key={empresa.nit}
-              nombre_empresa={empresa.nombre_empresa}
-              representante={empresa.gerente}
-              razon_social={empresa.razon_social}
+              key={"1"}
+              nombre_empresa={"s"}
+              representante={"sa"}
+              razon_social={"q"}
             />
-          ))}
         </tbody>
       </table>
     </>
