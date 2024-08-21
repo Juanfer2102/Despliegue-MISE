@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
-from .serializer import UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
+from .models import Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .serializer import AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from rest_framework import status, generics, serializers
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -152,6 +152,19 @@ def lista_usuarios(request):
 
     return Response(data, status=status.HTTP_200_OK)
 
+
+class AutoevaluacionListCreate(generics.ListCreateAPIView):
+    queryset = Autoevaluacion.objects.all()
+    serializer_class = AutoevaluacionSerializer
+
+class CalificacionModuloListCreate(generics.ListCreateAPIView):
+    queryset = CalificacionModulo.objects.all()
+    serializer_class = CalificacionModuloSerializer
+
+class ModuloAutoevaluacionListCreate(generics.ListCreateAPIView):
+    queryset = ModuloAutoevaluacion.objects.all()
+    serializer_class = ModuloAutoevaluacionSerializer
+    
 # Empresas Views
 class EmpresasListCreate(generics.ListCreateAPIView):
     queryset = Empresas.objects.all()

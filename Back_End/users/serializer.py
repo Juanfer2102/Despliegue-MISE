@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from .models import Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .models import Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 
 class EmpresasSerializer(serializers.ModelSerializer):
     class Meta:
@@ -68,3 +68,20 @@ class UsuarioSerializer(serializers.ModelSerializer):
             validated_data.pop('contrasena', None)
             
         return super().update(instance, validated_data)
+    
+    
+    
+class AutoevaluacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Autoevaluacion
+        fields = '__all__'
+
+class CalificacionModuloSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CalificacionModulo
+        fields = '__all__'
+
+class ModuloAutoevaluacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ModuloAutoevaluacion
+        fields = '__all__'
