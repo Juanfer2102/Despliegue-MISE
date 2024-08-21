@@ -4,6 +4,7 @@ import Boton from '../inputs/boton.jsx';
 import { TextareaHero } from '../inputs/textarea/TextArea.jsx';
 import ConfirmModal from './modalconfirm.jsx';
 import iconGB from "./../../images/icons/iconsEditUser/GoBack.png";
+import GoBack from '../inputs/goback/goBack.jsx';
 import Selectormultiple from '../inputs/selectores/selectormultiple.jsx';
 
 
@@ -138,11 +139,7 @@ const ModalComponent = ({ condicion }) => {
             {condicion === 1 && (
                 // Nuevo Modulo
                 <div className="flex flex-col gap-5">
-                    <div className="flex flex-row gap-3 text-textBg items-center font-semibold">
-                        <img src={iconGB.src} alt="" onClick={() => window.history.back()}
-                            style={{ cursor: 'pointer' }} />
-                        <p class="">Nuevo Modulo</p>
-                    </div>
+                    <GoBack text={"Nuevo Modulo"} />
                     <form onSubmit={handleForm} className="flex-col bg-greyBlack rounded-xl gap-3 text-center p-10 flex justify-center items-start">
                         <div className="flex flex-col justify-start gap-6">
                             <Input3 name={"new_mod"} value={values.new_mod} onChange={handleInputChange} DataType="Nombre" inputPlaceholder="Nombre Modulo" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[25rem]" additionalClass="" />
@@ -158,11 +155,7 @@ const ModalComponent = ({ condicion }) => {
                 // Editar Modulo
                 <>
                     <div className='flex flex-col gap-5'>
-                        <div className="flex flex-row gap-3 text-textBg items-center font-semibold">
-                            <img src={iconGB.src} alt="" onClick={() => window.history.back()}
-                                style={{ cursor: 'pointer' }} />
-                            <p class="">Editar Modulo</p>
-                        </div>
+                        <GoBack text={"Editar Modulo"} />
                         <div className="flex flex-row gap-5">
                             <div className="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start">
                                 <div className="flex flex-col justify-center items-center gap-6">
@@ -196,11 +189,7 @@ const ModalComponent = ({ condicion }) => {
             {condicion === 3 && (
                 // Nuevo Sueño
                 <div className="flex flex-col gap-3">
-                    <div className="flex flex-row gap-3 text-textBg items-center font-semibold">
-                        <img src={iconGB.src} alt="" onClick={() => window.history.back()}
-                            style={{ cursor: 'pointer' }} />
-                        <p class="">Nuevo Sueño</p>
-                    </div>
+                    <GoBack text={"Nuevo Sueño"} />
                     <div className="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start">
                         <div className="container flex-col bg-greyBlack rounded-xl max-h-[24rem] overflow-y-auto custom-scrollbar gap-3 text-center p-5 flex justify-center items-start">
                             <div className="flex flex-col justify-center gap-6">
@@ -219,11 +208,7 @@ const ModalComponent = ({ condicion }) => {
                 // Editar Sueños
                 <>
                     <div className='flex flex-col gap-5'>
-                        <div className="flex flex-row gap-3 text-textBg items-center font-semibold">
-                            <img src={iconGB.src} alt="" onClick={() => window.history.back()}
-                                style={{ cursor: 'pointer' }} />
-                            <p class="">Editar Sueño</p>
-                        </div>
+                        <GoBack text={"Editar Sueño"} />
                         <div className="flex flex-row gap-[15rem]">
                             <div className='flex flex-col gap-5'>
                                 <p className="text-xl h-5 text-white">Informacion de Sueño</p>
@@ -271,11 +256,7 @@ const ModalComponent = ({ condicion }) => {
                 // Editar Pregunta
                 <>
                     <div className='flex flex-col gap-5'>
-                        <div className="flex flex-row gap-3 text-textBg items-center font-semibold">
-                            <img src={iconGB.src} alt="" onClick={() => window.history.back()}
-                                style={{ cursor: 'pointer' }} />
-                            <p class="">Editar Pregunta</p>
-                        </div>
+                        <GoBack text={"Editar Pregunta"} />
                         <div className='flex flex-row gap-[15rem]'>
                             <div className="flex flex-col gap-5">
                                 <div className="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start">
@@ -306,29 +287,29 @@ const ModalComponent = ({ condicion }) => {
                     </div>
                 </>
             )}
-       
-            {condicion === 6 && (
-  // Editar preguntas taller
-      <div
-          class="container flex-col bg-greyBlack rounded-xl gap-3 text-start p-5 flex justify-center "
-      >
-        <p class="text-xl p-3 text-white">Editar Taller</p>
-          
-          <div class="flex flex-col items-center justify-center gap-4">
-              <Input3 DataType="Modulo" inputPlaceholder="CAPACIDADES GERENCIALES" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
-              <Input3 DataType="Tema o titulo de la formacion" inputPlaceholder="MISE Labs: Maneja tu tiempo y actividades con Trello" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
-              <Input3 DataType="Obgetivo" inputPlaceholder="Desarrollar habilidades practicas para manejo de tiempo y actividades con Trello" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
-              <Input3 DataType="Alcanze de la formacion" inputPlaceholder="Ruta de acompañamiento para la apropiacion de conocimientos" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
-              <Input3 DataType="Contenido" inputPlaceholder="Habilidades gerenciales, Creacion de cuenta de trello, creacion de tablero en trello" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
-              <Input3 DataType="Conferencista y facilitador" inputPlaceholder="Marybel Salazar, Líder CRM Viernes estrategia empresarial" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
-              <Input3 DataType="Fecha" inputPlaceholder="Martes, abril 16,2024" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
-              <Input3 DataType="Horario" inputPlaceholder="2:00pm a 5:00pm" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
-              <Input3 DataType="Ubicacion" inputPlaceholder="Cámara de Comercio de Palmira - Calle 28 N° 31-30" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass=""/>
-          </div>
-      </div>
-)}
 
             {condicion === 6 && (
+                // Editar preguntas taller
+                <div
+                    class="container flex-col bg-greyBlack rounded-xl gap-3 text-start p-5 flex justify-center "
+                >
+                    <p class="text-xl p-3 text-white">Editar Taller</p>
+
+                    <div class="flex flex-col items-center justify-center gap-4">
+                        <Input3 DataType="Modulo" inputPlaceholder="CAPACIDADES GERENCIALES" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
+                        <Input3 DataType="Tema o titulo de la formacion" inputPlaceholder="MISE Labs: Maneja tu tiempo y actividades con Trello" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
+                        <Input3 DataType="Obgetivo" inputPlaceholder="Desarrollar habilidades practicas para manejo de tiempo y actividades con Trello" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
+                        <Input3 DataType="Alcanze de la formacion" inputPlaceholder="Ruta de acompañamiento para la apropiacion de conocimientos" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
+                        <Input3 DataType="Contenido" inputPlaceholder="Habilidades gerenciales, Creacion de cuenta de trello, creacion de tablero en trello" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
+                        <Input3 DataType="Conferencista y facilitador" inputPlaceholder="Marybel Salazar, Líder CRM Viernes estrategia empresarial" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
+                        <Input3 DataType="Fecha" inputPlaceholder="Martes, abril 16,2024" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
+                        <Input3 DataType="Horario" inputPlaceholder="2:00pm a 5:00pm" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
+                        <Input3 DataType="Ubicacion" inputPlaceholder="Cámara de Comercio de Palmira - Calle 28 N° 31-30" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
+                    </div>
+                </div>
+            )}
+
+            {condicion === 7 && (
                 // Nueva Pregunta
                 <>
                     <div className='flex flex-col gap-5'>
@@ -352,15 +333,11 @@ const ModalComponent = ({ condicion }) => {
                 </>
             )}
 
-            {condicion === 7 && (
+            {condicion === 8 && (
                 // Editar taller
                 <>
                     <div className='flex flex-col gap-5'>
-                        <div className="flex flex-row gap-3 text-textBg items-center font-semibold">
-                            <img src={iconGB.src} alt="" onClick={() => window.history.back()}
-                                style={{ cursor: 'pointer' }} />
-                            <p class="">Editar Taller</p>
-                        </div>
+                        <GoBack text={"Editar Taller"} />
                         <div className='flex flex-row gap-[15rem]'>
                             <div className='flex flex-row gap-5'>
                                 <div
@@ -393,15 +370,11 @@ const ModalComponent = ({ condicion }) => {
                 </>
             )}
 
-            {condicion === 8 && (
+            {condicion === 9 && (
                 // Nuevo taller
                 <>
                     <div className='flex flex-col gap-5'>
-                        <div className="flex flex-row gap-3 text-textBg items-center font-semibold">
-                            <img src={iconGB.src} alt="" onClick={() => window.history.back()}
-                                style={{ cursor: 'pointer' }} />
-                            <p class="">Nuevo Taller</p>
-                        </div>
+                        <GoBack text={"Nuevo Taller"} />
                         <div className='flex flex-row gap-[15rem]'>
                             <div className='flex flex-row gap-5'>
                                 <div

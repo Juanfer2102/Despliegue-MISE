@@ -17,6 +17,7 @@ const TableComponent = () => {
 
   return (
     <>
+      
       <table className="overflow-auto w-full justify-center rounded-xl">
         <thead className="bg-greyBlack border-textBg rounded-xl  text-white top-0 z-10">
           <tr>
