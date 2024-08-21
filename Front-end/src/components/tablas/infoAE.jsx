@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import ConfirmModal from '../modales/modalconfirm';
-import CancelModal from "../modales/modalcancel";
+import ConfirmModal from '../../components/modales/modalconfirm';
+import CancelModal from '../../components/modales/modalcancel';
 
 const InfoAE = ({ nombre_empresa, representante, razon_social }) => {
 
@@ -23,28 +23,28 @@ const InfoAE = ({ nombre_empresa, representante, razon_social }) => {
 
   return (
     <>
-      
-      <tr className="bg-transparent border-transparent">
-        <td className="p-5 py-8 text-lg w-[4rem] text-white whitespace-nowrap">
+    <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleConfirm} />
+    <CancelModal isCOpen={isCOpen} closeCModal={closeCModal} handleCancel={handleCancel} />
+      <tr className="bg-transparent border-transparent ">
+        <td className="p-5 py-8 text-lg  text-white whitespace-nowrap ">
           {nombre_empresa}
         </td>
-        <td className="p-5 text-lg w-[4rem] text-white whitespace-nowrap">
+        <td className="p-5 text-lg  text-white whitespace-nowrap">
           {representante}
         </td>
-        <td className="p-5 text-lg w-[4rem] text-left whitespace-nowrap">
+        <td className="p-5 text-lg  text-left whitespace-nowrap">
           <span className="font-medium tracking-wider text-white rounded-lg">
             {razon_social}
           </span>
         </td>
-        <td className="p-5 text-sm w-[4rem] text-center whitespace-nowrap">
+        <td className="p-5 text-sm  text-center whitespace-nowrap">
           <button
-             // Llama a openModal al hacer clic
             className="p-4 pl-4 pr-4 tracking-wide text-lg transition-colors duration-200 bg-transparent transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
           >
             Ver Empresa
           </button>
         </td>
-        <td className="text-xl w-[4rem] text-center whitespace-nowrap">
+        <td className="text-xl  text-center whitespace-nowrap">
           <button onClick={openModal} className="p-4 pl-5 pr-5 tracking-wide text-xl transition-colors duration-200 bg-principalGreen transform border-solid rounded-tl-lg rounded-bl-lg hover:text-principalGreen hover:bg-colorwhite">
             <i className="fa-solid fa-check"></i>
           </button>
