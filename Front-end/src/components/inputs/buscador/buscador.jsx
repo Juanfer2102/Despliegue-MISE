@@ -4,7 +4,7 @@ const Buscador = ({ onSearch }) => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleInputChange = (e) => {
-        const value = e.target.value.toLowerCase().replace(/\s+/g, '-');
+        const value = e.target.value.toLowerCase();
         setSearchTerm(value);
         onSearch(value);
     };

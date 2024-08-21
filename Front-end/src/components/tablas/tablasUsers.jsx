@@ -41,26 +41,30 @@ const UserTable = () => {
 
     return (
         <>
-        <Buscador onSearch={handleSearch} />
-        <table className="overflow-auto w-full justify-center rounded-xl">
-            <thead className="bg-greyBlack border-textBg rounded-xl text-white  top-0 z-10">
-                <tr>
-                    <th className="w-[2rem] p-5 text-left">Nombre</th>
-                    <th className="p-5 text-center">MISE encargado</th>
-                    <th className="w-28 p-5 text-right">Rol</th>
-                </tr>
-            </thead>
-            <tbody className="overflow-auto divide-y border border-textBg border-t-0 rounded">
-                {usuarios.map((usuario) => (
-                    <InfoUser
-                        key={usuario.id_usuario}
-                        nombre={`${usuario.nombres} ${usuario.apellidos}`}
-                        MISE={usuario.programa}
-                        dataRol={roleMap.get(usuario.id_rol)}  // Usa el mapa para obtener el nombre del rol
-                    />
-                ))}
-            </tbody>
-        </table>
+            <Buscador onSearch={handleSearch} />
+            <table className="overflow-auto w-full justify-center rounded-xl">
+                <thead className="bg-greyBlack border-textBg rounded-xl text-white  top-0 z-10">
+                    <tr>
+                        <th className="w-[2rem] p-5 text-left">Nombre</th>
+                        <th className="p-5 text-center">MISE encargado</th>
+                        <th className="w-28 p-5 text-right">Rol</th>
+                    </tr>
+                </thead>
+                <tbody className="overflow-auto divide-y border border-textBg border-t-0 rounded">
+                    {usuarios.map((usuario) => {
+                        const nombreClase = `${usuario.nombres} ${usuario.apellidos}`.toLowerCase();  // Mantener espacios
+                        return (
+                            <InfoUser
+                                key={usuario.id_usuario}
+                                nombre={`${usuario.nombres} ${usuario.apellidos}`}
+                                MISE={usuario.programa}
+                                dataRol={roleMap.get(usuario.id_rol)}
+                                hidden={!nombreClase.includes(searchTerm)}  // Ocultar si no coincide con la búsqueda
+                            />
+                        );
+                    })}
+                </tbody>
+            </table>
         </>
     );
 };

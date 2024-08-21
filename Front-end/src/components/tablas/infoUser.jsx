@@ -2,7 +2,7 @@ import React from 'react';
 
 const InfoUser = ({ nombre, MISE, dataRol }) => {
 
-    const userClassName = nombre.toLowerCase().replace(/\s+/g, '-');
+    const userClassName = nombre.toLowerCase();
     
     return (
         <tr className={`${userClassName} bg-transparent border-transparent`}>
