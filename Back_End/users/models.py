@@ -27,6 +27,22 @@ class Empresas(models.Model):
         managed = False
         db_table = 'empresas'
 
+class Postulante(models.Model):
+    id_postulante = models.IntegerField(primary_key=True)
+    nombres_postulante = models.TextField()
+    apellidos_postulante = models.TextField()
+    celular = models.IntegerField()
+    genero = models.TextField()
+    correo = models.TextField()
+    municipio = models.TextField()
+    no_documento = models.IntegerField()
+    tipo_documento = models.TextField()
+    id_rol = models.ForeignKey('Rol', models.DO_NOTHING, db_column='id_rol')
+
+    class Meta:
+        managed = False
+        db_table = 'postulante'
+
 
 
 class MisePrueba(models.Model):
@@ -54,22 +70,6 @@ class Modulos(models.Model):
         managed = False
         db_table = 'modulos'
 
-
-class Postulante(models.Model):
-    id_postulante = models.IntegerField(primary_key=True)
-    nombres_postulante = models.TextField()
-    apellidos_postulante = models.TextField()
-    celular = models.IntegerField()
-    genero = models.TextField()
-    correo = models.TextField()
-    municipio = models.TextField()
-    no_documento = models.IntegerField()
-    tipo_documento = models.TextField()
-    id_rol = models.ForeignKey('Rol', models.DO_NOTHING, db_column='id_rol')
-
-    class Meta:
-        managed = False
-        db_table = 'postulante'
 
 
 class Preguntas(models.Model):
@@ -163,3 +163,35 @@ class Usuario(models.Model):
     #FUNCION QUE ME PERMITE VALIDAR MI CONTRASEÑA
     def check_password(self, raw_password):        
         return bcrypt.checkpw(raw_password.encode('utf-8'), self.contrasena.encode('utf-8'))
+
+
+class Autoevaluacion(models.Model):
+    id_autoevaluacion = models.AutoField(primary_key=True)
+    fecha = models.DateField()
+    comentarios = models.TextField(blank=True, null=True)
+    nit_empresa = models.ForeignKey('Empresas', models.DO_NOTHING, db_column='nit_empresa', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'autoevaluacion'
+
+
+class CalificacionModulo(models.Model):
+    id_calificacion = models.AutoField(primary_key=True)
+    calificacion = models.IntegerField()
+    comentarios = models.TextField(blank=True, null=True)
+    id_autoevaluacion = models.ForeignKey(Autoevaluacion, models.DO_NOTHING, db_column='id_autoevaluacion', blank=True, null=True)
+    id_modulo = models.ForeignKey('ModuloAutoevaluacion', models.DO_NOTHING, db_column='id_modulo', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'calificacion_modulo'
+        
+class ModuloAutoevaluacion(models.Model):
+    id_modulo = models.AutoField(primary_key=True)
+    nombre = models.TextField()
+    descripcion = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'modulo_autoevaluacion'
