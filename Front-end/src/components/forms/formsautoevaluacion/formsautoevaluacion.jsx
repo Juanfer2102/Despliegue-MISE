@@ -196,19 +196,6 @@ export const FormAuto = () => {
             {isSuccessModalVisible && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white p-8 rounded-lg shadow-lg text-center">
-                        <h2 className="text-2xl font-bold">Su solicitud está en proceso</h2>
-                        <p className="mt-4">Muchas gracias por participar.</p>
-                        <div className="loading-balls">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div>
-                </div>
-            )}
-            {isSuccessModalVisible && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-8 rounded-lg shadow-lg text-center">
                         <h2 className="text-2xl font-bold text-black">Su solicitud está en proceso</h2>
                         <p className="mt-4 text-black">Muchas gracias por participar.</p>
                         <div className="loading-balls">

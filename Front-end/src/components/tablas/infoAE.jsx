@@ -1,29 +1,40 @@
 import React, { useState } from 'react';
 import ConfirmModal from '../modales/modalconfirm';
+import ModalCarga from '../modales/modalcarga/modalcarga';
 import CancelModal from "../modales/modalcancel";
 
 const InfoAE = ({ nombre_empresa, representante, razon_social }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isCOpen, setIsCOpen] = useState(false);
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
   const closeModal = () => setIsOpen(false);
   const closeCModal = () => setIsCOpen(false);
   const openModal = () => setIsOpen(true);
   const openCModal = () => setIsCOpen(true);
 
   const handleConfirm = () => {
-    console.log("1")
+    openSuccessModal();
     closeModal();
   };
 
   const handleCancel = () => {
-    console.log("0")
+    openSuccessModal();
     closeCModal();
+  };
+
+  const openSuccessModal = () => {
+    setIsSuccessModalVisible(true);
+    setTimeout(() => {
+      setIsSuccessModalVisible(false);
+      location.reload();
+    }, 1000); // 1 segundos
   };
 
   return (
     <>
-      
+      <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleConfirm} />
+      <CancelModal isCOpen={isCOpen} closeCModal={closeCModal} handleCancel={handleCancel} />
       <tr className="bg-transparent border-transparent">
         <td className="p-5 py-8 text-lg w-[4rem] text-white whitespace-nowrap">
           {nombre_empresa}
@@ -38,7 +49,7 @@ const InfoAE = ({ nombre_empresa, representante, razon_social }) => {
         </td>
         <td className="p-5 text-sm w-[4rem] text-center whitespace-nowrap">
           <button
-             // Llama a openModal al hacer clic
+            // Llama a openModal al hacer clic
             className="p-4 pl-4 pr-4 tracking-wide text-lg transition-colors duration-200 bg-transparent transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
           >
             Ver Empresa
@@ -53,6 +64,10 @@ const InfoAE = ({ nombre_empresa, representante, razon_social }) => {
           </button>
         </td>
       </tr>
+      {/* Modal de éxito */}
+      {isSuccessModalVisible && (
+        <ModalCarga />
+      )}
     </>
   );
 };
