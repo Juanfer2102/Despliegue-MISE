@@ -32,6 +32,7 @@ const TableComponent = () => {
 
           {empresas.map((empresa) => (
             <InfoAE
+              nit={empresa.nit}
               key={empresa.nit}
               nombre_empresa={empresa.nombre_empresa}
               representante={empresa.gerente}
@@ -45,3 +46,4 @@ const TableComponent = () => {
 };
 
 export default TableComponent;
+
