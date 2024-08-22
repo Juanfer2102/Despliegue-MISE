@@ -1,12 +1,12 @@
 import React from 'react';
 
-const SelectComponent = ({ id, options, value, onChange, type }) => {
+const SelectComponent = ({ id, options, value, onChange, type, name }) => {
   return (
     <select
       id={id}
       className="bg-transparent caret-white px-4 py-2.5 h-full w-full rounded-lg outline-0 peer border font-sans text-lg font-normal focus:bg-transparent"
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => onChange(name, e.target.value)}  // Pasa el nombre del campo junto con el valor
     >
       <option value="" disabled>{type}</option>
       {options.map((option) => (
@@ -15,6 +15,7 @@ const SelectComponent = ({ id, options, value, onChange, type }) => {
         </option>
       ))}
     </select>
-)};
+  );
+};
 
-  export default SelectComponent;
+export default SelectComponent;

@@ -41,7 +41,11 @@ const UserTable = () => {
 
     return (
         <>
-            <Buscador onSearch={handleSearch} />
+            <div className='flex flex-row w-full'>
+                <Buscador onSearch={handleSearch} />
+                <div className='w-auto'><a href="/nuevoUser/nuevoUser"><button className='bg-principalGreen rounded-xl p-1 text-white hover:bg-white hover:text-principalGreen'>Nuevo Usuario</button></a></div>
+
+            </div>
             <table className="overflow-auto w-full justify-center rounded-xl">
                 <thead className="bg-greyBlack border-textBg rounded-xl text-white  top-0 z-10">
                     <tr>
