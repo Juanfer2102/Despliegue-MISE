@@ -9,18 +9,26 @@ const Form = () => {
         contrasena: "",
     });
 
+    const [errorMessage, setErrorMessage] = useState('');
+
+
     const [errors, setErrors] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isModalisVisible, setIsModalIsVisible] = useState(false);
     const [nombres, setNombres] = useState('');  // Estado para almacenar los nombres
 
     const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setValues({
-            ...values,
-            [name]: value,
-        });
-    };
+    const { name, value } = event.target;
+    setValues({
+        ...values,
+        [name]: value,
+    });
+
+    // Limpiar el mensaje de error al cambiar el valor del input
+    if (errorMessage) {
+        setErrorMessage('');
+    }
+};
 
     const validateForm = () => {
         const newErrors = {};
@@ -43,40 +51,44 @@ const Form = () => {
     };
 
     const handleForm = async (event) => {
-        event.preventDefault();
+    event.preventDefault();
 
-        const validationErrors = validateForm();
-        if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
-            setIsModalVisible(true);
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors);
+        setIsModalVisible(true);
+        return; // Salir si hay errores de validación
+    }
+
+    try {
+        const response = await fetch("http://localhost:8000/api/v2/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            setNombres(data.data.nombres);
+            setIsModalIsVisible(true);
+            localStorage.setItem("access_token", data.access_token);
+            localStorage.setItem("refresh_token", data.refresh_token);
+            setErrorMessage(''); // Limpiar mensaje de error al hacer login exitoso
         } else {
-            console.log("Inputs value:", values);
-        }
-
-        try {
-            const response = await fetch("http://localhost:8000/api/v2/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(values),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                setNombres(data.data.nombres);  // Asigna el nombre del usuario al estado
-                setIsModalIsVisible(true);  // Abre el modal
-                console.log("Nombre del usuario:", data.data.nombres); // Verifica que el nombre del usuario esté presente
-                localStorage.setItem("access_token", data.access_token);
-                localStorage.setItem("refresh_token", data.refresh_token);
-            } else {
-                console.log("Error al iniciar sesión:", data);
+            if (data.error) {
+                setErrorMessage(data.error); // Almacenar el mensaje de error
             }
-        } catch (error) {
-            console.error("Error en la solicitud:", error);
+            console.log("Error al iniciar sesión:", data);
         }
-    };
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
+        setErrorMessage('Error en la solicitud. Por favor, inténtalo de nuevo más tarde.');
+    }
+};
+
 
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
@@ -93,6 +105,11 @@ const Form = () => {
 
     return (
         <>
+            {errorMessage && (
+                <div className="bg-red-500 text-white p-4 rounded mb-4">
+                    {errorMessage}
+                </div>
+            )}
             <form onSubmit={handleForm} className="form flex flex-col gap-6">
                 <input
                     className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border ${errors.correo ? 'border-red-500' : 'border-white'}`}

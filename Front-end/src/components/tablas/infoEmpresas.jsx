@@ -1,25 +1,25 @@
 
  import React from 'react'
  
- export const InfoEmpresas = ({ nombre, sector_empresarial, fecha }) => {
+ export const InfoEmpresas = ({ nombre, sector_empresarial, nit }) => {
    return (
     <tr className="bg-transparent border-transparent">
     <td
       className="p-5 py-8 text-sm w-[4rem] text-white whitespace-nowrap"
     >
-      {nombre}
+      {nit}
     </td>
     <td
       className="p-5 text-sm w-[4rem] text-white whitespace-nowrap"
     >
-      {sector_empresarial}
+      {nombre}
     </td>
     <td
       className="p-5 text-sm w-[4rem] text-left whitespace-nowrap"
     >
       <span
         className="font-medium tracking-wider text-white rounded-lg"
-        >{fecha}</span
+        >{sector_empresarial}</span
       >
     </td>
     <td

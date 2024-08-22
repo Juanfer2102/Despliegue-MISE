@@ -14,12 +14,12 @@ import SideBar from "../components/nav/sideBar.astro";
       </div>
       <div class="bg-greyBg flex flex-col  h-full w-full px-12 pt-6">
         <div class=" gap-8 flex flex-col p-8  w-full rounded-md">
-          <div class="overflow-auto rounded-xl flex flex-col gap-6">
+          <div class=" rounded-xl flex flex-col gap-6">
               <div class="flex flex-row justify-start items-center w-full">
                 <p class="text-white font-bold text-2xl">Usuarios Registrados</p>
                 
               </div>
-            <div class="max-h-[40rem] overflow-y-auto custom-scrollbar rounded-xl">
+            <div class="max-h-[40rem]  rounded-xl">
               <TablasUsers client:load/>
             </div>
           </div>

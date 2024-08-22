@@ -16,40 +16,18 @@ import GoBack from "../../components/inputs/goback/goBack";
     <div class="flex flex-row ">
       <div class="w-full h-full">
         <div class="bg-greyBlack  h-20 "></div>
-        <div class="  w-full px-8 py-5 h-full text-white gap-12">
-          
-                <GoBack text={"Aceptar Empresas"} client:visible />
+        <div class="w-full px-8 py-5 h-full text-white gap-12">
+          <GoBack text={"Aceptar Empresas"} client:visible />
 
-                <div class="rounded-xl px-10 pt-5 pb-10 h-full flex gap-2 flex-col overflow-y-auto custom-scrollba ">
-                  <div
-                    class="flex items-center py-3 gap-4 text-left justify-end text-sm "
-                  >
-                    <input
-                      type="text"
-                      placeholder=""
-                      class="border border-white rounded-lg bg-transparent -m-2 p-1"
-                    />
-                    <i class="fa-solid fa-magnifying-glass text-white"></i>
-                    <div class="flex items-center">
-                      <div
-                        class="items-center flex gap-4 border-2 rounded-lg border-white bg-transpsrent text-white text-left p-2 pr-3 pl-3"
-                      >
-                        <p>Mas nuevas</p>
-                        <i class="fa-solid fa-filter"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="overflow-y-auto custom-scrollbar rounded-xl">
-                    <div class="max-h-[30rem] overflow-y-auto custom-scrollbar">
-                      <TableComponent client:load/>
-                    </div>
-                  </div>
-                </div>
+          <div class="rounded-xl px-10 pt-5 pb-10 h-full flex gap-2 flex-col overflow-y-auto custom-scrollba">
+            <div class="overflow-y-auto custom-scrollbar rounded-xl">
+              <div class="max-h-[30rem] overflow-y-auto custom-scrollbar">
+                <TableComponent client:load/>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </main>
 </LayoutDashboard>
-
-
-

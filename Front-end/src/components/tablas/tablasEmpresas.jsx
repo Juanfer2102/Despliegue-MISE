@@ -22,13 +22,13 @@ export const TablasEmpresas = () => {
     const empresasConEstado2 = empresas.filter(empresa => empresa.estado === "2");    
 
     return (
-        <table className="overflow-auto w-full justify-center rounded-xl">
-            <thead className="bg-greyBlack border-textBg rounded-xl w-[20rem] text-white top-0 z-10">
+        <table className="overflow-auto w-full  rounded-xl">
+            <thead className="bg-greyBlack border-textBg rounded-xl text-white top-0 z-10">
                 <tr>
-                    <th className="w-[4rem] p-5 text-left">Nombre</th>
-                    <th className="w-[4rem] p-5 text-left">Sector empresarial</th>
-                    <th className="w-[4rem] p-5 text-left">Fecha</th>
-                    <th className="w-[4rem] p-5 text-center">Información</th>
+                    <th className="p-5 text-left">NIT</th>
+                    <th className="p-5 text-left">Nombre</th>
+                    <th className="p-5 text-left">Sector empresarial</th>
+                    <th className="p-5 text-center">Información</th>
                 </tr>
             </thead>
             <tbody className="overflow-auto divide-y border border-textBg border-t-0 rounded">
@@ -37,7 +37,7 @@ export const TablasEmpresas = () => {
                         key={empresa.nit}
                         nombre={empresa.nombre_empresa}
                         sector_empresarial={empresa.sector}
-                        fecha={new Date(empresa.fecha_creacion).toLocaleDateString()}
+                        nit={empresa.nit}
                     />
                 ))}
             </tbody>

@@ -36,24 +36,7 @@ const gamepadIcon = icon({ prefix: "fas", iconName: faGamepad.iconName });
       src="https://kit.fontawesome.com/4c59fd786d.js"
       crossorigin="anonymous">
     </script>
-    <ViewTransitions />
-    <script>
-      let circularProgress = document.querySelector(".circular-progress"),
-        progressValue = document.querySelector(".progress-value");
-      let progressStartValue = 0,
-        progressEndValue = 30,
-        speed = 50;
 
-      let progress = setInterval(() => {
-        progressStartValue++;
-      
-        circularProgress;
-        if (progressStartValue == progressEndValue) {
-          clearInterval(progress);
-        }
-      }, speed);
-    </script>
-    
   </head>
   <body class="flex flex-row min-h-full w-screen">
     <SideBar condicion={1} />
