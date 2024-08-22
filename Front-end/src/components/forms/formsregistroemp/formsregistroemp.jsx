@@ -13,14 +13,8 @@ export const FormRegistro = () => {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const optionseducacion = [
-        { value: 'Bachiller', label: 'Bachiller' },
-        { value: 'Tecnico', label: 'Tecnico' },
-        { value: 'Maestria', label: 'Maestria' },
-    ];
 
     const [values, setValues] = useState({
-        educacion: '',
         producto: '',
         fecha_inicio: '',
         celular: '',
@@ -75,10 +69,6 @@ export const FormRegistro = () => {
 
     const validateForm = () => {
         const newErrors = {};
-
-        if (!values.educacion) {
-            newErrors.educacion = "Debe ingresar su nivel de educación.";
-        }
 
         if (!values.fecha_inicio) {
             newErrors.fecha_inicio = "Debe ingresar la fecha de inicio de la empresa.";
@@ -182,13 +172,16 @@ export const FormRegistro = () => {
             <form className="form bg-greyBlack rounded-xl p-3 flex flex-row">
                 <div className="flex flex-col gap-3 w-full">
                     <div className='flex flex-row gap-3'>
-                        <SelectComponent
-                            type={"Educacion Superior..."}
-                            Select="educacion"
-                            options={optionseducacion}
-                            value={values.educacion}
-                            onChange={(value) => handleInputChange("educacion", value)}
+                        <input
+                            className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                            type="text"
+                            value={values.producto}
+                            name="producto"
+                            placeholder="Producto o Servicio..."
+                            autoComplete="off"
+                            onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
+
                         <DatePicker
                             name="fecha_inicio"
                             className="mx-auto pt-2 h-[3.5rem] colors:tremor-background-subtle"
@@ -201,12 +194,13 @@ export const FormRegistro = () => {
                         <input
                             className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                             type="text"
-                            value={values.producto}
-                            name="producto"
-                            placeholder="Producto o Servicio..."
+                            value={values.razon_social}
+                            name="razon_social"
+                            placeholder="Razon Social de la Empresa..."
                             autoComplete="off"
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
+
                         <input
                             className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                             type="number"
@@ -220,13 +214,14 @@ export const FormRegistro = () => {
                     <div className='flex flex-row gap-3'>
                         <input
                             className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
-                            type="text"
-                            value={values.razon_social}
-                            name="razon_social"
-                            placeholder="Razon Social de la Empresa..."
+                            type="number"
+                            value={values.no_empleados}
+                            name="no_empleados"
+                            placeholder="Ingrese el numero de empleado permanentes..."
                             autoComplete="off"
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
+                        
                         <input
                             className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                             type="number"
@@ -237,16 +232,6 @@ export const FormRegistro = () => {
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
                     </div>
-
-                    <input
-                        className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
-                        type="number"
-                        value={values.no_empleados}
-                        name="no_empleados"
-                        placeholder="Ingrese el numero de empleado permanentes..."
-                        autoComplete="off"
-                        onChange={(e) => handleInputChange(e.target.name, e.target.value)}
-                    />
                     <input
                         className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                         type="text"

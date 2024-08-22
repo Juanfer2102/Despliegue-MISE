@@ -39,7 +39,7 @@ export const TablasEmpresas = () => {
                         sector_empresarial={empresa.sector}
                         fecha={new Date(empresa.fecha_creacion).toLocaleDateString()}
                     />
-                ))}
+                ))};
             </tbody>
         </table>
     );
