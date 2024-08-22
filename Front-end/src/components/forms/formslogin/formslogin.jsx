@@ -77,6 +77,7 @@ const Form = () => {
             localStorage.setItem("access_token", data.access_token);
             localStorage.setItem("refresh_token", data.refresh_token);
             setErrorMessage(''); // Limpiar mensaje de error al hacer login exitoso
+            localStorage.setItem('userData', JSON.stringify(data.data));
         } else {
             if (data.error) {
                 setErrorMessage(data.error); // Almacenar el mensaje de error

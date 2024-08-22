@@ -52,6 +52,7 @@ def login(request):
             "apellidos": user.apellidos,
             "correo": user.correo,
             "estado": user.estado,
+            "id_rol": user.id_rol,
         }
 
         return Response({

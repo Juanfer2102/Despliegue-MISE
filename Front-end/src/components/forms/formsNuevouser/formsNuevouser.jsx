@@ -57,13 +57,13 @@ export const FormsNuevouser = () => {
                 error = "Solo se permiten números";
             }
         }
-
+/*
         if (name === "contrasena") {
             if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value)) {
                 error = "Debe contener al menos una mayúscula, un número y un carácter especial";
             }
         }
-
+*/
         setValues({
             ...values,
             [name]: value,

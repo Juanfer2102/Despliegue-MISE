@@ -41,7 +41,11 @@ const UserTable = () => {
 
     return (
         <>
-            <Buscador onSearch={handleSearch} />
+            <div className='flex flex-row w-full'>
+                <Buscador onSearch={handleSearch} />
+                <div className='w-full py-5 flex items-center justify-end'><a className='' href="/nuevoUser/nuevoUser"><button className='bg-principalGreen rounded-xl p-2 text-white hover:bg-white hover:text-principalGreen'>Nuevo Usuario</button></a></div>
+
+            </div>
             <div className="overflow-y-auto max-h-[40rem] custom-scrollbar w-full justify-center rounded-b-xl">
                 <div className="bg-greyBlack border-textBg rounded-t-xl text-white flex">
                     <div className="flex-1 p-5 text-left">Nombre</div>
