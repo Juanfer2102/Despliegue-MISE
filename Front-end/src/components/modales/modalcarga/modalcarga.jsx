@@ -1,7 +1,7 @@
 import React from 'react';
 import './modalcarga.css';
 
-const ModalCarga = () => {
+const Modalcarga = () => {
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-8 rounded-lg shadow-lg text-center">
@@ -15,4 +15,4 @@ const ModalCarga = () => {
     )
 }
 
-export default ModalCarga;
+export default Modalcarga;

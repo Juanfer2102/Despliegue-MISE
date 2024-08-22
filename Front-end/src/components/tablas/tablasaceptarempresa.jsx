@@ -19,23 +19,26 @@ const TableComponent = () => {
     <>
       
       <table className="overflow-auto w-full justify-center rounded-xl">
-        <thead className="bg-dimgray border-textBg rounded-xl w-[20rem] text-white top-0 z-10">
+        <thead className="bg-greyBlack border-textBg rounded-xl  text-white top-0 z-10">
           <tr>
-            <th className="w-[4rem] p-5 text-left">Empresa</th>
-            <th className="w-[4rem] p-5 text-left">Representante</th>
-            <th className="w-[4rem] p-5 text-left">Razón Social</th>
-            <th className="w-[4rem] p-5 text-center">Información</th>
-            <th className="w-[2rem] p-5 text-center"></th>
+            <th className="p-5 text-left">Empresa</th>
+            <th className="p-5 text-left">Representante</th>
+            <th className="p-5 text-left">Razón Social</th>
+            <th className="p-5 text-center">Información</th>
+            <th className="p-5 text-center"></th>
           </tr>
         </thead>
         <tbody className="overflow-auto divide-y border border-textBg border-t-0 rounded">
-        
+
+          {empresas.map((empresa) => (
             <InfoAE
-              key={"1"}
-              nombre_empresa={"s"}
-              representante={"sa"}
-              razon_social={"q"}
+              nit={empresa.nit}
+              key={empresa.nit}
+              nombre_empresa={empresa.nombre_empresa}
+              representante={empresa.gerente}
+              razon_social={empresa.razon_social}
             />
+          ))}
         </tbody>
       </table>
     </>
@@ -43,3 +46,4 @@ const TableComponent = () => {
 };
 
 export default TableComponent;
+

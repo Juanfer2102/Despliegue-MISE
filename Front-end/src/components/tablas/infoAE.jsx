@@ -1,20 +1,40 @@
 import React, { useState } from 'react';
-import ConfirmModal from '../modales/modalconfirm';
-import ModalCarga from '../modales/modalcarga/modalcarga';
-import CancelModal from "../modales/modalcancel";
+import ConfirmModal from '../../components/modales/modalconfirm';
+import Modalcarga from '../../components/modales/modalcarga/modalcarga';
+import CancelModal from "../../components/modales/modalcancel";
 
-const InfoAE = ({ nombre_empresa, representante, razon_social }) => {
-
+const InfoAE = ({ nit, nombre_empresa, representante, razon_social }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCOpen, setIsCOpen] = useState(false);
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
+  
   const closeModal = () => setIsOpen(false);
   const closeCModal = () => setIsCOpen(false);
   const openModal = () => setIsOpen(true);
   const openCModal = () => setIsCOpen(true);
 
   const handleConfirm = () => {
-    openSuccessModal();
+    fetch(`http://localhost:8000/api/v2/update-empresa-status/${nit}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ estado: 2 }), // Enviar el nuevo estado en el cuerpo de la solicitud
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Error al actualizar el estado');
+      })
+      .then(data => {
+        console.log(data);
+        openSuccessModal();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
     closeModal();
   };
 
@@ -28,7 +48,7 @@ const InfoAE = ({ nombre_empresa, representante, razon_social }) => {
     setTimeout(() => {
       setIsSuccessModalVisible(false);
       location.reload();
-    }, 1000); // 1 segundos
+    }, 1000); // 1 segundo
   };
 
   return (
@@ -49,7 +69,6 @@ const InfoAE = ({ nombre_empresa, representante, razon_social }) => {
         </td>
         <td className="p-5 text-sm w-[4rem] text-center whitespace-nowrap">
           <button
-            // Llama a openModal al hacer clic
             className="p-4 pl-4 pr-4 tracking-wide text-lg transition-colors duration-200 bg-transparent transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
           >
             Ver Empresa
@@ -66,7 +85,7 @@ const InfoAE = ({ nombre_empresa, representante, razon_social }) => {
       </tr>
       {/* Modal de éxito */}
       {isSuccessModalVisible && (
-        <ModalCarga />
+        <Modalcarga />
       )}
     </>
   );

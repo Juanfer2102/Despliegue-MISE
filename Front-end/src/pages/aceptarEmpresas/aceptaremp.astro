@@ -6,7 +6,7 @@ import Modal1 from "../../components/modales/modal1.astro";
 import SideBar from "../../components/nav/sideBar.astro";
 import { Elementosempresas } from "../../helpers/elementosempresas";
 import TarjetasEmpresasreg from "../../components/tarjetasdashboard/tarjetasEmpresasreg.astro";
-import Tablasaceptarempresa from '../../components/tablas/tablasaceptarempresa'
+import TableComponent from '../../components/tablas/tablasaceptarempresa'
 import TarjetasModulos from "../../components/tarjetasdashboard/tarjetasModulos.astro";
 import GoBack from "../../components/inputs/goback/goBack";
 ---
@@ -20,7 +20,7 @@ import GoBack from "../../components/inputs/goback/goBack";
           
                 <GoBack text={"Aceptar Empresas"} client:visible />
 
-                <div class="rounded-xl px-10 pt-5 pb-10 h-full flex gap-2 flex-col overflow-y-auto custom-scrollba  bg-greyBlack">
+                <div class="rounded-xl px-10 pt-5 pb-10 h-full flex gap-2 flex-col overflow-y-auto custom-scrollba ">
                   <div
                     class="flex items-center py-3 gap-4 text-left justify-end text-sm "
                   >
@@ -41,7 +41,7 @@ import GoBack from "../../components/inputs/goback/goBack";
                   </div>
                   <div class="overflow-y-auto custom-scrollbar rounded-xl">
                     <div class="max-h-[30rem] overflow-y-auto custom-scrollbar">
-                      <Tablasaceptarempresa client:load/>
+                      <TableComponent client:load/>
                     </div>
                   </div>
                 </div>
