@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import InputComponent from '../../inputs/input3/input3.jsx';
 import SelectComponent from '../../inputs/selectores/selectores.jsx';
 import ConfirmModal from '../../modales/modalconfirm';
+import Modalcarga from '../../modales/modalcarga/modalcarga.jsx';
 
 export const FormsNuevouser = () => {
 
@@ -17,6 +18,7 @@ export const FormsNuevouser = () => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [errors, setErrors] = useState({});
+    const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
 
     const [values, setValues] = useState({
         nombres: "",
@@ -85,6 +87,7 @@ export const FormsNuevouser = () => {
         event.preventDefault();
         console.log("Inputs value:", values); // Mostrar los valores de los inputs en la consola
         closeModal();
+        openSuccessModal();
         try {
             const response = await fetch('http://localhost:8000/api/v2/user', {
                 method: 'POST',
@@ -107,6 +110,14 @@ export const FormsNuevouser = () => {
             console.error("Network error:", error); // Mostrar errores de red en la consola
         }
     }
+
+    const openSuccessModal = () => {
+        setIsSuccessModalVisible(true);
+        setTimeout(() => {
+            setIsSuccessModalVisible(false);
+            location.reload();
+        }, 1000); // 5 segundos
+    };
 
     return (
         <>
@@ -164,7 +175,7 @@ export const FormsNuevouser = () => {
                             <button
                                 onClick={openModal}
                                 className={`rounded-md text-white text-center font-semibold cursor-pointer w-[6rem] h-10 p-2 ${isFormValid() ? 'bg-principalGreen opacity-100' : 'bg-principalGreen opacity-50 cursor-not-allowed'}`}
-                                type="submit"
+                                type="button"
                                 disabled={!isFormValid()}
                             >
                                 <p>Guardar</p>
@@ -235,6 +246,18 @@ export const FormsNuevouser = () => {
                     </div>
                 </div>
             </form>
+            {/* Modal de éxito */}
+            {isSuccessModalVisible && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-8 rounded-lg shadow-lg text-center">
+                        <div className="loading-balls">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 };

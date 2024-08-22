@@ -43,7 +43,7 @@ const UserTable = () => {
         <>
             <div className='flex flex-row w-full'>
                 <Buscador onSearch={handleSearch} />
-                <div className='w-auto'><a href="/nuevoUser/nuevoUser"><button className='bg-principalGreen rounded-xl p-1 text-white hover:bg-white hover:text-principalGreen'>Nuevo Usuario</button></a></div>
+                <div className='w-full py-5 flex items-center justify-end'><a className='' href="/nuevoUser/nuevoUser"><button className='bg-principalGreen rounded-xl p-2 text-white hover:bg-white hover:text-principalGreen'>Nuevo Usuario</button></a></div>
 
             </div>
             <table className="overflow-auto w-full justify-center rounded-xl">
