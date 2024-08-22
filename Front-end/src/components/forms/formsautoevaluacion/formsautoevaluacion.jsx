@@ -206,8 +206,6 @@ export const FormAuto = () => {
                     </div>
                 </div>
             )}
-
-
         </>
     );
 }

@@ -17,7 +17,7 @@ const Buscador = ({ onSearch }) => {
                     placeholder="Buscar usuario"
                     value={searchTerm}
                     onChange={handleInputChange}
-                    className="border w-[20rem] border-white rounded-lg bg-transparent p-1"
+                    className="border text-white w-[20rem] border-white rounded-lg bg-transparent p-1"
                 />
                 <i className="fa-solid fa-magnifying-glass text-white pl-2"></i>
             </div>
