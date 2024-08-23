@@ -41,7 +41,7 @@ const DeveloperPortal = () => {
                 return (
                     <div>
                         {Infopostu.map((info, index) => (
-                            <div key={index} className="bg-greyBlack p-12 rounded-xl mb-4">
+                            <div key={index} className="bg-greyBlack p-5 rounded-xl mb-4">
                                 <div className="grid grid-cols-3 p-3 justify-between">
                                     <div className="col-span-1">
                                         <h2 className="text-xl font-bold mb-2 text-white">Nombre Postulante</h2>
@@ -49,7 +49,7 @@ const DeveloperPortal = () => {
                                         <h2 className="text-xl font-bold mt-2 mb-2 text-white">Genero</h2>
                                         <p className="text-principalGreen font-semibold mb-6">{info.genero}</p>
                                         <h2 className="text-xl font-bold mt-2 mb-2 text-white">Municipio</h2>
-                                        <p className="text-principalGreen font-semibold mb-6">{info.municipio}</p>
+                                        <p className="text-principalGreen font-semibold mb-2">{info.municipio}</p>
                                     </div>
                                     <div className="col-span-1">
                                         <h2 className="text-xl font-bold mb-2 text-white">No_Documento</h2>
@@ -57,13 +57,13 @@ const DeveloperPortal = () => {
                                         <h2 className="text-xl font-bold mt-2 mb-2 text-white">Celular</h2>
                                         <p className="text-principalGreen font-semibold mb-6">{info.celular}</p>
                                         <h2 className="text-xl font-bold mt-2 mb-2 text-white">Educacion</h2>
-                                        <p className="text-principalGreen font-semibold mb-6">{info.educacion}</p>
+                                        <p className="text-principalGreen font-semibold mb-2">{info.educacion}</p>
                                     </div>
                                     <div className="col-span-1">
                                         <h2 className="text-xl font-bold mb-2 text-white">Tipo de Documento</h2>
                                         <p className="text-principalGreen font-semibold mb-6">{info.tipo_documento}</p>
                                         <h2 className="text-xl font-bold mt-2 mb-2 text-white">Correo</h2>
-                                        <p className="text-principalGreen font-semibold mb-6">{info.correo}</p>
+                                        <p className="text-principalGreen font-semibold mb-2">{info.correo}</p>
                                     </div>
                                 </div>
                             </div>
@@ -74,7 +74,7 @@ const DeveloperPortal = () => {
                 return (
                     <div>
                         {Infoemp.map((info, index) => (
-                            <div key={index} className="bg-greyBlack p-12 rounded-xl mb-4">
+                            <div key={index} className="bg-greyBlack p-5 rounded-xl mb-4">
                                 <div className="grid grid-cols-3 p-3 justify-between">
                                     <div className="col-span-1">
                                         <h2 className="text-xl font-bold mb-2 text-white">Producto o Servicio</h2>
@@ -82,7 +82,7 @@ const DeveloperPortal = () => {
                                         <h2 className="text-xl font-bold mt-2 mb-2 text-white">Fecha de Inicio</h2>
                                         <p className="text-principalGreen font-semibold mb-6">{info.fecha_creacion}</p>
                                         <h2 className="text-xl font-bold mt-2 mb-2 text-white">Costos el Ultimo Año</h2>
-                                        <p className="text-textBg font-semibold mb-6"> {info.costos_ult_ano}</p>
+                                        <p className="text-textBg font-semibold mb-2"> {info.costos_ult_ano}</p>
 
                                     </div>
                                     <div className="col-span-1">
@@ -91,13 +91,13 @@ const DeveloperPortal = () => {
                                         <h2 className="text-xl font-bold mt-2 mb-2 text-white">Celular Empresa</h2>
                                         <p className="text-principalGreen font-semibold mb-6">{info.celular}</p>
                                         <h2 className="text-xl font-bold mt-2 mb-2 text-white">Ventas el Ultimo Año</h2>
-                                        <p className="text-textBg font-semibold mb-6">{info.ventas_ult_ano}</p>
+                                        <p className="text-textBg font-semibold mb-2">{info.ventas_ult_ano}</p>
                                     </div>
                                     <div className="col-span-1">
                                         <h2 className="text-xl font-bold mb-2 text-white">NIT</h2>
                                         <p className="text-principalGreen font-semibold mb-6">{info.nit}</p>
                                         <h2 className="text-xl font-bold mt-2 mb-2 text-white">Empleados Permanentes</h2>
-                                        <p className="text-textBg font-semibold mb-6">{info.empleados_perm}</p>
+                                        <p className="text-textBg font-semibold mb-2">{info.empleados_perm}</p>
                                     </div>
                                 </div>
                             </div>
@@ -109,23 +109,23 @@ const DeveloperPortal = () => {
                 return (
                     <div>
                         {Autoeva.map((info, index) => (
-                            <div key={index} className="bg-greyBlack p-12 rounded-xl mb-4">
+                            <div key={index} className="bg-greyBlack p-5 rounded-xl mb-4">
                                 <div className="grid grid-cols-3 p-3 justify-between">
                                     <div className="col-span-1">
                                         <h2 className="text-xl font-bold mb-2 text-white">Estrategia Y Direccion</h2>
                                         <p className="text-textBg font-semibold mb-6">Calificacion: <span className='text-principalGreen'>{info.Estrategia_Direccion}</span></p>
                                         <h2 className="text-xl font-bold mt-2 mb-2 text-white">Marketing</h2>
-                                        <p className="text-textBg font-semibold mb-6">Calificacion: <span className='text-amarillo'>{info.Marketing}</span></p>
+                                        <p className="text-textBg font-semibold mb-2">Calificacion: <span className='text-amarillo'>{info.Marketing}</span></p>
                                     </div>
                                     <div className="col-span-1">
                                         <h2 className="text-xl font-bold mb-2 text-white">Operaciones</h2>
                                         <p className="text-textBg font-semibold mb-6">Calificacion: <span className='text-red'>{info.Operaciones}</span></p>
                                         <h2 className="text-xl font-bold mt-2 mb-2 text-white">Ventas</h2>
-                                        <p className="text-textBg font-semibold mb-6">Calificacion: <span className='text-principalGreen'>{info.Ventas}</span></p>
+                                        <p className="text-textBg font-semibold mb-2">Calificacion: <span className='text-principalGreen'>{info.Ventas}</span></p>
                                     </div>
                                     <div className="col-span-1">
                                         <h2 className="text-xl font-bold mb-2 text-white">Talento Humano</h2>
-                                        <p className="text-textBg font-semibold mb-6">Calificacion: <span className='text-red'>{info.Talento_Humano}</span></p>
+                                        <p className="text-textBg font-semibold mb-2">Calificacion: <span className='text-red'>{info.Talento_Humano}</span></p>
                                     </div>
                                 </div>
                             </div>
