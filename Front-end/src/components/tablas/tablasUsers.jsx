@@ -46,29 +46,26 @@ const UserTable = () => {
                 <div className='w-full py-5 flex items-center justify-end'><a className='' href="/nuevoUser/nuevoUser"><button className='bg-principalGreen rounded-xl p-2 text-white hover:bg-white hover:text-principalGreen'>Nuevo Usuario</button></a></div>
 
             </div>
-            <table className="overflow-auto w-full justify-center rounded-xl">
-                <thead className="bg-greyBlack border-textBg rounded-xl text-white  top-0 z-10">
-                    <tr>
-                        <th className="w-[2rem] p-5 text-left">Nombre</th>
-                        <th className="p-5 text-center">MISE encargado</th>
-                        <th className="w-28 p-5 text-right">Rol</th>
-                    </tr>
-                </thead>
-                <tbody className="overflow-auto divide-y border border-textBg border-t-0 rounded">
-                    {usuarios.map((usuario) => {
-                        const nombreClase = `${usuario.nombres} ${usuario.apellidos}`.toLowerCase();  // Mantener espacios
-                        return (
+            <div className="overflow-y-auto max-h-[40rem] custom-scrollbar w-full justify-center rounded-b-xl">
+                <div className="bg-greyBlack border-textBg rounded-t-xl text-white flex">
+                    <div className="flex-1 p-5 text-left">Nombre</div>
+                    <div className="flex-1 p-5 text-center">MISE encargado</div>
+                    <div className="w-28 p-5 text-right">Rol</div>
+                </div>
+                <div className="overflow-auto divide-y border border-textBg border-t-0 rounded">
+                    {usuarios
+                        .filter(usuario => `${usuario.nombres} ${usuario.apellidos}`.toLowerCase().includes(searchTerm.toLowerCase()))
+                        .map(usuario => (
                             <InfoUser
                                 key={usuario.id_usuario}
                                 nombre={`${usuario.nombres} ${usuario.apellidos}`}
                                 MISE={usuario.programa}
                                 dataRol={roleMap.get(usuario.id_rol)}
-                                hidden={!nombreClase.includes(searchTerm)}  // Ocultar si no coincide con la búsqueda
                             />
-                        );
-                    })}
-                </tbody>
-            </table>
+                        ))
+                    }
+                </div>
+            </div>
         </>
     );
 };
