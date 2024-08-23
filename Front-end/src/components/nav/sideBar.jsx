@@ -7,9 +7,11 @@ import { Elementoscript } from "../../helpers/elements.js";
 import { Elementoscriptadmin } from "../../helpers/elementsadmin.js";
 import IconLogOut from "../../images/sideBarsvg/log_out.svg";
 import IconProfile from "../../images/sideBarImg/avatar@2x.png";
+import InfoModal from "../modales/modalinfouser.jsx";
 
 const Sidebar = ({ condicion, nombre }) => {
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarExpanded(!sidebarExpanded);
@@ -79,6 +81,7 @@ const Sidebar = ({ condicion, nombre }) => {
                 <img
                   className="h-10 w-10 relative rounded-[99px] overflow-hidden shrink-0 object-cover"
                   loading="lazy"
+                  onClick={() => setIsModalOpen(true)}
                   alt=""
                   src={IconProfile.src}
                 />
@@ -168,6 +171,7 @@ const Sidebar = ({ condicion, nombre }) => {
           </div>
         </aside>
       )}
+      <InfoModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
 };
