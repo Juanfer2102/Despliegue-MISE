@@ -136,6 +136,7 @@ export const FormsNuevouser = () => {
                             name="nombres"
                             value={values.nombres}
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+                            
                         />
                         {errors.nombres && <p className="text-red">{errors.nombres}</p>}
                         <InputComponent

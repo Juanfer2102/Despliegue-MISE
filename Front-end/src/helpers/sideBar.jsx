@@ -5,13 +5,13 @@ const SideBarWrapper = () => {
     const [userData, setUserData] = useState({ nombre: '', rol: '' });
 
     useEffect(() => {
-        // Aquí asumimos que los datos del usuario están guardados en localStorage después del login
+        // Obtiene los datos del usuario almacenados en localStorage después del login
         const storedUserData = JSON.parse(localStorage.getItem('userData'));
 
         if (storedUserData) {
             setUserData({
                 nombre: storedUserData.nombres,
-                rol: storedUserData.rol
+                rol: storedUserData.id_rol  // Cambia 'rol' por 'id_rol' si así lo guardaste
             });
         }
     }, []);
@@ -20,3 +20,4 @@ const SideBarWrapper = () => {
 };
 
 export default SideBarWrapper;
+

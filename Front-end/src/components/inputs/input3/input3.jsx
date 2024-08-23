@@ -26,6 +26,7 @@ const InputComponent = ({
           value={value}
           name={name}
           onChange={onChange}
+          autoComplete='off'
         />
       </div>
     </div>

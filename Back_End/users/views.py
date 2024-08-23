@@ -47,12 +47,19 @@ def login(request):
             print(f"Error al generar el token JWT: {e}")
             return Response({'error': 'Error al generar el token JWT'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+        try:
+            # Obtener el ID del rol asociado al usuario
+            rol_id = user.id_rol_id  # Aquí obtienes el ID del rol directamente
+        except Exception as e:
+            print(f"Error al obtener el rol del usuario: {e}")
+            return Response({'error': 'Error al obtener el rol del usuario'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         dataUserClean = {
             "nombres": user.nombres,
             "apellidos": user.apellidos,
             "correo": user.correo,
             "estado": user.estado,
-            "id_rol": user.id_rol,
+            "id_rol": rol_id,  # Incluyendo el ID del rol en la respuesta
         }
 
         return Response({

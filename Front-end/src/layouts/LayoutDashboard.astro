@@ -37,7 +37,7 @@ const gamepadIcon = icon({ prefix: "fas", iconName: faGamepad.iconName });
     ></script>
   </head>
   <body class="flex flex-row h-full w-full">
-    <SideBarWrapper />
+    <SideBarWrapper client:load/>
     <slot />
   </body>
 </html>
