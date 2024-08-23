@@ -6,11 +6,11 @@ const InfoModal = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-greyBlack bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg w-96 p-6 relative">
+      <div className="bg-greyBg rounded-lg shadow-lg w-96 p-6 relative">
         {/* Botón de cerrar */}
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-white"
+          className="absolute h-4 w-4 top-2 right-2 text-white"
         >
           &times;
         </button>
@@ -28,7 +28,7 @@ const InfoModal = ({ isOpen, onClose }) => {
             <h2 className="text-lg font-semibold text-white">Brian Marin</h2>
 
             {/* Título */}
-            <p className="text-sm text-white">ReallyEstate</p>
+            <p className="text-sm font-semibold text-white">Coordinador</p>
 
             {/* Correo electrónico */}
             <p className="text-sm text-white">
@@ -37,7 +37,7 @@ const InfoModal = ({ isOpen, onClose }) => {
             </p>
 
             {/* Teléfonos */}
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-white">
               <i className="fas fa-phone mr-2"></i>
               3156352578
             </p>
