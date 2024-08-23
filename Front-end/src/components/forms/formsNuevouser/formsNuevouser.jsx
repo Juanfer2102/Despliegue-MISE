@@ -164,17 +164,17 @@ export const FormsNuevouser = () => {
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
                         <div className={`text-textBg items-center text-start content-center flex flex-row`}>
-                            <div className="w-[10.5rem]">
+                            <div className="w-[11rem]">
                                 <p className="font-semibold">Rol</p>
                             </div>
-                            <div className=''>
+                            <div className='w-[14rem]'>
                                 <SelectComponent name="id_rol" type="Rol..." options={roles} value={values.id_rol} onChange={handleInputChange} />
                             </div>
                         </div>
                         <div>
                             <button
                                 onClick={openModal}
-                                className={`rounded-md text-white text-center font-semibold cursor-pointer w-[6rem] h-10 p-2 ${isFormValid() ? 'bg-principalGreen opacity-100' : 'bg-principalGreen opacity-50 cursor-not-allowed'}`}
+                                className={`rounded-md text-white text-center font-semibold w-[6rem] h-10 p-2 ${isFormValid() ? 'bg-principalGreen opacity-100 cursor-pointer' : 'bg-principalGreen opacity-50 cursor-not-allowed'}`}
                                 type="button"
                                 disabled={!isFormValid()}
                             >
@@ -236,10 +236,10 @@ export const FormsNuevouser = () => {
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
                         <div className={`text-textBg items-center text-start content-center flex flex-row`}>
-                            <div className="w-[10.5rem]">
+                            <div className="w-[11rem]">
                                 <p className="font-semibold">MISE</p>
                             </div>
-                            <div className=''>
+                            <div className='w-[14rem]'>
                                 <SelectComponent name="programa" type="Programa..." options={programas} value={values.programa} onChange={handleInputChange} />
                             </div>
                         </div>
