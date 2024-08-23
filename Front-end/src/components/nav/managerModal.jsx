@@ -2,9 +2,11 @@
 import React, { useState } from 'react';
 import ModalLogout from "../modales/modalcs.jsx";
 import IconLogOut from "../../images/sideBarsvg/log_out.svg";
+import Modalcarga from '../modales/modalcarga/modalcarga.jsx';
 
 const SidebarModalManager = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -17,7 +19,16 @@ const SidebarModalManager = () => {
     const handleConfirmLogout = () => {
         setIsModalOpen(false);
         // Aquí agregarías la lógica para cerrar sesión
+        openSuccessModal();
         console.log("Sesión cerrada");
+    };
+
+    const openSuccessModal = () => {
+        setIsSuccessModalVisible(true);
+        setTimeout(() => {
+            setIsSuccessModalVisible(false);
+            window.location.href = "/login/login";
+        }, 1000); // 1 segundos
     };
 
     return (
@@ -35,6 +46,9 @@ const SidebarModalManager = () => {
                 onClose={handleCloseModal} 
                 onConfirm={handleConfirmLogout} 
             />
+            {isSuccessModalVisible && (
+                <Modalcarga />
+            )}
         </>
     );
 };

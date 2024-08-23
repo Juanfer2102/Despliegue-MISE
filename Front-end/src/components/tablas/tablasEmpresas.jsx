@@ -39,7 +39,7 @@ export const TablasEmpresas = () => {
                         sector_empresarial={empresa.sector}
                         nit={empresa.nit}
                     />
-                ))}
+                ))};
             </tbody>
         </table>
     );
