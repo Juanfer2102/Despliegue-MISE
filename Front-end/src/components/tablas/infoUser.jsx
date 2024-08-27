@@ -1,28 +1,38 @@
 import React from 'react';
 
-const InfoUser = ({ nombre, MISE, dataRol }) => {
+const InfoUser = ({ nombre, MISE, dataRol, id_usuario }) => {
+
+    const userClassName = nombre.toLowerCase();
+
+    const handleEditClick = () => {
+        // Redirigir a la página de edición del usuario con el id_usuario
+        window.location.href = `/editarUsuario/editarUsuario`;
+    };
+
     return (
-        <tr className="bg-transparent border-transparent">
-            <td className="p-5 py-8 text-sm whitespace-nowrap">
+        <div className={`${userClassName} bg-transparent border-transparent flex`}>
+            <div className="flex-1 p-5 py-8 text-sm whitespace-nowrap">
                 <p className="text-white w-[8rem]">
                     {nombre}
                 </p>
-            </td>
-            <td
-                className="p-5 text-sm w-40 text-center text-white whitespace-nowrap"
-            >
+            </div>
+            <div className="flex-1 p-5 py-8 text-sm text-center text-white whitespace-nowrap">
                 {MISE}
-            </td>
-            <td
-                className="p-5 text-sm w-40 text-right whitespace-nowrap border-b-0 border-b-transparent"
-            >
-                <span
-                    className="p-1.5 font-medium tracking-wider text-white rounded-lg"
-                >
+            </div>
+            <div className="flex-1 p-5 py-8 text-sm text-center text-white whitespace-nowrap border-b-0 border-b-transparent">
+                
                     {dataRol}
-                </span>
-            </td>
-        </tr>
+                
+            </div>
+            <div className="flex-1 p-5  text-sm text-right whitespace-nowrap border-b-0 border-b-transparent">
+                <button
+                    className="bg-principalGreen text-white rounded-lg px-4 py-2 hover:bg-white hover:text-principalGreen"
+                    onClick={handleEditClick}
+                >
+                    Editar Usuario
+                </button>
+            </div>
+        </div>
     );
 };
 

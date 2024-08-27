@@ -6,8 +6,7 @@ import Modal1 from "../../components/modales/modal1.astro";
 import Aadirmodulo from "../../components/modales/añadirmodulo.astro";
 import Modalopciones from "../../components/modales/modalopciones.astro";
 import Modaleditar from "../../components/modales/modaleditar.jsx";
-import SideBar from "../../components/nav/sideBar.astro";
-import BotonGuardar from "../../components/modales/modalprueba.jsx";
+import BotonGuardar from "../../components/modales/modalcarga/modalcarga.jsx";
 import { Button } from "@tremor/react";
 ---
 
@@ -34,7 +33,7 @@ import { Button } from "@tremor/react";
 
 <LayoutDashboard title="Talleres">
   <main class="flex flex-row w-full bg-greyBlack h-screen">
-    <SideBar condicion={1} />
+
     <div class="flex flex-col w-full h-full">
       <div
         class="bg-greyBlack flex content-center pr-5 pt-3.5 justify-end h-20 w-full"

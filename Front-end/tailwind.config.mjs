@@ -18,7 +18,7 @@ export default {
       olivedrab: "#729517",
       mediumseagreen: "#35af66",
       dimgray: "#5c5c5c",
-      amarillo: "#B8FF00",
+      amarillo: "#FFFF00",
       principalGreen: "#729517",
       secondaryGreen: "#577004",
       links: "#FEEF08",

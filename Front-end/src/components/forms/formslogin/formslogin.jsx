@@ -9,17 +9,26 @@ const Form = () => {
         contrasena: "",
     });
 
+    const [errorMessage, setErrorMessage] = useState('');
+
+
     const [errors, setErrors] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isModalisVisible, setIsModalIsVisible] = useState(false);
+    const [nombres, setNombres] = useState('');  // Estado para almacenar los nombres
 
     const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setValues({
-            ...values,
-            [name]: value,
-        });
-    };
+    const { name, value } = event.target;
+    setValues({
+        ...values,
+        [name]: value,
+    });
+
+    // Limpiar el mensaje de error al cambiar el valor del input
+    if (errorMessage) {
+        setErrorMessage('');
+    }
+};
 
     const validateForm = () => {
         const newErrors = {};
@@ -42,43 +51,45 @@ const Form = () => {
     };
 
     const handleForm = async (event) => {
-        event.preventDefault();
+    event.preventDefault();
 
-        const validationErrors = validateForm();
-        if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
-            setIsModalVisible(true);
-        } else {
-            console.log("Inputs value:", values);
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors);
+        setIsModalVisible(true);
+        return; // Salir si hay errores de validación
+    }
+
+    try {
+        const response = await fetch("http://localhost:8000/api/v2/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            setNombres(data.data.nombres);
             setIsModalIsVisible(true);
-            // Redirige a la URL deseada si todo es válido
-            // window.location.href = "/empresasRegistradas/empresasRegistradas";
-        }
-
-        try {
-            const response = await fetch("http://localhost:8000/api/v2/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(values),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                setIsModalIsVisible(true);
-                console.log("Login con éxito:", data);
-                localStorage.setItem("access_token", data.access_token);
-                localStorage.setItem("refresh_token", data.refresh_token);
-                // Redirigir o cargar datos del usuario
-            } else {
-                console.log("Error al iniciar sesión:", data);
+            localStorage.setItem("access_token", data.access_token);
+            localStorage.setItem("refresh_token", data.refresh_token);
+            setErrorMessage(''); // Limpiar mensaje de error al hacer login exitoso
+            localStorage.setItem('userData', JSON.stringify(data.data));
+        } else {
+            if (data.error) {
+                setErrorMessage(data.error); // Almacenar el mensaje de error
             }
-        } catch (error) {
-            console.error("Error en la solicitud:", error);
+            console.log("Error al iniciar sesión:", data);
         }
-    };
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
+        setErrorMessage('Error en la solicitud. Por favor, inténtalo de nuevo más tarde.');
+    }
+};
+
 
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
@@ -90,10 +101,16 @@ const Form = () => {
 
     const closeModalis = () => {
         setIsModalIsVisible(false);
+        window.location.href = "/dashboard/dashboard"
     };
 
     return (
         <>
+            {errorMessage && (
+                <div className="bg-red-500 text-white p-4 rounded mb-4">
+                    {errorMessage}
+                </div>
+            )}
             <form onSubmit={handleForm} className="form flex flex-col gap-6">
                 <input
                     className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border ${errors.correo ? 'border-red-500' : 'border-white'}`}
@@ -142,7 +159,6 @@ const Form = () => {
                 </div>
             </form>
 
-            {/* Modal para mostrar los errores */}
             <div
                 className={`modal-container ${isModalVisible ? 'show' : ''}`}
             >
@@ -165,9 +181,11 @@ const Form = () => {
                     </ul>
                 </div>
             </div>
+
             <ModalLogIn
-                isOpen={isModalisVisible}
+                isOpen={isModalisVisible && nombres}  // Verifica que 'nombres' esté definido
                 onConfirm={closeModalis}
+                nombre={nombres || ''}  // En caso de que no esté definido, pasa una cadena vacía
             />
         </>
     );
