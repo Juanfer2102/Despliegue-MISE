@@ -1,5 +1,9 @@
 import React from 'react';
+
+
 import SideBarWrapper from '../helpers/sideBar';
+
+import PropTypes from 'prop-types';
 
 const LayoutDashboard = ({ children }) => {
     return (
@@ -11,5 +15,9 @@ const LayoutDashboard = ({ children }) => {
         </>
     )
 }
+
+LayoutDashboard.propTypes = {
+  children: PropTypes.node,
+};
 
 export default LayoutDashboard;
