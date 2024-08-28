@@ -11,6 +11,8 @@ import InfoModal from "../modales/modalinfouser.jsx";
 import ModalLogout from "../modales/modalcs.jsx";
 import Modalcarga from '../modales/modalcarga/modalcarga.jsx';
 
+import PropTypes from 'prop-types';
+
 const Sidebar = ({ condicion, nombre }) => {
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -293,6 +295,11 @@ const Sidebar = ({ condicion, nombre }) => {
       )}
     </>
   );
+};
+
+Sidebar.propTypes = {
+  condition: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default Sidebar;

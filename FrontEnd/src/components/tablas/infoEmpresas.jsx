@@ -1,5 +1,5 @@
-
  import React from 'react'
+import PropTypes from 'prop-types';
  
  export const InfoEmpresas = ({ nombre, sector_empresarial, nit }) => {
    return (
@@ -19,8 +19,7 @@
     >
       <span
         className="font-medium tracking-wider text-white rounded-lg"
-        >{sector_empresarial}</span
-      >
+        >{sector_empresarial}</span>
     </td>
     <td
       className="p-5 text-sm w-[4rem] text-center whitespace-nowrap"
@@ -35,4 +34,9 @@
 
    );
  }
- 
+
+ InfoEmpresas.PropTypes = {
+  nombre: PropTypes.string.isRequired,
+  sector_empresarial: PropTypes.string.isRequired,
+  nit: PropTypes.number.isRequired
+};
