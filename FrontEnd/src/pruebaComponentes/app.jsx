@@ -1,6 +1,6 @@
 import { Navigation } from "../pruebaComponentes/navigation";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Home from '../pages/modulos/modulos.astro'
+import Home from '../pages/modulos/modulos'
 import Login from "./login";
 import Logout from "../pages/sueños/sueños.astro";
 

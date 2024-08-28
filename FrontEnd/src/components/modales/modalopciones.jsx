@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const modalopciones = ({texto, URL}) => {
+const Modalopciones = ({texto, URL}) => {
   return (
     <div className="flex flex-col gap-1 text-white">
       <p className="text-xl">{texto}</p>
@@ -18,3 +18,5 @@ export const modalopciones = ({texto, URL}) => {
     </div>
   );
 }
+
+export default Modalopciones;

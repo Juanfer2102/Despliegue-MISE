@@ -35,9 +35,11 @@
     "@tremor/react": "^3.17.4",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.1",
     "recharts": "^2.12.7",
     "tailwind-merge": "^2.5.2",
     "tailwind-variants": "^0.2.1"
