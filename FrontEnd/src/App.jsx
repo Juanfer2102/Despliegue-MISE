@@ -5,9 +5,7 @@ import LayoutDashboard from './layouts/LayoutDashboard.jsx'
 function App() {
 
   return (
-    <LayoutDashboard>
       <EmpresasRegistradas />
-    </LayoutDashboard>
   )
 }
 

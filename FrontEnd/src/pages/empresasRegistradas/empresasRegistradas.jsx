@@ -1,12 +1,8 @@
 import React from "react";
 import LayoutDashboard from "../../layouts/LayoutDashboard";
-import ElementSidebar from "../../components/nav/elementSidebar";
-import Modal1 from "../../components/modales/modal1.jsx";
-import SideBar from "../../components/nav/sideBar";
 import { Elementosempresas } from "../../helpers/elementosempresas";
 import TarjetasEmpresasreg from "../../components/tarjetasdashboard/tarjetasEmpresasreg";
 import { TablasEmpresas } from "../../components/tablas/tablasEmpresas"
-import TarjetasModulos from "../../components/tarjetasdashboard/tarjetasModulos";
 
 export const EmpresasRegistradas = () => {
   return (
