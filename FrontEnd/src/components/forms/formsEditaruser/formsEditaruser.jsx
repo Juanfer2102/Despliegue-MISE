@@ -164,7 +164,7 @@ export const FormsEditaruser = () => {
                             <div className="w-[11rem]">
                                 <p className="font-semibold">Rol</p>
                             </div>
-                            <div className='w-[14rem]'>
+                            <div className='w-[12.8rem]'>
                                <SelectComponent
                                     name="id_rol"
                                     type="Rol..."
@@ -232,7 +232,7 @@ export const FormsEditaruser = () => {
                             <div className="w-[11rem]">
                                 <p className="font-semibold">MISE</p>
                             </div>
-                            <div className='w-[12.5rem]'>
+                            <div className='w-[12.8rem]'>
                                 <SelectComponent name="programa" type="Programa..." options={programas} value={values.programa} onChange={(value) => handleInputChange("programa", value)} />
                             </div>
                         </div>

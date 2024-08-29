@@ -184,7 +184,7 @@ export const FormsNuevouser = () => {
                             <div className="w-[11rem]">
                                 <p className="font-semibold">Rol</p>
                             </div>
-                            <div className='w-[14rem]'>
+                            <div className='w-[12.8rem]'>
                                 <SelectComponent name="id_rol" type="Rol..." options={roles} value={values.id_rol} onChange={(value) => handleInputChange("id_rol", value)} />
                             </div>
                         </div>
@@ -244,7 +244,7 @@ export const FormsNuevouser = () => {
                             <div className="w-[11rem]">
                                 <p className="font-semibold">MISE</p>
                             </div>
-                            <div className='w-[14rem]'>
+                            <div className='w-[12.8rem]'>
                                 <SelectComponent name="programa" type="Programa..." options={programas} value={values.programa} onChange={(value) => handleInputChange("programa", value)} />
                             </div>
                         </div>
