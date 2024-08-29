@@ -50,7 +50,9 @@ import AceptarEmpresas from "./pages/aceptarEmpresas/aceptaremp";
 import Autoevaluacion from "./pages/autoevaluacion/autoevaluacion.jsx";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-  const role = localStorage.getItem('id_rol');
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  const role = userData ? userData.id_rol : null;
+
   return allowedRoles.includes(role) ? children : <Navigate to="/" />;
 };
 
@@ -71,117 +73,117 @@ const AppRoutes = () => {
 
         {/* Rutas protegidas */}
         <Route path="/dashboard" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Dashboard />
           </ProtectedRoute>
         } />
         <Route path="/olvidaste-contraseña" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Olvidastecontra />
           </ProtectedRoute>
         } />
         <Route path="/reescribir-contraseña" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Rescribircontrase />
           </ProtectedRoute>
         } />
         <Route path="/correo-fallido" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Correofallido />
           </ProtectedRoute>
         } />
         <Route path="/expiracion" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Expirado />
           </ProtectedRoute>
         } />
         <Route path="/credenciales" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Credencial />
           </ProtectedRoute>
         } />
         <Route path="/editar-porcentaje" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <EditarPorcentaje />
           </ProtectedRoute>
         } />
         <Route path="/editar-usuario" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <EditarUsuario />
           </ProtectedRoute>
         } />
         <Route path="/visualizar-users" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <VerUsers />
           </ProtectedRoute>
         } />
         <Route path="/empresas-registradas" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <EmpresasRegistradas />
           </ProtectedRoute>
         } />
         <Route path="/modulos" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Modulos />
           </ProtectedRoute>
         } />
         <Route path="/nuevo-modulo" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Nuevomodulo />
           </ProtectedRoute>
         } />
         <Route path="/sueños" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Sueos />
           </ProtectedRoute>
         } />
         <Route path="/nuevo-sueño" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <NuevoSueo />
           </ProtectedRoute>
         } />
         <Route path="/editar-modulos" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Editarmodulos />
           </ProtectedRoute>
         } />
         <Route path="/editar-sueños" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Editarsueos />
           </ProtectedRoute>
         } />
         <Route path="/editar-preguntas" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Editarpreguntas />
           </ProtectedRoute>
         } />
         <Route path="/preguntas" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Preguntas />
           </ProtectedRoute>
         } />
         <Route path="/nueva-pregunta" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <NuevaPregunta />
           </ProtectedRoute>
         } />
         <Route path="/talleres" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Talleres />
           </ProtectedRoute>
         } />
         <Route path="/aceptar-empresas" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <AceptarEmpresas />
           </ProtectedRoute>
         } />
         <Route path="/autoevaluacion" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Autoevaluacion />
           </ProtectedRoute>
         } />
         <Route path="/nuevo-user" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <NuevoUser />
           </ProtectedRoute>
         } />
