@@ -76,13 +76,14 @@ const AppRoutes = () => {
         <Route path="/registro" element={<Registro />} />
         <Route path="/registro-empresa" element={<RegistroEmpresa />} />
         <Route path="/autoevaluacion" element={<Autoevaluacion />} />
+        <Route path="/dashboard" element={<Dashboard />} />
 
         {/* Rutas protegidas */}
-        <Route path="/dashboard" element={
+        {/* <Route path="/dashboard" element={
           <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Dashboard />
           </ProtectedRoute>
-        } />
+        } /> */}
         <Route path="/olvidaste-contraseña" element={
           <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Olvidastecontra />
