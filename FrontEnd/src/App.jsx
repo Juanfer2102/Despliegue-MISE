@@ -73,10 +73,15 @@ const AppRoutes = () => {
       <Routes>
         {/* Rutas sin protección */}
         <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
         <Route path="/registro-empresa" element={<RegistroEmpresa />} />
         <Route path="/autoevaluacion" element={<Autoevaluacion />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/olvidaste-contraseña" element={<Olvidastecontra />} />
+        <Route path="/reescribir-contraseña" element={<Rescribircontrase />} />
+        <Route path="/credenciales" element={<Credencial />} />
+        <Route path="/expiracion" element={<Expirado />} />
 
         {/* Rutas protegidas */}
         {/* <Route path="/dashboard" element={
@@ -84,31 +89,6 @@ const AppRoutes = () => {
             <Dashboard />
           </ProtectedRoute>
         } /> */}
-        <Route path="/olvidaste-contraseña" element={
-          <ProtectedRoute allowedRoles={[1, 2, 3]}>
-            <Olvidastecontra />
-          </ProtectedRoute>
-        } />
-        <Route path="/reescribir-contraseña" element={
-          <ProtectedRoute allowedRoles={[1, 2, 3]}>
-            <Rescribircontrase />
-          </ProtectedRoute>
-        } />
-        <Route path="/correo-fallido" element={
-          <ProtectedRoute allowedRoles={[1, 2, 3]}>
-            <Correofallido />
-          </ProtectedRoute>
-        } />
-        <Route path="/expiracion" element={
-          <ProtectedRoute allowedRoles={[1, 2, 3]}>
-            <Expirado />
-          </ProtectedRoute>
-        } />
-        <Route path="/credenciales" element={
-          <ProtectedRoute allowedRoles={[1, 2, 3]}>
-            <Credencial />
-          </ProtectedRoute>
-        } />
         <Route path="/editar-porcentaje" element={
           <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <EditarPorcentaje />

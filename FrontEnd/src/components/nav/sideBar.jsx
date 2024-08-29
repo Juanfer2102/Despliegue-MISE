@@ -106,7 +106,7 @@ const Sidebar = ({ condicion, nombre }) => {
                 } items-center justify-end p-6 leading-[normal] tracking-[normal] text-left text-xs text-darkgray font-base-medium`}
               id="usuariofinal"
             >
-              <div className="flex-1 flex flex-row items-center justify-start gap-[12px]">
+              <div className={`flex-1 flex items-center justify-start ${sidebarExpanded ? "flex-row gap-[12px]" : "flex-col-reverse gap-[20px]"}`}>
                 <img
                   className="h-10 w-10 relative rounded-[99px] overflow-hidden shrink-0 object-cover cursor-pointer"
                   loading="lazy"
@@ -121,7 +121,8 @@ const Sidebar = ({ condicion, nombre }) => {
                   <div className="self-stretch relative text-sm leading-[20px] font-medium text-white">
                     {nombre}
                   </div>
-                  <img
+                </div>
+                <img
                     className="h-6 w-6 relative overflow-hidden shrink-0 block cursor-pointer"
                     onClick={handleOpenModal}
                     loading="lazy"
@@ -129,7 +130,6 @@ const Sidebar = ({ condicion, nombre }) => {
                     id="profile-1"
                     src={IconLogOut}
                   />
-                </div>
               </div>
             </div>
           </div>

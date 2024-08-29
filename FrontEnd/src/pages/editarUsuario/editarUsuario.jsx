@@ -2,7 +2,7 @@ import React from 'react';
 import LayoutDashboard from "../../layouts/LayoutDashboard";
 import iconUser from "../../images/icons/iconsEditUser/User.png";
 import FormsEditaruser from "../../components/forms/formsEditaruser/formsEditaruser.jsx";
-import GoBack from "../../components/inputs/goback/goBack.jsx";
+import GoBack from '../../components/inputs/goback/GoBack.jsx';
 import { Infouser } from '../../helpers/edituser.js';
 
 const EditarUsuario = () => {
@@ -12,7 +12,7 @@ const EditarUsuario = () => {
         <div className="flex flex-col w-full h-full">
           <div className="bg-greyBlack flex content-center pt-4 pr-5 justify-end h-20 w-full" />
           <div className="bg-greyBg py-4 flex flex-col px-8 h-full w-full">
-            <GoBack text={`Usuarios Registrados ${Infouser[0].nombres} ${Infouser[0].apellidos}`} />
+            <GoBack text={`Usuarios Registrados / ${Infouser[0].nombres} ${Infouser[0].apellidos}`} />
             <div className="bg-greyBlack flex flex-col px-10 w-full rounded-md">
               <div className="flex flex-row py-2">
                 <img src={iconUser} className="p-12" alt="" />
