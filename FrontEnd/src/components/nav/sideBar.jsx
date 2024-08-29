@@ -56,13 +56,13 @@ const Sidebar = ({ condicion, nombre }) => {
           <div className="cajasidebar1 flex flex-col gap-5 w-full" id="cajasidebar1">
             <div className="flex justify-center relative">
               <img
-                src={Logo.src}
+                src={Logo}
                 className={`w-[10rem] h-[10em] transition-opacity duration-500 ${sidebarExpanded ? "opacity-100" : "opacity-0 hidden"}`}
                 alt=""
                 id="logo"
               />
               <img
-                src={Logomini.src}
+                src={Logomini}
                 className={`w-[2.5rem] h-[3.5rem] pt-5 transition-opacity duration-500 ${sidebarExpanded ? "opacity-0 hidden" : "block"}`}
                 id="logo-min"
                 alt=""
@@ -111,7 +111,7 @@ const Sidebar = ({ condicion, nombre }) => {
                   loading="lazy"
                   onClick={() => setIsModalOpen(true)}
                   alt=""
-                  src={IconProfile.src}
+                  src={IconProfile}
                 />
                 <div className={`flex-1 flex-col items-start justify-start gap-[2px] transition-opacity duration-500 ${sidebarExpanded ? "opacity-100 block" : "opacity-0 hidden"}`} id="profile">
                   <div className="self-stretch relative leading-[20px] font-medium">
@@ -126,7 +126,7 @@ const Sidebar = ({ condicion, nombre }) => {
                     loading="lazy"
                     alt=""
                     id="profile-1"
-                    src={IconLogOut.src}
+                    src={IconLogOut}
                   />
                 </div>
               </div>
@@ -144,20 +144,20 @@ const Sidebar = ({ condicion, nombre }) => {
           <div className="cajasidebar1 flex flex-col gap-5 pt-[6rem] w-full" id="cajasidebar1">
             <div className="flex justify-center relative">
               <img
-                src={Logo.src}
+                src={Logo}
                 className={`w-[10rem] h-[10em] transition-opacity duration-500 ${sidebarExpanded ? "opacity-100" : "opacity-0 hidden"}`}
                 alt=""
                 id="logo"
               />
               <img
-                src={Logomini.src}
+                src={Logomini}
                 className={`w-[2.5rem] h-[3.5rem] pt-5 transition-opacity duration-500 ${sidebarExpanded ? "opacity-0 hidden" : "block"}`}
                 id="logo-min"
                 alt=""
               />
               <img
                 id="toggleBtn"
-                src={IconExpand.src}
+                src={IconExpand}
                 className="cursor-pointer absolute right-[-10px] top-[20px]"
                 alt=""
                 onClick={toggleSidebar}
@@ -186,7 +186,7 @@ const Sidebar = ({ condicion, nombre }) => {
                   onClick={() => setIsModalOpen(true)}
                   loading="lazy"
                   alt=""
-                  src={IconProfile.src}
+                  src={IconProfile}
                 />
                 <div className={`flex-1 flex-col items-start justify-start gap-[2px] transition-opacity duration-500 ${sidebarExpanded ? "opacity-100 block" : "opacity-0 hidden"}`} id="profile">
                   <div className="self-stretch relative leading-[20px] font-medium">
@@ -203,7 +203,7 @@ const Sidebar = ({ condicion, nombre }) => {
                 loading="lazy"
                 alt=""
                 id="profile-1"
-                src={IconLogOut.src}
+                src={IconLogOut}
               />
             </div>
           </div>
@@ -218,20 +218,20 @@ const Sidebar = ({ condicion, nombre }) => {
           <div className="cajasidebar1 flex flex-col gap-5 pt-[6rem] w-full" id="cajasidebar1">
             <div className="flex justify-center relative">
               <img
-                src={Logo.src}
+                src={Logo}
                 className={`w-[10rem] h-[10em] transition-opacity duration-500 ${sidebarExpanded ? "opacity-100" : "opacity-0 hidden"}`}
                 alt=""
                 id="logo"
               />
               <img
-                src={Logomini.src}
+                src={Logomini}
                 className={`w-[2.5rem] h-[3.5rem] pt-5 transition-opacity duration-500 ${sidebarExpanded ? "opacity-0 hidden" : "block"}`}
                 id="logo-min"
                 alt=""
               />
               <img
                 id="toggleBtn"
-                src={IconExpand.src}
+                src={IconExpand}
                 className="cursor-pointer absolute right-[-10px] top-[20px]"
                 alt=""
                 onClick={toggleSidebar}
@@ -260,7 +260,7 @@ const Sidebar = ({ condicion, nombre }) => {
                   onClick={() => setIsModalOpen(true)}
                   loading="lazy"
                   alt=""
-                  src={IconProfile.src}
+                  src={IconProfile}
                 />
                 <div className={`flex-1 flex-col items-start justify-start gap-[2px] transition-opacity duration-500 ${sidebarExpanded ? "opacity-100 block" : "opacity-0 hidden"}`} id="profile">
                   <div className="self-stretch relative leading-[20px] font-medium">
@@ -277,7 +277,7 @@ const Sidebar = ({ condicion, nombre }) => {
                 loading="lazy"
                 alt=""
                 id="profile-1"
-                src={IconLogOut.src}
+                src={IconLogOut}
               />
             </div>
           </div>

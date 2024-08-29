@@ -70,6 +70,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
         <Route path="/registro-empresa" element={<RegistroEmpresa />} />
+        <Route path="/nuevo-usuario" element={<NuevoUser />} />
 
         {/* Rutas protegidas */}
         <Route path="/dashboard" element={
