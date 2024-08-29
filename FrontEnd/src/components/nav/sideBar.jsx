@@ -50,8 +50,8 @@ const Sidebar = ({ condicion, nombre }) => {
     <>
       {condicion === 1 && (
         <aside
-          className={`sidebar hidden sticky sm:flex ${sidebarExpanded ? "w-[18rem]" : "w-[5.5rem]"
-            } h-screen bg-greyBlack rounded-br-md transition-all duration-500 ease-in-out`}
+          className={`sidebar hidden  sm:flex ${sidebarExpanded ? "w-[18rem] absolute" : "w-[5.5rem] sticky"
+            } h-screen bg-greyBlack rounded-br-md transition-all duration-500 ease-in-out z-50`}
           id="sidebar"
         >
           <div className="cajasidebar1 flex flex-col gap-5 w-full" id="cajasidebar1">

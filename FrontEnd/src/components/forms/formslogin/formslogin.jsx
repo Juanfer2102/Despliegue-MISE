@@ -144,7 +144,7 @@ const Form = () => {
                         <p className="text-xl">Mostrar contraseña</p>
                     </div>
                     <div className="h-7">
-                        <a href="/olvidasteContraseña/olvidasteContraseña" className="text-xl hover:underline">¿Olvidaste tu contraseña?</a>
+                        <a href="/olvidaste-contraseña" className="text-xl hover:underline">¿Olvidaste tu contraseña?</a>
                     </div>
                 </div>
 

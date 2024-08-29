@@ -138,7 +138,7 @@ export const FormRegistro = () => {
 
         if (Object.keys(validationErrors).length === 0) {
             // Aquí redirigimos usando `window.location`
-            window.location.href = '/registroEmpresa/registroEmpresa';
+            window.location.href = '/registro-empresa';
         } else {
             setErrors(validationErrors);
             setIsModalVisible(true);

@@ -3,7 +3,7 @@ import LayoutDashboard from "../../layouts/LayoutDashboard";
 import Modaleditar from "../../components/modales/modaleditar";
 import BotonGuardar from "../../components/modales/modalcarga/modalcarga";
 
-const ModulosPage = () => {
+const NuevoTaller = () => {
   return (
     <LayoutDashboard title="Modulos">
       <main className="flex flex-row w-full bg-greyBlack h-screen">
@@ -24,4 +24,4 @@ const ModulosPage = () => {
   );
 };
 
-export default ModulosPage;
+export default NuevoTaller;

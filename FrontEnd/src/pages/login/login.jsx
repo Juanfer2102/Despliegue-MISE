@@ -24,7 +24,7 @@ const Login = () => {
 
             <Formlogin />
 
-            <a href="/registropostu/registro" className="text-xl hover:underline">
+            <a href="/registro" className="text-xl hover:underline">
               ¡Registra tu Empresa!
             </a>
           </div>

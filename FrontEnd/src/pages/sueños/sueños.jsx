@@ -33,7 +33,7 @@ const Sueos = () => {
             <div className="left flex flex-row gap-5 p-1">
               <div className="container bg-greyBlack rounded-xl p-4 max-h-[50rem] overflow-y-auto custom-scrollbar">
                 <div className="flex flex-wrap gap-8 items-center">
-                  <a href="/sueños/editarSueños">
+                  <a href="/editar-sueños">
                     <Modal texto="Deseo definir mi propósito empresarial" colorborde="border-azulclaro" colorhover="hover:bg-azulclaro" />
                   </a>
                   <Modal texto="Deseo definir mi modelo de negocio" colorborde="border-azulclaro" colorhover="hover:bg-azulclaro" />
@@ -46,15 +46,15 @@ const Sueos = () => {
                   <Modal texto="Deseo definir el perfil de mi cliente ideal y el segmento de mercado al que me dirijo" colorborde="border-fucsia" colorhover="hover:bg-fucsia" />
                   <Modal texto="Deseo definir estrategias de marketing inbound y de contenidos" colorborde="border-fucsia" colorhover="hover:bg-fucsia" />
                   <Modal texto="Deseo tener un manual de conceptualización de mi marca" colorborde="border-fucsia" colorhover="hover:bg-fucsia" />
-                  <a href="/sueños/nuevosueño">
+                  <a href="/nuevo-sueño">
                     <Aadirmodulo />
                   </a>
                 </div>
               </div>
               <div className="flex flex-col gap-10 justify-center">
-                <Modalopciones texto="Modulos" URL="/modulos/modulos" />
-                <Modalopciones texto="Preguntas" URL="/preguntas/preguntas" />
-                <Modalopciones texto="Talleres" URL="/talleres/talleres" />
+                <Modalopciones texto="Modulos" URL="/modulos" />
+                <Modalopciones texto="Preguntas" URL="/preguntas" />
+                <Modalopciones texto="Talleres" URL="/talleres" />
               </div>
             </div>
           </div>

@@ -145,7 +145,7 @@ export const FormRegistro = () => {
             console.log('Inputs value:', updatedValues);
             setValues(updatedValues);  // Actualizamos los valores antes de cerrar el modal
             closeModal();
-            window.location.href = "/autoevaluacion/autoevaluacion";
+            window.location.href = "/autoevaluacion";
         }
 
     };

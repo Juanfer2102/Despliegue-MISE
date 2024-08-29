@@ -39,7 +39,7 @@ const Modulos = () => {
                 style={styles.customScrollbar}
               >
                 <div className="grid grid-cols-3 gap-8 p-4 items-center w-full">
-                  <a href="/modulos/editarmodulos">
+                  <a href="/editar-modulos">
                     <Modal
                       texto="CAPACIDADES GERENCIALES"
                       colorborde="border-principalGreen"
@@ -91,15 +91,15 @@ const Modulos = () => {
                     colorborde="border-principalGreen"
                     colorhover="hover:bg-principalGreen"
                   />
-                  <a href="/modulos/nuevomodulo">
+                  <a href="/nuevo-modulo">
                     <Aadirmodulo />
                   </a>
                 </div>
               </div>
               <div className="flex flex-col gap-10 justify-center">
-                <Modalopciones texto="Sueños" URL="/sueños/sueños" />
-                <Modalopciones texto="Preguntas" URL="/preguntas/preguntas" />
-                <Modalopciones texto="Talleres" URL="/sueños/sueños" />
+                <Modalopciones texto="Sueños" URL="/sueños" />
+                <Modalopciones texto="Preguntas" URL="/preguntas" />
+                <Modalopciones texto="Talleres" URL="/talleres" />
               </div>
             </div>
           </div>

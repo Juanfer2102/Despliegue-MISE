@@ -8,8 +8,7 @@ const containerStyle = {
   color: '#ffffff', // Color de texto
 };
 
-const cardStyle = {
-  backgroundColor: '#333', // Fondo de la tarjeta
+const cardStyle = { 
   borderRadius: '16px', // Bordes redondeados
   padding: '2rem', // Espaciado interior
 };
@@ -25,11 +24,11 @@ const Autoevaluacion = () => {
           className="bg-greyBg flex flex-col h-full w-full justify-center items-center gap-5"
         >
           <div
-            className="bg-greyBg flex flex-row h-full w-full items-center justify-center gap-5"
+            className="bg-greyBg flex flex-col h-full w-full items-center justify-center gap-5"
           >
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-row gap-5">
               <div
-                className="w-max h-full flex flex-col gap-5"
+                className="w-max h-full flex flex-col gap-5 bg-greyBlack"
                 style={cardStyle}
               >
                 <div className="flex flex-col justify-center">
