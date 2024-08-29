@@ -42,7 +42,7 @@ const Sidebar = ({ condicion, nombre }) => {
     setTimeout(() => {
       setIsSuccessModalVisible(false);
       localStorage.clear();
-      window.location.href = "/login/login";
+      window.location.reload(true);
     }, 1000); // 1 segundos
   };
 

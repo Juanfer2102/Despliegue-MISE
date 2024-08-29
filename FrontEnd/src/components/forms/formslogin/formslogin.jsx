@@ -101,7 +101,7 @@ const Form = () => {
 
     const closeModalis = () => {
         setIsModalIsVisible(false);
-        window.location.href = "/dashboard/dashboard"
+        window.location.href = "/dashboard"
     };
 
     return (

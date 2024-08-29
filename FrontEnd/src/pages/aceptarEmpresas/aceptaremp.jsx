@@ -39,6 +39,7 @@ const DeveloperPortal = () => {
         switch (activeTab) {
             case 'infopostu':
                 return (
+                    
                     <div>
                         {Infopostu.map((info, index) => (
                             <div key={index} className="bg-greyBlack p-5 rounded-xl mb-4">
