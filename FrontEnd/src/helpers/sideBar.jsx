@@ -16,7 +16,7 @@ const SideBarWrapper = () => {
         }
     }, []);
 
-    return <SideBar nombre={userData.nombre} condicion={1} />;
+    return <SideBar nombre={userData.nombre} condicion={userData.rol} />;
 };
 
 export default SideBarWrapper;

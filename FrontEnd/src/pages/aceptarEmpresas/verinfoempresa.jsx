@@ -3,7 +3,7 @@ import DeveloperPortal from './aceptaremp';
 import LayoutDashboard from '../../layouts/LayoutDashboard';
 import GoBack from '../../components/inputs/goback/GoBack';
 
-const VerInfoEmp = () => {
+const DetalleEmpresas = () => {
   return (
     <LayoutDashboard title="Aceptar Empresa">
       <main className="flex flex-row w-full bg-greyBlack h-screen">
@@ -21,4 +21,4 @@ const VerInfoEmp = () => {
   );
 };
 
-export default VerInfoEmp;
+export default DetalleEmpresas;

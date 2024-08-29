@@ -86,6 +86,20 @@ def check_auth(request):
         return Response({'isAuthenticated': False}, status=status.HTTP_401_UNAUTHORIZED)
     
 
+class EmpresaDetailView(APIView):
+    def get(self, request, nit):
+        try:
+            empresa = Empresas.objects.get(nit=nit)
+            postulante = Postulante.objects.get(id_postulante=empresa.id_postulante_id)
+            empresa_data = EmpresasSerializer(empresa).data
+            postulante_data = PostulanteSerializer(postulante).data
+            return Response({'empresa': empresa_data, 'postulante': postulante_data})
+        except Empresas.DoesNotExist:
+            return Response({'error': 'Empresa not found'}, status=404)
+        except Postulante.DoesNotExist:
+            return Response({'error': 'Postulante not found'}, status=404)
+        
+
 class UpdateEmpresaStatus(APIView):
     def post(self, request, nit):
         try:
