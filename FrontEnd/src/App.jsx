@@ -14,10 +14,15 @@ import Credencial from "./pages/olvidasteContraseña/credenciales.jsx";
 // Componentes de registro
 import Registro from "./pages/registropostu/registro.jsx";
 import RegistroEmpresa from "./pages/registroEmpresa/registroEmpresa.jsx";
+import Autoevaluacion from "./pages/autoevaluacion/autoevaluacion.jsx";
 import NuevoUser from "./pages/nuevoUser/nuevoUser.jsx";
 
 // Dashboard y componentes principales
 import Dashboard from "./pages/dashboard/dashboard";
+
+// Aceptacion de Empresas
+import AceptarEmpresas from './pages/aceptarEmpresas/aceptarempv';
+import VerInfoEmp from './pages/aceptarEmpresas/verinfoempresa.jsx';
 
 // Componentes de edición
 import EditarPorcentaje from "./pages/editarPorcentajeDesarr/editarPorcentaje.jsx";
@@ -44,10 +49,10 @@ import Editarpreguntas from "./pages/preguntas/editarpreguntas.jsx";
 
 // Componentes de talleres
 import Talleres from "./pages/talleres/talleres.jsx";
+import EditarTalleres from './pages/talleres/editartalleres.jsx';
+import NuevoTaller from './pages/talleres/nuevotaller.jsx';
 
-// Otros componentes
-import AceptarEmpresas from "./pages/aceptarEmpresas/aceptarempv";
-import Autoevaluacion from "./pages/autoevaluacion/autoevaluacion.jsx";
+
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const userData = JSON.parse(localStorage.getItem('userData'));
@@ -70,7 +75,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
         <Route path="/registro-empresa" element={<RegistroEmpresa />} />
-        
+        <Route path="/autoevaluacion" element={<Autoevaluacion />} />
 
         {/* Rutas protegidas */}
         <Route path="/dashboard" element={
@@ -123,6 +128,11 @@ const AppRoutes = () => {
             <EmpresasRegistradas />
           </ProtectedRoute>
         } />
+        <Route path="/info-empresa" element={
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
+            <VerInfoEmp />
+          </ProtectedRoute>
+        } />
         <Route path="/modulos" element={
           <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Modulos />
@@ -173,18 +183,23 @@ const AppRoutes = () => {
             <Talleres />
           </ProtectedRoute>
         } />
+        <Route path="/editar-taller" element={
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
+            <EditarTalleres />
+          </ProtectedRoute>
+        } />
+        <Route path="/nuevo-taller" element={
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
+            <NuevoTaller />
+          </ProtectedRoute>
+        } />
         <Route path="/aceptar-empresas" element={
           <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <AceptarEmpresas />
           </ProtectedRoute>
         } />
-        <Route path="/autoevaluacion" element={
-          <ProtectedRoute allowedRoles={[1, 2, 3]}>
-            <Autoevaluacion />
-          </ProtectedRoute>
-        } />
         <Route path="/nuevo-user" element={
-          <ProtectedRoute allowedRoles={[1, 2, 3]}>
+          <ProtectedRoute allowedRoles={[1]}>
             <NuevoUser />
           </ProtectedRoute>
         } />

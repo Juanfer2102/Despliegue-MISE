@@ -32,7 +32,7 @@ const Preguntas = () => {
             <div className="left flex flex-row gap-5 p-1">
               <div className="container bg-greyBlack rounded-xl p-4 max-h-[50rem] overflow-y-auto" style={customScrollbarThumbStyle}>
                 <div className="flex flex-wrap gap-8 items-center">
-                  <a href="/preguntas/editarpreguntas">
+                  <a href="/editar-preguntas">
                     <Modal texto={"¿La gerencia utiliza herramientas para la gestión de su tiempo y actividades?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
                   </a>
                   <Modal texto={"¿La gerencia tiene definida la propuesta de valor que ofrece a sus clientes? ¿Sus colaboradores la tienen interiorizada?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
@@ -66,13 +66,13 @@ const Preguntas = () => {
                   <Modal texto={"¿La empresa analiza sus estados financieros antes de realizar inversiones?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
                   <Modal texto={"¿La empresa conoce las diferentes fuentes de financiamiento disponibles para apalancar el crecimiento de su empresa?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
                   <Modal texto={"¿La empresa conoce cuál es el valor de su empresa en el mercado a partir de técnicas de valoración reconocidas (flujo de caja libre descontado, EBITDA o EVA)?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
-                  <a href="/preguntas/nuevapregunta"><Aadirmodulo /></a>
+                  <a href="/nueva-pregunta"><Aadirmodulo /></a>
                 </div>
               </div>
               <div className="flex flex-col gap-10 justify-center">
-                <Modalopciones texto="Modulos" URL="/modulos/modulos" />
-                <Modalopciones texto="Sueños" URL="/sueños/sueños" />
-                <Modalopciones texto="Talleres" URL="/talleres/talleres" />
+                <Modalopciones texto="Modulos" URL="/modulos" />
+                <Modalopciones texto="Sueños" URL="/sueños" />
+                <Modalopciones texto="Talleres" URL="/talleres" />
               </div>
             </div>
           </div>

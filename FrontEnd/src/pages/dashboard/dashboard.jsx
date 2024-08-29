@@ -22,7 +22,7 @@ const Dashboard = () => {
               >
                 <div className="flex flex-row gap-[11.5rem]">
                   <p className="pt-1 align-middle text-center">Porcentaje de Desarrollo</p>
-                  <a href="/editarPorcentajeDesarr/editarPorcentaje"><button className="bg-principalGreen text-center rounded-xl h-[2rem] w-[10rem] hover:bg-white hover:text-principalGreen hover:border-principalGreen hover:border">Editar Porcentaje</button></a>
+                  <a href="/editar-porcentaje"><button className="bg-principalGreen text-center rounded-xl h-[2rem] w-[10rem] hover:bg-white hover:text-principalGreen hover:border-principalGreen hover:border">Editar Porcentaje</button></a>
                 </div>
                 <div className="flex flex-row gap-5 pt-5">
                   <ProgressCircleHero text={"No Desarrollado"} value={25} />
