@@ -4,37 +4,52 @@ import { BarChart, Card, Divider, Switch } from '@tremor/react';
 
 const data = [
   {
-    date: 'Jan 23',
+    date: 'Jan',
     'Este Año': 60,
     'Año Anterior': 28,
   },
   {
-    date: 'Feb 23',
+    date: 'Feb',
     'Este Año': 70,
     'Año Anterior': 30,
   },
   {
-    date: 'Mar 23',
+    date: 'Mar',
     'Este Año': 80,
     'Año Anterior': 70,
   },
   {
-    date: 'Apr 23',
+    date: 'Apr',
     'Este Año': 55,
     'Año Anterior': 45,
   },
   {
-    date: 'May 23',
+    date: 'May',
     'Este Año': 56,
     'Año Anterior': 80,
   },
   {
-    date: 'Jun 23',
+    date: 'Jun',
     'Este Año': 100,
     'Año Anterior': 85,
   },
   {
-    date: 'Jul 23',
+    date: 'Jul',
+    'Este Año': 100,
+    'Año Anterior': 85,
+  },
+  {
+    date: 'Ago ',
+    'Este Año': 100,
+    'Año Anterior': 85,
+  },
+  {
+    date: 'Sep',
+    'Este Año': 100,
+    'Año Anterior': 85,
+  },
+  {
+    date: 'Oct',
     'Este Año': 100,
     'Año Anterior': 85,
   }
