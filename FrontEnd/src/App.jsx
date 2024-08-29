@@ -46,7 +46,7 @@ import Editarpreguntas from "./pages/preguntas/editarpreguntas.jsx";
 import Talleres from "./pages/talleres/talleres.jsx";
 
 // Otros componentes
-import AceptarEmpresas from "./pages/aceptarEmpresas/aceptaremp";
+import AceptarEmpresas from "./pages/aceptarEmpresas/aceptarempv";
 import Autoevaluacion from "./pages/autoevaluacion/autoevaluacion.jsx";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -70,7 +70,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
         <Route path="/registro-empresa" element={<RegistroEmpresa />} />
-        <Route path="/nuevo-usuario" element={<NuevoUser />} />
+        
 
         {/* Rutas protegidas */}
         <Route path="/dashboard" element={
