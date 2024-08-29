@@ -99,6 +99,15 @@ class EmpresaDetailView(APIView):
         except Postulante.DoesNotExist:
             return Response({'error': 'Postulante not found'}, status=404)
         
+class UserDetailView(APIView):
+    def get(self, request, id_usuario):
+        try:
+            usuario = Usuario.objects.get(id_usuario=id_usuario)
+            usuario_data = UsuarioSerializer(usuario).data
+            return Response({'Usuario': usuario_data})
+        except Usuario.DoesNotExist:
+            return Response({'error': 'User not found'}, status=404)
+        
 
 class UpdateEmpresaStatus(APIView):
     def post(self, request, nit):
