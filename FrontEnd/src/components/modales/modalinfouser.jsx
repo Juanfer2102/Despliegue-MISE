@@ -18,7 +18,7 @@ const InfoModal = ({ isOpen, onClose }) => {
         <div className="flex items-center">
           {/* Imagen de perfil */}
           <img
-            src={IconProfile.src}
+            src={IconProfile}
             alt="Perfil"
             className="rounded-full h-16 w-16 object-cover"
           />
