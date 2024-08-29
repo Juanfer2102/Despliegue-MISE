@@ -3,7 +3,7 @@ import DeveloperPortal from './aceptaremp';
 import LayoutDashboard from '../../layouts/LayoutDashboard';
 import GoBack from '../../components/inputs/goback/GoBack';
 
-const AceptarEmpresa = () => {
+const DetalleEmpresas = () => {
   return (
     <LayoutDashboard title="Aceptar Empresa">
       <main className="flex flex-row w-full bg-greyBlack h-screen">
@@ -21,4 +21,4 @@ const AceptarEmpresa = () => {
   );
 };
 
-export default AceptarEmpresa;
+export default DetalleEmpresas;

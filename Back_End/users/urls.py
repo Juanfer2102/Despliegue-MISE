@@ -20,7 +20,7 @@ urlpatterns = [
     path('registro-postulante/', RegistroPostulanteView.as_view(), name='registro-postulante'),
 
     path('empresas/', EmpresasListCreate.as_view(), name='empresas-list-create'),
-    path('empresas/<int:pk>/', EmpresasRetrieveUpdateDestroy.as_view(), name='empresas-retrieve-update-destroy'),
+    path('empresas/<int:pk>/', EmpresasRetrieveUpdateDestroy.as_view(), name='empresa-detail'),
 
     path('modulos/', ModulosListCreate.as_view(), name='modulos-list-create'),
     path('modulos/<int:pk>/', ModulosRetrieveUpdateDestroy.as_view(), name='modulos-retrieve-update-destroy'),
