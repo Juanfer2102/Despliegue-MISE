@@ -5,7 +5,7 @@ import FormsEditaruser from "../../components/forms/formsEditaruser/formsEditaru
 import GoBack from '../../components/inputs/goback/GoBack.jsx';
 import { Infouser } from '../../helpers/edituser.js';
 
-const EditarUsuario = () => {
+const EditarUsuario = ({nombres, correo, rol}) => {
   return (
     <LayoutDashboard title="Editar Usuario">
       <main className="flex flex-row w-full bg-greyBlack h-screen">
@@ -17,9 +17,9 @@ const EditarUsuario = () => {
               <div className="flex flex-row py-2">
                 <img src={iconUser} className="p-12" alt="" />
                 <div className="flex flex-col justify-center gap-5 p-12 text-white font-semibold">
-                  <p className="text-4xl">Brian Marin Salchimonster</p>
-                  <p>briandmh365@gmail.com</p>
-                  <p className="font-medium">Administrador</p>
+                  <p className="text-4xl">{nombres}</p>
+                  <p>{correo}</p>
+                  <p className="font-medium">{rol}</p>
                 </div>
               </div>
               <div className="flex flex-col w-full px-14">

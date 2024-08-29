@@ -7,12 +7,10 @@ import Modalopciones from "../../components/modales/modalopciones.jsx";
 // Estilos en JSX
 const styles = {
   customScrollbar: {
-    width: '13px',
     background: '#262B32',
     borderRadius: '12px',
   },
   customScrollbarThumb: {
-    background: '#888',
     borderRadius: '10px',
   },
   customScrollbarThumbHover: {

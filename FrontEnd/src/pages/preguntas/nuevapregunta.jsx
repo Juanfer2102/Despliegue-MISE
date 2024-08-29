@@ -17,12 +17,11 @@ const NuevaPregunta = () => {
       <main className="flex flex-row w-full bg-greyBlack h-screen" style={customScrollbarStyle}>
         <div className="flex flex-col w-full h-full">
           <div className="bg-greyBlack flex content-center pr-5 pt-3.5 justify-end h-20 w-full">
-            <BotonGuardar />
           </div>
           <div className="bg-greyBg flex flex-col px-8 py-5 h-full w-full">
             <div className="left flex flex-row gap-5 p-1">
               <div className="h-full flex flex-col gap-[5rem] justify-center">
-                <Modaleditar condicion={6} clientVisible />
+                <Modaleditar condicion={7} />
               </div>
             </div>
           </div>

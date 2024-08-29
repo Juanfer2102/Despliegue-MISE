@@ -12,7 +12,6 @@ const customScrollbarStyle = {
 };
 
 const customScrollbarThumbStyle = {
-  backgroundColor: '#888',
   borderRadius: '10px',
 };
 

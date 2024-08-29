@@ -220,7 +220,7 @@ export const FormsEditaruser = () => {
                             widthInput="w-full"
                             DataType="Contraseña"
                             inputPlaceholder={Infouser[0].contrasena}
-                            inputType="password"
+                            inputType="text"
                             height="h-12"
                             additionalClass=""
                             name="contrasena"
@@ -232,7 +232,7 @@ export const FormsEditaruser = () => {
                             <div className="w-[11rem]">
                                 <p className="font-semibold">MISE</p>
                             </div>
-                            <div className='w-[14rem]'>
+                            <div className='w-[12.5rem]'>
                                 <SelectComponent name="programa" type="Programa..." options={programas} value={values.programa} onChange={(value) => handleInputChange("programa", value)} />
                             </div>
                         </div>

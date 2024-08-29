@@ -145,7 +145,7 @@ const ModalComponent = ({ condicion }) => {
                             <Input3 name={"new_mod"} value={values.new_mod} onChange={handleInputChange} DataType="Nombre" inputPlaceholder="Nombre Modulo" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[25rem]" additionalClass="" />
                             <Selectormultiple name={"new_preg_mod"} onChange={(values) => handleMultiSelectChange("new_preg_mod", values)} DataType="Preguntas" height="h-10" width="w-[10rem]" widthInput="w-[25rem]" />
                             <Selectormultiple name={"new_sue_mod"} onChange={(values) => handleMultiSelectChange("new_sue_mod", values)} DataType="Sueños" height="h-10" width="w-[10rem]" widthInput="w-[25rem]" />
-                            <Boton onClick={openModal} />
+                            <Boton onClick={openModal} text={"Confirmar"} />
                         </div>
                     </form>
                 </div>
@@ -179,7 +179,7 @@ const ModalComponent = ({ condicion }) => {
                                     <Selectormultiple name={"preg_mod_edit"} onChange={(values) => handleMultiSelectChange("preg_mod_edit", values)} DataType="Preguntas" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" />
                                     <Selectormultiple name={"sue_mod_edit"} onChange={(values) => handleMultiSelectChange("sue_mod_edit", values)} DataType="Sueños" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" />
                                 </form>
-                                <Boton onClick={openModal} />
+                                <Boton onClick={openModal} text={"Confirmar"} />
                             </div>
                         </div>
                     </div>
@@ -197,7 +197,7 @@ const ModalComponent = ({ condicion }) => {
                                 <TextareaHero name={"new_medi"} value={values.new_medi} onChange={handleInputChange} DataType="Medición" height="max-h-[5rem]" width="w-[10rem]" widthInput="w-[20rem]" />
                                 <Input3 DataType="Modulo" inputPlaceholder="Estrategia y dirección gerencial" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[20rem]" additionalClass="" />
                                 <Input3 DataType="Nivel" inputPlaceholder="SUEÑOS EXPRESS" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[20rem]" additionalClass="" />
-                                <Boton onClick={openModal} />
+                                <Boton onClick={openModal} text={"Confirmar"} />
                             </div>
                         </div>
                     </div>
@@ -243,7 +243,7 @@ const ModalComponent = ({ condicion }) => {
                                         <TextareaHero name={"medi_sue_edit"} value={values.medi_sue_edit} onChange={handleInputChange} DataType="Medición" height="max-h-[8rem]" width="w-[10rem]" widthInput="w-[15rem]" />
                                         <Input3 DataType="Modulo" inputPlaceholder="Estrategia y dirección gerencial" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" additionalClass="" />
                                         <Input3 DataType="Nivel" inputPlaceholder="SUEÑOS EXPRESS" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" additionalClass="" />
-                                        <Boton onClick={openModal} />
+                                        <Boton onClick={openModal} text={"Confirmar"} />
                                     </div>
                                 </div>
                             </div>
@@ -279,7 +279,7 @@ const ModalComponent = ({ condicion }) => {
                                     <div className="flex flex-col justify-center gap-6">
                                         <TextareaHero name={"nom_preg_edit"} value={values.nom_preg_edit} onChange={handleInputChange} DataType="Pregunta" height="max-h-[10rem]" width="w-[10rem]" widthInput="w-[17rem]" />
                                         <Input3 DataType="Modulo" inputPlaceholder="CAPACIDADES GERENCIALES" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[17rem]" additionalClass="" />
-                                        <Boton onClick={openModal} />
+                                        <Boton onClick={openModal} text={"Confirmar"} />
                                     </div>
                                 </div>
                             </div>
@@ -314,7 +314,7 @@ const ModalComponent = ({ condicion }) => {
                 <>
                     <div className='flex flex-col gap-5'>
                         <div className="flex flex-row gap-3 text-textBg items-center font-semibold">
-                            <img src={iconGB.src} alt="" onClick={() => window.history.back()}
+                            <img src={iconGB} alt="" onClick={() => window.history.back()}
                                 style={{ cursor: 'pointer' }} />
                             <p class="">Nueva Pregunta</p>
                         </div>
@@ -324,7 +324,7 @@ const ModalComponent = ({ condicion }) => {
                                     <div className="flex flex-col justify-center gap-6">
                                         <TextareaHero name={"new_preg"} value={values.new_preg} onChange={handleInputChange} DataType="Pregunta" height="max-h-[10rem]" width="w-[10rem]" widthInput="w-[20rem]" />
                                         <Input3 DataType="Modulo" inputPlaceholder="CAPACIDADES GERENCIALES" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[20rem]" additionalClass="" />
-                                        <Boton onClick={openModal} />
+                                        <Boton onClick={openModal} text={"Confirmar"} />
                                     </div>
                                 </div>
                             </div>
@@ -358,7 +358,7 @@ const ModalComponent = ({ condicion }) => {
                                         </div>
                                         <div className='flex flex-row items-center justify-center gap-[31rem]'>
                                             <Input3 name={"ubi_tall_edit"} value={values.ubi_tall_edit} onChange={handleInputChange} DataType="Ubicacion" inputPlaceholder="Cámara de Comercio de Palmira - Calle 28 N° 31-30" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
-                                            <Boton onClick={openModal} />
+                                            <Boton onClick={openModal} text={"Confirmar"} />
                                         </div>
 
                                     </div>
@@ -395,7 +395,7 @@ const ModalComponent = ({ condicion }) => {
                                         </div>
                                         <div className='flex flex-row items-center justify-center gap-[31rem]'>
                                             <Input3 name={"new_ubi_tall"} value={values.new_ubi_tall} onChange={handleInputChange} DataType="Ubicacion" inputPlaceholder="Cámara de Comercio de Palmira - Calle 28 N° 31-30" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
-                                            <Boton onClick={openModal} />
+                                            <Boton onClick={openModal} text={"Confirmar"} />
                                         </div>
 
                                     </div>

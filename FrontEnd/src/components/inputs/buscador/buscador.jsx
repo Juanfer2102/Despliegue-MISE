@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Buscador = ({ onSearch }) => {
+const Buscador = ({ onSearch, placeholder, filtro }) => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleInputChange = (e) => {
@@ -14,10 +14,10 @@ const Buscador = ({ onSearch }) => {
             <div>
                 <input
                     type="text"
-                    placeholder="Buscar usuario"
+                    placeholder={`${placeholder}`}
                     value={searchTerm}
                     onChange={handleInputChange}
-                    className="border text-white w-[20rem] border-white rounded-lg bg-transparent p-1"
+                    className="border text-white w-[20rem] border-white rounded-lg bg-transparent p-3 focus:border-none"
                 />
                 <i className="fa-solid fa-magnifying-glass text-white pl-2"></i>
             </div>
@@ -25,7 +25,7 @@ const Buscador = ({ onSearch }) => {
             <div
                 className="items-center flex gap-4 border-2 rounded-lg border-white bg-transparent text-white text-left p-2 pr-3 pl-3"
             >
-                <p>Coordinador</p>
+                <p>{filtro}</p>
                 <i className="fa-solid fa-filter"></i>
             </div>
         </div>

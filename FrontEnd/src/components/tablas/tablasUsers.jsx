@@ -41,7 +41,7 @@ const UserTable = () => {
     return (
         <>
             <div className='flex flex-row w-full'>
-                <Buscador onSearch={handleSearch} />
+                <Buscador onSearch={handleSearch} placeholder={"Buscar Usuarios..."} filtro={"Coordinador"} />
                 <div className='w-full py-5 flex items-center justify-end'>
                     <a href="/nuevo-user">
                         <button className='bg-principalGreen rounded-xl p-2 text-white hover:bg-white hover:text-principalGreen'>
