@@ -14,6 +14,7 @@ import Credencial from "./pages/olvidasteContraseña/credenciales.jsx";
 // Componentes de registro
 import Registro from "./pages/registropostu/registro.jsx";
 import RegistroEmpresa from "./pages/registroEmpresa/registroEmpresa.jsx";
+import Autoevaluacion from './pages/autoevaluacion/autoevaluacion.jsx';
 import NuevoUser from "./pages/nuevoUser/nuevoUser.jsx";
 
 // Dashboard y componentes principales
@@ -44,10 +45,11 @@ import Editarpreguntas from "./pages/preguntas/editarpreguntas.jsx";
 
 // Componentes de talleres
 import Talleres from "./pages/talleres/talleres.jsx";
+import NuevoTaller from './pages/talleres/nuevotaller.jsx';
+import EditarTalleres from './pages/talleres/editartalleres.jsx';
 
 // Otros componentes
 import AceptarEmpresas from "./pages/aceptarEmpresas/aceptaremp";
-import Autoevaluacion from "./pages/autoevaluacion/autoevaluacion.jsx";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const role = localStorage.getItem('id_rol');
@@ -68,7 +70,10 @@ const AppRoutes = () => {
         <Route path="/" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
         <Route path="/registro-empresa" element={<RegistroEmpresa />} />
+        <Route path="/autoevaluacion" element={<Autoevaluacion />} />
         <Route path="/nuevo-usuario" element={<NuevoUser />} />
+        <Route path="/nuevo-taller" element={<NuevoTaller />} />
+        <Route path="/editar-taller" element={<EditarTalleres />} />
 
         {/* Rutas protegidas */}
         <Route path="/dashboard" element={
@@ -176,13 +181,13 @@ const AppRoutes = () => {
             <AceptarEmpresas />
           </ProtectedRoute>
         } />
-        <Route path="/autoevaluacion" element={
+        {/* <Route path="/autoevaluacion" element={
           <ProtectedRoute allowedRoles={['1', '2', '3']}>
             <Autoevaluacion />
           </ProtectedRoute>
-        } />
+        } /> */}
         <Route path="/nuevo-user" element={
-          <ProtectedRoute allowedRoles={['1', '2', '3']}>
+          <ProtectedRoute allowedRoles={['1']}>
             <NuevoUser />
           </ProtectedRoute>
         } />
