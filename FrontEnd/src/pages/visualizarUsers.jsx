@@ -15,7 +15,7 @@ const VerUsers = () => {
                   <p className="text-white font-bold text-2xl">Usuarios Registrados</p>
                 </div>
                 <div className="max-h-[40rem] rounded-xl">
-                  <TablasUsers client:load />
+                  <TablasUsers />
                 </div>
               </div>
             </div>

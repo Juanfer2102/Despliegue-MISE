@@ -4,6 +4,7 @@ import ConfirmModal from '../../components/modales/modalconfirm';
 import Modalcarga from '../../components/modales/modalcarga/modalcarga';
 import CancelModal from "../../components/modales/modalcancel";
 import { Autoeva } from '../../helpers/autoeva';
+import { useNavigate } from 'react-router-dom';
 
 const DeveloperPortal = () => {
     const { nit } = useParams(); // Extrae el NIT de la URL
@@ -13,6 +14,8 @@ const DeveloperPortal = () => {
     const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
     const [companyData, setCompanyData] = useState(null);
     const [postulanteData, setPostulanteData] = useState(null);
+
+    const navigate = useNavigate(); // Inicializa useNavigate
 
     useEffect(() => {
         if (nit) {
@@ -51,8 +54,20 @@ const DeveloperPortal = () => {
     const openSuccessModal = () => {
         setIsSuccessModalVisible(true);
         setTimeout(() => {
+            fetch(`http://localhost:8000/api/v2/update-empresa-status/${nit}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ estado: 2 }),
+            })
+                .then(response => response.ok ? response.json() : Promise.reject('Error al actualizar el estado'))
+                .then(() => openSuccessModal())
+                .catch(error => console.error('Error:', error));
+
+            closeModal();
             setIsSuccessModalVisible(false);
-            location.reload();
+            navigate(`/aceptar-empresas`);
         }, 1000); // 1 segundo
     };
 
