@@ -52,6 +52,7 @@ import NuevoTaller from './pages/talleres/nuevotaller.jsx';
 import AceptarEmpresas from "./pages/aceptarEmpresas/aceptarempv";
 import DetalleEmpresas from "./pages/aceptarEmpresas/verinfoempresa.jsx"
 import Autoevaluacion from "./pages/autoevaluacion/autoevaluacion.jsx";
+import VerEmpDiag from './pages/diagnostico/verempdiag.jsx';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const userData = JSON.parse(localStorage.getItem('userData'));
@@ -191,6 +192,11 @@ const AppRoutes = () => {
         <Route path="/nuevo-user" element={
           <ProtectedRoute allowedRoles={[1]}>
             <NuevoUser />
+          </ProtectedRoute>
+        } />
+         <Route path="/diagnostico" element={
+          <ProtectedRoute allowedRoles={[1]}>
+            <VerEmpDiag />
           </ProtectedRoute>
         } />
       </Routes>
