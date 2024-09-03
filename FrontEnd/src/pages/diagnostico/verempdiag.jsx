@@ -1,6 +1,7 @@
 import React from 'react';
 import LayoutDashboard from '../../layouts/LayoutDashboard';
 import  TablaDiagnostico  from '../../components/tablas/tablaDiagnostico';
+import GoBack from '../../components/inputs/goback/GoBack';
 
 const VerEmpDiag = () => {
   return (
@@ -11,9 +12,7 @@ const VerEmpDiag = () => {
           <div className="bg-greyBg flex flex-col h-full w-full px-12 pt-6">
             <div className="gap-8 flex flex-col p-8 w-full rounded-md">
               <div className="rounded-xl flex flex-col gap-6">
-                <div className="flex flex-row justify-start items-center w-full">
-                  <p className="text-white font-bold text-2xl">Usuarios Registrados</p>
-                </div>
+                <GoBack text={"Diagnostico de Empresas"} />
                 <div className="max-h-[40rem] rounded-xl">
                   <TablaDiagnostico />
                 </div>

@@ -6,7 +6,7 @@ const InfoDiag = ({ nit, nombre_empresa, act_economica }) => {
 
     const handleEditClick = () => {
         // Redirigir a la página de edición del usuario con el id_usuario
-        window.location.href = `/diagnostico`;
+        window.location.href = `/diagnostico/empresa`;
     };
 
     return (
@@ -26,7 +26,7 @@ const InfoDiag = ({ nit, nombre_empresa, act_economica }) => {
             </div>
             <div className="flex-1 p-5  text-sm text-right whitespace-nowrap border-b-0 border-b-transparent">
                 <button
-                    className="bg-principalGreen text-white rounded-lg px-4 py-2 hover:bg-white hover:text-principalGreen"
+                    className="bg-principalGreen text-white font-semibold rounded-lg px-4 py-2 hover:bg-white hover:text-principalGreen"
                     onClick={handleEditClick}
                 >
                     Diagnosticar

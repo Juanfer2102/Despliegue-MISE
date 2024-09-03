@@ -1,9 +1,15 @@
-import React from 'react'
+import { useState } from 'react'
 import InfoDiag from './infoDiagnostico';
+import Buscador from '../inputs/buscador/buscador';
 
-export const TablaDiagnostico = () => {
+const TablaDiagnostico = () => {
 
     const [empresas, setEmpresas] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const handleSearch = (term) => {
+        setSearchTerm(term);
+    };
 
     return (
         <>
@@ -18,7 +24,7 @@ export const TablaDiagnostico = () => {
                     <div className="flex-1 p-5 text-center"></div> {/* Nueva columna para el botón */}
                 </div>
                 <div className="overflow-auto divide-y border border-textBg border-t-0 rounded">
-                    {usuarios
+                    {/* {empresas
                         .filter(empresas => `${empresas.nit} ${empresas.nombre_empresa}`.toLowerCase().includes(searchTerm.toLowerCase()))
                         .map(empresas => (
                             <InfoDiag
@@ -27,9 +33,16 @@ export const TablaDiagnostico = () => {
                                 MISE={empresas.actividad_economica}
                             />
                         ))
-                    }
+                    } */}
+                    <InfoDiag
+                        nit={123456}
+                        nombre_empresa={"Aña"}
+                        act_economica={"Arroz chino"}
+                    />
                 </div>
             </div>
         </>
     );
 }
+
+export default TablaDiagnostico;
