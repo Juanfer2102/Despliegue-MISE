@@ -4,11 +4,11 @@ import './formsregistroemp.css';
 import { DatePicker } from '@tremor/react';
 import ConfirmModal from '../../modales/modalconfirm.jsx';
 import Boton from '../../inputs/boton.jsx';
+import { format } from 'date-fns'
 
 export const FormRegistro = () => {
 
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(null);
     const [errors, setErrors] = useState({});
 
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -21,24 +21,25 @@ export const FormRegistro = () => {
     ];
 
     const [values, setValues] = useState({
-        producto: '',
-        fecha_inicio: '',
+        producto_servicio: '',
+        fecha_creacion: '',
         celular: '',
         razon_social: '',
         nit: '',
-        no_empleados: '',
-        ventas_anopasado: '',
-        gastos_costos: '',
-        fecha_registro: null,
-        tamano_empresa: '',
-        nombre_empresa: "",
-        direccion: "",
-        act_economica: "",
-        gerente: "",
-        correo: "",
-        pagina_web: "",
-        sector: "",
-
+        empleados_perm: '',
+        ventas_ult_ano: '',
+        costos_ult_ano: '',
+        fecha_registro: '2024-01-01',
+        sector: '',
+        nombre_empresa: '',
+        direccion: '',
+        act_economica: '',
+        gerente: '',
+        correo: '',
+        pagina_web: '',
+        estado: 1,
+        id_programa: 1,
+        id_postulante: 1,
     });
 
     const formatCurrency = (value) => {
@@ -102,39 +103,40 @@ export const FormRegistro = () => {
     const validateForm = () => {
         const newErrors = {};
 
-        if (!values.fecha_inicio) {
-            newErrors.fecha_inicio = "Debe ingresar la fecha de inicio de la empresa.";
+        if (!values.fecha_creacion) {
+            newErrors.fecha_creacion = "Debe ingresar la fecha de creación de la empresa.";
         }
 
         if (!values.celular) {
-            newErrors.celular = "Debe ingresar un numero de celular.";
+            newErrors.celular = "Debe ingresar un número de celular.";
         }
 
         if (!values.razon_social) {
-            newErrors.razon_social = "Debe ingresar la razon social de la empresa.";
+            newErrors.razon_social = "Debe ingresar la razón social de la empresa.";
         }
 
         if (!values.nit) {
             newErrors.nit = "Debe ingresar el NIT de la empresa.";
         }
 
-        if (!values.no_empleados) {
-            newErrors.no_empleados = "Debe ingresar el numero de empleados de la empresa.";
-        }
-        if (!values.ventas_anopasado) {
-            newErrors.ventas_anopasado = "Debe ingresar las ventas del año pasado.";
+        if (!values.empleados_perm) {
+            newErrors.empleados_perm = "Debe ingresar el número de empleados de la empresa.";
         }
 
-        if (!values.gastos_costos) {
-            newErrors.gastos_costos = "Debe ingresar los gastos o costos del año pasado.";
+        if (!values.ventas_ult_ano) {
+            newErrors.ventas_ult_ano = "Debe ingresar las ventas del último año.";
         }
 
-        if (!values.tamano_empresa) {
-            newErrors.tamano_empresa = "Debe seleccionar el tamaño de la empresa.";
+        if (!values.costos_ult_ano) {
+            newErrors.costos_ult_ano = "Debe ingresar los costos del último año.";
+        }
+
+        if (!values.estado) {
+            newErrors.estado = "Debe seleccionar el estado de la empresa.";
         }
 
         if (!values.nombre_empresa) {
-            newErrors.nombre_empresa = "Debe ingresae el nombre de la empresa.";
+            newErrors.nombre_empresa = "Debe ingresar el nombre de la empresa.";
         }
 
         if (!values.direccion) {
@@ -142,11 +144,11 @@ export const FormRegistro = () => {
         }
 
         if (!values.act_economica) {
-            newErrors.act_economica = "Debe ingresar la actividad economica de la empresa.";
+            newErrors.act_economica = "Debe ingresar la actividad económica de la empresa.";
         }
 
         if (!values.gerente) {
-            newErrors.gerente = "Debe ingresar el gerente de la empresa.";
+            newErrors.gerente = "Debe ingresar el nombre del gerente de la empresa.";
         }
 
         if (!values.correo) {
@@ -154,7 +156,7 @@ export const FormRegistro = () => {
         }
 
         if (!values.pagina_web) {
-            newErrors.pagina_web = "Debe ingresar la URL de la pagina web de la empresa.";
+            newErrors.pagina_web = "Debe ingresar la URL de la página web de la empresa.";
         }
 
         if (!values.sector) {
@@ -164,12 +166,11 @@ export const FormRegistro = () => {
         return newErrors;
     }
 
+
     const handleConfirm = (event) => {
         event.preventDefault();
-        const now = new Date();
         const updatedValues = {
             ...values,
-            fecha_registro: now.toLocaleString(),
         };
 
         const validationErrors = validateForm();
@@ -177,14 +178,79 @@ export const FormRegistro = () => {
             setErrors(validationErrors);
             closeModal();
             setIsModalVisible(true);
+            
         } else {
-            console.log('Inputs value:', updatedValues);
-            setValues(updatedValues);  // Actualizamos los valores antes de cerrar el modal
-            closeModal();
-            window.location.href = "/autoevaluacion";
-        }
+            // Recuperar los datos del postulante desde localStorage
+            const postulanteData = JSON.parse(localStorage.getItem('postulanteData'));
 
+            // Si no hay datos de postulante, manejar el error
+            if (!postulanteData) {
+                console.error('No se encontraron datos del postulante en localStorage');
+                return;
+            }
+
+            // Preparar los datos de la empresa
+            const empresaData = {
+                nit: updatedValues.nit,
+                nombre_empresa: updatedValues.nombre_empresa,
+                celular: updatedValues.celular,
+                razon_social: updatedValues.razon_social,
+                direccion: updatedValues.direccion,
+                act_economica: updatedValues.act_economica,
+                gerente: updatedValues.gerente,
+                producto_servicio: updatedValues.producto_servicio,
+                correo: updatedValues.correo,
+                pagina_web: updatedValues.pagina_web,
+                fecha_creacion: updatedValues.fecha_creacion 
+                ? format(new Date(values.fecha_creacion), "yyyy-MM-dd")
+                : null
+                ,
+                ventas_ult_ano: updatedValues.ventas_ult_ano,
+                costos_ult_ano: updatedValues.costos_ult_ano,
+                empleados_perm: updatedValues.empleados_perm,
+                sector: updatedValues.sector,
+                estado: updatedValues.estado,
+                id_programa: updatedValues.id_programa,
+                fecha_registro: updatedValues.fecha_registro,
+                id_postulante: updatedValues.id_postulante
+            };
+
+            // Enviar los datos a la API
+            fetch('http://localhost:8000/api/v2/registro-postulante/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    postulante: postulanteData,
+                    empresa: empresaData,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.id) { // Asumimos que `data` contiene la respuesta del postulante registrado
+                        console.log('Registro exitoso:', data);
+                        // Limpiar el localStorage si es necesario
+                        localStorage.removeItem('postulanteData');
+
+                        // Redirigir a la vista de autoevaluación
+                        window.location.href = "/autoevaluacion";
+                    } else {
+                        console.error('Error en el registro:', data);
+                        console.log(updatedValues)
+                        
+                    }
+                })
+                .catch(error => {   
+                    console.error('Error al enviar los datos:', error);
+                });
+
+            // Actualizar los valores antes de cerrar el modal
+            setValues(updatedValues);
+            closeModal();
+        }
     };
+
 
     const closeModalE = () => {
         setIsModalVisible(false);
@@ -200,8 +266,8 @@ export const FormRegistro = () => {
         <>
             <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleConfirm} />
 
-            <div class="flex flex-row w-full justify-between">
-                <p class="font-bold text-3xl text-left">Registro Empresa</p>
+            <div className="flex flex-row w-full justify-between">
+                <p className="font-bold text-3xl text-left">Registro Empresa</p>
                 <svg
                     fill="#ffffff"
                     height="45px"
@@ -251,7 +317,7 @@ export const FormRegistro = () => {
                                 type="text"
                                 value={values.direccion}
                                 name="direccion"
-                                placeholder="Ingrese direccion de la empresa..."
+                                placeholder="Ingrese dirección de la empresa..."
                                 autoComplete="off"
                                 onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                             />
@@ -262,7 +328,7 @@ export const FormRegistro = () => {
                                 type="text"
                                 value={values.razon_social}
                                 name="razon_social"
-                                placeholder="Razon Social de la Empresa..."
+                                placeholder="Razón Social de la Empresa..."
                                 autoComplete="off"
                                 onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                             />
@@ -282,9 +348,9 @@ export const FormRegistro = () => {
                             <input
                                 className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="number"
-                                value={values.no_empleados}
-                                name="no_empleados"
-                                placeholder="Ingrese el numero de empleado permanentes..."
+                                value={values.empleados_perm}
+                                name="empleados_perm"
+                                placeholder="Ingrese el número de empleados permanentes..."
                                 autoComplete="off"
                                 onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                             />
@@ -305,7 +371,7 @@ export const FormRegistro = () => {
                                 type="text"
                                 value={values.act_economica}
                                 name="act_economica"
-                                placeholder="Actividad Economica de la Empresa..."
+                                placeholder="Actividad Económica de la Empresa..."
                                 autoComplete="off"
                                 onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                             />
@@ -315,7 +381,7 @@ export const FormRegistro = () => {
                                 type="text"
                                 value={values.gerente}
                                 name="gerente"
-                                placeholder="Ingrese gerente de la empresa..."
+                                placeholder="Ingrese el gerente de la empresa..."
                                 autoComplete="off"
                                 onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                             />
@@ -336,7 +402,7 @@ export const FormRegistro = () => {
                                 type="text"
                                 value={values.pagina_web}
                                 name="pagina_web"
-                                placeholder="Ingrese pagina web de la empresa..."
+                                placeholder="Ingrese página web de la empresa..."
                                 autoComplete="off"
                                 onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                             />
@@ -344,48 +410,48 @@ export const FormRegistro = () => {
                         <input
                             className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                             type="text"
-                            value={values.producto}
-                            name="producto"
+                            value={values.producto_servicio}
+                            name="producto_servicio"
                             placeholder="Producto o Servicio..."
                             autoComplete="off"
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
 
                         <DatePicker
-                            name="fecha_inicio"
+                            name="fecha_creacion"
                             className="mx-auto pt-2 h-[3.5rem] colors:tremor-background-subtle z-0"
                             onValueChange={(value) => {
-                                handleInputChange('fecha_inicio', value);
+                                handleInputChange('fecha_creacion', value);
                             }}
                         />
-
+{/*
                         <SelectComponent
                             type={"Tamaño de la empresa..."}
-                            Select="tamano_empresa"
+                            Select="estado"
                             options={optionstamaño}
-                            value={values.tamano_empresa || ''}
-                            onChange={(value) => handleInputChange("tamano_empresa", value)}
+                            value={values.estado || ''}
+                            onChange={(value) => handleInputChange("estado", value)}
                         />
-
+*/}
                         <input
                             className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                             type="text"
-                            value={values.ventas_anopasado}
-                            name="ventas_anopasado"
+                            value={values.ventas_ult_ano}
+                            name="ventas_ult_ano"
                             placeholder="Ingrese el total de ventas del año anterior..."
                             autoComplete="off"
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
-                            onBlur={() => handleBlur('ventas_anopasado')}
+                            onBlur={() => handleBlur('ventas_ult_ano')}
                         />
                         <input
                             className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                             type="text"
-                            value={values.gastos_costos}
-                            name="gastos_costos"
+                            value={values.costos_ult_ano}
+                            name="costos_ult_ano"
                             placeholder="Ingrese el total de gastos y costos del año anterior..."
                             autoComplete="off"
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
-                            onBlur={() => handleBlur('gastos_costos')}
+                            onBlur={() => handleBlur('costos_ult_ano')}
                         />
                         <input
                             className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
@@ -402,6 +468,7 @@ export const FormRegistro = () => {
                     </div>
                 </div>
             </form>
+
 
             {/* Modal para mostrar los errores */}
             <div

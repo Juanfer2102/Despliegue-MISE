@@ -163,7 +163,7 @@ class RegistroPostulanteView(APIView):
         if empresa_serializer.is_valid():
             empresa = empresa_serializer.save()
 
-            postulante_data['empresa'] = empresa.id
+            postulante_data['empresa'] = empresa.nit
             postulante_serializer = PostulanteSerializer(data=postulante_data)
             if postulante_serializer.is_valid():
                 postulante_serializer.save()

@@ -54,16 +54,11 @@ export const FormRegistro = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const handleInputChange = (name, value) => {
-        if (name === "nombre" || name === "apellido") {
-            // Filtrar caracteres no permitidos para nombre y apellido
+        if (name === "nombres_postulante" || name === "apellidos_postulante") {
+            // Filtrar caracteres no permitidos para nombres y apellidos
             value = value.replace(/[0-9]/g, "");
         }
-        if (name === "celular") {
-            if (value.length > 10) {
-                return; // Evitar que se ingrese más de 10 dígitos
-            }
-        }
-        if (name === "ndocumento") {
+        if (name === "celular" || name === "no_documento") {
             if (value.length > 10) {
                 return; // Evitar que se ingrese más de 10 dígitos
             }
@@ -72,27 +67,27 @@ export const FormRegistro = () => {
             ...values,
             [name]: value,
         });
-    }
+    };
 
     const validateForm = () => {
         const newErrors = {};
 
-        if (!values.nombre) {
-            newErrors.nombre = "El nombre es obligatorio.";
+        if (!values.nombres_postulante) {
+            newErrors.nombres_postulante = "El nombre es obligatorio.";
         }
 
-        if (!values.apellido) {
-            newErrors.apellido = "El apellido es obligatorio.";
+        if (!values.apellidos_postulante) {
+            newErrors.apellidos_postulante = "El apellido es obligatorio.";
         }
 
-        if (!values.documento) {
-            newErrors.documento = "Debe seleccionar un tipo de documento.";
+        if (!values.tipo_documento) {
+            newErrors.tipo_documento = "Debe seleccionar un tipo de documento.";
         }
 
-        if (!values.ndocumento) {
-            newErrors.ndocumento = "El número de documento es obligatorio.";
-        } else if (values.ndocumento.length < 6) {
-            newErrors.ndocumento = "El número de documento debe tener al menos 6 caracteres.";
+        if (!values.no_documento) {
+            newErrors.no_documento = "El número de documento es obligatorio.";
+        } else if (values.no_documento.length < 6) {
+            newErrors.no_documento = "El número de documento debe tener al menos 6 caracteres.";
         }
 
         if (!values.correo) {
@@ -111,8 +106,8 @@ export const FormRegistro = () => {
             newErrors.genero = "Debe seleccionar un género.";
         }
 
-        if (!values.ciudad) {
-            newErrors.ciudad = "Debe seleccionar una ciudad.";
+        if (!values.municipio) {
+            newErrors.municipio = "Debe seleccionar una ciudad.";
         }
 
         if (!values.cargo) {
@@ -124,7 +119,7 @@ export const FormRegistro = () => {
         }
 
         return newErrors;
-    }
+    };
     const closeModal = () => {
         setIsModalVisible(false);
     }
@@ -138,7 +133,7 @@ export const FormRegistro = () => {
 
         if (Object.keys(validationErrors).length === 0) {
             const postulanteData = {
-                nombres_postulante: values.nombres_postulante,
+                nombres_postulan: values.nombres_postulante,
                 apellidos_postulante: values.apellidos_postulante,
                 tipo_documento: values.tipo_documento,
                 no_documento: values.no_documento,
