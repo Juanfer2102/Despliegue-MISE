@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'; // Importa PropTypes
 import Login from "./pages/login/login.jsx";
 import Olvidastecontra from "./pages/olvidasteContraseña/olvidasteContraseña.jsx";
 import Rescribircontrase from "./pages/olvidasteContraseña/reescribirContraseña.jsx";
-import Correofallido from "./pages/olvidasteContraseña/correoFallido.jsx";
+// import Correofallido from "./pages/olvidasteContraseña/correoFallido.jsx";
 import Expirado from "./pages/olvidasteContraseña/expiracion.jsx";
 import Credencial from "./pages/olvidasteContraseña/credenciales.jsx";
 
@@ -52,6 +52,8 @@ import NuevoTaller from './pages/talleres/nuevotaller.jsx';
 import AceptarEmpresas from "./pages/aceptarEmpresas/aceptarempv";
 import DetalleEmpresas from "./pages/aceptarEmpresas/verinfoempresa.jsx"
 import Autoevaluacion from "./pages/autoevaluacion/autoevaluacion.jsx";
+import VerEmpDiag from './pages/diagnostico/verempdiag.jsx';
+import DiagnosticoEmpresa from './pages/diagnostico/diagnosticoempresa.jsx';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const userData = JSON.parse(localStorage.getItem('userData'));
@@ -191,6 +193,16 @@ const AppRoutes = () => {
         <Route path="/nuevo-user" element={
           <ProtectedRoute allowedRoles={[1]}>
             <NuevoUser />
+          </ProtectedRoute>
+        } />
+         <Route path="/diagnostico" element={
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
+            <VerEmpDiag />
+          </ProtectedRoute>
+        } />
+        <Route path="/diagnostico/empresa" element={
+          <ProtectedRoute allowedRoles={[1, 2, 3]}>
+            <DiagnosticoEmpresa />
           </ProtectedRoute>
         } />
       </Routes>
