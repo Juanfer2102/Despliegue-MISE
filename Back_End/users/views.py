@@ -14,6 +14,16 @@ from rest_framework_simplejwt.tokens import RefreshToken, UntypedToken
 
 from rest_framework.views import APIView
 
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.conf import settings
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+
 @api_view(['POST'])
 def login(request):
     try:
@@ -71,6 +81,37 @@ def login(request):
     except Exception as e:
         print(f"Error general en la vista login: {e}")
         return Response({'error': 'Error interno del servidor'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['POST'])
+def password_reset_request(request):
+    if request.method == 'POST':
+        import json
+        data = json.loads(request.body)
+        correo = data.get('correo')
+
+        if not correo:
+            return JsonResponse({'error': 'El correo electrónico es obligatorio.'}, status=400)
+        
+        try:
+            user = Usuario.objects.get(correo=correo)
+        except Usuario.DoesNotExist:
+            return JsonResponse({'error': 'El correo electrónico no está registrado.'}, status=404)
+
+        subject = "Solicitud de restablecimiento de contraseña"
+        email_template_name = "registration/password_reset_email.html"
+        context = {
+            'email': user.correo,
+            'domain': settings.DOMAIN,
+            'site_name': 'MISE',
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': default_token_generator.make_token(user),
+            'protocol': 'http'
+        }
+        email_body = render_to_string(email_template_name, context)
+        send_mail(subject, email_body, settings.EMAIL_HOST_USER, [user.correo], fail_silently=False)
+
+        return JsonResponse({'message': 'Correo electrónico enviado con éxito.'}, status=200)
+    return JsonResponse({'error': 'Método no permitido.'}, status=405)
 
 @api_view(['POST'])
 def check_auth(request):

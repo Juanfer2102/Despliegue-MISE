@@ -3,49 +3,26 @@ import LayoutDashboard from '../../layouts/LayoutDashboard';
 import DesempenoForm from '../../components/forms/formsdiagnostico/formsdiagnostico';
 import GoBack from '../../components/inputs/goback/GoBack';
 import Boton from '../../components/inputs/boton';
-import Modalcarga from '../../components/modales/modalcarga/modalcarga';
 import ConfirmModal from '../../components/modales/modalconfirm';
 
 const DiagnosticoEmpresa = () => {
     const [formularioData, setFormularioData] = useState({});
-    const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
     const formularios = [
         {
             titulo: 'Desempeño Administrativo',
             criterios: [
-                {
-                    descripcion: 'Grado de compromiso que asume para el cumplimiento de las metas. Grado de tranquilidad que le genera a su superior.'
-                },
-                {
-                    descripcion: 'Coherencia entre el trabajo solicitado y el efectivamente realizado.'
-                },
-            ]
+                { descripcion: 'Grado de compromiso que asume para el cumplimiento de las metas. Grado de tranquilidad que le genera a su superior.' },
+                { descripcion: 'Coherencia entre el trabajo solicitado y el efectivamente realizado.' },
+            ],
         },
         {
             titulo: 'Desempeño Técnico',
             criterios: [
-                {
-
-                    descripcion: 'Conocimiento de las distintas herramientas necesarias para desarrollar sus labores.'
-                },
-                {
-                    descripcion: 'Grado de cumplimiento de las normas, procedimientos y políticas existentes.'
-                },
-            ]
-        },
-        {
-            titulo: 'Desempeño Técnico',
-            criterios: [
-                {
-
-                    descripcion: 'Conocimiento de las distintas herramientas necesarias para desarrollar sus labores.'
-                },
-                {
-                    descripcion: 'Grado de cumplimiento de las normas, procedimientos y políticas existentes.'
-                },
-            ]
+                { descripcion: 'Conocimiento de las distintas herramientas necesarias para desarrollar sus labores.' },
+                { descripcion: 'Grado de cumplimiento de las normas, procedimientos y políticas existentes.' },
+            ],
         },
     ];
 
@@ -58,7 +35,10 @@ const DiagnosticoEmpresa = () => {
     const handleFormChange = (titulo, data) => {
         setFormularioData(prevState => ({
             ...prevState,
-            [titulo]: data
+            [titulo]: {
+                ...prevState[titulo],
+                ...data,
+            },
         }));
     };
 
@@ -66,14 +46,6 @@ const DiagnosticoEmpresa = () => {
         event.preventDefault();
         console.log('Datos del formulario:', formularioData); // Mostrar los valores de los inputs en la consola
         closeModal();
-        openSuccessModal();
-    };
-
-    const openSuccessModal = () => {
-        setIsSuccessModalVisible(true);
-        setTimeout(() => {
-            setIsSuccessModalVisible(false);
-        }, 1000); // 1 segundo
     };
 
     return (
@@ -87,7 +59,7 @@ const DiagnosticoEmpresa = () => {
                             <div className="gap-8 flex flex-col p-8 w-full h-full rounded-md">
                                 <div className="rounded-xl flex flex-col gap-6 h-full">
                                     <GoBack text={"Diagnostico / Arroz Chino"} />
-                                    <div className="flex flex-col gap-6 h-full overflow-auto">
+                                    <div className="flex flex-col gap-6 h-full overflow-auto custom-scrollbar">
                                         {formularios.map((formulario, index) => (
                                             <div key={index} className="flex-1">
                                                 <DesempenoForm
@@ -105,18 +77,6 @@ const DiagnosticoEmpresa = () => {
                     </div>
                 </main>
             </LayoutDashboard>
-            {/* Modal de éxito */}
-            {isSuccessModalVisible && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-8 rounded-lg shadow-lg text-center">
-                        <div className="loading-balls">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div>
-                </div>
-            )}
         </>
     );
 };

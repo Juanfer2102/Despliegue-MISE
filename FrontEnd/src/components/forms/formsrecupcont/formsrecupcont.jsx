@@ -1,20 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import './formsrecupcont.css';
 
 const Formsrecupcont = () => {
-
     const [errors, setErrors] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const validateForm = () => {
         const newErrors = {};
-
         if (!values.correo) {
             newErrors.correo = "El correo electrónico es obligatorio.";
         } else if (!/\S+@\S+\.\S+/.test(values.correo)) {
             newErrors.correo = "El correo electrónico no es válido.";
         }
-
         return newErrors;
     };
 
@@ -32,15 +29,33 @@ const Formsrecupcont = () => {
 
     const handleForm = async (event) => {
         event.preventDefault();
-
         const validationErrors = validateForm();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             setIsModalVisible(true);
         } else {
-            console.log("Inputs value:", values);
-            // Redirige a la URL deseada si todo es válido
-            window.location.href = "/olvidasteContraseña/reescribirContraseña";
+            try {
+                const response = await fetch('http://localhost:8000/api/v2/olvidaste-contraseña/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ correo: values.correo }),
+                });
+
+                if (response.ok) {
+                    // Redirige a la URL deseada si todo es válido
+                    window.location.href = "/olvidasteContraseña/reescribirContraseña";
+                } else {
+                    const data = await response.json();
+                    setErrors(data);
+                    setIsModalVisible(true);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                setErrors({ server: 'Hubo un error al enviar la solicitud.' });
+                setIsModalVisible(true);
+            }
         }
     };
 
@@ -51,7 +66,7 @@ const Formsrecupcont = () => {
     return (
         <>
             <form onSubmit={handleForm} className="form flex flex-col">
-                <p className="text-left w-full pb-2">Correo electronico</p>
+                <p className="text-left w-full pb-2">Correo electrónico</p>
                 <input
                     className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border`}
                     type="email"
@@ -61,13 +76,6 @@ const Formsrecupcont = () => {
                     autoComplete="off"
                     onChange={handleInputChange}
                 />
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path
-                    d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"
-                ></path>
-                <path d="M3 7l9 6l9 -6"></path>
-
-
                 <div>
                     <div className="flex justify-center mt-10">
                         <button
@@ -83,17 +91,10 @@ const Formsrecupcont = () => {
             </form>
 
             {/* Modal para mostrar los errores */}
-            <div
-                className={`modal-container ${isModalVisible ? 'show' : ''}`}
-            >
+            <div className={`modal-container ${isModalVisible ? 'show' : ''}`}>
                 <div className="modal-header">
                     <h2 className="text-xl font-bold">Errores de validación</h2>
-                    <button
-                        className="close-button"
-                        onClick={closeModal}
-                    >
-                        X
-                    </button>
+                    <button className="close-button" onClick={closeModal}>X</button>
                 </div>
                 <div className="modal-body">
                     <ul>
@@ -106,7 +107,7 @@ const Formsrecupcont = () => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default Formsrecupcont;

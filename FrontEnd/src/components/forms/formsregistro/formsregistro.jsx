@@ -149,7 +149,7 @@ export const FormRegistro = () => {
             <form onSubmit={handleSubmit} className="form w-[45rem] flex flex-col gap-6 bg-greyBlack p-3 rounded-xl">
                 <div className="flex flex-row w-full gap-5">
                     <input
-                        className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.nombre ? 'border-red-500' : ''}`}
+                        className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.nombre ? 'border-red-500' : ''}`}
                         type="text"
                         value={values.nombre || ''}
                         name="nombre"
@@ -158,7 +158,7 @@ export const FormRegistro = () => {
                         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                     />
                     <input
-                        className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.apellido ? 'border-red-500' : ''}`}
+                        className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.apellido ? 'border-red-500' : ''}`}
                         type="text"
                         value={values.apellido || ''}
                         name="apellido"
@@ -177,7 +177,7 @@ export const FormRegistro = () => {
                         className={`${errors.documento ? 'border-red' : ''}`}
                     />
                     <input
-                        className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.ndocumento ? 'border-red-500' : ''}`}
+                        className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.ndocumento ? 'border-red-500' : ''}`}
                         type="number"
                         value={values.ndocumento || ''}
                         name="ndocumento"
@@ -187,7 +187,7 @@ export const FormRegistro = () => {
                     />
                 </div>
                 <input
-                    className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.correo ? 'border-red-500' : ''}`}
+                    className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.correo ? 'border-red-500' : ''}`}
                     type="email"
                     value={values.correo || ''}
                     name="correo"
@@ -196,7 +196,7 @@ export const FormRegistro = () => {
                     onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                 />
                 <input
-                    className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.celular ? 'border-red-500' : ''}`}
+                    className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.celular ? 'border-red-500' : ''}`}
                     type="number"
                     value={values.celular || ''}
                     name="celular"
