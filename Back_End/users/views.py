@@ -85,7 +85,32 @@ def check_auth(request):
     except Exception:
         return Response({'isAuthenticated': False}, status=status.HTTP_401_UNAUTHORIZED)
     
-
+class RegistroPostulanteEmpresa(APIView):
+    
+    def post(self, request, *args, **kwargs):
+        postulante_data = request.data.get('postulante')
+        empresa_data = request.data.get('empresa')
+        
+        # Crear el postulante
+        postulante_serializer = PostulanteSerializer(data=postulante_data)
+        if postulante_serializer.is_valid():
+            postulante = postulante_serializer.save()
+            
+            # Crear la empresa y asociarla con el postulante
+            empresa_data['id_postulante'] = postulante.id_postulante
+            empresa_serializer = EmpresaSerializer(data=empresa_data)
+            if empresa_serializer.is_valid():
+                empresa_serializer.save()
+                return Response({
+                    "postulante": postulante_serializer.data,
+                    "empresa": empresa_serializer.data
+                }, status=status.HTTP_201_CREATED)
+            else:
+                postulante.delete()  # Borrar el postulante si la empresa no se creó
+                return Response(empresa_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response(postulante_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 class EmpresaDetailView(APIView):
     def get(self, request, nit):
         try:

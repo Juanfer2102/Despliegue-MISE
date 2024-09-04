@@ -21,14 +21,14 @@ class Empresas(models.Model):
     sector = models.TextField()
     estado = models.TextField()
     id_programa = models.ForeignKey('Programas', models.DO_NOTHING, db_column='id_programa')
-    id_postulante = models.ForeignKey('Postulante', models.DO_NOTHING, db_column='id_postulante')
+    id_postulante = models.ForeignKey('Postulante', on_delete=models.CASCADE, db_column='id_postulante')  # Cambio aquí
 
     class Meta:
         managed = False
         db_table = 'empresas'
 
 class Postulante(models.Model):
-    id_postulante = models.IntegerField(primary_key=True)
+    id_postulante = models.AutoField(primary_key=True)
     nombres_postulante = models.TextField()
     apellidos_postulante = models.TextField()
     celular = models.IntegerField()
@@ -42,6 +42,7 @@ class Postulante(models.Model):
     class Meta:
         managed = False
         db_table = 'postulante'
+
 
 
 

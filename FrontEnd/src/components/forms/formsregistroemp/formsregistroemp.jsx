@@ -130,6 +130,7 @@ export const FormRegistro = () => {
 
     const handleConfirm = (event) => {
         event.preventDefault();
+
         const now = new Date();
         const updatedValues = {
             ...values,
@@ -142,12 +143,69 @@ export const FormRegistro = () => {
             closeModal();
             setIsModalVisible(true);
         } else {
-            console.log('Inputs value:', updatedValues);
-            setValues(updatedValues);  // Actualizamos los valores antes de cerrar el modal
-            closeModal();
-            window.location.href = "/autoevaluacion";
-        }
+            // Recuperar los datos del postulante desde localStorage
+            const postulanteData = JSON.parse(localStorage.getItem('postulanteData'));
 
+            // Si no hay datos de postulante, manejar el error
+            if (!postulanteData) {
+                console.error('No se encontraron datos del postulante en localStorage');
+                return;
+            }
+
+            // Preparar los datos de la empresa
+            const empresaData = {
+                nit: updatedValues.nit,
+                nombre_empresa: updatedValues.nombre_empresa,
+                celular_empresa: updatedValues.celular_empresa,
+                razon_social: updatedValues.razon_social,
+                direccion: updatedValues.direccion,
+                act_economica: updatedValues.act_economica,
+                gerente: updatedValues.gerente,
+                producto_servicio: updatedValues.producto_servicio,
+                correo_empresa: updatedValues.correo_empresa,
+                pagina_web: updatedValues.pagina_web,
+                fecha_creacion: updatedValues.fecha_creacion,
+                ventas_ult_ano: updatedValues.ventas_ult_ano,
+                costos_ult_ano: updatedValues.costos_ult_ano,
+                empleados_perm: updatedValues.empleados_perm,
+                sector: updatedValues.sector,
+                estado: updatedValues.estado,
+                id_programa: updatedValues.id_programa,
+                fecha_registro: updatedValues.fecha_registro
+            };
+
+            // Enviar los datos a la API
+            fetch('http://localhost:8000/api/v2/registro-postulante/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    postulante: postulanteData,
+                    empresa: empresaData,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.id) { // Asumimos que `data` contiene la respuesta del postulante registrado
+                        console.log('Registro exitoso:', data);
+                        // Limpiar el localStorage si es necesario
+                        localStorage.removeItem('postulanteData');
+
+                        // Redirigir a la vista de autoevaluación
+                        window.location.href = "/autoevaluacion";
+                    } else {
+                        console.error('Error en el registro:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al enviar los datos:', error);
+                });
+
+            // Actualizar los valores antes de cerrar el modal
+            setValues(updatedValues);
+            closeModal();
+        }
     };
 
     const closeModalE = () => {
@@ -164,8 +222,8 @@ export const FormRegistro = () => {
         <>
             <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleConfirm} />
 
-            <div class="flex flex-row w-[45rem] justify-between">
-                <p class="font-bold text-3xl text-left">Registro Empresa</p>
+            <div className="flex flex-row w-[45rem] justify-between">
+                <p className="font-bold text-3xl text-left">Registro Empresa</p>
                 <svg
                     fill="#ffffff"
                     height="45px"
