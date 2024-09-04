@@ -44,8 +44,9 @@ const Formsrecupcont = () => {
                 });
 
                 if (response.ok) {
-                    // Redirige a la URL deseada si todo es válido
-                    window.location.href = "/olvidasteContraseña/reescribirContraseña";
+                    setTimeout(() => {
+                        window.location.href = "/olvidasteContraseña/reescribirContraseña";
+                    }, 2000); // Redirige después de 2 segundos
                 } else {
                     const data = await response.json();
                     setErrors(data);
