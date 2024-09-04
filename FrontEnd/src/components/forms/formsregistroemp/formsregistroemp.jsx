@@ -181,7 +181,7 @@ export const FormRegistro = () => {
             console.log('Inputs value:', updatedValues);
             setValues(updatedValues);  // Actualizamos los valores antes de cerrar el modal
             closeModal();
-            // window.location.href = "/autoevaluacion";
+            window.location.href = "/autoevaluacion";
         }
 
     };
@@ -323,7 +323,7 @@ export const FormRegistro = () => {
                         <div className='flex flex-row gap-6 w-full'>
                             <input
                                 className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
-                                type="text"
+                                type="email"
                                 value={values.correo}
                                 name="correo"
                                 placeholder="Correo de la Empresa..."
