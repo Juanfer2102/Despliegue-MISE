@@ -1,19 +1,19 @@
 import React from 'react';
 import LayoutDashboard from '../../layouts/LayoutDashboard';
-import  TablaDiagnostico  from '../../components/tablas/tablaDiagnostico';
+import TablaDiagnostico from '../../components/tablas/tablaDiagnostico';
 import GoBack from '../../components/inputs/goback/GoBack';
 
 const VerEmpDiag = () => {
   return (
-    <LayoutDashboard title="Editar Usuario">
-      <main className="flex flex-row w-full bg-greyBlack h-screen">
-        <div className="flex flex-col w-full h-full">
-          <div className="flex content-center justify-end h-20 w-full" />
-          <div className="bg-greyBg flex flex-col h-full w-full px-12 pt-6">
-            <div className="gap-8 flex flex-col p-8 w-full rounded-md">
-              <div className="rounded-xl flex flex-col gap-6">
-                <GoBack text={"Diagnostico de Empresas"} />
-                <div className="max-h-[40rem] rounded-xl">
+    <LayoutDashboard title="Diagnóstico de Empresas">
+      <main className="flex flex-col w-full bg-greyBlack min-h-screen overflow-hidden">
+        <div className="flex-1 flex flex-col">
+          <div className="h-20 flex justify-end"></div>
+          <div className="bg-greyBg flex flex-col h-full px-4 sm:px-6 md:px-12 pt-6">
+            <div className="flex flex-col gap-6 p-4 sm:p-6 md:p-8 rounded-md">
+              <div className="flex flex-col gap-6 h-full rounded-xl">
+                <GoBack text={"Diagnóstico de Empresas"} />
+                <div className="h-full overflow-x-auto rounded-xl">
                   <TablaDiagnostico />
                 </div>
               </div>
@@ -23,6 +23,7 @@ const VerEmpDiag = () => {
       </main>
     </LayoutDashboard>
   );
+
 };
 
 export default VerEmpDiag;

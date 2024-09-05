@@ -4,28 +4,34 @@ import { FormRegistro } from "../../components/forms/formsregistro/formsregistro
 
 const Registro = () => {
   return (
-    <main>
-      <div className="h-full w-full absolute z-10 bg-black bg-opacity-60"></div>
-      <div className="flex flex-col">
-        <img
-          src="../src/images/loginImg/bg.jpg"
-          alt=""
-          className="w-full h-full fixed z-0"
-        />
+  <main className="relative h-screen">
+    {/* Overlay para el fondo oscuro */}
+    <div className="absolute inset-0 z-10 bg-black bg-opacity-60"></div>
+
+    {/* Imagen de fondo */}
+    <div className="absolute inset-0 z-0">
+      <img
+        src="../src/images/loginImg/bg.jpg"
+        alt="Background"
+        className="w-full h-full object-cover"
+      />
+    </div>
+
+    {/* Contenedor del contenido */}
+    <div className="relative z-20 flex flex-col-reverse xl:flex-row items-center justify-center h-full xl:gap-5 p-4 lg:p-0">
+      {/* Contenedor del formulario de registro */}
+      <div className="register-container text-white w-full lg:w-1/2 h-full flex flex-col justify-center xl:pl-28 gap-5 text-center lg:text-left">
+        <p className="font-bold text-2xl lg:text-3xl">Registro Persona</p>
+        <FormRegistro client:visible />
       </div>
 
-      <div className="all relative z-20 flex h-screen items-center justify-center gap-0 py-3">
-        <div className="register-container text-white w-full h-full flex flex-col justify-center pl-28 gap-5 text-center">
-          <p className="font-bold text-3xl text-left">Registro Persona</p>
-          <FormRegistro client:visible />
-        </div>
-
-        <div className="flex w-full h-full items-center justify-center">
-          <Logo />
-        </div>
+      {/* Contenedor del logo */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center lg:pt-20 p-6 lg:p-0">
+        <Logo />
       </div>
-    </main>
-  );
+    </div>
+  </main>
+);
 };
 
 export default Registro;

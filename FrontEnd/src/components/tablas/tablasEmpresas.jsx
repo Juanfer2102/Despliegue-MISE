@@ -24,7 +24,7 @@ export const TablasEmpresas = () => {
     (empresa) => empresa.estado === "2"
   );
 
-  
+
   const [searchTerm, setSearchTerm] = useState('');
 
 
@@ -36,28 +36,41 @@ export const TablasEmpresas = () => {
   return (
     <>
       <Buscador onSearch={handleSearch} placeholder={"Buscar Empresas..."} filtro={"Nuevas"} />
-      <table className="overflow-auto w-full  rounded-xl">
-        <thead className="bg-greyBlack border-textBg rounded-xl text-white top-0 z-10">
-          <tr>
-            <th className="p-5 text-left">NIT</th>
-            <th className="p-5 text-left">Nombre</th>
-            <th className="p-5 text-left">Sector empresarial</th>
-            <th className="p-5 text-center">Información</th>
-          </tr>
-        </thead>
-        <tbody className="overflow-auto divide-y border border-textBg border-t-0 rounded">
-          {empresasConEstado2
-          .filter(empresasConEstado2 => `${empresasConEstado2.nit} ${empresasConEstado2.nombre_empresa}`.toLowerCase().includes(searchTerm.toLowerCase()))
-          .map((empresa) => (
-            <InfoEmpresas
-              key={empresa.nit}
-              nombre={empresa.nombre_empresa}
-              sector_empresarial={empresa.sector}
-              nit={empresa.nit}
-            />
-          ))}
-        </tbody>
-      </table>
+      <div className="overflow-x-auto w-full rounded-xl bg-greyBg">
+        <div className="flex flex-col">
+          {/* Header */}
+          <div className="xl:flex bg-greyBlack text-white font-semibold">
+            <div className="flex-1 p-5 xl:text-left text-center">NIT</div>
+            <div className="flex-1 p-5 xl:text-left text-center">Nombre</div>
+            <div className="flex-1 p-5 xl:text-left text-center">Sector empresarial</div>
+            <div className="flex-1 p-5 text-center">Información</div>
+          </div>
+
+          {/* Body */}
+          <div className="divide-y border border-textBg border-t-0 rounded">
+            {empresasConEstado2
+              .filter(empresasConEstado2 =>
+                `${empresasConEstado2.nit} ${empresasConEstado2.nombre_empresa}`.toLowerCase().includes(searchTerm.toLowerCase())
+              )
+              .map((empresa) => (
+                <div key={empresa.nit} className="flex flex-col lg:flex-row text-white">
+                  <div className="flex-1 p-5 xl:text-left text-center">{empresa.nit}</div>
+                  <div className="flex-1 p-5 xl:text-left text-center">{empresa.nombre_empresa}</div>
+                  <div className="flex-1 p-5 xl:text-left text-center">{empresa.sector}</div>
+                  <div className="flex-1 p-5 text-center">
+                    <a href="/dashboard-emp">
+                      <button className="p-2 text-sm tracking-wide transition-colors duration-200 bg-transparent border rounded-lg hover:bg-principalGreen hover:text-white hover:border-principalGreen border-white">
+                        Ver Detalles
+                      </button>
+                    </a>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
+
+
     </>
   );
 };

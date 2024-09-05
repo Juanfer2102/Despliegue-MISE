@@ -10,7 +10,7 @@ const ElementSidebar = ({ icon, texto, URL, sidebarExpanded }) => {
                 <i className={`text-2xl text-textBg group-hover:text-white ${icon}`}></i>
             </div>
             <div
-                className={`sidebar-element font-semibold text-textBg pt-1 px-2 overflow-hidden whitespace-nowrap transition-all  ease-in-out ${sidebarExpanded ? "block" : "hidden"}`}
+                className={`sidebar-element font-semibold text-textBg group-hover:text-white pt-1 px-2 overflow-hidden whitespace-nowrap transition-all  ease-in-out ${sidebarExpanded ? "block" : "hidden"}`}
             >
                 {texto}
             </div>

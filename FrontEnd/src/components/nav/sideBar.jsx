@@ -87,7 +87,7 @@ const Sidebar = ({ condicion, nombre }) => {
                 />
               ))}
             </div>
-            <div className="flex flex-col gap-3 px-4 border-t-2 pt-5 border-white">
+            <div className="flex flex-col gap-3 px-4 border-t-2 pt-5 hover:text-white border-white">
               <p className={`text-white text-lg font-semibold pl-2 transition-opacity duration-500 ${sidebarExpanded ? "opacity-100" : "opacity-0 hidden"}`} id="admincaja">
                 Admin Control
               </p>

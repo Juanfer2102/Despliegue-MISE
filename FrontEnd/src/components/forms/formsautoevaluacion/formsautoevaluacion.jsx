@@ -99,19 +99,20 @@ export const FormAuto = () => {
     return (
         <>
             <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleForm} />
-            <div className='bg-greyBlack w-max h-[49.5rem] p-12 flex flex-col gap-5 rounded-2xl'>
-                <div className="flex flex-row justify-center">
-                    <p className="font-bold text-3xl text-left">DIAGNOSTICO</p>
+            <div className='bg-greyBlack w-full lg:w-max h-auto  p-5 lg:p-12 flex flex-col gap-5 rounded-2xl'>
+                <div className="flex justify-center">
+                    <p className="font-bold text-2xl lg:text-3xl text-left">DIAGNÓSTICO</p>
                 </div>
-                <p>
-                    DE 1 A 10, SIENDO 1 LA CALIFICACIÓN MÁS BAJA Y 10 LA MÁS ALTA,<br />
-                    CALIFIQUE CÓMO EVALÚA EL DESEMPEÑO DE SU EMPRESA EN LAS<br />
+                <p className="text-sm lg:text-base text-center lg:text-left">
+                    DE 1 A 10, SIENDO 1 LA CALIFICACIÓN MÁS BAJA Y 10 LA MÁS ALTA, <br />
+                    CALIFIQUE CÓMO EVALÚA EL DESEMPEÑO DE SU EMPRESA EN LAS <br />
                     SIGUIENTES ÁREAS
                 </p>
-                <form className="form items-center rounded-xl p-3 flex flex-col justify-around gap-[10rem]">
+                <form className="form items-center rounded-xl p-3 flex flex-col justify-center gap-10 lg:gap-[5.5rem]">
                     <div className="flex flex-col gap-5 justify-center w-full">
-                        <div className='flex flex-row gap-3 items-center'>
-                            <p className='text-xl w-full'>Estrategia y Dirección</p>
+                        {/* Estrategia y Dirección */}
+                        <div className='flex flex-col lg:flex-row gap-3 items-center'>
+                            <p className='text-base lg:text-xl w-full text-center lg:text-left'>Estrategia y Dirección</p>
                             <SelectComponent
                                 type={"Calificación..."}
                                 Select="estrategia"
@@ -120,8 +121,9 @@ export const FormAuto = () => {
                                 onChange={(value) => handleInputChange("estrategia", value)}
                             />
                         </div>
-                        <div className='flex flex-row gap-3 items-center'>
-                            <p className='text-xl w-full'>Operaciones</p>
+                        {/* Operaciones */}
+                        <div className='flex flex-col lg:flex-row gap-3 items-center'>
+                            <p className='text-base lg:text-xl w-full text-center lg:text-left'>Operaciones</p>
                             <SelectComponent
                                 type={"Calificación..."}
                                 Select="operaciones"
@@ -130,8 +132,9 @@ export const FormAuto = () => {
                                 onChange={(value) => handleInputChange("operaciones", value)}
                             />
                         </div>
-                        <div className='flex flex-row gap-3 items-center'>
-                            <p className='text-xl w-full'>Marketing</p>
+                        {/* Marketing */}
+                        <div className='flex flex-col lg:flex-row gap-3 items-center'>
+                            <p className='text-base lg:text-xl w-full text-center lg:text-left'>Marketing</p>
                             <SelectComponent
                                 type={"Calificación..."}
                                 Select="marketing"
@@ -140,8 +143,9 @@ export const FormAuto = () => {
                                 onChange={(value) => handleInputChange("marketing", value)}
                             />
                         </div>
-                        <div className='flex flex-row gap-3 items-center'>
-                            <p className='text-xl w-full'>Ventas</p>
+                        {/* Ventas */}
+                        <div className='flex flex-col lg:flex-row gap-3 items-center'>
+                            <p className='text-base lg:text-xl w-full text-center lg:text-left'>Ventas</p>
                             <SelectComponent
                                 type={"Calificación..."}
                                 Select="ventas"
@@ -150,8 +154,9 @@ export const FormAuto = () => {
                                 onChange={(value) => handleInputChange("ventas", value)}
                             />
                         </div>
-                        <div className='flex flex-row gap-3 items-center'>
-                            <p className='text-xl w-full'>Talento Humano</p>
+                        {/* Talento Humano */}
+                        <div className='flex flex-col lg:flex-row gap-3 items-center'>
+                            <p className='text-base lg:text-xl w-full text-center lg:text-left'>Talento Humano</p>
                             <SelectComponent
                                 type={"Calificación..."}
                                 Select="talentoHumano"
@@ -160,10 +165,13 @@ export const FormAuto = () => {
                                 onChange={(value) => handleInputChange("talentoHumano", value)}
                             />
                         </div>
-
                     </div>
-                    <div className="flex justify-start">
-                        <button onClick={openModal} type='button' className="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg">
+                    <div className="flex justify-center lg:justify-start">
+                        <button
+                            onClick={openModal}
+                            type='button'
+                            className="bg-principalGreen px-4 lg:px-6 py-2 font-bold text-lg lg:text-2xl rounded-lg"
+                        >
                             Postular
                         </button>
                     </div>

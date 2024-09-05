@@ -105,15 +105,15 @@ const Form = () => {
     };
 
     return (
-        <>
+        <div className="w-full p-4">
             {errorMessage && (
-                <div className="bg-red-500 text-white p-4 rounded mb-4">
+                <div className="bg-red text-black p-4 rounded mb-4 text-sm md:text-base">
                     {errorMessage}
                 </div>
             )}
-            <form onSubmit={handleForm} className="form flex flex-col gap-6">
+            <form onSubmit={handleForm} className="form flex flex-col gap-4 md:gap-6">
                 <input
-                    className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border ${errors.correo ? 'border-red-500' : 'border-white'}`}
+                    className={`w-full rounded-lg caret-white bg-transparent text-white peer border p-3 md:p-5 text-sm md:text-lg font-normal outline-none transition-all placeholder-shown:border ${errors.correo ? 'border-red' : 'border-white'}`}
                     type="email"
                     value={values.correo}
                     name="correo"
@@ -123,7 +123,7 @@ const Form = () => {
                 />
 
                 <input
-                    className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border ${errors.contrasena ? 'border-red-500' : 'border-white'}`}
+                    className={`w-full rounded-lg caret-white bg-transparent text-white peer border p-3 md:p-5 text-sm md:text-lg font-normal outline-none transition-all placeholder-shown:border ${errors.contrasena ? 'border-red' : 'border-white'}`}
                     type={showPassword ? "text" : "password"}
                     value={values.contrasena}
                     name="contrasena"
@@ -131,27 +131,27 @@ const Form = () => {
                     onChange={handleInputChange}
                 />
 
-                <div className="flex gap-2 items-center justify-between">
-                    <div className="flex h-7">
+                <div className="flex flex-row md:flex-row gap-2 items-center md:items-center justify-between">
+                    <div className="flex items-center">
                         <input
-                            className="border border-solid checked:bg-principalGreen border-principalGreen h-full w-8"
+                            className="border border-solid checked:bg-principalGreen border-principalGreen h-5 w-5 mr-2"
                             type="checkbox"
                             name="showpassword"
-                            id="3"
+                            id="showpassword"
                             checked={showPassword}
                             onChange={toggleShowPassword}
                         />
-                        <p className="text-xl">Mostrar contraseña</p>
+                        <label htmlFor="showpassword" className="text-sm md:text-base">Mostrar contraseña</label>
                     </div>
-                    <div className="h-7">
-                        <a href="/olvidaste-contraseña" className="text-xl hover:underline">¿Olvidaste tu contraseña?</a>
+                    <div>
+                        <a href="/olvidaste-contraseña" className="text-sm md:text-base hover:underline">¿Olvidaste tu contraseña?</a>
                     </div>
                 </div>
 
-                <div className="flex justify-center">
+                <div className="flex justify-center mt-4">
                     <button
                         id="login-button"
-                        className="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg"
+                        className="bg-principalGreen px-4 md:px-6 py-2 font-bold text-lg md:text-2xl rounded-lg transition-all hover:bg-opacity-90"
                         type="submit"
                     >
                         Iniciar sesión
@@ -159,35 +159,38 @@ const Form = () => {
                 </div>
             </form>
 
+            {/* Modal de errores */}
             <div
-                className={`modal-container ${isModalVisible ? 'show' : ''}`}
+                className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center ${isModalVisible ? '' : 'hidden'}`}
             >
-                <div className="modal-header">
-                    <h2 className="text-xl font-bold">Errores de validación</h2>
-                    <button
-                        className="close-button"
-                        onClick={closeModal}
-                    >
-                        X
-                    </button>
-                </div>
-                <div className="modal-body">
-                    <ul>
-                        {Object.values(errors).map((error, index) => (
-                            <li key={index} className="text-red">
-                                {error}
-                            </li>
-                        ))}
-                    </ul>
+                <div className="bg-red rounded-lg p-6 max-w-sm w-full">
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-xl font-bold">Errores de validación</h2>
+                        <button
+                            className="text-gray-500 hover:text-gray-700"
+                            onClick={closeModal}
+                        >
+                            ✕
+                        </button>
+                    </div>
+                    <div>
+                        <ul>
+                            {Object.values(errors).map((error, index) => (
+                                <li key={index} className="text-white mb-2">
+                                    {error}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
             </div>
 
             <ModalLogIn
-                isOpen={isModalisVisible && nombres}  // Verifica que 'nombres' esté definido
+                isOpen={isModalisVisible && nombres}
                 onConfirm={closeModalis}
-                nombre={nombres || ''}  // En caso de que no esté definido, pasa una cadena vacía
+                nombre={nombres || ''}
             />
-        </>
+        </div>
     );
 };
 

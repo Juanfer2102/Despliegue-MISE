@@ -10,23 +10,19 @@ const InfoUser = ({ nombre, MISE, dataRol, id_usuario }) => {
     };
 
     return (
-        <div className={`${userClassName} bg-transparent border-transparent flex`}>
-            <div className="flex-1 p-5 py-8 text-sm whitespace-nowrap">
-                <p className="text-white w-[8rem]">
-                    {nombre}
-                </p>
+        <div className={`${userClassName} bg-transparent border-transparent flex flex-col lg:flex-row`}>
+            <div className="flex-1 p-3 text-white text-sm xl:text-left text-center whitespace-nowrap truncate xl:w-[8rem]">
+                {nombre}
             </div>
-            <div className="flex-1 p-5 py-8 text-sm text-center text-white whitespace-nowrap">
+            <div className="flex-1 p-3 text-sm text-center text-white whitespace-nowrap">
                 {MISE}
             </div>
-            <div className="flex-1 p-5 py-8 text-sm text-center text-white whitespace-nowrap border-b-0 border-b-transparent">
-                
-                    {dataRol}
-                
+            <div className="flex-1 p-3 text-sm text-center text-white whitespace-nowrap border-b-0 xl:border-b-transparent">
+                {dataRol}
             </div>
-            <div className="flex-1 p-5  text-sm text-right whitespace-nowrap border-b-0 border-b-transparent">
+            <div className="flex-1 p-3 text-sm text-center whitespace-nowrap text-white border-b xl:border-b-transparent">
                 <button
-                    className="bg-principalGreen text-white rounded-lg px-4 py-2 hover:bg-white hover:text-principalGreen"
+                    className="bg-principalGreen text-white rounded-lg px-4 py-2 text-xs sm:text-sm hover:bg-white hover:text-principalGreen"
                     onClick={handleEditClick}
                 >
                     Editar Usuario
@@ -34,6 +30,7 @@ const InfoUser = ({ nombre, MISE, dataRol, id_usuario }) => {
             </div>
         </div>
     );
+
 };
 
 export default InfoUser;

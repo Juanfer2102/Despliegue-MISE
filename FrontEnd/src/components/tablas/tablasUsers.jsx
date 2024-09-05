@@ -40,9 +40,9 @@ const UserTable = () => {
 
     return (
         <>
-            <div className='flex flex-row w-full'>
+            <div className='flex flex-col lg:flex-row w-full p-4'>
                 <Buscador onSearch={handleSearch} placeholder={"Buscar Usuarios..."} filtro={"Coordinador"} />
-                <div className='w-full py-5 flex items-center justify-end'>
+                <div className='w-full xl:w-full py-4 xl:py-5 flex items-center xl:justify-end justify-center'>
                     <a href="/nuevo-user">
                         <button className='bg-principalGreen rounded-xl p-2 text-white hover:bg-white hover:text-principalGreen'>
                             Nuevo Usuario
@@ -50,14 +50,14 @@ const UserTable = () => {
                     </a>
                 </div>
             </div>
-            <div className="overflow-y-auto max-h-[40rem] custom-scrollbar w-full justify-center rounded-b-xl">
-                <div className="bg-greyBlack border-textBg rounded-t-xl text-white flex">
-                    <div className="flex-1 p-5 text-left">Nombre</div>
-                    <div className="flex-1 p-5 text-center">MISE encargado</div>
-                    <div className="flex-1 p-5 text-center">Rol</div>
-                    <div className="flex-1 p-5 text-center"></div> {/* Nueva columna para el botón */}
+            <div className="overflow-x-auto lg:overflow-x-hidden overflow-y-auto max-h-[40rem] custom-scrollbar w-full rounded-xl bg-greyBg">
+                <div className="bg-greyBlack border-textBg rounded-t-xl text-white flex flex-col lg:flex-row">
+                    <div className="flex-1 p-3 xl:text-left text-center font-bold border-b border-textBg lg:border-b-0">Nombre</div>
+                    <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">MISE encargado</div>
+                    <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">Rol</div>
+                    <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">Acciones</div> {/* Nueva columna para el botón */}
                 </div>
-                <div className="overflow-auto divide-y border border-textBg border-t-0 rounded">
+                <div className="divide-y border border-textBg border-t-0 rounded-b-xl">
                     {usuarios
                         .filter(usuario => `${usuario.nombres} ${usuario.apellidos}`.toLowerCase().includes(searchTerm.toLowerCase()))
                         .map(usuario => (
@@ -74,6 +74,7 @@ const UserTable = () => {
             </div>
         </>
     );
+
 };
 
 export default UserTable;

@@ -17,7 +17,7 @@ export const FormRegistro = () => {
         cargo: "",
         TyC: false,
     });
-    
+
     const optionsdocu = [
         { value: 'Cedula de Ciudadania', label: 'Cedula de Ciudadania' },
         { value: 'Cedula de Extranjeria', label: 'Cedula de Extranjeria' },
@@ -129,7 +129,7 @@ export const FormRegistro = () => {
         setIsModalVisible(false);
     }
 
-    
+
 
 
     const handleSubmit = (event) => {
@@ -146,10 +146,14 @@ export const FormRegistro = () => {
     };
     return (
         <>
-            <form onSubmit={handleSubmit} className="form w-[45rem] flex flex-col gap-6 bg-greyBlack p-3 rounded-xl">
-                <div className="flex flex-row w-full gap-5">
+            <form
+                onSubmit={handleSubmit}
+                className="form custom-scrollbar w-full xl:max-h-full max-h-[21rem] md:max-h-full overflow-y-auto flex flex-col gap-6 bg-greyBlack p-6 md:p-10 rounded-xl mx-auto"
+            >
+                {/* Primera Fila: Nombre y Apellido */}
+                <div className="flex flex-col sm:flex-row w-full gap-5">
                     <input
-                        className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.nombre ? 'border-red-500' : ''}`}
+                        className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal transition-all placeholder-shown:border placeholder-shown:border-white ${errors.nombre ? 'border-red-500' : ''}`}
                         type="text"
                         value={values.nombre || ''}
                         name="nombre"
@@ -158,7 +162,7 @@ export const FormRegistro = () => {
                         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                     />
                     <input
-                        className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.apellido ? 'border-red-500' : ''}`}
+                        className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal transition-all placeholder-shown:border placeholder-shown:border-white ${errors.apellido ? 'border-red-500' : ''}`}
                         type="text"
                         value={values.apellido || ''}
                         name="apellido"
@@ -167,7 +171,9 @@ export const FormRegistro = () => {
                         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                     />
                 </div>
-                <div className="flex flex-row w-full gap-5">
+
+                {/* Segunda Fila: Tipo y Número de Documento */}
+                <div className="flex flex-col sm:flex-row w-full gap-5">
                     <SelectComponent
                         type={"Tipo de Documento..."}
                         Select="documento"
@@ -177,7 +183,7 @@ export const FormRegistro = () => {
                         className={`${errors.documento ? 'border-red' : ''}`}
                     />
                     <input
-                        className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.ndocumento ? 'border-red-500' : ''}`}
+                        className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal transition-all placeholder-shown:border placeholder-shown:border-white ${errors.ndocumento ? 'border-red-500' : ''}`}
                         type="number"
                         value={values.ndocumento || ''}
                         name="ndocumento"
@@ -186,8 +192,10 @@ export const FormRegistro = () => {
                         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                     />
                 </div>
+
+                {/* Email */}
                 <input
-                    className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.correo ? 'border-red-500' : ''}`}
+                    className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal transition-all placeholder-shown:border placeholder-shown:border-white ${errors.correo ? 'border-red-500' : ''}`}
                     type="email"
                     value={values.correo || ''}
                     name="correo"
@@ -195,8 +203,10 @@ export const FormRegistro = () => {
                     autoComplete="off"
                     onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                 />
+
+                {/* Celular */}
                 <input
-                    className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.celular ? 'border-red-500' : ''}`}
+                    className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal transition-all placeholder-shown:border placeholder-shown:border-white ${errors.celular ? 'border-red-500' : ''}`}
                     type="number"
                     value={values.celular || ''}
                     name="celular"
@@ -204,7 +214,9 @@ export const FormRegistro = () => {
                     autoComplete="off"
                     onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                 />
-                <div className="flex flex-row w-full gap-5">
+
+                {/* Fila: Género y Ciudad */}
+                <div className="flex flex-col sm:flex-row w-full gap-5">
                     <SelectComponent
                         type={"Genero..."}
                         Select="genero"
@@ -222,7 +234,9 @@ export const FormRegistro = () => {
                         className={`${errors.ciudad ? 'border-red-500' : ''}`}
                     />
                 </div>
-                <div className="flex flex-row w-full gap-5">
+
+                {/* Fila: Educación y Cargo */}
+                <div className="flex flex-col sm:flex-row w-full gap-5">
                     <SelectComponent
                         type={"Educación Superior..."}
                         Select="educacion"
@@ -238,9 +252,11 @@ export const FormRegistro = () => {
                         onChange={(value) => handleInputChange("cargo", value)}
                     />
                 </div>
-                <div className="flex h-8 gap-2 items-center justify-start">
+
+                {/* Términos y Condiciones */}
+                <div className="flex items-center gap-2">
                     <input
-                        className={`border-2 border-solid ${errors.TyC ? 'border-red-500' : 'border-principalGreen'} h-full w-8`}
+                        className={`border-2 border-solid ${errors.TyC ? 'border-red-500' : 'border-principalGreen'} h-8 w-8`}
                         type="checkbox"
                         name="TyC"
                         id="TyC"
@@ -249,6 +265,8 @@ export const FormRegistro = () => {
                     />
                     <p className="text-xl">Acepto términos y condiciones</p>
                 </div>
+
+                {/* Botón de Envío */}
                 <div className="flex justify-center">
                     <button
                         className="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg"
