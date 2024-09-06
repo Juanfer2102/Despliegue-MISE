@@ -39,7 +39,7 @@ export const FormRegistro = () => {
         pagina_web: '',
         estado: 1,
         id_programa: 1,
-        id_postulante: 1,
+        id_postulante: '',
     });
 
     const formatCurrency = (value) => {
@@ -169,26 +169,23 @@ export const FormRegistro = () => {
 
     const handleConfirm = (event) => {
         event.preventDefault();
-        const updatedValues = {
-            ...values,
-        };
-
+        const updatedValues = { ...values };
+    
         const validationErrors = validateForm();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             closeModal();
             setIsModalVisible(true);
-            
         } else {
-            // Recuperar los datos del postulante desde localStorage
-            const postulanteData = JSON.parse(localStorage.getItem('postulanteData'));
-
-            // Si no hay datos de postulante, manejar el error
-            if (!postulanteData) {
-                console.error('No se encontraron datos del postulante en localStorage');
+            // Recuperar el ID del postulante desde localStorage
+            const idPostulante = localStorage.getItem('id_postulante');
+    
+            // Si no hay datos del postulante, manejar el error
+            if (!idPostulante) {
+                console.error('No se encontró el ID del postulante en localStorage');
                 return;
             }
-
+    
             // Preparar los datos de la empresa
             const empresaData = {
                 nit: updatedValues.nit,
@@ -201,10 +198,9 @@ export const FormRegistro = () => {
                 producto_servicio: updatedValues.producto_servicio,
                 correo: updatedValues.correo,
                 pagina_web: updatedValues.pagina_web,
-                fecha_creacion: updatedValues.fecha_creacion 
-                ? format(new Date(values.fecha_creacion), "yyyy-MM-dd")
-                : null
-                ,
+                fecha_creacion: updatedValues.fecha_creacion
+                    ? format(new Date(values.fecha_creacion), "yyyy-MM-dd")
+                    : null,
                 ventas_ult_ano: updatedValues.ventas_ult_ano,
                 costos_ult_ano: updatedValues.costos_ult_ano,
                 empleados_perm: updatedValues.empleados_perm,
@@ -212,44 +208,44 @@ export const FormRegistro = () => {
                 estado: updatedValues.estado,
                 id_programa: updatedValues.id_programa,
                 fecha_registro: updatedValues.fecha_registro,
-                id_postulante: updatedValues.id_postulante
+                id_postulante: parseInt(idPostulante, 10) // Convertir a número entero
             };
-
-            // Enviar los datos a la API
-            fetch('http://localhost:8000/api/v2/registro-postulante/', {
+    
+            // Primero registrar la empresa
+            fetch('http://localhost:8000/api/v2/registro-empresa/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    postulante: postulanteData,
-                    empresa: empresaData,
-                }),
+                body: JSON.stringify({ empresa: empresaData }),
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.id) { // Asumimos que `data` contiene la respuesta del postulante registrado
-                        console.log('Registro exitoso:', data);
-                        // Limpiar el localStorage si es necesario
-                        localStorage.removeItem('postulanteData');
-
-                        // Redirigir a la vista de autoevaluación
-                        window.location.href = "/autoevaluacion";
-                    } else {
-                        console.error('Error en el registro:', data);
-                        console.log(updatedValues)
-                        
-                    }
-                })
-                .catch(error => {   
-                    console.error('Error al enviar los datos:', error);
-                });
-
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Registro de la empresa exitoso:', data);
+                    // Almacenar el NIT de la empresa en localStorage
+                    localStorage.setItem('empresa_nit', empresaData.nit);
+                    // Redirigir a la vista de autoevaluación
+                    window.location.href = "/autoevaluacion";
+                } else {
+                    console.error('Error en el registro de la empresa:', data);
+                    console.log(updatedValues);
+                }
+            })
+            .catch(error => {
+                console.error('Error al enviar los datos de la empresa:', error);
+            });
+    
             // Actualizar los valores antes de cerrar el modal
             setValues(updatedValues);
             closeModal();
         }
     };
+    
+    
+    
+
+
 
 
     const closeModalE = () => {
@@ -424,7 +420,7 @@ export const FormRegistro = () => {
                                 handleInputChange('fecha_creacion', value);
                             }}
                         />
-{/*
+                        {/*
                         <SelectComponent
                             type={"Tamaño de la empresa..."}
                             Select="estado"

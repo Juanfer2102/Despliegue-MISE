@@ -7,12 +7,6 @@ class EmpresasAdmin(admin.ModelAdmin):
     search_fields = ('nombre_empresa', 'razon_social', 'correo')
     list_filter = ('sector', 'estado', 'id_programa')
 
-@admin.register(Modulos)
-class ModulosAdmin(admin.ModelAdmin):
-    list_display = ('id_modulo', 'nombre_modulo', 'escala', 'descripcion', 'observaciones', 'nivel_basico', 'estado_actual', 'nivel_ideal')
-    search_fields = ('nombre_modulo', 'descripcion')
-    list_filter = ('estado_actual',)
-
 @admin.register(Postulante)
 class PostulanteAdmin(admin.ModelAdmin):
     list_display = ('id_postulante', 'nombres_postulante', 'apellidos_postulante', 'celular', 'genero', 'correo', 'municipio', 'no_documento', 'tipo_documento', 'id_rol')

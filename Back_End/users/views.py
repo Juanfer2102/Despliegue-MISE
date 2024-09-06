@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 from .serializer import AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from rest_framework import status, generics, serializers
@@ -91,6 +91,10 @@ class RegistroPostulanteEmpresa(APIView):
         postulante_data = request.data.get('postulante')
         empresa_data = request.data.get('empresa')
         
+        # Depuración: Imprimir los datos recibidos
+        print("Datos del postulante:", postulante_data)
+        print("Datos de la empresa:", empresa_data)
+        
         # Crear el postulante
         postulante_serializer = PostulanteSerializer(data=postulante_data)
         if postulante_serializer.is_valid():
@@ -111,6 +115,126 @@ class RegistroPostulanteEmpresa(APIView):
         
         return Response(postulante_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+class RegistroEmpresa(APIView):
+
+    def post(self, request, *args, **kwargs):
+        empresa_data = request.data.get('empresa')
+        
+        if not empresa_data:
+            return Response({"detail": "No data provided"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Validar y guardar la empresa
+        empresa_serializer = EmpresaSerializer(data=empresa_data)
+        if empresa_serializer.is_valid():
+            empresa = empresa_serializer.save()
+            
+            # Asociar la empresa con el postulante
+            id_postulante = empresa_data.get('id_postulante')
+            if id_postulante:
+                try:
+                    postulante = Postulante.objects.get(id_postulante=id_postulante)
+                    postulante.empresa = empresa
+                    postulante.save()
+                except Postulante.DoesNotExist:
+                    return Response({"detail": "Postulante not found"}, status=status.HTTP_404_NOT_FOUND)
+            
+            return Response({"success": True}, status=status.HTTP_201_CREATED)
+        
+        return Response(empresa_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class RegistroPostulante(APIView):
+    
+    def post(self, request, *args, **kwargs):
+        postulante_data = request.data.get('postulante')
+        
+        if not postulante_data:
+            return Response({"detail": "No data provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Crear el postulante
+        postulante_serializer = PostulanteSerializer(data=postulante_data)
+        if postulante_serializer.is_valid():
+            postulante = postulante_serializer.save()
+            return Response({
+                "id_postulante": postulante.id_postulante
+            }, status=status.HTTP_201_CREATED)
+        
+        return Response(postulante_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class RegistroAutoevaluacionView(APIView):
+
+    def post(self, request):
+        data = request.data
+
+        # Obtener el NIT de la empresa y buscar la instancia de la empresa
+        nit_empresa = data.get('nit')
+        empresa = get_object_or_404(Empresas, nit=nit_empresa)
+
+        # Obtener los datos de la autoevaluación
+        autoevaluacion_data = {
+            'fecha': data.get('fecha'),
+            'comentarios': data.get('comentarios'),
+            'nit': empresa.nit  # Usa la PK (ID) de la empresa
+        }
+
+        # Serializar y guardar la autoevaluación
+        autoevaluacion_serializer = AutoevaluacionSerializer(data=autoevaluacion_data)
+
+        if autoevaluacion_serializer.is_valid():
+            autoevaluacion = autoevaluacion_serializer.save()
+
+            # Obtener las calificaciones de los módulos
+            calificaciones = data.get('calificaciones', [])
+
+            # Recorrer las calificaciones de los módulos y guardarlas
+            for calificacion_data in calificaciones:
+                modulo = get_object_or_404(ModuloAutoevaluacion, id_modulo=calificacion_data['id_modulo'])
+
+                calificacion_modulo_data = {
+                    'calificacion': calificacion_data['calificacion'],
+                    'comentarios': calificacion_data.get('comentarios'),
+                    'id_autoevaluacion': autoevaluacion.id_autoevaluacion,
+                    'id_modulo': modulo.id_modulo
+                }
+
+                # Serializar y guardar cada calificación de módulo
+                calificacion_modulo_serializer = CalificacionModuloSerializer(data=calificacion_modulo_data)
+
+                if calificacion_modulo_serializer.is_valid():
+                    calificacion_modulo_serializer.save()
+                else:
+                    return Response(calificacion_modulo_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            return Response({'success': True, 'message': 'Autoevaluación registrada correctamente.'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(autoevaluacion_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class RegistroPostulanteEmpresa(APIView):
+    
+    def post(self, request, *args, **kwargs):
+        postulante_data = request.data.get('postulante')
+        empresa_data = request.data.get('empresa')
+
+        # Crear el postulante
+        postulante_serializer = PostulanteSerializer(data=postulante_data)
+        if postulante_serializer.is_valid():
+            postulante = postulante_serializer.save()
+            
+            # Asociar el postulante a la empresa
+            empresa_data['id_postulante'] = postulante.id_postulante
+            empresa_serializer = EmpresaSerializer(data=empresa_data)
+            
+            if empresa_serializer.is_valid():
+                empresa_serializer.save()
+                return Response({
+                    "postulante": postulante_serializer.data,
+                    "empresa": empresa_serializer.data
+                }, status=status.HTTP_201_CREATED)
+            else:
+                # Eliminar el postulante si la empresa no se creó
+                postulante.delete()
+                return Response(empresa_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response(postulante_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class EmpresaDetailView(APIView):
     def get(self, request, nit):
         try:

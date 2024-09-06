@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SelectComponent from '../../inputs/selectores/selectores';
 import './formsautoevaaluacion.css';
 import ConfirmModal from '../../modales/modalconfirm';
+import { getDate } from '../../../helpers/getDate.js';
 
 export const FormAuto = () => {
 
@@ -9,6 +10,27 @@ export const FormAuto = () => {
     const [errors, setErrors] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
+    const [empresaNIT, setEmpresaNIT] = useState(null);
+
+    useEffect(() => {
+        const nit = localStorage.getItem('empresa_nit');
+        if (nit) {
+            const nitInt = parseInt(nit, 10);  // Convierte el NIT a entero
+            if (!isNaN(nitInt)) {
+                setEmpresaNIT(nitInt);  // Solo establece el NIT si es un número válido
+                setValues(prevValues => ({
+                    ...prevValues,
+                    nit: nitInt,  // Asigna el NIT como un número en los valores del formulario
+                }));
+            } else {
+                console.error('El NIT recuperado no es un número válido');
+            }
+        } else {
+            console.error('No se encontró el NIT de la empresa en localStorage');
+        }
+    }, []);
+    
+
 
     const validateForm = () => {
         const newErrors = {};
@@ -65,6 +87,8 @@ export const FormAuto = () => {
         marketing: "",
         ventas: "",
         talentoHumano: "",
+        nit: "",
+        fecha: ""
     });
 
     const handleInputChange = (name, value) => {
@@ -79,12 +103,50 @@ export const FormAuto = () => {
         const validationErrors = validateForm();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
+            
             closeModal();
             setIsModalVisible(true);
+            
         } else {
-            console.log("Inputs value:", values);
-            closeModal();
-            openSuccessModal();
+            // Asegurarse de que el NIT esté presente
+            if (!empresaNIT) {
+                console.error("No se pudo completar la autoevaluación sin el NIT de la empresa");
+                return;
+            }
+            
+            // Preparar los datos para enviar
+            const autoevaluacionData = {
+                nit: empresaNIT,  // Aquí se vincula la autoevaluación con el NIT
+                estrategia: values.estrategia,
+                operaciones: values.operaciones,
+                marketing: values.marketing,
+                ventas: values.ventas,
+                talentoHumano: values.talentoHumano,
+                fecha: getDate(),
+            };
+
+            // Enviar los datos de la autoevaluación
+            fetch('http://localhost:8000/api/v2/registro-autoevaluacion/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(autoevaluacionData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Autoevaluación registrada exitosamente:', data);
+                    openSuccessModal();
+                } else {
+                    console.error('Error en el registro de la autoevaluación:', data);
+                    console.log(values)
+                }
+            })
+            .catch(error => {
+                console.log(values)
+                console.error('Error al enviar los datos de la autoevaluación:', error);
+            });
         }
     }
 
@@ -92,7 +154,7 @@ export const FormAuto = () => {
         setIsSuccessModalVisible(true);
         setTimeout(() => {
             setIsSuccessModalVisible(false);
-            window.location.href = "https://www.ccpalmira.org.co/programas-y-servicios-empresariales/mise/";
+            window.location.href = "/";
         }, 5000); // 5 segundos
     };
 
