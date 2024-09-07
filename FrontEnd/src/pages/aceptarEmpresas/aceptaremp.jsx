@@ -14,6 +14,11 @@ const DeveloperPortal = () => {
     const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
     const [companyData, setCompanyData] = useState(null);
     const [postulanteData, setPostulanteData] = useState(null);
+    const [autoevaluacionData, setAutoevaluacionData] = useState(null);
+
+    const [calificacionesModulos, setCalificacionesModulos] = useState([]);
+    const [modulos, setModulos] = useState([]);
+
 
     const navigate = useNavigate(); // Inicializa useNavigate
 
@@ -31,10 +36,50 @@ const DeveloperPortal = () => {
                             .then(postulante => setPostulanteData(postulante))
                             .catch(error => console.error('Error fetching postulante data:', error));
                     }
+
+                    // Fetch autoevaluacion data based on NIT
+                    fetch(`http://localhost:8000/api/v2/empresas/${nit}/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Company data:', data); // Verifica los datos de la empresa
+                            setCompanyData(data);
+
+                            // Fetch postulante data based on postulante ID
+                            if (data.id_postulante) {
+                                fetch(`http://localhost:8000/api/v2/postulante/${data.id_postulante}/`)
+                                    .then(response => response.json())
+                                    .then(postulante => setPostulanteData(postulante))
+                                    .catch(error => console.error('Error fetching postulante data:', error));
+                            }
+
+                            // Fetch autoevaluacion data based on company autoevaluacion ID
+                            if (data.id_autoevaluacion) {
+                                // Usa el nit en la solicitud para obtener la autoevaluación
+                                fetch(`http://localhost:8000/api/v2/autoevaluacion/${nit}/`)
+                                    .then(response => response.json())
+                                    .then(autoevaluacion => {
+                                        console.log('Autoevaluacion data:', autoevaluacion);
+
+                                        // Asegúrate de que el campo calificaciones esté correctamente referenciado
+                                        const calificaciones = autoevaluacion.flatMap(item => item.calificaciones || []);
+                                        setCalificacionesModulos(calificaciones);
+                                    })
+                                    .catch(error => console.error('Error fetching autoevaluacion data:', error));
+
+                            }
+
+                            // Fetch modulos data
+                            fetch('http://localhost:8000/api/v2/modulos/')
+                                .then(response => response.json())
+                                .then(modulosData => setModulos(modulosData))
+                                .catch(error => console.error('Error fetching modulos data:', error));
+                        })
+                        .catch(error => console.error('Error fetching autoevaluacion data:', error));
                 })
                 .catch(error => console.error('Error fetching company data:', error));
         }
     }, [nit]);
+
 
     const closeModal = () => setIsOpen(false);
     const closeCModal = () => setIsCOpen(false);
@@ -133,18 +178,46 @@ const DeveloperPortal = () => {
                         </div>
                     </div>
                 );
-            case 'autoeva':
+            case 'autoeva': {
+                // Create a mapping of module IDs to module names
+                const moduloMap = (modulos || []).reduce((map, modulo) => {
+                    map[modulo.id_modulo] = modulo.nombre;
+                    return map;
+                }, {});
+
                 return (
                     <div>
-                        {Autoeva.map((info, index) => (
-                            <div key={index} className="bg-greyBlack p-5 rounded-xl mb-4">
-                                <div className="grid grid-cols-3 p-3 justify-between">
-                                    {/* Render Autoeva information */}
-                                </div>
+                        {calificacionesModulos && calificacionesModulos.length > 0 ? (
+                            calificacionesModulos.map((calificacion, index) => {
+                                // Ensure modulo ID exists in moduloMap
+                                const moduloNombre = moduloMap[calificacion.id_modulo] || 'Desconocido';
+
+                                return (
+                                    <div key={index} className="bg-greyBlack p-5 rounded-xl mb-4">
+                                        <div className="grid grid-cols-2 p-3 justify-between">
+                                            <div className="col-span-1">
+                                                <h2 className="text-xl font-bold mb-2 text-white">Módulo</h2>
+                                                <p className="text-principalGreen font-semibold mb-6">{moduloNombre}</p>
+                                            </div>
+                                            <div className="col-span-1">
+                                                <h2 className="text-xl font-bold mb-2 text-white">Calificación</h2>
+                                                <p className="text-principalGreen font-semibold mb-6">{calificacion.calificacion}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <div className="bg-greyBlack p-5 rounded-xl mb-4">
+                                <p className="text-white">No se encontraron calificaciones para esta autoevaluación.</p>
                             </div>
-                        ))}
+                        )}
                     </div>
                 );
+            }
+
+
+
             default:
                 return null;
         }

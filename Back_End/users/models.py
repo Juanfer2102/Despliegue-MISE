@@ -27,15 +27,7 @@ class Empresas(models.Model):
         managed = False
         db_table = 'empresas'
 
-class Autoevaluacion(models.Model):
-    id_autoevaluacion = models.AutoField(primary_key=True)
-    fecha = models.DateField()
-    comentarios = models.TextField(blank=True, null=True)
-    nit = models.ForeignKey('Empresas', models.DO_NOTHING, db_column='NIT')  # Field name made lowercase.
 
-    class Meta:
-        managed = False
-        db_table = 'autoevaluacion'
 
 class Postulante(models.Model):
     id_postulante = models.AutoField(primary_key=True)
@@ -179,7 +171,15 @@ class Usuario(models.Model):
         return bcrypt.checkpw(raw_password.encode('utf-8'), self.contrasena.encode('utf-8'))
 
 
+class Autoevaluacion(models.Model):
+    id_autoevaluacion = models.AutoField(primary_key=True)
+    fecha = models.DateField()
+    comentarios = models.TextField(blank=True, null=True)
+    nit = models.ForeignKey('Empresas', models.DO_NOTHING, db_column='NIT')  # Field name made lowercase.
 
+    class Meta:
+        managed = False
+        db_table = 'autoevaluacion'
 
 class CalificacionModulo(models.Model):
     id_calificacion = models.AutoField(primary_key=True)

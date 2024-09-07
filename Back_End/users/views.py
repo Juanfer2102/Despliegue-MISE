@@ -172,42 +172,81 @@ class RegistroAutoevaluacionView(APIView):
         # Obtener los datos de la autoevaluación
         autoevaluacion_data = {
             'fecha': data.get('fecha'),
-            'comentarios': data.get('comentarios'),
-            'nit': empresa.nit  # Usa la PK (ID) de la empresa
+            'comentarios': data.get('comentarios', ''),
+            'nit': empresa.nit  # Usa la FK (nit) de la empresa
         }
 
         # Serializar y guardar la autoevaluación
         autoevaluacion_serializer = AutoevaluacionSerializer(data=autoevaluacion_data)
 
         if autoevaluacion_serializer.is_valid():
+            # Guarda la autoevaluación y obtén la instancia
             autoevaluacion = autoevaluacion_serializer.save()
 
-            # Obtener las calificaciones de los módulos
-            calificaciones = data.get('calificaciones', [])
+            # Mapeo de las calificaciones a sus respectivos módulos
+            modulos_map = {
+                'estrategia': 1,  # ID del módulo estrategia
+                'operaciones': 2,  # ID del módulo operaciones
+                'marketing': 3,  # ID del módulo marketing
+                'ventas': 4,  # ID del módulo ventas
+                'talentoHumano': 5,  # ID del módulo talento humano
+            }
 
-            # Recorrer las calificaciones de los módulos y guardarlas
-            for calificacion_data in calificaciones:
-                modulo = get_object_or_404(ModuloAutoevaluacion, id_modulo=calificacion_data['id_modulo'])
+            # Recorrer los campos de calificaciones y guardarlas
+            for key, calificacion in data.items():
+                if key in modulos_map:
+                    # Obtener el módulo correspondiente
+                    modulo_id = modulos_map[key]
+                    modulo = get_object_or_404(ModuloAutoevaluacion, id_modulo=modulo_id)
 
-                calificacion_modulo_data = {
-                    'calificacion': calificacion_data['calificacion'],
-                    'comentarios': calificacion_data.get('comentarios'),
-                    'id_autoevaluacion': autoevaluacion.id_autoevaluacion,
-                    'id_modulo': modulo.id_modulo
-                }
+                    # Preparar los datos para la calificación del módulo
+                    calificacion_modulo_data = {
+                        'calificacion': calificacion,  # La calificación del módulo
+                        'comentarios': '',  # Puedes agregar lógica para comentarios si es necesario
+                        'id_autoevaluacion': autoevaluacion.id_autoevaluacion,  # ID de la autoevaluación
+                        'id_modulo': modulo.id_modulo  # ID del módulo
+                    }
 
-                # Serializar y guardar cada calificación de módulo
-                calificacion_modulo_serializer = CalificacionModuloSerializer(data=calificacion_modulo_data)
+                    # Serializar y guardar cada calificación de módulo
+                    calificacion_modulo_serializer = CalificacionModuloSerializer(data=calificacion_modulo_data)
 
-                if calificacion_modulo_serializer.is_valid():
-                    calificacion_modulo_serializer.save()
-                else:
-                    return Response(calificacion_modulo_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                    if calificacion_modulo_serializer.is_valid():
+                        calificacion_modulo_serializer.save()  # Guardar la calificación del módulo
+                    else:
+                        return Response({
+                            'error': 'Error en la calificación del módulo.',
+                            'detalles': calificacion_modulo_serializer.errors
+                        }, status=status.HTTP_400_BAD_REQUEST)
 
-            return Response({'success': True, 'message': 'Autoevaluación registrada correctamente.'}, status=status.HTTP_201_CREATED)
+            # Si todo es válido, devolver respuesta exitosa
+            return Response({'success': True, 'message': 'Autoevaluación y calificaciones registradas correctamente.'}, status=status.HTTP_201_CREATED)
         else:
+            # Si la autoevaluación no es válida, devolver error
             return Response(autoevaluacion_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class CalificacionesModulosList(generics.ListAPIView):
+    serializer_class = CalificacionModuloSerializer
+
+    def get_queryset(self):
+        id_autoevaluacion = self.request.query_params.get('id_autoevaluacion')
+        if id_autoevaluacion:
+            return CalificacionModulo.objects.filter(id_autoevaluacion=id_autoevaluacion)
+        return CalificacionModulo.objects.none()
+    
+
+@api_view(['GET'])
+def AutoevaluacionDetail(request, nit):
+    try:
+        empresa = Empresas.objects.get(nit=nit)
+        autoevaluaciones = Autoevaluacion.objects.filter(nit=empresa)
+        
+        if not autoevaluaciones.exists():
+            return Response({'error': 'Autoevaluación no encontrada'}, status=404)
+        
+        serializer = AutoevaluacionSerializer(autoevaluaciones, many=True)
+        return Response(serializer.data)
+    except Empresas.DoesNotExist:
+        return Response({'error': 'Empresa no encontrada'}, status=404)
 class RegistroPostulanteEmpresa(APIView):
     
     def post(self, request, *args, **kwargs):

@@ -71,17 +71,23 @@ class UsuarioSerializer(serializers.ModelSerializer):
     
     
     
-class AutoevaluacionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Autoevaluacion
-        fields = '__all__'
 
-class CalificacionModuloSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CalificacionModulo
-        fields = '__all__'
+
+
 
 class ModuloAutoevaluacionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ModuloAutoevaluacion
-        fields = '__all__'
+        fields = ['id_modulo', 'nombre']
+
+class CalificacionModuloSerializer(serializers.ModelSerializer):
+    id_modulo = ModuloAutoevaluacionSerializer()
+    class Meta:
+        model = CalificacionModulo
+        fields = ['id_calificacion', 'calificacion', 'comentarios', 'id_modulo']
+
+class AutoevaluacionSerializer(serializers.ModelSerializer):
+    calificaciones = CalificacionModuloSerializer(many=True, source='calificacionmodulo_set')
+    class Meta:
+        model = Autoevaluacion
+        fields = ['id_autoevaluacion', 'fecha', 'comentarios', 'nit', 'calificaciones']

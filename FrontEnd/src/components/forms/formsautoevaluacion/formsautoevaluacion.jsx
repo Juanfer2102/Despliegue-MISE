@@ -137,6 +137,7 @@ export const FormAuto = () => {
             .then(data => {
                 if (data.success) {
                     console.log('Autoevaluación registrada exitosamente:', data);
+                    localStorage.clear();
                     openSuccessModal();
                 } else {
                     console.error('Error en el registro de la autoevaluación:', data);
@@ -154,7 +155,7 @@ export const FormAuto = () => {
         setIsSuccessModalVisible(true);
         setTimeout(() => {
             setIsSuccessModalVisible(false);
-            window.location.href = "/";
+            /*window.location.href = "/";*/
         }, 5000); // 5 segundos
     };
 
