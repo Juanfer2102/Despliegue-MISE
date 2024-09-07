@@ -56,6 +56,7 @@ const DeveloperPortal = () => {
                             if (data.id_autoevaluacion) {
                                 // Usa el nit en la solicitud para obtener la autoevaluación
                                 fetch(`http://localhost:8000/api/v2/autoevaluacion/${nit}/`)
+                                console.log('Autoevaluacion')
                                     .then(response => response.json())
                                     .then(autoevaluacion => {
                                         console.log('Autoevaluacion data:', autoevaluacion);
