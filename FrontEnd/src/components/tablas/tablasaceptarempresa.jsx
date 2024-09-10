@@ -1,50 +1,76 @@
-import React, { useEffect, useState } from 'react';
-import InfoAE from './infoAE'; // Asegúrate de importar tu modal
+import { useEffect, useState } from 'react';
+import InfoAE from './infoAE'; // Asegúrate de importar tu componente InfoAE
+import Buscador from '../inputs/buscador/buscador';
 
 const TableComponent = () => {
   const [empresas, setEmpresas] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [roles, setRoles] = useState([]);
+  const [selectedRoleId, setSelectedRoleId] = useState(''); // Para filtrar por rol
   const [showFilters, setShowFilters] = useState(true); // Estado para controlar la visibilidad del buscador y filtros
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/v2/empresas/')
-      .then((response) => response.json())
-      .then((data) => {
+    // Función para obtener empresas
+    const fetchEmpresas = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/v2/empresas/');
+        const data = await response.json();
         const empresasFiltradas = data.filter(empresa => empresa.estado === '1');
         setEmpresas(empresasFiltradas);
         setShowFilters(empresasFiltradas.length > 0); // Actualiza la visibilidad de los filtros
-      })
-      .catch((error) => console.error('Error fetching empresas:', error));
+      } catch (error) {
+        console.error('Error fetching empresas:', error);
+      }
+    };
+
+    // Función para obtener roles
+    const fetchRoles = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/v2/roles/');
+        const data = await response.json();
+        setRoles(data);
+      } catch (error) {
+        console.error('Error fetching roles:', error);
+      }
+    };
+
+    fetchEmpresas();
+    fetchRoles();
   }, []);
 
-  // Filtra empresas según el término de búsqueda
-  const filteredEmpresas = empresas.filter(empresa =>
-    empresa.nombre_empresa.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    empresa.gerente.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    empresa.razon_social.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Función para manejar la búsqueda
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
+
+  // Función para manejar el cambio de rol
+  const handleRoleChange = (roleId) => {
+    setSelectedRoleId(roleId);
+  };
+
+  // Filtrar empresas según el término de búsqueda y el rol seleccionado
+  const filteredEmpresas = empresas
+    .filter(empresa =>
+      empresa.nombre_empresa.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      empresa.gerente.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      empresa.razon_social.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter(empresa =>
+      selectedRoleId === '' || empresa.id_rol === parseInt(selectedRoleId)
+    );
 
   return (
     <>
       {showFilters && (
-        <div className="flex items-center py-3 gap-4 text-left justify-end text-sm">
-          <input
-            type="text"
-            placeholder="Buscar..."
-            className="border border-white rounded-lg bg-transparent -m-2 p-1"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <i className="fa-solid fa-magnifying-glass text-white"></i>
-          <div className="flex items-center">
-            <div className="items-center flex gap-4 border-2 rounded-lg border-white bg-transparent text-white text-left p-2 pr-3 pl-3">
-              <p>Más nuevas</p>
-              <i className="fa-solid fa-filter"></i>
-            </div>
-          </div>
-        </div>
+        <Buscador
+          onSearch={handleSearch}
+          onRoleChange={handleRoleChange}  // Manejador de cambio de rol
+          placeholder={"Buscar Empresas..."}
+          roles={roles}  // Pasamos los roles obtenidos
+          contexto=""  // Definimos el contexto como 'empresas'
+        />
       )}
-      
+
       <table className="overflow-auto w-full justify-center rounded-xl">
         <thead className="bg-greyBlack border-textBg rounded-xl text-white top-0 z-10">
           {filteredEmpresas.length > 0 ? (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import InfoUser from './infoUser';
 import Buscador from '../inputs/buscador/buscador';
 
@@ -6,6 +6,7 @@ const UserTable = () => {
     const [usuarios, setUsuarios] = useState([]);
     const [roles, setRoles] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedRoleId, setSelectedRoleId] = useState('');  // Para almacenar el rol seleccionado por ID
 
     useEffect(() => {
         const fetchUsuarios = async () => {
@@ -32,16 +33,32 @@ const UserTable = () => {
         fetchRoles();
     }, []);
 
-    const roleMap = new Map(roles.map(role => [role.id_rol, role.descripcion]));
-
     const handleSearch = (term) => {
         setSearchTerm(term);
     };
 
+    const handleRoleChange = (roleId) => {
+        setSelectedRoleId(roleId);  // Actualiza el ID del rol seleccionado
+    };
+
+    const filteredUsuarios = usuarios.filter(usuario => {
+        const nombreCompleto = `${usuario.nombres} ${usuario.apellidos}`.toLowerCase();
+
+        // Filtra por término de búsqueda y por rol si es necesario
+        return nombreCompleto.includes(searchTerm) &&
+            (selectedRoleId === '' || usuario.id_rol === parseInt(selectedRoleId));  // Filtro por ID de rol
+    });
+
     return (
         <>
             <div className='flex flex-col lg:flex-row w-full p-4'>
-                <Buscador onSearch={handleSearch} placeholder={"Buscar Usuarios..."} filtro={"Coordinador"} />
+                <Buscador
+                    onSearch={handleSearch}
+                    onRoleChange={handleRoleChange}  // Nuevo manejador de cambio de rol
+                    placeholder={"Buscar Usuarios..."}
+                    roles={roles}  // Pasamos los roles obtenidos
+                    contexto="usuarios"  // Definimos el contexto como 'usuarios'
+                />
                 <div className='w-full xl:w-full py-4 xl:py-5 flex items-center xl:justify-end justify-center'>
                     <a href="/nuevo-user">
                         <button className='bg-principalGreen rounded-xl p-2 text-white hover:bg-white hover:text-principalGreen'>
@@ -55,26 +72,22 @@ const UserTable = () => {
                     <div className="flex-1 p-3 xl:text-left text-center font-bold border-b border-textBg lg:border-b-0">Nombre</div>
                     <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">MISE encargado</div>
                     <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">Rol</div>
-                    <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">Acciones</div> {/* Nueva columna para el botón */}
+                    <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">Acciones</div>
                 </div>
                 <div className="divide-y border border-textBg border-t-0 rounded-b-xl">
-                    {usuarios
-                        .filter(usuario => `${usuario.nombres} ${usuario.apellidos}`.toLowerCase().includes(searchTerm.toLowerCase()))
-                        .map(usuario => (
-                            <InfoUser
-                                key={usuario.id_usuario}
-                                nombre={`${usuario.nombres} ${usuario.apellidos}`}
-                                MISE={usuario.programa}
-                                dataRol={roleMap.get(usuario.id_rol)}
-                                id_usuario={usuario.id_usuario}
-                            />
-                        ))
-                    }
+                    {filteredUsuarios.map(usuario => (
+                        <InfoUser
+                            key={usuario.id_usuario}
+                            nombre={`${usuario.nombres} ${usuario.apellidos}`}
+                            MISE={usuario.programa}
+                            dataRol={roles.find(role => role.id_rol === usuario.id_rol)?.descripcion}  // Muestra la descripción del rol
+                            id_usuario={usuario.id_usuario}
+                        />
+                    ))}
                 </div>
             </div>
         </>
     );
-
 };
 
 export default UserTable;

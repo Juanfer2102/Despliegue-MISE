@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { InfoEmpresas } from "./infoEmpresas";
 import Buscador from "../../components/inputs/buscador/buscador";
 
 export const TablasEmpresas = () => {
   const [empresas, setEmpresas] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchEmpresas = async () => {
@@ -24,18 +24,18 @@ export const TablasEmpresas = () => {
     (empresa) => empresa.estado === "2"
   );
 
-
-  const [searchTerm, setSearchTerm] = useState('');
-
-
   const handleSearch = (term) => {
     setSearchTerm(term);
   };
 
-
   return (
     <>
-      <Buscador onSearch={handleSearch} placeholder={"Buscar Empresas..."} filtro={"Nuevas"} />
+      <Buscador
+        onSearch={handleSearch}
+        placeholder={"Buscar Empresas..."}
+        roles={[]}  // No pasamos roles porque no es necesario para empresas
+        contexto="empresas"  // Definimos el contexto
+      />
       <div className="overflow-x-auto w-full rounded-xl bg-greyBg">
         <div className="flex flex-col">
           {/* Header */}
@@ -49,8 +49,8 @@ export const TablasEmpresas = () => {
           {/* Body */}
           <div className="divide-y border border-textBg border-t-0 rounded">
             {empresasConEstado2
-              .filter(empresasConEstado2 =>
-                `${empresasConEstado2.nit} ${empresasConEstado2.nombre_empresa}`.toLowerCase().includes(searchTerm.toLowerCase())
+              .filter(empresa =>
+                `${empresa.nit} ${empresa.nombre_empresa}`.toLowerCase().includes(searchTerm.toLowerCase())
               )
               .map((empresa) => (
                 <div key={empresa.nit} className="flex flex-col lg:flex-row text-white">
@@ -69,8 +69,6 @@ export const TablasEmpresas = () => {
           </div>
         </div>
       </div>
-
-
     </>
   );
 };

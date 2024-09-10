@@ -91,7 +91,7 @@ DATABASES = {
         'NAME': 'mise',
         'USER': 'root',
         'HOST': 'localhost',
-        'PORT': '3306',
+        'PORT': '3307',
         'PASSWORD' : 'admin'
     }
 }

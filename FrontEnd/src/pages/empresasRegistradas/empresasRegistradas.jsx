@@ -51,3 +51,5 @@ export const EmpresasRegistradas = () => {
   );
 
 };
+
+export default EmpresasRegistradas;
