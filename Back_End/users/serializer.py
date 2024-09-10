@@ -68,13 +68,6 @@ class UsuarioSerializer(serializers.ModelSerializer):
             validated_data.pop('contrasena', None)
             
         return super().update(instance, validated_data)
-    
-    
-    
-
-
-
-
 class ModuloAutoevaluacionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ModuloAutoevaluacion
@@ -87,7 +80,15 @@ class CalificacionModuloSerializer(serializers.ModelSerializer):
         fields = ['id_calificacion', 'calificacion', 'comentarios', 'id_modulo']
 
 class AutoevaluacionSerializer(serializers.ModelSerializer):
-    calificaciones = CalificacionModuloSerializer(many=True, source='calificacionmodulo_set')
+    calificaciones = CalificacionModuloSerializer(many=True, read_only=True)
+
     class Meta:
         model = Autoevaluacion
-        fields = ['id_autoevaluacion', 'fecha', 'comentarios', 'nit', 'calificaciones']
+        fields = ['nit', 'fecha', 'comentarios', 'calificaciones']
+
+    def create(self, validated_data):
+        calificaciones_data = validated_data.pop('calificaciones', [])
+        autoevaluacion = Autoevaluacion.objects.create(**validated_data)
+        for calificacion_data in calificaciones_data:
+            CalificacionModulo.objects.create(autoevaluacion=autoevaluacion, **calificacion_data)
+        return autoevaluacion

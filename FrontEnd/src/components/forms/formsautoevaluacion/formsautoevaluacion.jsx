@@ -29,7 +29,7 @@ export const FormAuto = () => {
             console.error('No se encontró el NIT de la empresa en localStorage');
         }
     }, []);
-    
+
 
 
     const validateForm = () => {
@@ -103,26 +103,27 @@ export const FormAuto = () => {
         const validationErrors = validateForm();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
-            
             closeModal();
             setIsModalVisible(true);
-            
         } else {
             // Asegurarse de que el NIT esté presente
             if (!empresaNIT) {
                 console.error("No se pudo completar la autoevaluación sin el NIT de la empresa");
                 return;
             }
-            
+
             // Preparar los datos para enviar
             const autoevaluacionData = {
                 nit: empresaNIT,  // Aquí se vincula la autoevaluación con el NIT
-                estrategia: values.estrategia,
-                operaciones: values.operaciones,
-                marketing: values.marketing,
-                ventas: values.ventas,
-                talentoHumano: values.talentoHumano,
                 fecha: getDate(),
+                comentarios: '', // Puedes agregar comentarios si es necesario
+                calificaciones: [
+                    { calificacion: values.estrategia, id_modulo: 1 },
+                    { calificacion: values.operaciones, id_modulo: 2 },
+                    { calificacion: values.marketing, id_modulo: 3 },
+                    { calificacion: values.ventas, id_modulo: 4 },
+                    { calificacion: values.talentoHumano, id_modulo: 5 },
+                ]
             };
 
             // Enviar los datos de la autoevaluación
@@ -133,29 +134,30 @@ export const FormAuto = () => {
                 },
                 body: JSON.stringify(autoevaluacionData),
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Autoevaluación registrada exitosamente:', data);
-                    localStorage.clear();
-                    openSuccessModal();
-                } else {
-                    console.error('Error en el registro de la autoevaluación:', data);
-                    console.log(values)
-                }
-            })
-            .catch(error => {
-                console.log(values)
-                console.error('Error al enviar los datos de la autoevaluación:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Autoevaluación registrada exitosamente:', data);
+                        localStorage.clear();
+                        openSuccessModal();
+                    } else {
+                        console.error('Error en el registro de la autoevaluación:', data);
+                        console.log(values);
+                    }
+                })
+                .catch(error => {
+                    console.log(values);
+                    console.error('Error al enviar los datos de la autoevaluación:', error);
+                });
         }
     }
+
 
     const openSuccessModal = () => {
         setIsSuccessModalVisible(true);
         setTimeout(() => {
             setIsSuccessModalVisible(false);
-            /*window.location.href = "/";*/
+            window.location.href = "/";
         }, 5000); // 5 segundos
     };
 

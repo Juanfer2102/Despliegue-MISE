@@ -185,12 +185,13 @@ class CalificacionModulo(models.Model):
     id_calificacion = models.AutoField(primary_key=True)
     calificacion = models.IntegerField()
     comentarios = models.TextField(blank=True, null=True)
-    id_autoevaluacion = models.ForeignKey(Autoevaluacion, models.DO_NOTHING, db_column='id_autoevaluacion', blank=True, null=True)
+    id_autoevaluacion = models.ForeignKey(Autoevaluacion, models.DO_NOTHING, db_column='id_autoevaluacion', blank=True, null=True, related_name='calificaciones')
     id_modulo = models.ForeignKey('ModuloAutoevaluacion', models.DO_NOTHING, db_column='id_modulo', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'calificacion_modulo'
+
         
 class ModuloAutoevaluacion(models.Model):
     id_modulo = models.AutoField(primary_key=True)

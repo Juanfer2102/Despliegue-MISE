@@ -19,7 +19,6 @@ const DeveloperPortal = () => {
     const [calificacionesModulos, setCalificacionesModulos] = useState([]);
     const [modulos, setModulos] = useState([]);
 
-
     const navigate = useNavigate(); // Inicializa useNavigate
 
     useEffect(() => {
@@ -29,6 +28,7 @@ const DeveloperPortal = () => {
                 .then(response => response.json())
                 .then(data => {
                     setCompanyData(data);
+
                     // Fetch postulante data based on postulante ID
                     if (data.id_postulante) {
                         fetch(`http://localhost:8000/api/v2/postulante/${data.id_postulante}/`)
@@ -37,50 +37,51 @@ const DeveloperPortal = () => {
                             .catch(error => console.error('Error fetching postulante data:', error));
                     }
 
-                    // Fetch autoevaluacion data based on NIT
-                    fetch(`http://localhost:8000/api/v2/empresas/${nit}/`)
+                    // Fetch autoevaluacion data based on company autoevaluacion ID
+                    fetch(`http://localhost:8000/api/v2/autoevaluacion/${nit}/`)
                         .then(response => response.json())
-                        .then(data => {
-                            console.log('Company data:', data); // Verifica los datos de la empresa
-                            setCompanyData(data);
+                        .then(autoevaluacion => {
+                            console.log('Autoevaluacion data:', autoevaluacion);
 
-                            // Fetch postulante data based on postulante ID
-                            if (data.id_postulante) {
-                                fetch(`http://localhost:8000/api/v2/postulante/${data.id_postulante}/`)
-                                    .then(response => response.json())
-                                    .then(postulante => setPostulanteData(postulante))
-                                    .catch(error => console.error('Error fetching postulante data:', error));
+                            // Verifica que haya autoevaluaciones
+                            if (Array.isArray(autoevaluacion) && autoevaluacion.length > 0) {
+                                // Si la respuesta tiene una estructura de lista, obtén la primera autoevaluación
+                                const autoevaluacionData = autoevaluacion[0];
+
+                                // Extrae las calificaciones, asegurando que el campo calificaciones no sea vacío
+                                const calificaciones = autoevaluacionData.calificaciones || [];
+
+                                // Extrae el nombre de cada módulo junto con su calificación
+                                const calificacionesConModulos = calificaciones.map(calificacion => {
+                                    return {
+                                        calificacion: calificacion.calificacion,
+                                        nombre_modulo: calificacion.id_modulo ? calificacion.id_modulo.nombre : 'Desconocido'  // Accede al nombre del módulo
+                                    };
+                                });
+
+                                console.log('Calificaciones con módulos:', calificacionesConModulos);
+
+                                // Establece las calificaciones con módulos en el estado (si estás usando React)
+                                setCalificacionesModulos(calificacionesConModulos);
+                            } else {
+                                console.log('No se encontraron autoevaluaciones.');
+                                setCalificacionesModulos([]);
                             }
-
-                            // Fetch autoevaluacion data based on company autoevaluacion ID
-                            if (data.id_autoevaluacion) {
-                                // Usa el nit en la solicitud para obtener la autoevaluación
-                                fetch(`http://localhost:8000/api/v2/autoevaluacion/${nit}/`)
-                                console.log('Autoevaluacion')
-                                    .then(response => response.json())
-                                    .then(autoevaluacion => {
-                                        console.log('Autoevaluacion data:', autoevaluacion);
-
-                                        // Asegúrate de que el campo calificaciones esté correctamente referenciado
-                                        const calificaciones = autoevaluacion.flatMap(item => item.calificaciones || []);
-                                        setCalificacionesModulos(calificaciones);
-                                    })
-                                    .catch(error => console.error('Error fetching autoevaluacion data:', error));
-
-                            }
-
-                            // Fetch modulos data
-                            fetch('http://localhost:8000/api/v2/modulos/')
-                                .then(response => response.json())
-                                .then(modulosData => setModulos(modulosData))
-                                .catch(error => console.error('Error fetching modulos data:', error));
                         })
                         .catch(error => console.error('Error fetching autoevaluacion data:', error));
+
+                    // Fetch modulos data
+                    fetch('http://localhost:8000/api/v2/modulo-autoevaluacion/')
+                        .then(response => response.json())
+                        .then(modulosData => {
+                            console.log('Modulos data:', modulosData);
+                            setModulos(modulosData);
+                        })
+                        .catch(error => console.error('Error fetching modulos data:', error));
                 })
                 .catch(error => console.error('Error fetching company data:', error));
         }
     }, [nit]);
-
 
     const closeModal = () => setIsOpen(false);
     const closeCModal = () => setIsCOpen(false);
@@ -108,12 +109,11 @@ const DeveloperPortal = () => {
                 body: JSON.stringify({ estado: 2 }),
             })
                 .then(response => response.ok ? response.json() : Promise.reject('Error al actualizar el estado'))
-                .then(() => openSuccessModal())
+                .then(() => {
+                    setIsSuccessModalVisible(false);
+                    navigate(`/aceptar-empresas`);
+                })
                 .catch(error => console.error('Error:', error));
-
-            closeModal();
-            setIsSuccessModalVisible(false);
-            navigate(`/aceptar-empresas`);
         }, 1000); // 1 segundo
     };
 
@@ -180,25 +180,18 @@ const DeveloperPortal = () => {
                     </div>
                 );
             case 'autoeva': {
-                // Create a mapping of module IDs to module names
-                const moduloMap = (modulos || []).reduce((map, modulo) => {
-                    map[modulo.id_modulo] = modulo.nombre;
-                    return map;
-                }, {});
-
                 return (
                     <div>
                         {calificacionesModulos && calificacionesModulos.length > 0 ? (
                             calificacionesModulos.map((calificacion, index) => {
-                                // Ensure modulo ID exists in moduloMap
-                                const moduloNombre = moduloMap[calificacion.id_modulo] || 'Desconocido';
+
 
                                 return (
                                     <div key={index} className="bg-greyBlack p-5 rounded-xl mb-4">
                                         <div className="grid grid-cols-2 p-3 justify-between">
                                             <div className="col-span-1">
                                                 <h2 className="text-xl font-bold mb-2 text-white">Módulo</h2>
-                                                <p className="text-principalGreen font-semibold mb-6">{moduloNombre}</p>
+                                                <p className="text-principalGreen font-semibold mb-6">{calificacion.nombre_modulo}</p>
                                             </div>
                                             <div className="col-span-1">
                                                 <h2 className="text-xl font-bold mb-2 text-white">Calificación</h2>
@@ -216,6 +209,7 @@ const DeveloperPortal = () => {
                     </div>
                 );
             }
+
 
 
 
