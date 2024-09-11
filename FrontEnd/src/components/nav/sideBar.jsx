@@ -50,11 +50,11 @@ const Sidebar = ({ condicion, nombre }) => {
     <>
       {condicion === 1 && (
         <aside
-          className={`sidebar hidden  sm:flex ${sidebarExpanded ? "w-[18rem] absolute" : "w-[5.5rem] sticky"
-            } h-screen bg-greyBlack rounded-br-md transition-all duration-500 ease-in-out z-50`}
+          className={`sidebar hidden h-auto sm:flex ${sidebarExpanded ? "w-[18rem] absolute" : "w-[5.5rem] sticky"
+            }  bg-greyBlack rounded-br-md transition-all duration-500 ease-in-out z-50`}
           id="sidebar"
         >
-          <div className="cajasidebar1 flex flex-col gap-5 w-full" id="cajasidebar1">
+          <div className="cajasidebar1 flex flex-col gap-5 h-full w-full" id="cajasidebar1">
             <div className="flex justify-center relative">
               <img
                 src={Logo}
@@ -138,7 +138,7 @@ const Sidebar = ({ condicion, nombre }) => {
 
       {condicion === 2 && (
         <aside
-          className={`sidebar hidden sticky sm:flex ${sidebarExpanded ? "w-[18rem]" : "w-[95px]"
+          className={`sidebar h-full hidden  sticky sm:flex ${sidebarExpanded ? "w-[18rem]" : "w-[95px]"
             } h-screen bg-greyBlack rounded-md transition-all duration-500 ease-in-out`}
           id="sidebar"
         >
@@ -212,7 +212,7 @@ const Sidebar = ({ condicion, nombre }) => {
       )}
       {condicion === 3 && (
         <aside
-          className={`sidebar hidden sticky sm:flex ${sidebarExpanded ? "w-[18rem]" : "w-[95px]"
+          className={`sidebar hidden h-full sticky sm:flex ${sidebarExpanded ? "w-[18rem]" : "w-[95px]"
             } h-screen bg-greyBlack rounded-md transition-all duration-500 ease-in-out`}
           id="sidebar"
         >

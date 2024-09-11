@@ -17,19 +17,18 @@ const validacionDeSueños = [
 
 const ValidacionDeSueños = (URL) => {
   return (
-    <div className="p-4 bg-greyBlack text-white rounded-lg">
-      <div className="flex items-center space-x-2 mb-4">
+    <div className="p-4 bg-greyBlack xl:w-full text-white rounded-lg">
+      <div className="flex items-center space-x-2">
         <span className="text-lg">🌥️</span>
         <h2 className="text-lg font-semibold">Validación de sueños</h2>
       </div>
-      <div className="flex space-x-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:gap-[10.5rem] gap-5">
         {validacionDeSueños.map((item, index) => (
-          <a href={`${URL}`}>
+          <a href={`${URL}`} key={index} className="block">
             <div
-              key={index}
-              className={` flex flex-1 w-60 h-60 justify-center items-center text-sm uppercase overflow-hidden rounded-xl border-2 ${item.bordeColor}`}
+              className={`flex justify-center items-center h-40 sm:h-48 md:h-56 xl:h-40 xl:w-[10rem] text-sm uppercase overflow-hidden rounded-xl border-2 ${item.bordeColor}`}
             >
-              <p className="text-center font-bold">{item.texto}</p>
+              <p className="text-center font-bold p-2">{item.texto}</p>
             </div>
           </a>
         ))}

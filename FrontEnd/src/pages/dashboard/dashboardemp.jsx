@@ -12,50 +12,28 @@ import ValidacionDeSueños from "../../components/tablas/validacionSuenos.jsx";
 const DashboardEmp = () => {
   return (
     <LayoutDashboard title="Dashboard">
-      <main className="flex flex-row w-full bg-greyBlack h-screen">
-        <div className="flex flex-col w-full h-full">
-          <div className="bg-greyBlack flex pr-5 pt-3.5 justify-end h-20 w-full"></div>
-          <div className="bg-greyBg flex flex-col gap-8 px-8 py-5 h-full w-full">
+      <main className="flex flex-col w-full bg-greyBlack h-auto">
+        <div className="flex flex-col w-full">
+          <div className="bg-greyBlack flex pr-5 justify-end h-20 w-full"></div>
+          <div className="bg-greyBg flex flex-col gap-8 px-4 sm:px-8 py-5 h-full w-full">
             <GoBack text={"Empresas Registradas / Boteritos"} />
-            <div className="flex flex-row gap-5">
-              <div className="flex flex-col gap-5 w-[18rem] px-4 justify-center align-middle bg-darkslategray text-white rounded-lg max-h-[26rem] overflow-y-auto custom-scrollbar ">
-                <TarjetasModulos
-                  tipoTarjeta="General"
-                  moduloicon="fa-table-cells"
-                />
-                <TarjetasModulos
-                  tipoTarjeta="Capacidades Gerenciales"
-                  moduloicon="fa-table-cells"
-                />
-                <TarjetasModulos
-                  tipoTarjeta="Mejora de Operaciones"
-                  moduloicon="fa-table-cells"
-                />
-                <TarjetasModulos
-                  tipoTarjeta="Gerencia de Marketing"
-                  moduloicon="fa-table-cells"
-                />
-                <TarjetasModulos
-                  tipoTarjeta="Gerencia de Ventas"
-                  moduloicon="fa-table-cells"
-                />
-                <TarjetasModulos
-                  tipoTarjeta="Gerencia de Talento Humano"
-                  moduloicon="fa-table-cells"
-                />
-                <TarjetasModulos
-                  tipoTarjeta="Financias Gerenciales"
-                  moduloicon="fa-table-cells"
-                />
+            <div className="flex flex-col xl:flex-row xl:gap-[10rem] gap-10">
+              <div className="flex flex-row xl:flex-col gap-5 w-full xl:w-[18rem] p-4 justify-start xl:justify-center items-center xl:items-stretch bg-darkslategray text-white rounded-lg max-h-[30rem] overflow-x-auto xl:overflow-y-auto xl:overflow-x-hidden custom-scrollbar">
+                {['General', 'Capacidades Gerenciales', 'Mejora de Operaciones', 'Gerencia de Marketing', 'Gerencia de Ventas', 'Gerencia de Talento Humano', 'Financias Gerenciales'].map((tipoTarjeta) => (
+                  <TarjetasModulos
+                    key={tipoTarjeta}
+                    tipoTarjeta={tipoTarjeta}
+                    moduloicon="fa-table-cells"
+                  />
+                ))}
               </div>
-              <Grafica />
-              <div className="w-[30rem] pt-10 px-5">
-                <TablasEmpresaporc />
+              <div className="flex flex-col lg:flex-row gap-5 w-full xl:w-auto">
+                <Grafica />
               </div>
             </div>
-            <div className="flex flex-row gap-[10rem]">
-                <TablaPreguntas />
-                <ValidacionDeSueños />
+            <div className="flex flex-col xl:flex-row gap-8 xl:justify-between">
+              <TablaPreguntas />
+              <ValidacionDeSueños />
             </div>
           </div>
         </div>

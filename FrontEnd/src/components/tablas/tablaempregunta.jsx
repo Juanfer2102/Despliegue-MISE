@@ -31,30 +31,23 @@ const getColor = (calificacion) => {
 
 const TablaPreguntas = () => {
   return (
-    <div className="overflow-x-auto">
-      <table className="overflow-auto w-full rounded-xl">
-        <thead className="bg-greyBlack border-textBg rounded-xl text-white top-0 z-10">
+    <div className="overflow-x-auto rounded-xl">
+      <table className="min-w-full">
+        <thead className="bg-greyBlack border-textBg rounded-t-xl text-white sticky top-0 z-10">
           <tr>
-            <th className="text-white px-4 py-2 text-left">
-              Nombre
-            </th>
-            <th className="text-white px-4 py-2 text-left">
-              Módulo
-            </th>
-            <th className="text-white px-4 py-2 text-left">
-              Calificación
-            </th>
+            <th className="px-2 sm:px-4 py-2 text-left text-xs sm:text-sm">Nombre</th>
+            <th className="px-2 sm:px-4 py-2 text-left text-xs sm:text-sm hidden sm:table-cell">Módulo</th>
+            <th className="px-2 sm:px-4 py-2 text-left text-xs sm:text-sm">Calificación</th>
           </tr>
         </thead>
-        <tbody className=" text-white">
+        <tbody className="text-white">
           {preguntas.map((pregunta, index) => (
             <tr key={index} className="border-r border-l border-b border-white">
-              <td className="px-4 py-2 w-[25rem]">{pregunta.nombre}</td>
-              <td className="px-4 py-2 w-[13rem]">{pregunta.modulo}</td>
-              <td className={`px-4 py-2 w-[13rem] rounded-b-xl ${getColor(pregunta.calificacion)}`}>
+              <td className="px-2 sm:px-4 py-2 text-xs sm:text-sm">{pregunta.nombre}</td>
+              <td className="px-2 sm:px-4 py-2 text-xs sm:text-sm hidden sm:table-cell">{pregunta.modulo}</td>
+              <td className={`px-2 sm:px-4 py-2 text-xs sm:text-sm ${getColor(pregunta.calificacion)} ${index === preguntas.length - 1 ? 'rounded-b-xl' : ''}`}>
                 {pregunta.calificacion.toFixed(2)}
-                <span className="text-gray text-sm">
-                  {" "}
+                <span className="text-gray text-xs sm:text-sm ml-1">
                   ({pregunta.desarrollo})
                 </span>
               </td>
