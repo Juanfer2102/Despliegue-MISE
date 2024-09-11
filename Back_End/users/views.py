@@ -402,6 +402,14 @@ class ModulosRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Modulos.objects.all()
     serializer_class = ModulosSerializer
 
+class ModulosListView(generics.GenericAPIView):
+    serializer_class = ModulosSerializer
+
+    def get(self, request, *args, **kwargs):
+        modulos = Modulos.objects.all()  # Obtener todos los módulos
+        serializer = self.get_serializer(modulos, many=True)
+        return Response(serializer.data)
+
 # Postulante Views
 class PostulanteListCreate(generics.ListCreateAPIView):
     queryset = Postulante.objects.all()

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LayoutDashboard from '../../layouts/LayoutDashboard';
 import DesempenoForm from '../../components/forms/formsdiagnostico/formsdiagnostico';
 import GoBack from '../../components/inputs/goback/GoBack';
@@ -7,47 +7,24 @@ import Modalcarga from '../../components/modales/modalcarga/modalcarga';
 import ConfirmModal from '../../components/modales/modalconfirm';
 
 const DiagnosticoEmpresa = () => {
+    const [formularios, setFormularios] = useState([]);
     const [formularioData, setFormularioData] = useState({});
     const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
-    const formularios = [
-        {
-            titulo: 'Desempeño Administrativo',
-            criterios: [
-                {
-                    descripcion: 'Grado de compromiso que asume para el cumplimiento de las metas. Grado de tranquilidad que le genera a su superior.'
-                },
-                {
-                    descripcion: 'Coherencia entre el trabajo solicitado y el efectivamente realizado.'
-                },
-            ]
-        },
-        {
-            titulo: 'Desempeño Técnico',
-            criterios: [
-                {
+    useEffect(() => {
+        const fetchFormularios = async () => {
+            try {
+                const response = await fetch('/api/modulos'); // Cambia la URL según tu endpoint de API
+                const data = await response.json();
+                setFormularios(data);
+            } catch (error) {
+                console.error('Error al obtener los módulos:', error);
+            }
+        };
 
-                    descripcion: 'Conocimiento de las distintas herramientas necesarias para desarrollar sus labores.'
-                },
-                {
-                    descripcion: 'Grado de cumplimiento de las normas, procedimientos y políticas existentes.'
-                },
-            ]
-        },
-        {
-            titulo: 'Desempeño Técnico',
-            criterios: [
-                {
-
-                    descripcion: 'Conocimiento de las distintas herramientas necesarias para desarrollar sus labores.'
-                },
-                {
-                    descripcion: 'Grado de cumplimiento de las normas, procedimientos y políticas existentes.'
-                },
-            ]
-        },
-    ];
+        fetchFormularios();
+    }, []);
 
     const openModal = () => setIsOpen(true);
 
@@ -79,20 +56,20 @@ const DiagnosticoEmpresa = () => {
     return (
         <>
             <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleForm} />
-            <LayoutDashboard title="MISE">
+            <LayoutDashboard title="Diagnóstico Empresa">
                 <main className="flex flex-row w-full bg-greyBlack h-screen">
                     <div className="flex flex-col w-full h-full">
                         <div className="flex content-center justify-end h-20 w-full" />
                         <div className="bg-greyBg flex flex-col h-full w-full px-12 pt-6 overflow-auto">
                             <div className="gap-8 flex flex-col p-8 w-full h-full rounded-md">
                                 <div className="rounded-xl flex flex-col gap-6 h-full">
-                                    <GoBack text={"Diagnostico / Arroz Chino"} />
+                                    <GoBack text={"Diagnóstico / Arroz Chino"} />
                                     <div className="flex flex-col gap-6 h-full overflow-auto">
                                         {formularios.map((formulario, index) => (
                                             <div key={index} className="flex-1">
                                                 <DesempenoForm
-                                                    criterios={formulario.criterios}
-                                                    titulo={formulario.titulo}
+                                                    criterios={formulario.preguntas.map(p => ({ descripcion: p.descripcion }))}
+                                                    titulo={formulario.nombre}
                                                     onFormChange={handleFormChange}
                                                 />
                                             </div>
