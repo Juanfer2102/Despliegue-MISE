@@ -1,0 +1,59 @@
+import { useEffect, useState } from 'react';
+import InfoDiag from './infoDiagnostico';
+import Buscador from '../inputs/buscador/buscador';
+
+const TablaDiagnostico = () => {
+    const [empresas, setEmpresas] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    useEffect(() => {
+        // Simulación de la obtención de datos (ajustar según tu fuente de datos real)
+        fetch('http://localhost:8000/api/v2/empresas/')
+            .then((response) => response.json())
+            .then((data) => {
+                // Filtrar las empresas para obtener las activas, si es necesario
+                const empresasFiltradas = data.filter(empresa => empresa.estado === '1');
+                setEmpresas(empresasFiltradas);
+            })
+            .catch((error) => console.error('Error fetching empresas:', error));
+    }, []);
+
+    const handleSearch = (term) => {
+        setSearchTerm(term);
+    };
+
+    const filteredEmpresas = empresas.filter(empresa =>
+        `${empresa.nit} ${empresa.nombre_empresa}`.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    return (
+        <>
+            <div className='flex flex-row w-full'>
+                <Buscador
+                    onSearch={handleSearch}
+                    placeholder={"Buscar Empresa..."}
+                />
+            </div>
+            <div className="overflow-y-auto max-h-[40rem] custom-scrollbar w-full justify-center rounded-b-xl">
+                <div className="bg-greyBlack border-textBg rounded-t-xl text-white flex">
+                    <div className="flex-1 p-5 text-left">NIT</div>
+                    <div className="flex-1 p-5 text-center">Nombre</div>
+                    <div className="flex-1 p-5 text-center">Actividad Economica</div>
+                    <div className="flex-1 p-5 text-center"></div> {/* Nueva columna para el botón */}
+                </div>
+                <div className="overflow-auto divide-y border border-textBg border-t-0 rounded">
+                    {filteredEmpresas.map(empresa => (
+                        <InfoDiag
+                            key={empresa.nit}
+                            nit={empresa.nit}
+                            nombre={empresa.nombre_empresa}
+                            act_economica={empresa.actividad_economica}
+                        />
+                    ))}
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default TablaDiagnostico;

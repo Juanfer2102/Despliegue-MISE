@@ -139,7 +139,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:4321",  # Cambia este valor según la URL de tu frontend
+    "http://localhost:4321", 
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:5175", # Cambia este valor según la URL de tu frontend
 ]
 
 PASSWORD_HASHERS = [
@@ -163,4 +166,18 @@ SIMPLE_JWT = {
     'USER_ID_FIELD': 'id_usuario',
     'USER_ID_CLAIM': 'user_id',
 }
+
+# settings.py
+
+DOMAIN = 'http://localhost:5173'
+
+# settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'juanfergrajales21@gmail.com'
+EMAIL_HOST_PASSWORD = 'Losdelsur123'
+PASSWORD_RESET_TIMEOUT = 3600  # 1 hora en segundos
 
