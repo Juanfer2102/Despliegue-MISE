@@ -265,6 +265,18 @@ class RegistroPostulanteEmpresa(APIView):
                 return Response(empresa_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
         return Response(postulante_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class PreguntasPorModuloView(APIView):
+    def get(self, request):
+        id_modulo = request.query_params.get('id_modulo')
+        
+        if not id_modulo:
+            return Response({"error": "Debe proporcionar un id_modulo"}, status=status.HTTP_400_BAD_REQUEST)
+
+        preguntas = Preguntas.objects.filter(id_modulo=id_modulo)
+        serializer = PreguntasSerializer(preguntas, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
 class EmpresaDetailView(APIView):
     def get(self, request, nit):
         try:
@@ -409,6 +421,16 @@ class ModulosListView(generics.GenericAPIView):
         modulos = Modulos.objects.all()  # Obtener todos los módulos
         serializer = self.get_serializer(modulos, many=True)
         return Response(serializer.data)
+    
+class ModuloUpdateView(generics.UpdateAPIView):
+    queryset = Modulos.objects.all()
+    serializer_class = ModulosSerializer
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)    
 
 # Postulante Views
 class PostulanteListCreate(generics.ListCreateAPIView):
@@ -481,3 +503,9 @@ class UsuarioListCreate(generics.ListCreateAPIView):
 class UsuarioRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
+
+class PreguntasNoAsignadasList(generics.ListAPIView):
+    serializer_class = PreguntasSerializer
+
+    def get_queryset(self):
+        return Preguntas.objects.filter(id_modulo__isnull=True)

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import LayoutDashboard from "../../layouts/LayoutDashboard";
 import Modal from "../../components/modales/modal";
 import Aadirmodulo from "../../components/modales/añadirmodulo";
@@ -24,6 +24,15 @@ const styles = {
 };
 
 const Modulos = () => {
+  const [modulos, setModulos] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:8000/api/v2/ver-modulos')
+      .then(response => response.json())
+      .then(data => setModulos(data))
+      .catch(error => console.error('Error fetching modulos:', error));
+  }, []);
+
   return (
     <LayoutDashboard title="Modulos">
       <main className="flex flex-row w-full bg-greyBlack overflow-x-hidden h-screen">
@@ -39,58 +48,15 @@ const Modulos = () => {
                 style={styles.customScrollbar}
               >
                 <div className="grid grid-cols-3 gap-8 p-4 items-center w-full">
-                  <a href="/editar-modulos">
-                    <Modal
-                      texto="CAPACIDADES GERENCIALES"
-                      colorborde="border-principalGreen"
-                      colorhover="hover:bg-principalGreen"
-                    />
-                  </a>
-                  <Modal
-                    texto="MEJORA DE OPERACIONES"
-                    colorborde="border-principalGreen"
-                    colorhover="hover:bg-principalGreen"
-                  />
-                  <Modal
-                    texto="GERENCIA DE MARKETING"
-                    colorborde="border-principalGreen"
-                    colorhover="hover:bg-principalGreen"
-                  />
-                  <Modal
-                    texto="GERENCIA DE VENTAS"
-                    colorborde="border-principalGreen"
-                    colorhover="hover:bg-principalGreen"
-                  />
-                  <Modal
-                    texto="GERENCIA DE TALENTO HUMANO"
-                    colorborde="border-principalGreen"
-                    colorhover="hover:bg-principalGreen"
-                  />
-                  <Modal
-                    texto="FINANZAS GERENCIALES"
-                    colorborde="border-principalGreen"
-                    colorhover="hover:bg-principalGreen"
-                  />
-                  <Modal
-                    texto="FINANZAS GERENCIALES"
-                    colorborde="border-principalGreen"
-                    colorhover="hover:bg-principalGreen"
-                  />
-                  <Modal
-                    texto="FINANZAS GERENCIALES"
-                    colorborde="border-principalGreen"
-                    colorhover="hover:bg-principalGreen"
-                  />
-                  <Modal
-                    texto="FINANZAS GERENCIALES"
-                    colorborde="border-principalGreen"
-                    colorhover="hover:bg-principalGreen"
-                  />
-                  <Modal
-                    texto="FINANZAS GERENCIALES"
-                    colorborde="border-principalGreen"
-                    colorhover="hover:bg-principalGreen"
-                  />
+                  {modulos.map((modulo) => (
+                    <a href={`/editar-modulos/${modulo.id_modulo}`} key={modulo.id_modulo}>
+                      <Modal
+                        texto={modulo.nombre}
+                        colorborde="border-principalGreen"
+                        colorhover="hover:bg-principalGreen"
+                      />
+                    </a>
+                  ))}
                   <a href="/nuevo-modulo">
                     <Aadirmodulo />
                   </a>

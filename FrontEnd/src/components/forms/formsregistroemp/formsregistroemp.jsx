@@ -40,6 +40,7 @@ export const FormRegistro = () => {
         estado: 1,
         id_programa: 1,
         id_postulante: '',
+        diagnostico: 0,
     });
 
     const formatCurrency = (value) => {
@@ -208,7 +209,8 @@ export const FormRegistro = () => {
                 estado: updatedValues.estado,
                 id_programa: updatedValues.id_programa,
                 fecha_registro: updatedValues.fecha_registro,
-                id_postulante: parseInt(idPostulante, 10) // Convertir a número entero
+                id_postulante: parseInt(idPostulante, 10), // Convertir a número entero
+                diagnostico: 0
             };
     
             // Primero registrar la empresa

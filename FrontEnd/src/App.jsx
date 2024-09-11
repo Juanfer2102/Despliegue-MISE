@@ -83,6 +83,7 @@ const AppRoutes = () => {
         <Route path="/credenciales" element={<Credencial />} />
         <Route path="/expiracion" element={<Expirado />} />
         
+        
 
         {/* Rutas protegidas */}
         <Route path="/detalles-empresa/:nit" element={
@@ -95,6 +96,7 @@ const AppRoutes = () => {
             <Dashboard />
           </ProtectedRoute>
         } />
+        
         <Route path="/dashboard-emp" element={
           <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <DashboardEmp />
@@ -140,7 +142,7 @@ const AppRoutes = () => {
             <NuevoSueo />
           </ProtectedRoute>
         } />
-        <Route path="/editar-modulos" element={
+        <Route path="/editar-modulos/:id" element={
           <ProtectedRoute allowedRoles={[1, 2, 3]}>
             <Editarmodulos />
           </ProtectedRoute>

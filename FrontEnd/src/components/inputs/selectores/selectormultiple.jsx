@@ -1,7 +1,7 @@
 import React from 'react';
 import { MultiSelect, MultiSelectItem } from '@tremor/react';
 
-const Selectormultiple = ({ width, DataType, name, widthInput, height, onChange }) => {
+const Selectormultiple = ({ width, DataType, name, widthInput, height, onChange, items = [] }) => { // Definir items como array por defecto
   return (
     <div className={`text-textBg items-center text-start content-center flex flex-row`}>
       <div className={width}>
@@ -13,9 +13,15 @@ const Selectormultiple = ({ width, DataType, name, widthInput, height, onChange 
           className={`${widthInput} ${height}`}
           onValueChange={onChange}
         >
-          <MultiSelectItem value="1">Option 1</MultiSelectItem>
-          <MultiSelectItem value="2">Option 2</MultiSelectItem>
-          <MultiSelectItem value="3">Option 3</MultiSelectItem>
+          {items.length > 0 ? (
+            items.map(item => (
+              <MultiSelectItem key={item.id_pregunta} value={item.id_pregunta}>
+                {item.descripcion}
+              </MultiSelectItem>
+            ))
+          ) : (
+            <p>No options available</p> // Mensaje alternativo si no hay elementos
+          )}
         </MultiSelect>
       </div>
     </div>

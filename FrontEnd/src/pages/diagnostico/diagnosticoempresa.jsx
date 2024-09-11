@@ -15,9 +15,10 @@ const DiagnosticoEmpresa = () => {
     useEffect(() => {
         const fetchFormularios = async () => {
             try {
-                const response = await fetch('/api/modulos'); // Cambia la URL según tu endpoint de API
+                const response = await fetch('http://localhost:8000/api/v2/modulos/');
                 const data = await response.json();
                 setFormularios(data);
+                console.log(data);
             } catch (error) {
                 console.error('Error al obtener los módulos:', error);
             }
@@ -41,7 +42,7 @@ const DiagnosticoEmpresa = () => {
 
     const handleForm = async (event) => {
         event.preventDefault();
-        console.log('Datos del formulario:', formularioData); // Mostrar los valores de los inputs en la consola
+        console.log('Datos del formulario:', formularioData);
         closeModal();
         openSuccessModal();
     };
@@ -68,8 +69,14 @@ const DiagnosticoEmpresa = () => {
                                         {formularios.map((formulario, index) => (
                                             <div key={index} className="flex-1">
                                                 <DesempenoForm
-                                                    criterios={formulario.preguntas.map(p => ({ descripcion: p.descripcion }))}
+                                                    moduloId = {formulario.id_modulo}
                                                     titulo={formulario.nombre}
+                                                    escala={formulario.escala}
+                                                    objetivo={formulario.objetivo}
+                                                    observaciones={formulario.observaciones}
+                                                    alcance={formulario.alcance}
+                                                    estado_actual={formulario.estado_actual}
+                                                    nivel_ideal={formulario.nivel_ideal}
                                                     onFormChange={handleFormChange}
                                                 />
                                             </div>
@@ -82,7 +89,6 @@ const DiagnosticoEmpresa = () => {
                     </div>
                 </main>
             </LayoutDashboard>
-            {/* Modal de éxito */}
             {isSuccessModalVisible && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white p-8 rounded-lg shadow-lg text-center">
