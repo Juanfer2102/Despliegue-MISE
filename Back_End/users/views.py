@@ -168,9 +168,14 @@ class RegistroAutoevaluacionView(APIView):
         nit_empresa = data.get('nit')
         empresa = get_object_or_404(Empresas, nit=nit_empresa)
 
-        # Obtener los datos de la autoevaluación
+        # Validar y obtener los datos de la autoevaluación
+        fecha = data.get('fecha')
+        if not fecha:
+            return Response({'error': 'Fecha es requerida.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Inicializa la estructura de datos para la autoevaluación
         autoevaluacion_data = {
-            'fecha': data.get('fecha'),
+            'fecha': fecha,
             'comentarios': data.get('comentarios', ''),
             'nit': empresa.nit,  # Usa la FK (nit) de la empresa
             'calificaciones': []  # Inicializa como lista vacía
@@ -204,19 +209,20 @@ class RegistroAutoevaluacionView(APIView):
 
         if autoevaluacion_serializer.is_valid():
             autoevaluacion = autoevaluacion_serializer.save()
-            return Response({'success': True, 'message': 'Autoevaluación y calificaciones registradas correctamente.'}, status=status.HTTP_201_CREATED)
+            return Response({
+                'success': True,
+                'message': 'Autoevaluación y calificaciones registradas correctamente.',
+                'id_autoevaluacion': autoevaluacion.id_autoevaluacion
+            }, status=status.HTTP_201_CREATED)
         else:
             return Response(autoevaluacion_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class CalificacionesModulosList(generics.ListAPIView):
     serializer_class = CalificacionModuloSerializer
 
     def get_queryset(self):
-        id_autoevaluacion = self.request.query_params.get('id_autoevaluacion')
-        if id_autoevaluacion:
-            return CalificacionModulo.objects.filter(id_autoevaluacion=id_autoevaluacion)
-        return CalificacionModulo.objects.none()
+        autoevaluacion_id = self.kwargs['id_autoevaluacion']
+        return CalificacionModulo.objects.filter(id_autoevaluacion=autoevaluacion_id)
     
 
 @api_view(['GET'])

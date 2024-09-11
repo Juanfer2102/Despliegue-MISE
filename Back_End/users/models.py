@@ -20,6 +20,7 @@ class Empresas(models.Model):
     empleados_perm = models.BigIntegerField()
     sector = models.TextField()
     estado = models.IntegerField()
+    diagnostico = models.IntegerField()
     id_programa = models.ForeignKey('Programas', models.DO_NOTHING, db_column='id_programa')
     id_postulante = models.ForeignKey('Postulante', models.DO_NOTHING, db_column='id_postulante')
 
@@ -181,16 +182,7 @@ class Autoevaluacion(models.Model):
         managed = False
         db_table = 'autoevaluacion'
 
-class CalificacionModulo(models.Model):
-    id_calificacion = models.AutoField(primary_key=True)
-    calificacion = models.IntegerField()
-    comentarios = models.TextField(blank=True, null=True)
-    id_autoevaluacion = models.ForeignKey(Autoevaluacion, models.DO_NOTHING, db_column='id_autoevaluacion', blank=True, null=True, related_name='calificaciones')
-    id_modulo = models.ForeignKey('ModuloAutoevaluacion', models.DO_NOTHING, db_column='id_modulo', blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'calificacion_modulo'
 
         
 class ModuloAutoevaluacion(models.Model):
@@ -201,6 +193,17 @@ class ModuloAutoevaluacion(models.Model):
     class Meta:
         managed = False
         db_table = 'modulo_autoevaluacion'
+
+class CalificacionModulo(models.Model):
+    id_calificacion = models.AutoField(primary_key=True)
+    calificacion = models.IntegerField()
+    comentarios = models.TextField(blank=True, null=True)
+    id_autoevaluacion = models.ForeignKey(Autoevaluacion, models.DO_NOTHING, db_column='id_autoevaluacion')
+    id_modulo = models.ForeignKey(ModuloAutoevaluacion, models.DO_NOTHING, db_column='id_modulo')
+
+    class Meta:
+        managed = False
+        db_table = 'calificacion_modulo'
 
 class Temas(models.Model):
     id_tema = models.IntegerField(primary_key=True)

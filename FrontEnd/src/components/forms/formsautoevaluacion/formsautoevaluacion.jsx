@@ -99,60 +99,94 @@ export const FormAuto = () => {
     };
 
     const handleForm = (event) => {
-        event.preventDefault();
-        const validationErrors = validateForm();
-        if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
-            closeModal();
-            setIsModalVisible(true);
-        } else {
-            // Asegurarse de que el NIT esté presente
-            if (!empresaNIT) {
-                console.error("No se pudo completar la autoevaluación sin el NIT de la empresa");
-                return;
-            }
+    event.preventDefault();
 
-            // Preparar los datos para enviar
-            const autoevaluacionData = {
-                nit: empresaNIT,  // Aquí se vincula la autoevaluación con el NIT
-                fecha: getDate(),
-                comentarios: '', // Puedes agregar comentarios si es necesario
-                calificaciones: [
-                    { calificacion: values.estrategia, id_modulo: 1 },
-                    { calificacion: values.operaciones, id_modulo: 2 },
-                    { calificacion: values.marketing, id_modulo: 3 },
-                    { calificacion: values.ventas, id_modulo: 4 },
-                    { calificacion: values.talentoHumano, id_modulo: 5 },
-                ]
-            };
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors);
+        closeModal();
+        setIsModalVisible(true);
+    } else {
+        // Asegurarse de que el NIT esté presente
+        if (!empresaNIT) {
+            console.error("No se pudo completar la autoevaluación sin el NIT de la empresa");
+            return;
+        }
 
-            // Enviar los datos de la autoevaluación
-            fetch('http://localhost:8000/api/v2/registro-autoevaluacion/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(autoevaluacionData),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        console.log('Autoevaluación registrada exitosamente:', data);
-                        localStorage.clear();
-                        openSuccessModal();
-                    } else {
-                        console.error('Error en el registro de la autoevaluación:', data);
-                        console.log(values);
-                    }
+        // Preparar los datos para enviar al endpoint de autoevaluación
+        const autoevaluacionData = {
+            nit: empresaNIT,  // Aquí se vincula la autoevaluación con el NIT
+            fecha: getDate(),
+            comentarios: '', // Puedes agregar comentarios si es necesario
+            estrategia: values.estrategia,
+            operaciones: values.operaciones,
+            marketing: values.marketing,
+            ventas: values.ventas,
+            talentoHumano: values.talentoHumano,
+        };
+
+        // Enviar los datos de la autoevaluación
+        fetch('http://localhost:8000/api/v2/registro-autoevaluacion/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(autoevaluacionData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Autoevaluación registrada exitosamente:', data);
+
+                // Ahora enviar los datos de calificación por cada módulo al endpoint /calificacion-modulo/
+                const calificaciones = [
+                    { calificacion: values.estrategia, id_modulo: 1, id_autoevaluacion: data.id_autoevaluacion },
+                    { calificacion: values.operaciones, id_modulo: 2, id_autoevaluacion: data.id_autoevaluacion },
+                    { calificacion: values.marketing, id_modulo: 3, id_autoevaluacion: data.id_autoevaluacion },
+                    { calificacion: values.ventas, id_modulo: 4, id_autoevaluacion: data.id_autoevaluacion },
+                    { calificacion: values.talentoHumano, id_modulo: 5, id_autoevaluacion: data.id_autoevaluacion },
+                ];
+
+                // Enviar las calificaciones individualmente al endpoint de calificación de módulos
+                Promise.all(calificaciones.map((calificacion) => 
+                    fetch('http://localhost:8000/api/v2/calificacion-modulo/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(calificacion),
+                    })
+                    .then(response => response.json())
+                    .then(calificacionResponse => {
+                        if (calificacionResponse.success) {
+                            console.log(`Calificación para el módulo ${calificacion.id_modulo} registrada exitosamente:`, calificacionResponse);
+                        } else {
+                            console.error(`Error al registrar la calificación para el módulo ${calificacion.id_modulo}:`, calificacionResponse);
+                        }
+                    })
+                    .catch(error => {
+                        console.error(`Error al enviar la calificación para el módulo ${calificacion.id_modulo}:`, error);
+                    })
+                ))
+                .then(() => {
+                    // Limpiar el localStorage y mostrar el modal de éxito una vez que se registren las calificaciones
+                    localStorage.clear();
+                    openSuccessModal();
                 })
                 .catch(error => {
-                    console.log(values);
-                    console.error('Error al enviar los datos de la autoevaluación:', error);
+                    console.error('Error al enviar las calificaciones de los módulos:', error);
                 });
-        }
+            } else {
+                console.error('Error en el registro de la autoevaluación:', data);
+            }
+        })
+        .catch(error => {
+            console.error('Error al enviar los datos de la autoevaluación:', error);
+        });
     }
+};
 
-
+    
     const openSuccessModal = () => {
         setIsSuccessModalVisible(true);
         setTimeout(() => {

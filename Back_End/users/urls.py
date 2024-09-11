@@ -13,6 +13,8 @@ urlpatterns = [
     
      path('update-empresa-status/<int:nit>/', UpdateEmpresaStatus.as_view(), name='update-empresa-status'),
      path('calificaciones-modulos/', views.CalificacionesModulosList.as_view(), name='calificaciones-modulos-list'),
+
+     path('calificaciones-modulos/<int:id_autoevaluacion>/', CalificacionesModulosList.as_view(), name='calificaciones-modulos-list'),
      
     
     path('autoevaluacion/', AutoevaluacionListCreate.as_view(), name='autoevaluacion-list-create'),

@@ -15,10 +15,8 @@ const DeveloperPortal = () => {
     const [companyData, setCompanyData] = useState(null);
     const [postulanteData, setPostulanteData] = useState(null);
     const [autoevaluacionData, setAutoevaluacionData] = useState(null);
-
     const [calificacionesModulos, setCalificacionesModulos] = useState([]);
     const [modulos, setModulos] = useState([]);
-
     const navigate = useNavigate(); // Inicializa useNavigate
 
     useEffect(() => {
@@ -28,7 +26,7 @@ const DeveloperPortal = () => {
                 .then(response => response.json())
                 .then(data => {
                     setCompanyData(data);
-
+    
                     // Fetch postulante data based on postulante ID
                     if (data.id_postulante) {
                         fetch(`http://localhost:8000/api/v2/postulante/${data.id_postulante}/`)
@@ -36,52 +34,61 @@ const DeveloperPortal = () => {
                             .then(postulante => setPostulanteData(postulante))
                             .catch(error => console.error('Error fetching postulante data:', error));
                     }
-
-                    // Fetch autoevaluacion data based on company autoevaluacion ID
-                    fetch(`http://localhost:8000/api/v2/autoevaluacion/${nit}/`)
+    
+                    // Fetch autoevaluacion data based on company nit
+                    fetch(`http://localhost:8000/api/v2/autoevaluacion/`)
                         .then(response => response.json())
-                        .then(autoevaluacion => {
-                            console.log('Autoevaluacion data:', autoevaluacion);
-
-                            // Verifica que haya autoevaluaciones
-                            if (Array.isArray(autoevaluacion) && autoevaluacion.length > 0) {
-                                // Si la respuesta tiene una estructura de lista, obtén la primera autoevaluación
-                                const autoevaluacionData = autoevaluacion[0];
-
-                                // Extrae las calificaciones, asegurando que el campo calificaciones no sea vacío
-                                const calificaciones = autoevaluacionData.calificaciones || [];
-
-                                // Extrae el nombre de cada módulo junto con su calificación
-                                const calificacionesConModulos = calificaciones.map(calificacion => {
-                                    return {
-                                        calificacion: calificacion.calificacion,
-                                        nombre_modulo: calificacion.id_modulo ? calificacion.id_modulo.nombre : 'Desconocido'  // Accede al nombre del módulo
-                                    };
-                                });
-
-                                console.log('Calificaciones con módulos:', calificacionesConModulos);
-
-                                // Establece las calificaciones con módulos en el estado (si estás usando React)
-                                setCalificacionesModulos(calificacionesConModulos);
+                        .then(autoevaluaciones => {
+                            console.log('Autoevaluacion data:', autoevaluaciones);
+    
+                            // Filtra las autoevaluaciones para el NIT específico
+                            const autoevaluacionData = autoevaluaciones.filter(autoeva => autoeva.nit === parseInt(nit));
+    
+                            if (autoevaluacionData.length > 0) {
+                                // Extrae el ID de la autoevaluación para las calificaciones
+                                const autoevaluacionId = autoevaluacionData[0].id_autoevaluacion; // Solo toma la primera autoevaluación con el NIT
+    
+                                // Fetch calificaciones de módulos
+                                fetch(`http://localhost:8000/api/v2/calificaciones-modulos/${autoevaluacionId}/`)
+                                    .then(response => response.json())
+                                    .then(calificaciones => {
+                                        console.log('Calificaciones data:', calificaciones);
+    
+                                        // Fetch modulos data
+                                        fetch('http://localhost:8000/api/v2/modulo-autoevaluacion/')
+                                            .then(response => response.json())
+                                            .then(modulosData => {
+                                                console.log('Modulos data:', modulosData);
+                                                setModulos(modulosData);
+    
+                                                // Extrae las calificaciones, relacionándolas con los módulos
+                                                const calificacionesConModulos = calificaciones.map(calificacion => {
+                                                    // Busca el módulo correspondiente en la lista de módulos
+                                                    const modulo = modulosData.find(mod => mod.id_modulo === calificacion.id_modulo);
+                                                    return {
+                                                        calificacion: calificacion.calificacion,
+                                                        nombre_modulo: modulo ? modulo.nombre : 'Desconocido'
+                                                    };
+                                                });
+    
+                                                console.log('Calificaciones con módulos:', calificacionesConModulos);
+                                                setCalificacionesModulos(calificacionesConModulos);
+                                            })
+                                            .catch(error => console.error('Error fetching modulos data:', error));
+                                    })
+                                    .catch(error => console.error('Error fetching calificaciones data:', error));
                             } else {
-                                console.log('No se encontraron autoevaluaciones.');
+                                console.log('No se encontró autoevaluación para el NIT proporcionado.');
                                 setCalificacionesModulos([]);
                             }
                         })
                         .catch(error => console.error('Error fetching autoevaluacion data:', error));
-
-                    // Fetch modulos data
-                    fetch('http://localhost:8000/api/v2/modulo-autoevaluacion/')
-                        .then(response => response.json())
-                        .then(modulosData => {
-                            console.log('Modulos data:', modulosData);
-                            setModulos(modulosData);
-                        })
-                        .catch(error => console.error('Error fetching modulos data:', error));
                 })
                 .catch(error => console.error('Error fetching company data:', error));
         }
     }, [nit]);
+    
+    
 
     const closeModal = () => setIsOpen(false);
     const closeCModal = () => setIsCOpen(false);
@@ -182,7 +189,8 @@ const DeveloperPortal = () => {
             case 'autoeva': {
                 return (
                     <div>
-                        {calificacionesModulos && calificacionesModulos.length > 0 ? (
+                        {
+                        calificacionesModulos && calificacionesModulos.length > 0 ? (
                             calificacionesModulos.map((calificacion, index) => {
 
 

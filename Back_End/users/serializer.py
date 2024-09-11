@@ -71,24 +71,21 @@ class UsuarioSerializer(serializers.ModelSerializer):
 class ModuloAutoevaluacionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ModuloAutoevaluacion
-        fields = ['id_modulo', 'nombre']
+        fields = '__all__'
 
 class CalificacionModuloSerializer(serializers.ModelSerializer):
-    id_modulo = ModuloAutoevaluacionSerializer()
+    # Usa solo los IDs en lugar de los detalles completos
+    id_autoevaluacion = serializers.PrimaryKeyRelatedField(queryset=Autoevaluacion.objects.all())
+    id_modulo = serializers.PrimaryKeyRelatedField(queryset=ModuloAutoevaluacion.objects.all())
+
     class Meta:
         model = CalificacionModulo
-        fields = ['id_calificacion', 'calificacion', 'comentarios', 'id_modulo']
+        fields = ['id_calificacion', 'calificacion', 'comentarios', 'id_autoevaluacion', 'id_modulo']
 
 class AutoevaluacionSerializer(serializers.ModelSerializer):
     calificaciones = CalificacionModuloSerializer(many=True, read_only=True)
 
     class Meta:
         model = Autoevaluacion
-        fields = ['nit', 'fecha', 'comentarios', 'calificaciones']
+        fields = '__all__'
 
-    def create(self, validated_data):
-        calificaciones_data = validated_data.pop('calificaciones', [])
-        autoevaluacion = Autoevaluacion.objects.create(**validated_data)
-        for calificacion_data in calificaciones_data:
-            CalificacionModulo.objects.create(autoevaluacion=autoevaluacion, **calificacion_data)
-        return autoevaluacion
