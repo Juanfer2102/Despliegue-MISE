@@ -8,8 +8,7 @@ const DetalleEmpresas = () => {
     <LayoutDashboard title="Aceptar Empresa">
       <main className="flex flex-row w-full bg-greyBlack h-screen">
         <div className="flex flex-col w-full h-full">
-          <div className="bg-greyBlack flex content-center justify-end h-20 w-full">
-            {/* Aquí podrías agregar otros elementos si es necesario */}
+          <div className="bg-greyBlack h-20 w-full">
           </div>
           <div className="bg-greyBg flex flex-col px-6 py-6 h-full w-full">
             <GoBack text="Informacion Empresas" />

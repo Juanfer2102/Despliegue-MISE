@@ -10,7 +10,7 @@ createRoot(document.getElementById('root')).render(
   <Suspense fallback={<Preloader />}>
     <StrictMode>
       <AppRoutes />
-    </StrictMode>,
+    </StrictMode>
   </Suspense>
 
 )

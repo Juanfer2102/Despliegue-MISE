@@ -118,7 +118,7 @@ export const FormsEditaruser = () => {
     return (
         <>
             <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleForm} />
-            <form autoComplete='off' className="flex flex-col overflow-y-auto text-textBg w-full max-md:max-h-[20rem] xl:h-full custom-scrollbar font-semibold gap-5 py-4 xl:px-0 px-4">
+            <form autoComplete='off' className="flex flex-col overflow-y-auto text-textBg w-full max-md:max-h-[20rem] xl:h-full custom-scrollbar font-semibold gap-5 py-4 xl:px-0 lg:px-">
                 <div className='flex xl:flex-row flex-col gap-5'>
                     <div className=' flex flex-col pl-3 font-semibold gap-5 py-4'>
                         <InputComponent

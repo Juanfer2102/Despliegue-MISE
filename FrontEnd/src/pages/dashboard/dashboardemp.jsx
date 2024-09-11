@@ -12,12 +12,12 @@ import ValidacionDeSueños from "../../components/tablas/validacionSuenos.jsx";
 const DashboardEmp = () => {
   return (
     <LayoutDashboard title="Dashboard">
-      <main className="flex flex-col w-full bg-greyBlack h-auto">
-        <div className="flex flex-col w-full">
-          <div className="bg-greyBlack flex pr-5 justify-end h-20 w-full"></div>
-          <div className="bg-greyBg flex flex-col gap-8 px-4 sm:px-8 py-5 h-full w-full">
+      <main className="flex xl:flex-col max-md::flex-col flex-row w-full bg-greyBlack h-full">
+        <div className="flex flex-col w-full h-full">
+          <div className="bg-greyBlack h-20 w-full"></div>
+          <div className="bg-greyBg flex flex-col py-5 xl:gap-5 gap-5 w-full xl:h-full px-4 lg:px-[13rem] xl:px-12 pt-4 xl:pt-6">
             <GoBack text={"Empresas Registradas / Boteritos"} />
-            <div className="flex flex-col xl:flex-row xl:gap-[10rem] gap-10">
+            <div className="flex flex-col xl:flex-row xl:gap-[5rem] gap-10">
               <div className="flex flex-row xl:flex-col gap-5 w-full xl:w-[18rem] p-4 justify-start xl:justify-center items-center xl:items-stretch bg-darkslategray text-white rounded-lg max-h-[30rem] overflow-x-auto xl:overflow-y-auto xl:overflow-x-hidden custom-scrollbar">
                 {['General', 'Capacidades Gerenciales', 'Mejora de Operaciones', 'Gerencia de Marketing', 'Gerencia de Ventas', 'Gerencia de Talento Humano', 'Financias Gerenciales'].map((tipoTarjeta) => (
                   <TarjetasModulos

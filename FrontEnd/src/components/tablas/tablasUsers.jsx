@@ -51,7 +51,7 @@ const UserTable = () => {
 
     return (
         <>
-            <div className='flex flex-col lg:flex-row w-full p-4'>
+            <div className='flex flex-col lg:flex-row w-full py-4'>
                 <Buscador
                     onSearch={handleSearch}
                     onRoleChange={handleRoleChange}  // Nuevo manejador de cambio de rol

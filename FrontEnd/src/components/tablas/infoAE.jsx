@@ -8,7 +8,7 @@ const InfoAE = ({ nit, nombre_empresa, representante, razon_social }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isCOpen, setIsCOpen] = useState(false);
     const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
-  
+
     const navigate = useNavigate(); // Inicializa useNavigate
 
     const closeModal = () => setIsOpen(false);
@@ -24,9 +24,9 @@ const InfoAE = ({ nit, nombre_empresa, representante, razon_social }) => {
             },
             body: JSON.stringify({ estado: 2 }),
         })
-        .then(response => response.ok ? response.json() : Promise.reject('Error al actualizar el estado'))
-        .then(() => openSuccessModal())
-        .catch(error => console.error('Error:', error));
+            .then(response => response.ok ? response.json() : Promise.reject('Error al actualizar el estado'))
+            .then(() => openSuccessModal())
+            .catch(error => console.error('Error:', error));
 
         closeModal();
     };
@@ -52,35 +52,40 @@ const InfoAE = ({ nit, nombre_empresa, representante, razon_social }) => {
         <>
             <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleConfirm} />
             <CancelModal isCOpen={isCOpen} closeCModal={closeCModal} handleCancel={handleCancel} />
-            <tr className="bg-transparent border-transparent">
-                <td className="p-5 py-8 text-lg w-[4rem] text-white whitespace-nowrap">
+            <div className="bg-transparent border-transparent flex flex-col lg:flex-row">
+                <div className="flex-1 p-3 text-white text-lg xl:text-left text-center whitespace-nowrap truncate xl:w-[9rem]">
                     {nombre_empresa}
-                </td>
-                <td className="p-5 text-lg w-[4rem] text-white whitespace-nowrap">
+                </div>
+                <div className="flex-1 p-3 text-white text-lg xl:text-left text-center whitespace-nowrap truncate xl:w-[7rem]">
                     {representante}
-                </td>
-                <td className="p-5 text-lg w-[4rem] text-left whitespace-nowrap">
-                    <span className="font-medium tracking-wider text-white rounded-lg">
-                        {razon_social}
-                    </span>
-                </td>
-                <td className="p-5 text-sm w-[4rem] text-center whitespace-nowrap">
+                </div>
+                <div className="flex-1 p-3 text-white text-lg xl:text-left text-center whitespace-nowrap truncate xl:w-[9rem]">
+                    {razon_social}
+                </div>
+                <div className="flex-1 p-3 text-white text-lg xl:text-center items-center text-center whitespace-nowrap truncate xl:w-[11rem]">
                     <button
                         onClick={handleViewDetails}
-                        className="p-4 pl-4 pr-4 z-10 tracking-wide text-lg transition-colors duration-200 bg-transparent transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
+                        className="p-4 z-10 tracking-wide text-lg transition-colors duration-200 bg-transparent transform border-solid rounded-lg hover:bg-principalGreen hover:text-white hover:border-solid border hover:border-principalGreen"
                     >
                         Ver Empresa
                     </button>
-                </td>
-                <td className="text-xl w-[4rem] text-center whitespace-nowrap">
-                    <button onClick={openModal} className="z-10 p-4 pl-5 pr-5 tracking-wide text-xl transition-colors duration-200 bg-principalGreen transform border-solid rounded-tl-lg rounded-bl-lg hover:text-principalGreen hover:bg-colorwhite">
+                </div>
+                <div className="flex-1 p-3 text-sm text-center whitespace-nowrap text-white border-b xl:border-b-transparent">
+                    <button
+                        onClick={openModal}
+                        className="z-10 p-4 pl-5 pr-5 tracking-wide text-xl transition-colors duration-200 bg-principalGreen transform border-solid rounded-tl-lg rounded-bl-lg hover:text-principalGreen hover:bg-colorwhite"
+                    >
                         <i className="fa-solid fa-check"></i>
                     </button>
-                    <button onClick={openCModal} className="z-10 p-4 pl-5 pr-5 tracking-wide text-xl transition-colors duration-200 bg-red transform border-solid rounded-br-lg rounded-tr-lg hover:bg-h hover:text-red hover:bg-colorwhite">
+                    <button
+                        onClick={openCModal}
+                        className="z-10 p-4 pl-5 pr-5 tracking-wide text-xl transition-colors duration-200 bg-red transform border-solid rounded-br-lg rounded-tr-lg hover:bg-h hover:text-red hover:bg-colorwhite"
+                    >
                         <i className="fa-solid fa-xmark"></i>
                     </button>
-                </td>
-            </tr>
+                </div>
+            </div>
+
             {/* Modal de éxito */}
             {isSuccessModalVisible && (
                 <Modalcarga />

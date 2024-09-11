@@ -36,7 +36,7 @@ export const EmpresasRegistradas = () => {
                   {/* Tabla de empresas */}
                   <div className="rounded-xl px-5 md:px-10 pt-5 pb-10 h-full flex flex-col gap-2 overflow-y-auto custom-scrollbar">
                     <div className="rounded-xl">
-                      <div className="max-h-[25rem] md:max-h-[50rem] overflow-y-auto custom-scrollbar">
+                      <div className="">
                         <TablasEmpresas />
                       </div>
                     </div>
