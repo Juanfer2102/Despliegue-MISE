@@ -60,6 +60,7 @@ def login(request):
             "correo": user.correo,
             "estado": user.estado,
             "id_rol": rol_id,  # Incluyendo el ID del rol en la respuesta
+            "celular": user.celular
         }
 
         return Response({
@@ -378,7 +379,8 @@ def lista_usuarios(request):
             'nombres': usuario.nombres,
             'apellidos': usuario.apellidos,
             'programa': usuario.programa,
-            'rol': usuario.id_rol.descripcion  # Asegúrate de que este campo se llama 'descripcion' en el modelo Rol
+            'rol': usuario.id_rol.descripcion,  # Asegúrate de que este campo se llama 'descripcion' en el modelo Rol
+            "celular": usuario.celular
         })
 
     return Response(data, status=status.HTTP_200_OK)
