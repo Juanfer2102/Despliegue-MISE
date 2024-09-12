@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import InfoAE from './infoAE'; // Asegúrate de importar tu componente InfoAE
 import Buscador from '../inputs/buscador/buscador';
+import { useLocation } from 'react-router-dom';
 
 const TableComponent = () => {
   const [empresas, setEmpresas] = useState([]);
