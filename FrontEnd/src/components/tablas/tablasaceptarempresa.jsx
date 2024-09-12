@@ -1,23 +1,21 @@
 import { useEffect, useState } from 'react';
 import InfoAE from './infoAE'; // Asegúrate de importar tu componente InfoAE
 import Buscador from '../inputs/buscador/buscador';
-import { useLocation } from 'react-router-dom';
 
 const TableComponent = () => {
   const [empresas, setEmpresas] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [roles, setRoles] = useState([]);
+  const [selectedRoleId, setSelectedRoleId] = useState(''); // Para filtrar por rol
   const [showFilters, setShowFilters] = useState(true); // Estado para controlar la visibilidad del buscador y filtros
-  const location = useLocation(); // Hook para acceder a la ubicación actual
 
   useEffect(() => {
+    // Función para obtener empresas
     const fetchEmpresas = async () => {
       try {
         const response = await fetch('http://localhost:8000/api/v2/empresas/');
         const data = await response.json();
-        // Convertir datos en array si es necesario
-        const dataArray = Array.isArray(data) ? data : Object.values(data);
-        // Filtrar solo las empresas activas (estado === 1)
-        const empresasFiltradas = dataArray.filter(empresa => empresa.estado === 1);
+        const empresasFiltradas = data.filter(empresa => empresa.estado === '1');
         setEmpresas(empresasFiltradas);
         setShowFilters(empresasFiltradas.length > 0); // Actualiza la visibilidad de los filtros
       } catch (error) {
@@ -25,15 +23,41 @@ const TableComponent = () => {
       }
     };
 
-    fetchEmpresas();
-  }, [location]); // Dependencia de la ubicación para reiniciar el estado
+    // Función para obtener roles
+    const fetchRoles = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/v2/roles/');
+        const data = await response.json();
+        setRoles(data);
+      } catch (error) {
+        console.error('Error fetching roles:', error);
+      }
+    };
 
-  // Filtra empresas según el término de búsqueda
-  const filteredEmpresas = empresas.filter(empresa =>
-    empresa.nombre_empresa.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    empresa.gerente.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    empresa.razon_social.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    fetchEmpresas();
+    fetchRoles();
+  }, []);
+
+  // Función para manejar la búsqueda
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
+
+  // Función para manejar el cambio de rol
+  const handleRoleChange = (roleId) => {
+    setSelectedRoleId(roleId);
+  };
+
+  // Filtrar empresas según el término de búsqueda y el rol seleccionado
+  const filteredEmpresas = empresas
+    .filter(empresa =>
+      empresa.nombre_empresa.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      empresa.gerente.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      empresa.razon_social.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter(empresa =>
+      selectedRoleId === '' || empresa.id_rol === parseInt(selectedRoleId)
+    );
 
   return (
     <>
