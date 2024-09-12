@@ -76,7 +76,7 @@ const AppRoutes = () => {
       <Router>
         <Routes>
           {/* Rutas sin protección */}
-          <Route path="/" element={<Talleres />} />
+          <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
           <Route path="/registro-empresa" element={<RegistroEmpresa />} />
