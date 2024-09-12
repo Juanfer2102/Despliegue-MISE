@@ -30,24 +30,25 @@ export const TablasEmpresas = () => {
 
   return (
     <>
-      <Buscador
-        onSearch={handleSearch}
-        placeholder={"Buscar Empresas..."}
-        roles={[]}  // No pasamos roles porque no es necesario para empresas
-        contexto="empresas"  // Definimos el contexto
-      />
+      <div className='flex flex-col lg:flex-row w-full py-4'>
+        <Buscador
+          onSearch={handleSearch}
+          placeholder={"Buscar Empresas..."}
+          roles={[]}  // No pasamos roles porque no es necesario para empresas
+          contexto="empresas"  // Definimos el contexto
+        />
+      </div>
+
       <div className="overflow-x-auto w-full rounded-xl bg-greyBg">
         <div className="flex flex-col">
-          {/* Header */}
-          <div className="xl:flex bg-greyBlack text-white font-semibold">
+          <div className="flex xl:flex-row min-lg-flex-row max-md:flex-col bg-greyBlack text-white font-semibold">
             <div className="flex-1 p-5 xl:text-left text-center">NIT</div>
             <div className="flex-1 p-5 xl:text-left text-center">Nombre</div>
             <div className="flex-1 p-5 xl:text-left text-center">Sector empresarial</div>
             <div className="flex-1 p-5 text-center">Información</div>
           </div>
 
-          {/* Body */}
-          <div className="divide-y border border-textBg border-t-0 rounded">
+          <div className="divide-y border max-h-[25rem] md:max-h-[50rem] overflow-y-auto custom-scrollbar border-textBg border-t-0 rounded">
             {empresasConEstado2
               .filter(empresa =>
                 `${empresa.nit} ${empresa.nombre_empresa}`.toLowerCase().includes(searchTerm.toLowerCase())

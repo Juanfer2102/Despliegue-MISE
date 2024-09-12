@@ -118,8 +118,8 @@ export const FormsEditaruser = () => {
     return (
         <>
             <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleForm} />
-            <form autoComplete='off' className="flex flex-col overflow-y-auto text-textBg w-full max-md:max-h-[20rem] xl:h-full custom-scrollbar font-semibold gap-5 py-4 xl:px-0 px-4">
-                <div className='flex xl:flex-row flex-col gap-5'>
+            <form autoComplete='off' className="flex flex-col text-textBg w-full font-semibold gap-5 py-2 overflow-y-visible">
+                <div className='flex xl:flex-row lg:flex-row flex-col gap-5'>
                     <div className=' flex flex-col pl-3 font-semibold gap-5 py-4'>
                         <InputComponent
                             width="w-44"
@@ -160,8 +160,8 @@ export const FormsEditaruser = () => {
                             value={values.correo}
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
-                        <div className={`text-textBg items-center text-start content-center flex xl:flex-row flex-col xl:gap-0 gap-2`}>
-                            <div className="w-[11rem]">
+                        <div className={`text-textBg items-center text-start content-center flex xl:flex-row lg:flex-row flex-col xl:gap-0 gap-2`}>
+                            <div className="w-[10.5rem]">
                                 <p className="font-semibold">Rol</p>
                             </div>
                             <div className='w-[12.8rem]'>
@@ -228,15 +228,15 @@ export const FormsEditaruser = () => {
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
                         {errors.contrasena && <p className="text-red">{errors.contrasena}</p>}
-                        <div className={`text-textBg items-center text-start content-center flex xl:flex-row flex-col xl:gap-0 gap-2`}>
-                            <div className="w-[11rem]">
+                        <div className={`text-textBg items-center text-start content-center flex xl:flex-row lg:flex-row flex-col xl:gap-0 gap-2`}>
+                            <div className="w-[10.5rem]">
                                 <p className="font-semibold">MISE</p>
                             </div>
                             <div className='w-[12.8rem]'>
                                 <SelectComponent name="programa" type="Programa..." options={programas} value={values.programa} onChange={(value) => handleInputChange("programa", value)} />
                             </div>
                         </div>
-                        <div className="sm:block xl:hidden">
+                        <div className="max-md:block xl:hidden lg:hidden">
                             <button
                                 onClick={openModal}
                                 className={`rounded-md text-white text-center font-semibold w-[6rem] h-10 p-2 ${isFormValid() ? 'bg-principalGreen opacity-100 cursor-pointer' : 'bg-principalGreen opacity-50 cursor-not-allowed'}`}

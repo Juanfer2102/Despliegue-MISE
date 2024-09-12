@@ -3,7 +3,7 @@ import Input3 from '../inputs/input3/input3.jsx';
 import Boton from '../inputs/boton.jsx';
 import { TextareaHero } from '../inputs/textarea/TextArea.jsx';
 import ConfirmModal from './modalconfirm.jsx';
-import iconGB from "./../../images/icons/iconsEditUser/GoBack.png";
+import SelectComponent from '../inputs/selectores/selectores.jsx';
 import GoBack from '../inputs/goback/goBack.jsx';
 import Selectormultiple from '../inputs/selectores/selectormultiple.jsx';
 
@@ -54,11 +54,18 @@ const ModalComponent = ({ condicion }) => {
         new_medi: "",
         new_preg: "",
         new_obj_tall: "",
+        new_mod_tall: "",
         new_alc_tall: "",
         new_tem_form: "",
         new_ubi_tall: "",
 
     });
+
+    const modulos_taller = [
+        { value: '1', label: 'Superadmin' },
+        { value: '2', label: 'Coordinador' },
+        { value: '3', label: 'Pasante' },
+    ];
 
 
     const [isOpen, setIsOpen] = useState(false);
@@ -117,6 +124,7 @@ const ModalComponent = ({ condicion }) => {
                 break;
             case 8: // Nuevo Taller
                 filteredValues = {
+                    new_mod_tall: values.new_mod_tall,
                     new_obj_tall: values.new_obj_tall,
                     new_alc_tall: values.new_alc_tall,
                     new_tem_form: values.new_tem_form,
@@ -211,7 +219,6 @@ const ModalComponent = ({ condicion }) => {
                         <GoBack text={"Editar Sueño"} />
                         <div className="flex flex-row gap-[15rem]">
                             <div className='flex flex-col gap-5'>
-                                <p className="text-xl h-5 text-white">Informacion de Sueño</p>
                                 <div className="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start">
                                     <div className="flex flex-col justify-center items-center gap-6">
                                         <div className="flex flex-row items-center text-start content-center h-[3rem]">
@@ -236,7 +243,7 @@ const ModalComponent = ({ condicion }) => {
                                 </div>
                             </div>
 
-                            <div className='flex flex-col gap-5 pt-10'>
+                            <div className='flex flex-col gap-5'>
                                 <div className="container flex-col bg-greyBlack rounded-xl max-h-[25rem] overflow-y-auto custom-scrollbar gap-3 text-center p-5 flex justify-center items-start">
                                     <div className="flex flex-col justify-center gap-6">
                                         <Input3 name={"nom_sue_edit"} value={values.nom_sue_edit} onChange={handleInputChange} DataType="Sueño" inputPlaceholder="Deseo definir mi propósito empresarial" inputType="text" height="h-10" width="w-[10rem]" widthInput="w-[15rem]" additionalClass="" />
@@ -260,7 +267,6 @@ const ModalComponent = ({ condicion }) => {
                         <div className='flex flex-row gap-[15rem]'>
                             <div className="flex flex-col gap-5">
                                 <div className="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start">
-                                    <p className="text-xl h-5 pb-10 text-white">Informacion de Pregunta</p>
                                     <div className="flex flex-col justify-center items-center gap-6">
                                         <div className="flex flex-row items-center text-start content-center h-[4rem]">
                                             <p className="font-semibold text-textBg w-[10rem]">Pregunta</p>
@@ -313,11 +319,7 @@ const ModalComponent = ({ condicion }) => {
                 // Nueva Pregunta
                 <>
                     <div className='flex flex-col gap-5'>
-                        <div className="flex flex-row gap-3 text-textBg items-center font-semibold">
-                            <img src={iconGB} alt="" onClick={() => window.history.back()}
-                                style={{ cursor: 'pointer' }} />
-                            <p class="">Nueva Pregunta</p>
-                        </div>
+                        <GoBack text={"Nueva Pregunta"} />
                         <div className='flex flex-row gap-[15rem]'>
                             <div className='flex flex-row gap-5'>
                                 <div className="container flex-col bg-greyBlack rounded-xl gap-3 text-center p-5 flex justify-center items-start">
@@ -336,31 +338,31 @@ const ModalComponent = ({ condicion }) => {
             {condicion === 8 && (
                 // Editar taller
                 <>
-                    <div className='flex flex-col gap-5'>
+                    <div className='flex flex-col gap-5 w-full'>
                         <GoBack text={"Editar Taller"} />
                         <div className='flex flex-row gap-[15rem]'>
                             <div className='flex flex-row gap-5'>
                                 <div
-                                    className="container flex-col bg-greyBlack rounded-xl gap-3 text-start p-5 flex justify-center "
+                                    className="container flex-row bg-greyBlack rounded-xl gap-5 text-center p-5 flex justify-between items-start"
                                 >
-                                    <div className="flex flex-col items-center justify-center gap-4">
-                                        <div className='flex flex-row items-center justify-center gap-8'>
-                                            <Input3 DataType="Modulo" inputPlaceholder="CAPACIDADES GERENCIALES" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
-                                            <Input3 name={"tem_form_edit"} value={values.tem_form_edit} onChange={handleInputChange} DataType="Tema o titulo de la formacion" inputPlaceholder="MISE Labs: Maneja tu tiempo y actividades con Trello" inputType="text" height="h-16" width="w-[15rem]" widthInput="w-[20rem]" additionalClass="" />
+                                    <div className="flex flex-col items-start justify-center gap-5 text-textBg">
+                                        <div className='text-textBg items-center text-start content-center gap-[6rem] flex flex-row'>
+                                            <div className="w-[12rem]">
+                                                <p className="font-semibold">Modulo</p>
+                                            </div>
+                                            <SelectComponent name="{new_mod_tall}" type="Modulo" options={modulos_taller} value={values.new_mod_tall} onChange={(value) => handleInputChange("new_mod_tall", value)} />
                                         </div>
-                                        <div className='flex flex-row items-center justify-center gap-8'>
-                                            <TextareaHero name={"obj_tall_edit"} value={values.obj_tall_edit} onChange={handleInputChange} DataType="Objetivo" height="max-h-[10rem]" width="w-[12rem]" widthInput="w-[20rem]" />
-                                            <TextareaHero name={"alc_tall_edit"} value={values.alc_tall_edit} onChange={handleInputChange} DataType="Alcance de la formacion" height="max-h-[10rem]" width="w-[15rem]" widthInput="w-[20rem]" />
-                                        </div>
-                                        <div className='flex flex-row items-center justify-center gap-8'>
-                                            <Input3 DataType="Fecha" inputPlaceholder="Martes, abril 16,2024" inputType="date" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
-                                            <Input3 DataType="Horario" inputPlaceholder="2:00pm a 5:00pm" inputType="text" height="h-16" width="w-[15rem]" widthInput="w-[20rem]" additionalClass="" />
-                                        </div>
-                                        <div className='flex flex-row items-center justify-center gap-[31rem]'>
-                                            <Input3 name={"ubi_tall_edit"} value={values.ubi_tall_edit} onChange={handleInputChange} DataType="Ubicacion" inputPlaceholder="Cámara de Comercio de Palmira - Calle 28 N° 31-30" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
+                                        <TextareaHero name={"obj_tall_edit"} value={values.obj_tall_edit} onChange={handleInputChange} DataType="Objetivo" height="max-h-[10rem]" width="w-[12rem]" widthInput="w-[15rem]" />
+                                        <Input3 DataType="Fecha" inputPlaceholder="Martes, abril 16,2024" inputType="date" height="h-16" width="w-[12rem]" widthInput="w-[15rem]" additionalClass="" />
+                                        <Input3 name={"ubi_tall_edit"} value={values.ubi_tall_edit} onChange={handleInputChange} DataType="Ubicacion" inputPlaceholder="Cámara de Comercio de Palmira - Calle 28 N° 31-30" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[15rem]" additionalClass="" />
+                                    </div>
+                                    <div className="flex flex-col items-start justify-center gap-5">
+                                        <Input3 name={"tem_form_edit"} value={values.tem_form_edit} onChange={handleInputChange} DataType="Tema o titulo de la formacion" inputPlaceholder="MISE Labs: Maneja tu tiempo y actividades con Trello" inputType="text" height="h-16" width="w-[15rem]" widthInput="w-[15rem]" additionalClass="" />
+                                        <TextareaHero name={"alc_tall_edit"} value={values.alc_tall_edit} onChange={handleInputChange} DataType="Alcance de la formacion" height="max-h-[10rem]" width="w-[15rem]" widthInput="w-[15rem]" />
+                                        <Input3 DataType="Horario" inputPlaceholder="2:00pm a 5:00pm" inputType="text" height="h-16" width="w-[15rem]" widthInput="w-[15rem]" additionalClass="" />
+                                        <div className='py-3'>
                                             <Boton onClick={openModal} text={"Confirmar"} />
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -373,31 +375,31 @@ const ModalComponent = ({ condicion }) => {
             {condicion === 9 && (
                 // Nuevo taller
                 <>
-                    <div className='flex flex-col gap-5'>
+                    <div className='flex flex-col gap-5 w-full'>
                         <GoBack text={"Nuevo Taller"} />
                         <div className='flex flex-row gap-[15rem]'>
                             <div className='flex flex-row gap-5'>
                                 <div
-                                    className="container flex-col bg-greyBlack rounded-xl gap-3 text-start p-5 flex justify-center "
+                                    className="container flex-row bg-greyBlack rounded-xl gap-5 text-center p-5 flex justify-between items-start"
                                 >
-                                    <div className="flex flex-col items-center justify-center gap-4">
-                                        <div className='flex flex-row items-center justify-center gap-8'>
-                                            <Input3 DataType="Modulo" inputPlaceholder="CAPACIDADES GERENCIALES" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
-                                            <Input3 name={"new_tem_form"} value={values.new_tem_form} onChange={handleInputChange} DataType="Tema o titulo de la formacion" inputPlaceholder="MISE Labs: Maneja tu tiempo y actividades con Trello" inputType="text" height="h-16" width="w-[15rem]" widthInput="w-[20rem]" additionalClass="" />
+                                    <div className="flex flex-col items-start justify-center gap-5 text-textBg">
+                                        <div className='text-textBg items-center text-start content-center gap-[6rem] flex flex-row'>
+                                            <div className="w-[12rem]">
+                                                <p className="font-semibold">Modulo</p>
+                                            </div>
+                                            <SelectComponent name="{new_mod_tall}" type="Modulo" options={modulos_taller} value={values.new_mod_tall} onChange={(value) => handleInputChange("new_mod_tall", value)} />
                                         </div>
-                                        <div className='flex flex-row items-center justify-center gap-8'>
-                                            <TextareaHero name={"new_obj_tall"} value={values.new_obj_tall} onChange={handleInputChange} DataType="Objetivo" height="max-h-[10rem]" width="w-[12rem]" widthInput="w-[20rem]" />
-                                            <TextareaHero name={"new_alc_tall"} value={values.new_alc_tall} onChange={handleInputChange} DataType="Alcance de la formacion" height="max-h-[10rem]" width="w-[15rem]" widthInput="w-[20rem]" />
-                                        </div>
-                                        <div className='flex flex-row items-center justify-center gap-8'>
-                                            <Input3 DataType="Fecha" inputPlaceholder="Martes, abril 16,2024" inputType="date" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
-                                            <Input3 DataType="Horario" inputPlaceholder="2:00pm a 5:00pm" inputType="text" height="h-16" width="w-[15rem]" widthInput="w-[20rem]" additionalClass="" />
-                                        </div>
-                                        <div className='flex flex-row items-center justify-center gap-[31rem]'>
-                                            <Input3 name={"new_ubi_tall"} value={values.new_ubi_tall} onChange={handleInputChange} DataType="Ubicacion" inputPlaceholder="Cámara de Comercio de Palmira - Calle 28 N° 31-30" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[20rem]" additionalClass="" />
+                                        <TextareaHero name={"obj_tall_edit"} value={values.obj_tall_edit} onChange={handleInputChange} DataType="Objetivo" height="max-h-[10rem]" width="w-[12rem]" widthInput="w-[15rem]" />
+                                        <Input3 DataType="Fecha" inputPlaceholder="Martes, abril 16,2024" inputType="date" height="h-16" width="w-[12rem]" widthInput="w-[15rem]" additionalClass="" />
+                                        <Input3 name={"ubi_tall_edit"} value={values.ubi_tall_edit} onChange={handleInputChange} DataType="Ubicacion" inputPlaceholder="Cámara de Comercio de Palmira - Calle 28 N° 31-30" inputType="text" height="h-16" width="w-[12rem]" widthInput="w-[15rem]" additionalClass="" />
+                                    </div>
+                                    <div className="flex flex-col items-start justify-center gap-5">
+                                        <Input3 name={"tem_form_edit"} value={values.tem_form_edit} onChange={handleInputChange} DataType="Tema o titulo de la formacion" inputPlaceholder="MISE Labs: Maneja tu tiempo y actividades con Trello" inputType="text" height="h-16" width="w-[15rem]" widthInput="w-[15rem]" additionalClass="" />
+                                        <TextareaHero name={"alc_tall_edit"} value={values.alc_tall_edit} onChange={handleInputChange} DataType="Alcance de la formacion" height="max-h-[10rem]" width="w-[15rem]" widthInput="w-[15rem]" />
+                                        <Input3 DataType="Horario" inputPlaceholder="2:00pm a 5:00pm" inputType="text" height="h-16" width="w-[15rem]" widthInput="w-[15rem]" additionalClass="" />
+                                        <div className='py-3'>
                                             <Boton onClick={openModal} text={"Confirmar"} />
                                         </div>
-
                                     </div>
                                 </div>
                             </div>

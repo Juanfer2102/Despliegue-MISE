@@ -2,7 +2,7 @@ import React from 'react';
 
 const InfoDiag = ({ nit, nombre_empresa, act_economica }) => {
 
-    const CompanyName = nombre_empresa.toLowerCase();
+    const CompanyName = nombre_empresa;
 
     const handleEditClick = () => {
         // Redirigir a la página de edición del usuario con el id_usuario

@@ -4,6 +4,7 @@ const SelectComponent = ({ id, options, value, onChange, type, name }) => {
   return (
     <select
       id={id}
+      name={name}
       className="bg-transparent px-2 py-2.5 h-[3.5rem] w-full rounded-lg border font-sans text-lg font-normal focus:bg-transparent pr-8 appearance-none"
       value={value}
       onChange={(e) => onChange(e.target.value)}  // Pasa el nombre del campo junto con el valor

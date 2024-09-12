@@ -14,17 +14,17 @@ import Expirado from "./pages/olvidasteContraseña/expiracion.jsx";
 import Credencial from "./pages/olvidasteContraseña/credenciales.jsx";
 
 // Componentes de registro
-import Registro from "./pages/registropostu/registro.jsx";
-import RegistroEmpresa from "./pages/registroEmpresa/registroEmpresa.jsx";
-import NuevoUser from "./pages/nuevoUser/nuevoUser.jsx";
+const Registro = lazy(() => import("./pages/registropostu/registro.jsx"));
+const RegistroEmpresa = lazy(() => import("./pages/registroEmpresa/registroEmpresa.jsx"));
+const NuevoUser = lazy(() => import("./pages/nuevoUser/nuevoUser.jsx"));
 
 // Dashboard y componentes principales
-import Dashboard from "./pages/dashboard/dashboard";
-import DashboardEmp from './pages/dashboard/dashboardemp.jsx';
+const Dashboard = lazy(() => import("./pages/dashboard/dashboard"));
+const DashboardEmp = lazy(() => import("./pages/dashboard/dashboardemp.jsx"));
 
 // Componentes de edición
-import EditarPorcentaje from "./pages/editarPorcentajeDesarr/editarPorcentaje.jsx";
-import EditarUsuario from "./pages/editarUsuario/editarUsuario.jsx";
+const EditarPorcentaje = lazy(() => import("./pages/editarPorcentajeDesarr/editarPorcentaje.jsx"));
+const EditarUsuario = lazy(() => import("./pages/editarUsuario/editarUsuario.jsx"));
 
 // Componentes de usuarios
 const VerUsers = lazy(() => import("./pages/visualizarUsers.jsx"));
@@ -32,30 +32,30 @@ const EmpresasRegistradas = lazy(() => import("./pages/empresasRegistradas/empre
 
 // Componentes de módulos
 const Modulos = lazy(() => import("./pages/modulos/modulos.jsx"))
-import Nuevomodulo from "./pages/modulos/nuevomodulo.jsx";
-import Editarmodulos from "./pages/modulos/editarmodulos.jsx";
+const Nuevomodulo = lazy(() => import("./pages/modulos/nuevomodulo.jsx"));
+const Editarmodulos = lazy(() => import("./pages/modulos/editarmodulos.jsx"));
 
 // Componentes de sueños
-import Sueos from "./pages/sueños/sueños.jsx";
-import NuevoSueo from "./pages/sueños/nuevosueño.jsx";
-import Editarsueos from "./pages/sueños/editarSueños.jsx";
+const Sueos = lazy(() => import("./pages/sueños/sueños.jsx"));
+const NuevoSueo = lazy(() => import("./pages/sueños/nuevosueño.jsx"));
+const Editarsueos = lazy(() => import("./pages/sueños/editarSueños.jsx"));
 
 // Componentes de preguntas
-import Preguntas from "./pages/preguntas/preguntas.jsx";
-import NuevaPregunta from "./pages/preguntas/nuevapregunta.jsx";
-import Editarpreguntas from "./pages/preguntas/editarpreguntas.jsx";
+const Preguntas = lazy(() => import("./pages/preguntas/preguntas.jsx"));
+const NuevaPregunta = lazy(() => import("./pages/preguntas/nuevapregunta.jsx"));
+const Editarpreguntas = lazy(() => import("./pages/preguntas/editarpreguntas.jsx"));
 
 // Componentes de talleres
-import Talleres from "./pages/talleres/talleres.jsx";
-import EditarTalleres from './pages/talleres/editartalleres.jsx';
-import NuevoTaller from './pages/talleres/nuevotaller.jsx';
+const Talleres = lazy(() => import("./pages/talleres/talleres.jsx"));
+const EditarTalleres = lazy(() => import("./pages/talleres/editartalleres.jsx"));
+const NuevoTaller = lazy(() => import("./pages/talleres/nuevotaller.jsx"));
 
 // Otros componentes
-import AceptarEmpresas from "./pages/aceptarEmpresas/aceptarempv";
-import DetalleEmpresas from "./pages/aceptarEmpresas/verinfoempresa.jsx"
-import Autoevaluacion from "./pages/autoevaluacion/autoevaluacion.jsx";
-import VerEmpDiag from './pages/diagnostico/verempdiag.jsx';
-import DiagnosticoEmpresa from './pages/diagnostico/diagnosticoempresa.jsx';
+const AceptarEmpresas = lazy(() => import("./pages/aceptarEmpresas/aceptarempv.jsx"));
+const DetalleEmpresas = lazy(() => import("./pages/aceptarEmpresas/verinfoempresa.jsx"));
+const Autoevaluacion = lazy(() => import("./pages/autoevaluacion/autoevaluacion.jsx"));
+const VerEmpDiag = lazy(() => import("./pages/diagnostico/verempdiag.jsx"));
+const DiagnosticoEmpresa = lazy(() => import("./pages/diagnostico/diagnosticoempresa.jsx"));
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const userData = JSON.parse(localStorage.getItem('userData'));

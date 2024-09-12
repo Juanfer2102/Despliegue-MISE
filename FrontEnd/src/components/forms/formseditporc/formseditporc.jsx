@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import iconGB from "../../../images/icons/iconsEditUser/GoBack.png";
+import { useState } from 'react'
 import Input3 from "../../inputs/input3/input3.jsx";
 import { ProgressCircleHero } from "../../inputs/porcentaje/porcentaje.jsx";
 
@@ -30,12 +29,8 @@ export const Formseditporc = () => {
 
     return (
         <>
-            <div className="flex flex-row gap-3 text-textBg pt-5 pb-3 items-center font-semibold">
-                <img src={iconGB.src} alt="" onClick={() => window.history.back()}
-                    style={{ cursor: 'pointer' }} />
-                <p class="">Editar Porcentajes</p>
-            </div>
-            <form onSubmit={handleForm} class="bg-greyBlack gap-8 flex flex-col p-8 w-[75.5rem] rounded-md max-h-[28rem] overflow-y-auto custom-scrollbar">
+            
+            <form onSubmit={handleForm} className="bg-greyBlack gap-8 flex flex-col p-8 w-[75.5rem] rounded-md max-h-[28rem] overflow-y-auto custom-scrollbar">
                 <div className="flex flex-row gap-[25rem]">
                     <div className='flex flex-col gap-[8rem]'>
                         <Input3 name={"porcentaje1"} value={values.porcentaje1} onChange={handleInputChange} width="w-80" widthInput="w-[18rem]" DataType="Nombre" inputPlaceholder="No Desarrollado" inputType="text" />
@@ -45,7 +40,7 @@ export const Formseditporc = () => {
                         <ProgressCircleHero text={values.porcentaje1} value={values.nporcentaje1} />
                     </div>
                 </div>
-                <div class="flex flex-row gap-[25rem]">
+                <div className="flex flex-row gap-[25rem]">
                     <div className='flex flex-col gap-[8rem]'>
                         <Input3 name={"porcentaje2"} value={values.porcentaje2} onChange={handleInputChange} width="w-80" widthInput="w-[18rem]" DataType="Nombre" inputPlaceholder="No Desarrollado" inputType="text" />
                         <Input3 name={"nporcentaje2"} value={values.nporcentaje2} onChange={handleInputChange} width="w-80" widthInput="w-[18rem]" DataType="Porcentaje de Desarrollo" inputPlaceholder="25%" inputType="number" />
@@ -54,7 +49,7 @@ export const Formseditporc = () => {
                         <ProgressCircleHero text={values.porcentaje2} value={values.nporcentaje2} />
                     </div>
                 </div>
-                <div class="flex flex-col gap-[25rem]">
+                <div className="flex flex-col gap-[25rem]">
                     <div className='flex flex-col gap-[8rem]'>
                         <Input3 name={"porcentaje3"} value={values.porcentaje3} onChange={handleInputChange} width="w-80" widthInput="w-[18rem]" DataType="Nombre" inputPlaceholder="No Desarrollado" inputType="text" />
                         <Input3 name={"nporcentaje3"} value={values.nporcentaje3} onChange={handleInputChange} width="w-80" widthInput="w-[18rem]" DataType="Porcentaje de Desarrollo" inputPlaceholder="25%" inputType="number" />
