@@ -30,10 +30,6 @@ const TablaDiagnostico = () => {
         setSearchTerm(term);
     };
 
-    const filteredEmpresas = empresas.filter(empresa =>
-        `${empresa.nit} ${empresa.nombre_empresa}`.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
     return (
         <>
             <div className='flex flex-row w-full'>
@@ -50,14 +46,19 @@ const TablaDiagnostico = () => {
                     <div className="flex-1 p-5 text-center"></div> {/* Nueva columna para el botón */}
                 </div>
                 <div className="overflow-auto divide-y border border-textBg border-t-0 rounded">
-                    {filteredEmpresas.map(empresa => (
-                        <InfoDiag
-                            key={empresa.nit}
-                            nit={empresa.nit}
-                            nombre={empresa.nombre_empresa}
-                            act_economica={empresa.actividad_economica}
-                        />
-                    ))}
+                {empresas
+                        .filter(empresa => 
+                            `${empresa.nit} ${empresa.nombre_empresa}`.toLowerCase().includes(searchTerm.toLowerCase())
+                        )
+                        .map(empresa => (
+                            <InfoDiag
+                                key={empresa.nit}
+                                nit={empresa.nit}
+                                nombre_empresa={empresa.nombre_empresa}
+                                act_economica={empresa.act_economica}
+                            />
+                        ))
+                    }
                 </div>
             </div>
         </>
