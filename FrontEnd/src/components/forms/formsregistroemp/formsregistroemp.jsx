@@ -123,11 +123,11 @@ export const FormRegistro = () => {
             newErrors.no_empleados = "Debe ingresar el numero de empleados de la empresa.";
         }
         //if (!values.ventas_anopasado) {
-            //newErrors.ventas_anopasado = "Debe ingresar las ventas del año pasado.";
+        //newErrors.ventas_anopasado = "Debe ingresar las ventas del año pasado.";
         //}
 
         //if (!values.gastos_costos) {
-            //newErrors.gastos_costos = "Debe ingresar los gastos o costos del año pasado.";
+        //newErrors.gastos_costos = "Debe ingresar los gastos o costos del año pasado.";
         //}
 
         if (!values.tamano_empresa) {
@@ -143,7 +143,7 @@ export const FormRegistro = () => {
         }
 
         //if (!values.act_economica) {
-            //newErrors.act_economica = "Debe ingresar la actividad economica de la empresa.";
+        //newErrors.act_economica = "Debe ingresar la actividad economica de la empresa.";
         //}
 
         if (!values.gerente) {
@@ -159,7 +159,7 @@ export const FormRegistro = () => {
         }
 
         //if (!values.sector) {
-            //newErrors.sector = "Debe ingresar el sector empresarial.";
+        //newErrors.sector = "Debe ingresar el sector empresarial.";
         //}
 
         return newErrors;
@@ -167,11 +167,7 @@ export const FormRegistro = () => {
 
     const handleConfirm = (event) => {
         event.preventDefault();
-        const now = new Date();
-        const updatedValues = {
-            ...values,
-            fecha_registro: now.toLocaleString(),
-        };
+        const updatedValues = { ...values };
 
         const validationErrors = validateForm();
         if (Object.keys(validationErrors).length > 0) {
@@ -179,13 +175,77 @@ export const FormRegistro = () => {
             closeModal();
             setIsModalVisible(true);
         } else {
-            console.log('Inputs value:', updatedValues);
-            setValues(updatedValues);  // Actualizamos los valores antes de cerrar el modal
-            closeModal();
-            window.location.href = "/autoevaluacion";
-        }
+            // Recuperar el ID del postulante desde localStorage
+            const idPostulante = localStorage.getItem('id_postulante');
 
+            // Si no hay datos del postulante, manejar el error
+            if (!idPostulante) {
+                console.error('No se encontró el ID del postulante en localStorage');
+                return;
+            }
+
+            // Preparar los datos de la empresa
+            const empresaData = {
+                nit: updatedValues.nit,
+                nombre_empresa: updatedValues.nombre_empresa,
+                celular: updatedValues.celular,
+                razon_social: updatedValues.razon_social,
+                direccion: updatedValues.direccion,
+                act_economica: updatedValues.act_economica,
+                gerente: updatedValues.gerente,
+                producto_servicio: updatedValues.producto_servicio,
+                correo: updatedValues.correo,
+                pagina_web: updatedValues.pagina_web,
+                fecha_creacion: updatedValues.fecha_creacion
+                    ? format(new Date(values.fecha_creacion), "yyyy-MM-dd")
+                    : null,
+                ventas_ult_ano: updatedValues.ventas_ult_ano,
+                costos_ult_ano: updatedValues.costos_ult_ano,
+                empleados_perm: updatedValues.empleados_perm,
+                sector: updatedValues.sector,
+                estado: updatedValues.estado,
+                id_programa: updatedValues.id_programa,
+                fecha_registro: updatedValues.fecha_registro,
+                id_postulante: parseInt(idPostulante, 10), // Convertir a número entero
+                diagnostico: 0
+            };
+
+            // Primero registrar la empresa
+            fetch('http://localhost:8000/api/v2/registro-empresa/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ empresa: empresaData }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Registro de la empresa exitoso:', data);
+                        // Almacenar el NIT de la empresa en localStorage
+                        localStorage.setItem('empresa_nit', empresaData.nit);
+                        // Redirigir a la vista de autoevaluación
+                        window.location.href = "/autoevaluacion";
+                    } else {
+                        console.error('Error en el registro de la empresa:', data);
+                        console.log(updatedValues);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al enviar los datos de la empresa:', error);
+                });
+
+            // Actualizar los valores antes de cerrar el modal
+            setValues(updatedValues);
+            closeModal();
+        }
     };
+
+
+
+
+
+
 
     const closeModalE = () => {
         setIsModalVisible(false);
