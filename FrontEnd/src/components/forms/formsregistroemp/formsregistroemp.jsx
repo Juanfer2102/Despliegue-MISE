@@ -6,7 +6,6 @@ import ConfirmModal from '../../modales/modalconfirm.jsx';
 import Boton from '../../inputs/boton.jsx';
 import { format } from 'date-fns'
 
-
 export const FormRegistro = () => {
 
     const [isOpen, setIsOpen] = useState(false);
@@ -67,8 +66,8 @@ export const FormRegistro = () => {
 
 
     const handleInputChange = (name, value) => {
-        if (name === "razon_social" || name === "producto") {
-            // Filtrar caracteres no permitidos
+        if (name === "razon_social") {
+            // Filtrar caracteres no permitidos para nombre y apellido
             value = value.replace(/[0-9]/g, "");
         }
         if (name === "celular") {
@@ -78,12 +77,12 @@ export const FormRegistro = () => {
         }
         if (name === "nit") {
             if (value.length > 9) {
-                return; // Evitar que se ingrese más de 9 dígitos
+                return; // Evitar que se ingrese más de 10 dígitos
             }
         }
         if (name === "ndocumento") {
             if (value.length > 5) {
-                return; // Evitar que se ingrese más de 5 dígitos
+                return; // Evitar que se ingrese más de 10 dígitos
             }
         }
         if (name === "ventas_anopasado") {
@@ -105,51 +104,52 @@ export const FormRegistro = () => {
     const validateForm = () => {
         const newErrors = {};
 
-        if (!values.fecha_inicio) {
-            newErrors.fecha_inicio = "Debe ingresar la fecha de inicio de la empresa.";
+        if (!values.fecha_creacion) {
+            newErrors.fecha_creacion = "Debe ingresar la fecha de creación de la empresa.";
         }
 
         if (!values.celular) {
-            newErrors.celular = "Debe ingresar un numero de celular.";
+            newErrors.celular = "Debe ingresar un número de celular.";
         }
 
         if (!values.razon_social) {
-            newErrors.razon_social = "Debe ingresar la razon social de la empresa.";
+            newErrors.razon_social = "Debe ingresar la razón social de la empresa.";
         }
 
         if (!values.nit) {
             newErrors.nit = "Debe ingresar el NIT de la empresa.";
         }
 
-        if (!values.no_empleados) {
-            newErrors.no_empleados = "Debe ingresar el numero de empleados de la empresa.";
+        if (!values.empleados_perm) {
+            newErrors.empleados_perm = "Debe ingresar el número de empleados de la empresa.";
         }
-        //if (!values.ventas_anopasado) {
-        //newErrors.ventas_anopasado = "Debe ingresar las ventas del año pasado.";
-        //}
 
-        //if (!values.gastos_costos) {
-        //newErrors.gastos_costos = "Debe ingresar los gastos o costos del año pasado.";
-        //}
+        if (!values.ventas_ult_ano) {
+            newErrors.ventas_ult_ano = "Debe ingresar las ventas del último año.";
+        }
 
-        if (!values.tamano_empresa) {
-            newErrors.tamano_empresa = "Debe seleccionar el tamaño de la empresa.";
+        if (!values.costos_ult_ano) {
+            newErrors.costos_ult_ano = "Debe ingresar los costos del último año.";
+        }
+
+        if (!values.estado) {
+            newErrors.estado = "Debe seleccionar el estado de la empresa.";
         }
 
         if (!values.nombre_empresa) {
-            newErrors.nombre_empresa = "Debe ingresae el nombre de la empresa.";
+            newErrors.nombre_empresa = "Debe ingresar el nombre de la empresa.";
         }
 
         if (!values.direccion) {
             newErrors.direccion = "Debe ingresar la dirección de la empresa.";
         }
 
-        //if (!values.act_economica) {
-        //newErrors.act_economica = "Debe ingresar la actividad economica de la empresa.";
-        //}
+        if (!values.act_economica) {
+            newErrors.act_economica = "Debe ingresar la actividad económica de la empresa.";
+        }
 
         if (!values.gerente) {
-            newErrors.gerente = "Debe ingresar el gerente de la empresa.";
+            newErrors.gerente = "Debe ingresar el nombre del gerente de la empresa.";
         }
 
         if (!values.correo) {
@@ -157,20 +157,21 @@ export const FormRegistro = () => {
         }
 
         if (!values.pagina_web) {
-            newErrors.pagina_web = "Debe ingresar la URL de la pagina web de la empresa.";
+            newErrors.pagina_web = "Debe ingresar la URL de la página web de la empresa.";
         }
 
-        //if (!values.sector) {
-        //newErrors.sector = "Debe ingresar el sector empresarial.";
-        //}
+        if (!values.sector) {
+            newErrors.sector = "Debe ingresar el sector empresarial.";
+        }
 
         return newErrors;
     }
 
+
     const handleConfirm = (event) => {
         event.preventDefault();
         const updatedValues = { ...values };
-
+    
         const validationErrors = validateForm();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -179,13 +180,13 @@ export const FormRegistro = () => {
         } else {
             // Recuperar el ID del postulante desde localStorage
             const idPostulante = localStorage.getItem('id_postulante');
-
+    
             // Si no hay datos del postulante, manejar el error
             if (!idPostulante) {
                 console.error('No se encontró el ID del postulante en localStorage');
                 return;
             }
-
+    
             // Preparar los datos de la empresa
             const empresaData = {
                 nit: updatedValues.nit,
@@ -211,7 +212,7 @@ export const FormRegistro = () => {
                 id_postulante: parseInt(idPostulante, 10), // Convertir a número entero
                 diagnostico: 0
             };
-
+    
             // Primero registrar la empresa
             fetch('http://localhost:8000/api/v2/registro-empresa/', {
                 method: 'POST',
@@ -220,31 +221,31 @@ export const FormRegistro = () => {
                 },
                 body: JSON.stringify({ empresa: empresaData }),
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        console.log('Registro de la empresa exitoso:', data);
-                        // Almacenar el NIT de la empresa en localStorage
-                        localStorage.setItem('empresa_nit', empresaData.nit);
-                        // Redirigir a la vista de autoevaluación
-                        window.location.href = "/autoevaluacion";
-                    } else {
-                        console.error('Error en el registro de la empresa:', data);
-                        console.log(updatedValues);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error al enviar los datos de la empresa:', error);
-                });
-
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Registro de la empresa exitoso:', data);
+                    // Almacenar el NIT de la empresa en localStorage
+                    localStorage.setItem('empresa_nit', empresaData.nit);
+                    // Redirigir a la vista de autoevaluación
+                    window.location.href = "/autoevaluacion";
+                } else {
+                    console.error('Error en el registro de la empresa:', data);
+                    console.log(updatedValues);
+                }
+            })
+            .catch(error => {
+                console.error('Error al enviar los datos de la empresa:', error);
+            });
+    
             // Actualizar los valores antes de cerrar el modal
             setValues(updatedValues);
             closeModal();
         }
     };
-
-
-
+    
+    
+    
 
 
 
@@ -263,8 +264,8 @@ export const FormRegistro = () => {
         <>
             <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleConfirm} />
 
-            <div class="flex flex-row w-full justify-between">
-                <p class="font-bold text-3xl text-left">Registro Empresa</p>
+            <div className="flex flex-row w-full justify-between">
+                <p className="font-bold text-3xl text-left">Registro Empresa</p>
                 <svg
                     fill="#ffffff"
                     height="45px"
@@ -295,12 +296,12 @@ export const FormRegistro = () => {
                     </g>
                 </svg>
             </div>
-            <form className="form custom-scrollbar w-full xl:max-h-[51rem] lg:max-h-[47rem] overflow-y-auto flex flex-row bg-greyBlack rounded-xl gap-3">
+            <form className="form custom-scrollbar w-full max-h-[50rem] overflow-y-auto flex flex-row bg-greyBlack rounded-xl gap-3">
                 <div className='flex flex-col gap-6 w-full p-6 rounded-xl'>
                     <div className="flex flex-col gap-6 w-full">
-                        <div className="flex flex-col md:flex-row gap-6 w-full">
+                        <div className='flex flex-row gap-6 w-full'>
                             <input
-                                className="h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal placeholder-shown:border-white"
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="text"
                                 value={values.nombre_empresa}
                                 name="nombre_empresa"
@@ -310,7 +311,7 @@ export const FormRegistro = () => {
                             />
 
                             <input
-                                className="h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal placeholder-shown:border-white"
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="text"
                                 value={values.direccion}
                                 name="direccion"
@@ -319,11 +320,9 @@ export const FormRegistro = () => {
                                 onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                             />
                         </div>
-
-                        {/* Segunda fila de inputs */}
-                        <div className="flex flex-col md:flex-row gap-6 w-full">
+                        <div className='flex flex-row gap-3'>
                             <input
-                                className="h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal placeholder-shown:border-white"
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="text"
                                 value={values.razon_social}
                                 name="razon_social"
@@ -333,65 +332,61 @@ export const FormRegistro = () => {
                             />
 
                             <input
-                                className="h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal placeholder-shown:border-white"
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="number"
                                 value={values.celular}
                                 name="celular"
-                                placeholder="Número de celular..."
+                                placeholder="Ingrese su número de celular..."
                                 autoComplete="off"
                                 onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                             />
                         </div>
 
-                        {/* Tercera fila de inputs */}
-                        <div className="flex flex-col md:flex-row gap-6 w-full">
+                        <div className='flex flex-row gap-3'>
                             <input
-                                className="h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal placeholder-shown:border-white"
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="number"
-                                value={values.no_empleados}
-                                name="no_empleados"
-                                placeholder="Número de empleados..."
+                                value={values.empleados_perm}
+                                name="empleados_perm"
+                                placeholder="Ingrese el número de empleados permanentes..."
                                 autoComplete="off"
                                 onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                             />
 
                             <input
-                                className="h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal placeholder-shown:border-white"
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="number"
                                 value={values.nit}
                                 name="nit"
-                                placeholder="NIT de la empresa"
+                                placeholder="Ingrese el NIT de la empresa"
                                 autoComplete="off"
                                 onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                             />
                         </div>
-
-                        {/* Más inputs */}
-                        <div className="flex flex-col md:flex-row gap-6 w-full">
+                        <div className='flex flex-row gap-6 w-full'>
                             <input
-                                className="h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal placeholder-shown:border-white"
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="text"
                                 value={values.act_economica}
                                 name="act_economica"
-                                placeholder="Actividad económica..."
+                                placeholder="Actividad Económica de la Empresa..."
                                 autoComplete="off"
                                 onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                             />
 
                             <input
-                                className="h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal placeholder-shown:border-white"
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="text"
                                 value={values.gerente}
                                 name="gerente"
-                                placeholder="Gerente de la empresa..."
+                                placeholder="Ingrese el gerente de la empresa..."
                                 autoComplete="off"
                                 onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                             />
                         </div>
-
-                        <div className="flex flex-col md:flex-row gap-6 w-full">
+                        <div className='flex flex-row gap-6 w-full'>
                             <input
-                                className="h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal placeholder-shown:border-white"
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="email"
                                 value={values.correo}
                                 name="correo"
@@ -401,54 +396,77 @@ export const FormRegistro = () => {
                             />
 
                             <input
-                                className="h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal placeholder-shown:border-white"
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="text"
                                 value={values.pagina_web}
                                 name="pagina_web"
-                                placeholder="Página web de la empresa..."
+                                placeholder="Ingrese página web de la empresa..."
                                 autoComplete="off"
                                 onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                             />
                         </div>
-
-                        {/* Inputs adicionales y componentes */}
                         <input
-                            className="h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal placeholder-shown:border-white"
+                            className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                             type="text"
-                            value={values.producto}
-                            name="producto"
-                            placeholder="Producto o servicio..."
+                            value={values.producto_servicio}
+                            name="producto_servicio"
+                            placeholder="Producto o Servicio..."
                             autoComplete="off"
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
 
                         <DatePicker
-                            name="fecha_inicio"
-                            className="z-0 mx-auto pt-2 h-[3.5rem]"
+                            name="fecha_creacion"
+                            className="mx-auto pt-2 h-[3.5rem] colors:tremor-background-subtle z-0"
                             onValueChange={(value) => {
-                                handleInputChange('fecha_inicio', value);
+                                handleInputChange('fecha_creacion', value);
                             }}
                         />
-
+                        {/*
                         <SelectComponent
                             type={"Tamaño de la empresa..."}
-                            Select="tamano_empresa"
+                            Select="estado"
                             options={optionstamaño}
-                            value={values.tamano_empresa || ''}
-                            onChange={(value) => handleInputChange("tamano_empresa", value)}
+                            value={values.estado || ''}
+                            onChange={(value) => handleInputChange("estado", value)}
                         />
-                        <div className="flex justify-center pb-4">
-                            <button
-                                className="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg"
-                                onClick={openModal}
-                                type='button'
-                            >
-                                Siguiente
-                            </button>
+*/}
+                        <input
+                            className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                            type="text"
+                            value={values.ventas_ult_ano}
+                            name="ventas_ult_ano"
+                            placeholder="Ingrese el total de ventas del año anterior..."
+                            autoComplete="off"
+                            onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+                            onBlur={() => handleBlur('ventas_ult_ano')}
+                        />
+                        <input
+                            className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                            type="text"
+                            value={values.costos_ult_ano}
+                            name="costos_ult_ano"
+                            placeholder="Ingrese el total de gastos y costos del año anterior..."
+                            autoComplete="off"
+                            onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+                            onBlur={() => handleBlur('costos_ult_ano')}
+                        />
+                        <input
+                            className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                            type="text"
+                            value={values.sector}
+                            name="sector"
+                            placeholder="Ingrese el sector empresarial..."
+                            autoComplete="off"
+                            onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+                        />
+                        <div className="flex justify-end pb-2">
+                            <Boton text={"Siguiente"} onClick={openModal} />
                         </div>
                     </div>
                 </div>
             </form>
+
 
             {/* Modal para mostrar los errores */}
             <div
