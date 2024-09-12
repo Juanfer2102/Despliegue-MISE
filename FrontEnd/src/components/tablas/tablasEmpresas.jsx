@@ -41,7 +41,7 @@ export const TablasEmpresas = () => {
 
       <div className="overflow-x-auto w-full rounded-xl bg-greyBg">
         <div className="flex flex-col">
-          <div className="xl:flex bg-greyBlack text-white font-semibold">
+          <div className="flex xl:flex-row min-lg-flex-row max-md:flex-col bg-greyBlack text-white font-semibold">
             <div className="flex-1 p-5 xl:text-left text-center">NIT</div>
             <div className="flex-1 p-5 xl:text-left text-center">Nombre</div>
             <div className="flex-1 p-5 xl:text-left text-center">Sector empresarial</div>

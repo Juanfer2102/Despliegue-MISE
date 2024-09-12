@@ -9,9 +9,9 @@ import TablasEmpresaporc from "../../components/tablas/tablasEmpresaporc.jsx";
 const Dashboard = () => {
   return (
     <LayoutDashboard title="Dashboard">
-      <main className="flex xl:flex-col flex-row w-full bg-greyBlack h-full">
+      <main className="bg-greyBg w-full h-screen overflow-x-hidden">
         <div className="flex flex-col w-full h-full">
-          <div className="bg-greyBlack h-20 w-full"></div>
+          <div className="bg-greyBlack xl:h-20  w-full"></div>
           <div className="bg-greyBg flex flex-col w-full xl:h-full px-4 xl:px-12 pt-4 xl:pt-6">
             <div className="flex flex-col lg:flex-row gap-10 h-full">
               <div className="flex flex-col px-10">

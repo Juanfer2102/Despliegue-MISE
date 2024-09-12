@@ -5,30 +5,38 @@ import Aadirmodulo from "../../components/modales/añadirmodulo.jsx";
 import Modalopciones from "../../components/modales/modalopciones.jsx";
 
 // Estilos en JSX
-const customScrollbarStyle = {
-  overflowY: 'auto',
-  scrollbarWidth: 'thin', // Para navegadores que soportan scrollbars personalizadas
-  scrollbarColor: '#888 #262b32', // thumb color y track color
-};
-
-const customScrollbarThumbStyle = {
-  borderRadius: '10px',
+const styles = {
+  customScrollbar: {
+    scrollbarWidth: '13px',
+    scrollbarColor: '#888 #262b32',
+  },
+  customScrollbarTrack: {
+    background: '#262b32',
+    borderRadius: '12px',
+  },
+  customScrollbarThumb: {
+    background: '#888',
+    borderRadius: '10px',
+  },
+  customScrollbarThumbHover: {
+    background: '#555',
+  }
 };
 
 
 const Preguntas = () => {
   return (
     <LayoutDashboard title="Preguntas">
-      <main className="flex flex-col w-full bg-greyBlack overflow-x-hidden h-full overflow-y-hidden" style={customScrollbarStyle}>
+      <main className="bg-greyBg w-full h-screen overflow-x-hidden">
         <div className="flex flex-col w-full h-full">
           <div className="bg-greyBlack h-20 w-full" />
           <div className="bg-greyBg flex flex-col px-4 sm:px-8 h-full w-full">
 
             <p className="text-2xl text-white py-3">Preguntas</p>
 
-            <div className="flex flex-col xl:flex-row gap-5">
-              <div className="container bg-greyBlack rounded-xl max-h-[calc(100vh-10rem)] overflow-y-auto flex-grow custom-scrollbar" style={customScrollbarThumbStyle}>
-                <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6 xl:gap-8 p-4 items-center w-full">
+            <div className="flex max-md:flex-col xl:flex-row min-lg:flex-row gap-5">
+              <div className="container bg-greyBlack rounded-xl max-h-[calc(100vh-10rem)] overflow-y-auto flex-grow custom-scrollbar" style={styles.customScrollbar}>
+                <div className="grid max-md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 sm:gap-6 xl:gap-8 p-4 items-center w-full">
                   <a href="/editar-preguntas">
                     <Modal texto={"¿La gerencia utiliza herramientas para la gestión de su tiempo y actividades?"} colorborde="border-principalGreen" colorhover="hover:bg-principalGreen" />
                   </a>

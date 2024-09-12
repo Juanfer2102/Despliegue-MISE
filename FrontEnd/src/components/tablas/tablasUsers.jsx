@@ -51,7 +51,7 @@ const UserTable = () => {
 
     return (
         <>
-            <div className='flex flex-col lg:flex-row w-full py-4'>
+            <div className='flex flex-col lg:flex-row xl:flex-row w-full py-4'>
                 <Buscador
                     onSearch={handleSearch}
                     onRoleChange={handleRoleChange}  // Nuevo manejador de cambio de rol
@@ -59,7 +59,7 @@ const UserTable = () => {
                     roles={roles}  // Pasamos los roles obtenidos
                     contexto="usuarios"  // Definimos el contexto como 'usuarios'
                 />
-                <div className='w-full xl:w-full py-4 xl:py-5 flex items-center xl:justify-end justify-center'>
+                <div className='w-full xl:w-full py-4 xl:py-5 flex items-center xl:justify-end lg:justify-end max-md:justify-center'>
                     <a href="/nuevo-user">
                         <button className='bg-principalGreen rounded-xl p-2 text-white hover:bg-white hover:text-principalGreen'>
                             Nuevo Usuario

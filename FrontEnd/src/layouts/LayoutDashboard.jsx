@@ -7,7 +7,7 @@ const LayoutDashboard = ({ children }) => {
 
 
   return (
-    <div className='flex min-h-screen'>
+    <div className='flex h-full'>
       <SideBarWrapper />
       <div className='w-full'>
         {children}

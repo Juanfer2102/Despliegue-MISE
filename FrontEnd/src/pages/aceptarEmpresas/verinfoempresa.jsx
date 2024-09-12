@@ -6,7 +6,7 @@ import GoBack from '../../components/inputs/goback/GoBack';
 const DetalleEmpresas = () => {
   return (
     <LayoutDashboard title="Aceptar Empresa">
-      <main className="flex flex-row w-full bg-greyBlack h-screen">
+      <main className="bg-greyBg w-full h-screen overflow-x-hidden">
         <div className="flex flex-col w-full h-full">
           <div className="bg-greyBlack h-20 w-full">
           </div>
