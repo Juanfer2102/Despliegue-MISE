@@ -21,7 +21,7 @@ export const TablasEmpresas = () => {
 
   // Filtrar empresas con estado 2
   const empresasConEstado2 = empresas.filter(
-    (empresa) => empresa.estado === "2"
+    (empresa) => empresa.estado === "2" && empresa.diagnostico === 1
   );
 
   const handleSearch = (term) => {
