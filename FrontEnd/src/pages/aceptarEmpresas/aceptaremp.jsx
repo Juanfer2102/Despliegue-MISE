@@ -14,7 +14,9 @@ const DeveloperPortal = () => {
     const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
     const [companyData, setCompanyData] = useState(null);
     const [postulanteData, setPostulanteData] = useState(null);
-
+    const [autoevaluacionData, setAutoevaluacionData] = useState(null);
+    const [calificacionesModulos, setCalificacionesModulos] = useState([]);
+    const [modulos, setModulos] = useState([]);
     const navigate = useNavigate(); // Inicializa useNavigate
 
     useEffect(() => {
@@ -24,6 +26,7 @@ const DeveloperPortal = () => {
                 .then(response => response.json())
                 .then(data => {
                     setCompanyData(data);
+    
                     // Fetch postulante data based on postulante ID
                     if (data.id_postulante) {
                         fetch(`http://localhost:8000/api/v2/postulante/${data.id_postulante}/`)
@@ -31,10 +34,61 @@ const DeveloperPortal = () => {
                             .then(postulante => setPostulanteData(postulante))
                             .catch(error => console.error('Error fetching postulante data:', error));
                     }
+    
+                    // Fetch autoevaluacion data based on company nit
+                    fetch(`http://localhost:8000/api/v2/autoevaluacion/`)
+                        .then(response => response.json())
+                        .then(autoevaluaciones => {
+                            console.log('Autoevaluacion data:', autoevaluaciones);
+    
+                            // Filtra las autoevaluaciones para el NIT específico
+                            const autoevaluacionData = autoevaluaciones.filter(autoeva => autoeva.nit === parseInt(nit));
+    
+                            if (autoevaluacionData.length > 0) {
+                                // Extrae el ID de la autoevaluación para las calificaciones
+                                const autoevaluacionId = autoevaluacionData[0].id_autoevaluacion; // Solo toma la primera autoevaluación con el NIT
+    
+                                // Fetch calificaciones de módulos
+                                fetch(`http://localhost:8000/api/v2/calificaciones-modulos/${autoevaluacionId}/`)
+                                    .then(response => response.json())
+                                    .then(calificaciones => {
+                                        console.log('Calificaciones data:', calificaciones);
+    
+                                        // Fetch modulos data
+                                        fetch('http://localhost:8000/api/v2/modulo-autoevaluacion/')
+                                            .then(response => response.json())
+                                            .then(modulosData => {
+                                                console.log('Modulos data:', modulosData);
+                                                setModulos(modulosData);
+    
+                                                // Extrae las calificaciones, relacionándolas con los módulos
+                                                const calificacionesConModulos = calificaciones.map(calificacion => {
+                                                    // Busca el módulo correspondiente en la lista de módulos
+                                                    const modulo = modulosData.find(mod => mod.id_modulo === calificacion.id_modulo);
+                                                    return {
+                                                        calificacion: calificacion.calificacion,
+                                                        nombre_modulo: modulo ? modulo.nombre : 'Desconocido'
+                                                    };
+                                                });
+    
+                                                console.log('Calificaciones con módulos:', calificacionesConModulos);
+                                                setCalificacionesModulos(calificacionesConModulos);
+                                            })
+                                            .catch(error => console.error('Error fetching modulos data:', error));
+                                    })
+                                    .catch(error => console.error('Error fetching calificaciones data:', error));
+                            } else {
+                                console.log('No se encontró autoevaluación para el NIT proporcionado.');
+                                setCalificacionesModulos([]);
+                            }
+                        })
+                        .catch(error => console.error('Error fetching autoevaluacion data:', error));
                 })
                 .catch(error => console.error('Error fetching company data:', error));
         }
     }, [nit]);
+    
+    
 
     const closeModal = () => setIsOpen(false);
     const closeCModal = () => setIsCOpen(false);
@@ -62,12 +116,11 @@ const DeveloperPortal = () => {
                 body: JSON.stringify({ estado: 2 }),
             })
                 .then(response => response.ok ? response.json() : Promise.reject('Error al actualizar el estado'))
-                .then(() => openSuccessModal())
+                .then(() => {
+                    setIsSuccessModalVisible(false);
+                    navigate(`/aceptar-empresas`);
+                })
                 .catch(error => console.error('Error:', error));
-
-            closeModal();
-            setIsSuccessModalVisible(false);
-            navigate(`/aceptar-empresas`);
         }, 1000); // 1 segundo
     };
 
@@ -133,18 +186,41 @@ const DeveloperPortal = () => {
                         </div>
                     </div>
                 );
-            case 'autoeva':
+            case 'autoeva': {
                 return (
                     <div>
-                        {Autoeva.map((info, index) => (
-                            <div key={index} className="bg-greyBlack p-5 rounded-xl mb-4">
-                                <div className="grid grid-cols-3 p-3 justify-between">
-                                    {/* Render Autoeva information */}
-                                </div>
+                        {
+                        calificacionesModulos && calificacionesModulos.length > 0 ? (
+                            calificacionesModulos.map((calificacion, index) => {
+
+
+                                return (
+                                    <div key={index} className="bg-greyBlack p-5 rounded-xl mb-4">
+                                        <div className="grid grid-cols-2 p-3 justify-between">
+                                            <div className="col-span-1">
+                                                <h2 className="text-xl font-bold mb-2 text-white">Módulo</h2>
+                                                <p className="text-principalGreen font-semibold mb-6">{calificacion.nombre_modulo}</p>
+                                            </div>
+                                            <div className="col-span-1">
+                                                <h2 className="text-xl font-bold mb-2 text-white">Calificación</h2>
+                                                <p className="text-principalGreen font-semibold mb-6">{calificacion.calificacion}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <div className="bg-greyBlack p-5 rounded-xl mb-4">
+                                <p className="text-white">No se encontraron calificaciones para esta autoevaluación.</p>
                             </div>
-                        ))}
+                        )}
                     </div>
                 );
+            }
+
+
+
+
             default:
                 return null;
         }
