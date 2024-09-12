@@ -15,7 +15,10 @@ const TableComponent = () => {
       try {
         const response = await fetch('http://localhost:8000/api/v2/empresas/');
         const data = await response.json();
-        const empresasFiltradas = data.filter(empresa => empresa.estado === '1');
+        // Convertir datos en array si es necesario
+        const dataArray = Array.isArray(data) ? data : Object.values(data);
+        // Filtrar solo las empresas activas (estado === 1)
+        const empresasFiltradas = dataArray.filter(empresa => empresa.estado === 1);
         setEmpresas(empresasFiltradas);
         setShowFilters(empresasFiltradas.length > 0); // Actualiza la visibilidad de los filtros
       } catch (error) {
@@ -23,45 +26,24 @@ const TableComponent = () => {
       }
     };
 
-    // Función para obtener roles
-    const fetchRoles = async () => {
-      try {
-        const response = await fetch('http://localhost:8000/api/v2/roles/');
-        const data = await response.json();
-        setRoles(data);
-      } catch (error) {
-        console.error('Error fetching roles:', error);
-      }
-    };
-
     fetchEmpresas();
-    fetchRoles();
-  }, []);
+  }, [location]); // Dependencia de la ubicación para reiniciar el estado
+
+  // Filtra empresas según el término de búsqueda
+  const filteredEmpresas = empresas.filter(empresa =>
+    empresa.nombre_empresa.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    empresa.gerente.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    empresa.razon_social.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // Función para manejar la búsqueda
-  const handleSearch = (term) => {
-    setSearchTerm(term);
-  };
-
-  // Función para manejar el cambio de rol
-  const handleRoleChange = (roleId) => {
-    setSelectedRoleId(roleId);
-  };
-
-  // Filtrar empresas según el término de búsqueda y el rol seleccionado
-  const filteredEmpresas = empresas
-    .filter(empresa =>
-      empresa.nombre_empresa.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      empresa.gerente.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      empresa.razon_social.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter(empresa =>
-      selectedRoleId === '' || empresa.id_rol === parseInt(selectedRoleId)
-    );
+  // const handleSearch = (term) => {
+  //   setSearchTerm(term);
+  // };
 
   return (
     <>
-      <div className='flex flex-col lg:flex-row w-full'>
+      {/* <div className='flex flex-col lg:flex-row w-full'>
         {showFilters && (
           <Buscador
             onSearch={handleSearch}
@@ -71,7 +53,7 @@ const TableComponent = () => {
             contexto=""  // Definimos el contexto como 'empresas'
           />
         )}
-      </div>
+      </div> */}
 
       <div className="w-full rounded-xl bg-greyBg">
         <div className="bg-greyBlack border-textBg rounded-t-xl text-white z-10">
