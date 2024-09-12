@@ -121,13 +121,13 @@ export const FormRegistro = () => {
         if (!values.no_empleados) {
             newErrors.no_empleados = "Debe ingresar el numero de empleados de la empresa.";
         }
-        if (!values.ventas_anopasado) {
-            newErrors.ventas_anopasado = "Debe ingresar las ventas del año pasado.";
-        }
+        //if (!values.ventas_anopasado) {
+            //newErrors.ventas_anopasado = "Debe ingresar las ventas del año pasado.";
+        //}
 
-        if (!values.gastos_costos) {
-            newErrors.gastos_costos = "Debe ingresar los gastos o costos del año pasado.";
-        }
+        //if (!values.gastos_costos) {
+            //newErrors.gastos_costos = "Debe ingresar los gastos o costos del año pasado.";
+        //}
 
         if (!values.tamano_empresa) {
             newErrors.tamano_empresa = "Debe seleccionar el tamaño de la empresa.";
@@ -141,9 +141,9 @@ export const FormRegistro = () => {
             newErrors.direccion = "Debe ingresar la dirección de la empresa.";
         }
 
-        if (!values.act_economica) {
-            newErrors.act_economica = "Debe ingresar la actividad economica de la empresa.";
-        }
+        //if (!values.act_economica) {
+            //newErrors.act_economica = "Debe ingresar la actividad economica de la empresa.";
+        //}
 
         if (!values.gerente) {
             newErrors.gerente = "Debe ingresar el gerente de la empresa.";
@@ -157,9 +157,9 @@ export const FormRegistro = () => {
             newErrors.pagina_web = "Debe ingresar la URL de la pagina web de la empresa.";
         }
 
-        if (!values.sector) {
-            newErrors.sector = "Debe ingresar el sector empresarial.";
-        }
+        //if (!values.sector) {
+            //newErrors.sector = "Debe ingresar el sector empresarial.";
+        //}
 
         return newErrors;
     }
