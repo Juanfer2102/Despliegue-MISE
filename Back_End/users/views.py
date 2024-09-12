@@ -376,7 +376,7 @@ class RegistroPostulanteView(APIView):
                 postulante_serializer.save()
                 return Response(postulante_serializer.data, status=status.HTTP_201_CREATED)
             else:
-                return Response(postulante_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response( postulante_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(empresa_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #proteccion de rutas
