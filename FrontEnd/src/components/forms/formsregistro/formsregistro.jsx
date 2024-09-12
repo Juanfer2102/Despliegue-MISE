@@ -5,16 +5,17 @@ import './formsregistro.css';
 export const FormRegistro = () => {
 
     const [values, setValues] = useState({
-        nombre: "",
-        apellido: "",
-        documento: "",
-        ndocumento: "",
+        nombres_postulante: "",
+        apellidos_postulante: "",
+        tipo_documento: "",
+        no_documento: "",
         correo: "",
         celular: "",
         genero: "",
-        ciudad: "",
+        municipio: "",
         educacion: "",
         cargo: "",
+        id_rol: 4,
         TyC: false,
     });
 
