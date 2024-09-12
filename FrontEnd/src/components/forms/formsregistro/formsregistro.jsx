@@ -136,10 +136,43 @@ export const FormRegistro = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const validationErrors = validateForm();
-
+    
         if (Object.keys(validationErrors).length === 0) {
-            // Aquí redirigimos usando `window.location`
-            window.location.href = '/registro-empresa';
+            const postulanteData = {
+                nombres_postulante: values.nombres_postulante,
+                apellidos_postulante: values.apellidos_postulante,
+                tipo_documento: values.tipo_documento,
+                no_documento: values.no_documento,
+                correo: values.correo,
+                celular: values.celular,
+                genero: values.genero,
+                municipio: values.municipio,
+                educacion: values.educacion,
+                cargo: values.cargo,
+                id_rol: values.id_rol
+            };
+    
+            // Enviar los datos del postulante a la API
+            fetch('http://localhost:8000/api/v2/registro-postulante/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ postulante: postulanteData }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.id_postulante) { // Asegúrate de que `data` contiene el ID del postulante
+                    localStorage.setItem('id_postulante', data.id_postulante);
+                    // Redirigir a la vista de registro de empresa
+                    window.location.href = '/registro-empresa';
+                } else {
+                    console.error('Error en el registro del postulante:', data);
+                }
+            })
+            .catch(error => {   
+                console.error('Error al enviar los datos del postulante:', error);
+            });
         } else {
             setErrors(validationErrors);
             setIsModalVisible(true);
