@@ -8,7 +8,6 @@ import Boton from '../../inputs/boton.jsx';
 export const FormRegistro = () => {
 
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(null);
     const [errors, setErrors] = useState({});
 
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -21,24 +20,26 @@ export const FormRegistro = () => {
     ];
 
     const [values, setValues] = useState({
-        producto: '',
-        fecha_inicio: '',
+        producto_servicio: '',
+        fecha_creacion: '',
         celular: '',
         razon_social: '',
         nit: '',
-        no_empleados: '',
-        ventas_anopasado: '',
-        gastos_costos: '',
-        fecha_registro: null,
-        tamano_empresa: '',
-        nombre_empresa: "",
-        direccion: "",
-        act_economica: "",
-        gerente: "",
-        correo: "",
-        pagina_web: "",
-        sector: "",
-
+        empleados_perm: '',
+        ventas_ult_ano: '',
+        costos_ult_ano: '',
+        fecha_registro: '2024-01-01',
+        sector: '',
+        nombre_empresa: '',
+        direccion: '',
+        act_economica: '',
+        gerente: '',
+        correo: '',
+        pagina_web: '',
+        estado: 1,
+        id_programa: 1,
+        id_postulante: '',
+        diagnostico: 0,
     });
 
     const formatCurrency = (value) => {
