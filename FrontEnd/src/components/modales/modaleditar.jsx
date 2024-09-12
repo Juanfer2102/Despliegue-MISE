@@ -9,6 +9,7 @@ const Editarmodulos = ({ id }) => {
     const [values, setValues] = useState({});
     const [preguntas, setPreguntas] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [originalValues, setOriginalValues] = useState({});
 
     useEffect(() => {
         // Obtener datos del módulo
@@ -17,6 +18,7 @@ const Editarmodulos = ({ id }) => {
                 const response = await fetch(`http://localhost:8000/api/v2/modulos/${id}/`);
                 const data = await response.json();
                 setValues(data);
+                setOriginalValues(data); // Guarda los datos originales
             } catch (error) {
                 console.error('Error fetching module data:', error);
             }
@@ -51,14 +53,14 @@ const Editarmodulos = ({ id }) => {
     const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
 
-    const handleConfirm = async () => {
+    const handleConfirm = async () => { 
         try {
             const method = Object.keys(values).length === Object.keys(originalValues).length ? 'PUT' : 'PATCH';
             const response = await fetch(`http://localhost:8000/api/v2/modulos/${id}/`, {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}` // Incluye el token si es necesario
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}` // Incluye el token si es necesario
                 },
                 body: JSON.stringify(values) // Envía los datos actualizados como JSON
             });
@@ -77,6 +79,7 @@ const Editarmodulos = ({ id }) => {
     
         closeModal(); // Cierra el modal después de la actualización
     };
+    
     
     
 
