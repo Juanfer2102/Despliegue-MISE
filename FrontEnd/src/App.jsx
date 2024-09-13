@@ -64,7 +64,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   return allowedRoles.includes(role) ? children : <Navigate to="/" />;
 };
 
-// Definir las propTypes para ProtectedRoute
+// Definir las propTypes para ProtectedRoute  
 ProtectedRoute.propTypes = {
   children: PropTypes.node.isRequired,
   allowedRoles: PropTypes.arrayOf(PropTypes.string).isRequired,

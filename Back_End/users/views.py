@@ -366,17 +366,12 @@ class RegistroPostulanteEmpresa(APIView):
         
         return Response(postulante_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class PreguntasPorModuloView(APIView):
-    def get(self, request):
-        id_modulo = request.query_params.get('id_modulo')
-        
-        if not id_modulo:
-            return Response({"error": "Debe proporcionar un id_modulo"}, status=status.HTTP_400_BAD_REQUEST)
+class PreguntasPorModuloList(generics.ListAPIView):
+    serializer_class = PreguntasSerializer
 
-        preguntas = Preguntas.objects.filter(id_modulo=id_modulo)
-        serializer = PreguntasSerializer(preguntas, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
+    def get_queryset(self):
+        id_modulo = self.kwargs['id_modulo']  # Obtén el id_modulo de la URL
+        return Preguntas.objects.filter(id_modulo=id_modulo)  # Filtra las preguntas por id_modulo
 class EmpresaDetailView(APIView):
     def get(self, request, nit):
         try:

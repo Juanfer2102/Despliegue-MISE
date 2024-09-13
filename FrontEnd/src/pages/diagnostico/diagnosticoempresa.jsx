@@ -83,29 +83,51 @@ const DiagnosticoEmpresa = () => {
     }, []);
 
     // Llamada a la API para obtener las preguntas por cada módulo
-    useEffect(() => {
-        const fetchPreguntasPorModulo = async (id_modulo) => {
-            try {
-                const response = await fetch(`http://localhost:8000/api/v2/preguntas/${id_modulo}/`);
-                if (response.ok) {
-                    const data = await response.json();
+    // Llamada a la API para obtener las preguntas por cada módulo
+useEffect(() => {
+    const fetchPreguntasPorModulo = async (idModulo) => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/v2/preguntas/modulo/${idModulo}/`);
+            if (response.ok) {
+                const data = await response.json();
+                
+                // Verifica si 'data' es un array de preguntas
+                if (Array.isArray(data)) {
                     setPreguntas(prevState => ({
                         ...prevState,
-                        [id_modulo]: data, // Almacena las preguntas en el estado bajo el id del módulo
+                        [idModulo]: data, // Asigna las preguntas directamente
                     }));
                 } else {
-                    console.error(`Error al obtener las preguntas para el módulo ${id_modulo}`);
+                    console.error(`Datos de preguntas no válidos para el módulo ${idModulo}:`, data);
+                    setPreguntas(prevState => ({
+                        ...prevState,
+                        [idModulo]: [], // Asigna un array vacío en caso de datos inválidos
+                    }));
                 }
-            } catch (error) {
-                console.error(`Error de red al obtener las preguntas para el módulo ${id_modulo}`, error);
+            } else {
+                console.error(`Error al obtener las preguntas para el módulo ${idModulo}:`, response.statusText);
+                setPreguntas(prevState => ({
+                    ...prevState,
+                    [idModulo]: [], // Asigna un array vacío en caso de error en la respuesta
+                }));
             }
-        };
+        } catch (error) {
+            console.error(`Error de red al obtener las preguntas para el módulo ${idModulo}:`, error);
+            setPreguntas(prevState => ({
+                ...prevState,
+                [idModulo]: [], // Asigna un array vacío en caso de error de red
+            }));
+        }
+    };
 
-        // Para cada módulo, realiza la llamada para obtener las preguntas
-        modulos.forEach(modulo => {
-            fetchPreguntasPorModulo(modulo.id);
-        });
-    }, [modulos]); // Se ejecuta una vez que los módulos estén cargados
+    modulos.forEach(modulo => {
+        fetchPreguntasPorModulo(modulo.id_modulo);
+    });
+}, [modulos]);
+
+    
+    
+     // Se ejecuta una vez que los módulos estén cargados
 
     return (
         <>
@@ -127,7 +149,7 @@ const DiagnosticoEmpresa = () => {
                                                 <div key={index} className="flex-1">
                                                     <DesempenoForm
                                                         criterios={preguntas[modulo.id_modulo]?.map(pregunta => ({ descripcion: pregunta.descripcion })) || []} // Mostrar descripciones de preguntas
-                                                        titulo={modulo.nombre} // Usar el nombre del módulo como título
+                                                        titulo={modulo.nombre || 'Sin título'} // Usar el nombre del módulo como título
                                                         onFormChange={handleFormChange}
                                                     />
                                                 </div>
