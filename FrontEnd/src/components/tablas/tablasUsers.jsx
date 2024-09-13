@@ -93,7 +93,7 @@ const UserTable = () => {
                     <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">Rol</div>
                     <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">Acciones</div>
                 </div>
-                <div className="divide-y border overflow-y-auto max-h-[25rem] custom-scrollbar border-textBg border-t-0 rounded-b-xl" style={styles.customScrollbar}>
+                <div className="divide-y border overflow-y-auto max-h-[15rem] custom-scrollbar border-textBg border-t-0 rounded-b-xl" style={styles.customScrollbar}>
                     {filteredUsuarios.map(usuario => (
                         <InfoUser
                             key={usuario.id_usuario}

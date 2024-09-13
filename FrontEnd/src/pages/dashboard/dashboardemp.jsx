@@ -56,6 +56,93 @@ const DashboardEmp = () => {
               <TablaPreguntas />
               <ValidacionDeSueños />
             </div>
+            <div className="flex xl:flex-row lg:flex-row flex-col xl:gap-[5rem] lg:gap-[5rem]">
+              <div className="w-full">
+                <h1 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white p-3">Informacion Postulante</h1>
+                <div className="bg-greyBlack p-3 sm:p-5 rounded-xl mb-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+                    <div className="space-y-4">
+                      <div>
+                        <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Nombre</h2>
+                        <p className="text-principalGreen font-semibold">
+                          6
+                        </p>
+                      </div>
+                      <div>
+                        <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Celular</h2>
+                        <p className="text-principalGreen font-semibold">5</p>
+                      </div>
+                      <div>
+                        <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Correo</h2>
+                        <p className="text-principalGreen font-semibold">4</p>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div>
+                        <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Municipio</h2>
+                        <p className="text-principalGreen font-semibold">3</p>
+                      </div>
+                      <div>
+                        <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Tipo de Documento</h2>
+                        <p className="text-principalGreen font-semibold">2</p>
+                      </div>
+                      <div>
+                        <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">No. Documento</h2>
+                        <p className="text-principalGreen font-semibold">1</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="w-full">
+                <h1 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white p-3">Informacion Empresa</h1>
+                <div className="bg-greyBlack p-3 sm:p-5 rounded-xl mb-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+                    <div className="space-y-4">
+                      <div>
+                        <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Producto o Servicio</h2>
+                        <p className="text-principalGreen font-semibold">9</p>
+                      </div>
+                      <div>
+                        <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Fecha de Inicio</h2>
+                        <p className="text-principalGreen font-semibold">8</p>
+                      </div>
+                      <div>
+                        <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Costos el Ultimo Año</h2>
+                        <p className="text-principalGreen font-semibold">7</p>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div>
+                        <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Razon Social</h2>
+                        <p className="text-principalGreen font-semibold">6</p>
+                      </div>
+                      <div>
+                        <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Celular Empresa</h2>
+                        <p className="text-principalGreen font-semibold">5</p>
+                      </div>
+                      <div>
+                        <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Ventas el Ultimo Año</h2>
+                        <p className="text-principalGreen font-semibold">3</p>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div>
+                        <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">NIT</h2>
+                        <p className="text-principalGreen font-semibold">2</p>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div>
+                        <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Empleados Permanentes</h2>
+                        <p className="text-principalGreen font-semibold">1</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </main>

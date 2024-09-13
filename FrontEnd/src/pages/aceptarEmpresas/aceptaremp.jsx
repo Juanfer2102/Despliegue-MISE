@@ -12,6 +12,7 @@ const DeveloperPortal = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isCOpen, setIsCOpen] = useState(false);
     const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
+    const [isSuccessCModalVisible, setIsSuccessCModalVisible] = useState(false);
     const [companyData, setCompanyData] = useState(null);
     const [postulanteData, setPostulanteData] = useState(null);
     const [autoevaluacionData, setAutoevaluacionData] = useState(null);
@@ -118,7 +119,7 @@ const DeveloperPortal = () => {
     };
 
     const handleConfirm = () => {
-        openSuccessModal();
+        openSuccessCModal();
         closeModal();
     };
 
@@ -131,6 +132,25 @@ const DeveloperPortal = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ estado: 2 }),
+            })
+                .then(response => response.ok ? response.json() : Promise.reject('Error al actualizar el estado'))
+                .then(() => {
+                    setIsSuccessModalVisible(false);
+                    navigate(`/aceptar-empresas`);
+                })
+                .catch(error => console.error('Error:', error));
+        }, 1000); // 1 segundo
+    };
+
+    const openSuccessCModal = () => {
+        setIsSuccessCModalVisible(true);
+        setTimeout(() => {
+            fetch(`http://localhost:8000/api/v2/update-empresa-status/${nit}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ estado: 3 }),
             })
                 .then(response => response.ok ? response.json() : Promise.reject('Error al actualizar el estado'))
                 .then(() => {
@@ -200,7 +220,7 @@ const DeveloperPortal = () => {
                                     </div>
                                     <div>
                                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Costos el Ultimo Año</h2>
-                                        <p className="text-textBg font-semibold">{companyData.costos_ult_ano}</p>
+                                        <p className="text-principalGreen font-semibold">{companyData.costos_ult_ano}</p>
                                     </div>
                                 </div>
                                 <div className="space-y-4">
@@ -214,7 +234,7 @@ const DeveloperPortal = () => {
                                     </div>
                                     <div>
                                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Ventas el Ultimo Año</h2>
-                                        <p className="text-textBg font-semibold">{companyData.ventas_ult_ano}</p>
+                                        <p className="text-principalGreen font-semibold">{companyData.ventas_ult_ano}</p>
                                     </div>
                                 </div>
                                 <div className="space-y-4">
@@ -224,7 +244,7 @@ const DeveloperPortal = () => {
                                     </div>
                                     <div>
                                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Empleados Permanentes</h2>
-                                        <p className="text-textBg font-semibold">{companyData.empleados_perm}</p>
+                                        <p className="text-principalGreen font-semibold">{companyData.empleados_perm}</p>
                                     </div>
                                 </div>
                             </div>
