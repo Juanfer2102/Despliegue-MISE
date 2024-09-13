@@ -1,32 +1,6 @@
 
 from rest_framework import serializers
-from .models import Autoevaluacion, Calificaciones, Diagnostico1, Modulo1, Respuesta1, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
-class CalificacionesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Calificaciones
-        fields = ['id', 'nit', 'id_pregunta', 'calificacion']
-
-
-class Respuesta1Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = Respuesta1
-        fields = ['pregunta', 'calificacion', 'comentarios']
-
-class Diagnostico1Serializer(serializers.ModelSerializer):
-    respuestas1 = Respuesta1Serializer(many=True, read_only=True)
-    promedio_modulo = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Diagnostico1
-        fields = ['empresa', 'modulo1', 'fecha', 'observaciones', 'respuestas1', 'promedio_modulo']
-    
-    def get_promedio_modulo(self, obj):
-        return obj.promedio_modulo
-
-class Modulo1Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = Modulo1
-        fields = ['id', 'nombre']
+from .models import Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 
 class EmpresasSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,7 +11,6 @@ class ModulosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Modulos
         fields = '__all__'
-
 
 class PostulanteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -53,7 +26,6 @@ class ProgramasSerializer(serializers.ModelSerializer):
     class Meta:
         model = Programas
         fields = '__all__'
-
 
 class RegistrosSerializer(serializers.ModelSerializer):
     class Meta:

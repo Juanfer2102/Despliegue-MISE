@@ -22,7 +22,7 @@ class MisePruebaAdmin(admin.ModelAdmin):
 
 @admin.register(Modulos)
 class ModulosAdmin(admin.ModelAdmin):
-    list_display = ('id_modulo', 'nombre', 'objetivo', 'estado_actual')
+    list_display = ('id_modulo', 'nombre', 'escala', 'objetivo', 'estado_actual')
     search_fields = ('nombre', 'objetivo')
 
 @admin.register(Preguntas)
