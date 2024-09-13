@@ -3,6 +3,26 @@ import FormsRegistro from "../../components/forms/formsregistroemp/formsregistro
 import Logo from "../../components/logo";
 
 const RegistroEmpresa = () => {
+
+  // Estilos en JSX
+  const styles = {
+    customScrollbar: {
+      scrollbarWidth: '13px',
+      scrollbarColor: '#888 #262b32',
+    },
+    customScrollbarTrack: {
+      background: '#262b32',
+      borderRadius: '12px',
+    },
+    customScrollbarThumb: {
+      background: '#888',
+      borderRadius: '10px',
+    },
+    customScrollbarThumbHover: {
+      background: '#555',
+    }
+  };
+
   return (
     <main>
       {/* Fondo oscuro superpuesto */}
@@ -18,8 +38,8 @@ const RegistroEmpresa = () => {
       </div>
 
       {/* Contenedor principal */}
-      <div className="relative z-20 flex h-screen items-center justify-center py-3">
-        <div className="register-container w-full h-full flex flex-col justify-center text-white text-center p-4 md:p-20 lg:p-28 gap-5">
+      <div className="relative z-20 flex flex-col-reverse xl:flex-row lg:flex-row items-center justify-center h-screen xl:gap-5 lg:gap-5 p-4 lg:p-0">
+        <div className="register-container text-white w-full h-full flex flex-col justify-center lg:px-20 lg:py-10 gap-5 text-center lg:text-left" style={styles.customScrollbar}>
           <FormsRegistro client:visible />
         </div>
       </div>

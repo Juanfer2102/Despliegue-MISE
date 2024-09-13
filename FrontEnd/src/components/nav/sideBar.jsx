@@ -123,13 +123,13 @@ const Sidebar = ({ condicion, nombre }) => {
                   </div>
                 </div>
                 <img
-                    className="h-6 w-6 relative overflow-hidden shrink-0 block cursor-pointer"
-                    onClick={handleOpenModal}
-                    loading="lazy"
-                    alt=""
-                    id="profile-1"
-                    src={IconLogOut}
-                  />
+                  className="h-6 w-6 relative overflow-hidden shrink-0 block cursor-pointer"
+                  onClick={handleOpenModal}
+                  loading="lazy"
+                  alt=""
+                  id="profile-1"
+                  src={IconLogOut}
+                />
               </div>
             </div>
           </div>
@@ -138,11 +138,11 @@ const Sidebar = ({ condicion, nombre }) => {
 
       {condicion === 2 && (
         <aside
-          className={`sidebar h-full hidden  sticky sm:flex ${sidebarExpanded ? "w-[18rem]" : "w-[95px]"
-            } h-screen bg-greyBlack rounded-md transition-all duration-500 ease-in-out`}
+          className={`sidebar hidden sm:flex ${sidebarExpanded ? "w-[18rem] absolute h-full " : "w-[5.5rem] sticky h-auto"
+            }  bg-greyBlack rounded-br-md transition-all duration-500 ease-in-out z-50`}
           id="sidebar"
         >
-          <div className="cajasidebar1 flex flex-col gap-5 pt-[6rem] w-full" id="cajasidebar1">
+          <div className="cajasidebar1 flex flex-col gap-5 h-full w-full" id="cajasidebar1">
             <div className="flex justify-center relative">
               <img
                 src={Logo}
@@ -156,13 +156,13 @@ const Sidebar = ({ condicion, nombre }) => {
                 id="logo-min"
                 alt=""
               />
-              <img
+              <div
+                className="w-[24px] h-[24px] rounded-full bg-principalGreen text-sm text-white flex justify-center items-center absolute right-[-10px] top-[20px] cursor-pointer"
                 id="toggleBtn"
-                src={IconExpand}
-                className="cursor-pointer absolute right-[-10px] top-[20px]"
-                alt=""
                 onClick={toggleSidebar}
-              />
+              >
+                <i className={`fa-solid fa-angle-${sidebarExpanded ? "left" : "right"}`}></i>
+              </div>
             </div>
             <div className="flex flex-col gap-3 px-4">
               {Elementoscript.map((elemento, index) => (
@@ -175,17 +175,17 @@ const Sidebar = ({ condicion, nombre }) => {
                 />
               ))}
             </div>
-            <div className="flex flex-col gap-3 px-4 border-t-2 pt-5 border-white"></div>
+            <div className="border-b border-white"></div>
             <div
               className={`mt-auto usuariofinal w-full bg-darkslategray box-border flex ${sidebarExpanded ? "flex-row gap-[12px]" : "flex-col gap-[20px]"
                 } items-center justify-end p-6 leading-[normal] tracking-[normal] text-left text-xs text-darkgray font-base-medium`}
               id="usuariofinal"
             >
-              <div className="flex-1 flex flex-row items-center justify-start gap-[12px]">
+              <div className={`flex-1 flex items-center justify-start ${sidebarExpanded ? "flex-row gap-[12px]" : "flex-col-reverse gap-[20px]"}`}>
                 <img
                   className="h-10 w-10 relative rounded-[99px] overflow-hidden shrink-0 object-cover cursor-pointer"
-                  onClick={() => setIsModalOpen(true)}
                   loading="lazy"
+                  onClick={() => setIsModalOpen(true)}
                   alt=""
                   src={IconProfile}
                 />
@@ -197,26 +197,27 @@ const Sidebar = ({ condicion, nombre }) => {
                     {nombre}
                   </div>
                 </div>
+                <img
+                  className="h-6 w-6 relative overflow-hidden shrink-0 block cursor-pointer"
+                  onClick={handleOpenModal}
+                  loading="lazy"
+                  alt=""
+                  id="profile-1"
+                  src={IconLogOut}
+                />
               </div>
-              <img
-                className="h-6 w-6 relative overflow-hidden shrink-0 block cursor-pointer"
-                onClick={handleOpenModal}
-                loading="lazy"
-                alt=""
-                id="profile-1"
-                src={IconLogOut}
-              />
             </div>
           </div>
         </aside>
       )}
-      {condicion === 3 && (
+
+{condicion === 3 && (
         <aside
-          className={`sidebar hidden h-full sticky sm:flex ${sidebarExpanded ? "w-[18rem]" : "w-[95px]"
-            } h-screen bg-greyBlack rounded-md transition-all duration-500 ease-in-out`}
+          className={`sidebar hidden sm:flex ${sidebarExpanded ? "w-[18rem] absolute h-full " : "w-[5.5rem] sticky h-auto"
+            }  bg-greyBlack rounded-br-md transition-all duration-500 ease-in-out z-50`}
           id="sidebar"
         >
-          <div className="cajasidebar1 flex flex-col gap-5 pt-[6rem] w-full" id="cajasidebar1">
+          <div className="cajasidebar1 flex flex-col gap-5 h-full w-full" id="cajasidebar1">
             <div className="flex justify-center relative">
               <img
                 src={Logo}
@@ -230,13 +231,13 @@ const Sidebar = ({ condicion, nombre }) => {
                 id="logo-min"
                 alt=""
               />
-              <img
+              <div
+                className="w-[24px] h-[24px] rounded-full bg-principalGreen text-sm text-white flex justify-center items-center absolute right-[-10px] top-[20px] cursor-pointer"
                 id="toggleBtn"
-                src={IconExpand}
-                className="cursor-pointer absolute right-[-10px] top-[20px]"
-                alt=""
                 onClick={toggleSidebar}
-              />
+              >
+                <i className={`fa-solid fa-angle-${sidebarExpanded ? "left" : "right"}`}></i>
+              </div>
             </div>
             <div className="flex flex-col gap-3 px-4">
               {Elementoscript.map((elemento, index) => (
@@ -249,17 +250,17 @@ const Sidebar = ({ condicion, nombre }) => {
                 />
               ))}
             </div>
-            <div className="flex flex-col gap-3 px-4 border-t-2 pt-5 border-white"></div>
+            <div className="border-b border-white"></div>
             <div
               className={`mt-auto usuariofinal w-full bg-darkslategray box-border flex ${sidebarExpanded ? "flex-row gap-[12px]" : "flex-col gap-[20px]"
                 } items-center justify-end p-6 leading-[normal] tracking-[normal] text-left text-xs text-darkgray font-base-medium`}
               id="usuariofinal"
             >
-              <div className="flex-1 flex flex-row items-center justify-start gap-[12px]">
+              <div className={`flex-1 flex items-center justify-start ${sidebarExpanded ? "flex-row gap-[12px]" : "flex-col-reverse gap-[20px]"}`}>
                 <img
                   className="h-10 w-10 relative rounded-[99px] overflow-hidden shrink-0 object-cover cursor-pointer"
-                  onClick={() => setIsModalOpen(true)}
                   loading="lazy"
+                  onClick={() => setIsModalOpen(true)}
                   alt=""
                   src={IconProfile}
                 />
@@ -271,15 +272,15 @@ const Sidebar = ({ condicion, nombre }) => {
                     {nombre}
                   </div>
                 </div>
+                <img
+                    className="h-6 w-6 relative overflow-hidden shrink-0 block cursor-pointer"
+                    onClick={handleOpenModal}
+                    loading="lazy"
+                    alt=""
+                    id="profile-1"
+                    src={IconLogOut}
+                  />
               </div>
-              <img
-                className="h-6 w-6 relative overflow-hidden shrink-0 block cursor-pointer"
-                onClick={handleOpenModal}
-                loading="lazy"
-                alt=""
-                id="profile-1"
-                src={IconLogOut}
-              />
             </div>
           </div>
         </aside>

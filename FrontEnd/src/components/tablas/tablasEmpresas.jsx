@@ -28,6 +28,25 @@ export const TablasEmpresas = () => {
     setSearchTerm(term);
   };
 
+  // Estilos en JSX
+  const styles = {
+    customScrollbar: {
+      scrollbarWidth: '13px',
+      scrollbarColor: '#888 #262b32',
+    },
+    customScrollbarTrack: {
+      background: '#262b32',
+      borderRadius: '12px',
+    },
+    customScrollbarThumb: {
+      background: '#888',
+      borderRadius: '10px',
+    },
+    customScrollbarThumbHover: {
+      background: '#555',
+    }
+  };
+
   return (
     <>
       <div className='flex flex-col lg:flex-row w-full py-4'>
@@ -48,7 +67,7 @@ export const TablasEmpresas = () => {
             <div className="flex-1 p-5 text-center">Información</div>
           </div>
 
-          <div className="divide-y border max-h-[25rem] md:max-h-[50rem] overflow-y-auto custom-scrollbar border-textBg border-t-0 rounded">
+          <div className="divide-y border border-textBg border-t-0 rounded max-h-[10rem] overflow-y-auto custom-scrollbar" style={styles.customScrollbar}>
             {empresasConEstado2
               .filter(empresa =>
                 `${empresa.nit} ${empresa.nombre_empresa}`.toLowerCase().includes(searchTerm.toLowerCase())

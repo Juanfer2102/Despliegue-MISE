@@ -15,7 +15,7 @@ export const EmpresasRegistradas = () => {
             <div className="bg-greyBlack h-16 md:h-20"></div>
             <div className="w-full px-4 py-5 md:px-8">
               <div className="text-white gap-6">
-                <div className="flex flex-col gap-5">
+                <div className="flex flex-col gap-2">
                   <div className="">
                     <p className="text-xl md:text-2xl xl:text-left min-lg:text-left max-md:text-center pl-4">Empresas registradas</p>
                   </div>
@@ -34,7 +34,7 @@ export const EmpresasRegistradas = () => {
                   </div>
 
                   {/* Tabla de empresas */}
-                  <div className="rounded-xl px-5 md:px-10 pt-5 pb-10 h-full flex flex-col gap-2 overflow-y-auto custom-scrollbar">
+                  <div className="rounded-xl px-5 md:px-10 pb-5 h-full flex flex-col gap-2">
                     <div className="rounded-xl">
                       <div className="">
                         <TablasEmpresas />

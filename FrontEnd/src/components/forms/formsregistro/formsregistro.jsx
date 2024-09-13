@@ -187,7 +187,7 @@ export const FormRegistro = () => {
             >
                 <div className="flex flex-row w-full gap-5">
                     <input
-                        className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.nombres_postulante ? 'border-red-500' : ''}`}
+                        className={`h-full lg:h-[3.6rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.nombres_postulante ? 'border-red-500' : ''}`}
                         type="text"
                         value={values.nombres_postulante || ''}
                         name="nombres_postulante"
@@ -196,7 +196,7 @@ export const FormRegistro = () => {
                         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                     />
                     <input
-                        className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.apellidos_postulante ? 'border-red-500' : ''}`}
+                        className={`h-full lg:h-[3.6rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.apellidos_postulante ? 'border-red-500' : ''}`}
                         type="text"
                         value={values.apellidos_postulante || ''}
                         name="apellidos_postulante"
@@ -215,7 +215,7 @@ export const FormRegistro = () => {
                         className={`${errors.tipo_documento ? 'border-red' : ''}`}
                     />
                     <input
-                        className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.no_documento ? 'border-red-500' : ''}`}
+                        className={`h-full lg:h-[3.6rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.no_documento ? 'border-red-500' : ''}`}
                         type="number"
                         value={values.no_documento || ''}
                         name="no_documento"
@@ -225,7 +225,7 @@ export const FormRegistro = () => {
                     />
                 </div>
                 <input
-                    className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.correo ? 'border-red-500' : ''}`}
+                    className={`h-full lg:h-[3.6rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.correo ? 'border-red-500' : ''}`}
                     type="email"
                     value={values.correo || ''}
                     name="correo"
@@ -234,7 +234,7 @@ export const FormRegistro = () => {
                     onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                 />
                 <input
-                    className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.celular ? 'border-red-500' : ''}`}
+                    className={`h-full lg:h-[3.6rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.celular ? 'border-red-500' : ''}`}
                     type="number"
                     value={values.celular || ''}
                     name="celular"
