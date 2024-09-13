@@ -1,30 +1,20 @@
 import { useState } from "react";
 
-const DesempenoForm = ({ criterios, titulo, onFormChange }) => {
+const DesempenoForm = ({ criterios, titulo, nit, onFormSubmit }) => {
   const [values, setValues] = useState({});
 
   const handleInputChange = (index, value) => {
-    // Validar que el valor esté entre 0 y 100
     if (value === "" || (/^\d{0,3}(\.\d{0,2})?$/.test(value) && value <= 100)) {
-      setValues((prevValues) => ({
-        ...prevValues,
-        [questionKey]: criterios[index].descripcion,
+      const questionKey = `pregunta_${index + 1}`;
+      const valoracionKey = `valoracion_${index + 1}`;
+      const newValues = {
+        ...values,
+        [questionKey]: criterios[index].id_pregunta,
         [valoracionKey]: value,
-      }));
+      };
+      setValues(newValues);
+      onFormSubmit(titulo, newValues); // Asegúrate de enviar todos los valores
     }
-    // Crear una clave dinámica para la pregunta
-    const questionKey = `pregunta_${index + 1}`;
-    const valoracionKey = `valoracion_${index + 1}`;
-
-    // Actualizar el estado local del formulario
-    
-
-    // Enviar el cambio al componente padre
-    onFormChange(titulo, {
-      ...values,
-      [questionKey]: criterios[index].descripcion,
-      [valoracionKey]: value,
-    });
   };
 
   return (
@@ -48,13 +38,11 @@ const DesempenoForm = ({ criterios, titulo, onFormChange }) => {
                   type="number"
                   name={`valoracion_${index + 1}`}
                   value={values[`valoracion_${index + 1}`] || ""}
-                  step="0.01" // Permite números decimales
+                  step="0.01"
                   min="0"
                   max="100"
-                  className="border border-white bg-transparent text-white rounded-md p-2 w-full"
-                  onChange={(e) =>
-                    handleInputChange(index, e.target.value)
-                  }
+                  className="border border-gray-300 p-1 rounded-md text-black"
+                  onChange={(e) => handleInputChange(index, e.target.value)}
                 />
               </td>
             </tr>

@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 from users import views
-from .views import check_auth, generar_diagnostico, CalificacionesViewSet, registrar_calificacion, CalificacionesModulosList, PreguntasPorModuloList, ModuloUpdateView, PreguntasNoAsignadasList, ModulosListView, AutoevaluacionDetail, RegistroAutoevaluacionView, RegistroPostulante, RegistroEmpresa, UpdateEmpresaStatus, AutoevaluacionListCreate, CalificacionModuloListCreate, ModuloAutoevaluacionListCreate, RegistroPostulanteView, EmpresasListCreate, EmpresasRetrieveUpdateDestroy, ModulosListCreate, ModulosRetrieveUpdateDestroy, PostulanteListCreate, PostulanteRetrieveUpdateDestroy, PreguntasListCreate, PreguntasRetrieveUpdateDestroy, ProgramasListCreate, ProgramasRetrieveUpdateDestroy, RegistrosListCreate, RegistrosRetrieveUpdateDestroy, RolListCreate, RolRetrieveUpdateDestroy, SuenosListCreate, SuenosRetrieveUpdateDestroy, TalleresListCreate, TalleresRetrieveUpdateDestroy, UsuarioListCreate, UsuarioRetrieveUpdateDestroy
+from .views import check_auth, generar_diagnostico, SaveCalificacionView, CalificacionesViewSet, registrar_calificacion, CalificacionesModulosList, PreguntasPorModuloList, ModuloUpdateView, PreguntasNoAsignadasList, ModulosListView, AutoevaluacionDetail, RegistroAutoevaluacionView, RegistroPostulante, RegistroEmpresa, UpdateEmpresaStatus, AutoevaluacionListCreate, CalificacionModuloListCreate, ModuloAutoevaluacionListCreate, RegistroPostulanteView, EmpresasListCreate, EmpresasRetrieveUpdateDestroy, ModulosListCreate, ModulosRetrieveUpdateDestroy, PostulanteListCreate, PostulanteRetrieveUpdateDestroy, PreguntasListCreate, PreguntasRetrieveUpdateDestroy, ProgramasListCreate, ProgramasRetrieveUpdateDestroy, RegistrosListCreate, RegistrosRetrieveUpdateDestroy, RolListCreate, RolRetrieveUpdateDestroy, SuenosListCreate, SuenosRetrieveUpdateDestroy, TalleresListCreate, TalleresRetrieveUpdateDestroy, UsuarioListCreate, UsuarioRetrieveUpdateDestroy
 
 router = routers.DefaultRouter()
 
@@ -10,6 +10,8 @@ urlpatterns = [
     path('login', views.login),
     path('user', views.user),
     path('check-auth/', check_auth, name='check_auth'),
+
+    path('calificacion/', SaveCalificacionView.as_view(), name='save_calificacion'),
 
     path('diagnostico/<int:nit>/<int:id_modulo>/', generar_diagnostico, name='generar_diagnostico'),
     path('registrar-calificacion/', registrar_calificacion, name='registrar_calificacion'),
@@ -46,7 +48,7 @@ urlpatterns = [
     path('postulante/', PostulanteListCreate.as_view(), name='postulante-list-create'),
     path('postulante/<int:pk>/', PostulanteRetrieveUpdateDestroy.as_view(), name='postulante-retrieve-update-destroy'),
 
-    path('preguntas/', PreguntasPorModuloList.as_view(), name='preguntas-por-modulo'),
+    path('preguntas/', PreguntasListCreate.as_view(), name='preguntas-por-modulo'),
     path('preguntas/modulo/<int:id_modulo>/', PreguntasPorModuloList.as_view(), name='preguntas-por-modulo'),
 
     path('programas/', ProgramasListCreate.as_view(), name='programas-list-create'),

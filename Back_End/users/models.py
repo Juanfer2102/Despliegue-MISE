@@ -164,17 +164,16 @@ class Talleres(models.Model):
         db_table = 'talleres'
 
 class Calificaciones(models.Model):
-    id = models.AutoField(primary_key=True)
-    nit = models.ForeignKey(Empresas, on_delete=models.CASCADE, db_column='nit')
-    id_pregunta = models.ForeignKey(
-        'Preguntas',
-        on_delete=models.CASCADE,
-        related_name='calificaciones'
-    )
+    id = models.BigAutoField(primary_key=True)
     calificacion = models.DecimalField(max_digits=5, decimal_places=2)
+    id_pregunta = models.ForeignKey('Preguntas', models.DO_NOTHING, db_column='id_pregunta')
+    nit = models.ForeignKey('Empresas', models.DO_NOTHING, db_column='nit')
 
     class Meta:
+        managed = False
         db_table = 'calificaciones'
+
+
 
 
 

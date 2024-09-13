@@ -4,52 +4,84 @@ import DesempenoForm from '../../components/forms/formsdiagnostico/formsdiagnost
 import GoBack from '../../components/inputs/goback/GoBack';
 import Boton from '../../components/inputs/boton';
 import ConfirmModal from '../../components/modales/modalconfirm';
-
 import { useParams } from 'react-router-dom';
 
 const DiagnosticoEmpresa = () => {
     const { nit } = useParams();
     const [formularioData, setFormularioData] = useState({});
     const [isOpen, setIsOpen] = useState(false);
-    const [nombreEmpresa, setNombreEmpresa] = useState(''); // Estado para el nombre de la empresa
-    const [modulos, setModulos] = useState([]); // Estado para los módulos
-    const [preguntas, setPreguntas] = useState({}); // Estado para las preguntas asociadas a cada módulo
-    const [loading, setLoading] = useState(true); // Estado de carga
+    const [nombreEmpresa, setNombreEmpresa] = useState('');
+    const [modulos, setModulos] = useState([]);
+    const [preguntas, setPreguntas] = useState({});
+    const [loading, setLoading] = useState(true);
 
-    // Función para abrir el modal
     const openModal = () => setIsOpen(true);
+    const closeModal = () => setIsOpen(false);
 
-    // Función para cerrar el modal
-    const closeModal = () => {
-        setIsOpen(false);
-    };
-
-    // Función para manejar los cambios en los formularios
     const handleFormChange = (titulo, data) => {
         setFormularioData(prevState => ({
             ...prevState,
-            [titulo]: {
-                ...prevState[titulo],
-                ...data,
-            },
+            [titulo]: data,
         }));
     };
+    
+    
 
-    // Función para manejar el envío del formulario
-    const handleForm = async (event) => {
-        event.preventDefault();
-        console.log('Datos del formulario:', formularioData);
-        closeModal();
+    const handleForm = async () => {
+        try {
+            const calificaciones = [];
+    
+            // Recorre cada módulo y recoge las calificaciones
+            Object.keys(formularioData).forEach(titulo => {
+                const calificacionData = formularioData[titulo];
+                Object.keys(calificacionData).forEach(key => {
+                    if (key.startsWith('valoracion_')) {
+                        const preguntaId = calificacionData[`pregunta_${key.split('_')[1]}`];
+                        const calificacion = calificacionData[key];
+                        if (preguntaId && calificacion) {
+                            calificaciones.push({
+                                calificacion,
+                                id_pregunta: preguntaId,
+                                nit_empresa: nit,
+                            });
+                        }
+                    }
+                });
+            });
+    
+            console.log('Datos a enviar:', calificaciones); // Verifica los datos en la consola
+    
+            const response = await fetch('http://localhost:8000/api/v2/calificacion/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(calificaciones),
+            });
+    
+            if (response.ok) {
+                alert('Calificaciones guardadas con éxito');
+            } else {
+                const errorData = await response.json();
+                console.error('Error al guardar las calificaciones:', errorData);
+                alert('Error al guardar las calificaciones');
+            }
+        } catch (error) {
+            console.error('Error al guardar las calificaciones:', error);
+        } finally {
+            closeModal();
+        }
     };
+    
+    
 
-    // Llamada a la API para obtener los datos de la empresa por NIT
     useEffect(() => {
         const fetchEmpresaData = async () => {
             try {
                 const response = await fetch(`http://localhost:8000/api/v2/empresas/${nit}/`);
                 if (response.ok) {
                     const data = await response.json();
-                    setNombreEmpresa(data.nombre_empresa); // Extraer y guardar el nombre de la empresa
+                    setNombreEmpresa(data.nombre_empresa);
                 } else {
                     console.error('Error al obtener los datos de la empresa');
                 }
@@ -59,75 +91,66 @@ const DiagnosticoEmpresa = () => {
         };
 
         fetchEmpresaData();
-    }, [nit]); // El efecto depende del NIT
+    }, [nit]);
 
-    // Llamada a la API para obtener los módulos
     useEffect(() => {
         const fetchModulos = async () => {
             try {
                 const response = await fetch('http://localhost:8000/api/v2/modulos/');
                 if (response.ok) {
                     const data = await response.json();
-                    setModulos(data); // Asigna los módulos obtenidos al estado
+                    setModulos(data);
                 } else {
                     console.error('Error al obtener los módulos');
                 }
             } catch (error) {
                 console.error('Error de red al obtener los módulos', error);
             } finally {
-                setLoading(false); // Finaliza el estado de carga
+                setLoading(false);
             }
         };
 
         fetchModulos();
     }, []);
 
-    // Llamada a la API para obtener las preguntas por cada módulo
-    // Llamada a la API para obtener las preguntas por cada módulo
-useEffect(() => {
-    const fetchPreguntasPorModulo = async (idModulo) => {
-        try {
-            const response = await fetch(`http://localhost:8000/api/v2/preguntas/modulo/${idModulo}/`);
-            if (response.ok) {
-                const data = await response.json();
-                
-                // Verifica si 'data' es un array de preguntas
-                if (Array.isArray(data)) {
-                    setPreguntas(prevState => ({
-                        ...prevState,
-                        [idModulo]: data, // Asigna las preguntas directamente
-                    }));
+    useEffect(() => {
+        const fetchPreguntasPorModulo = async (idModulo) => {
+            try {
+                const response = await fetch(`http://localhost:8000/api/v2/preguntas/modulo/${idModulo}/`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (Array.isArray(data)) {
+                        setPreguntas(prevState => ({
+                            ...prevState,
+                            [idModulo]: data,
+                        }));
+                    } else {
+                        console.error(`Datos de preguntas no válidos para el módulo ${idModulo}:`, data);
+                        setPreguntas(prevState => ({
+                            ...prevState,
+                            [idModulo]: [],
+                        }));
+                    }
                 } else {
-                    console.error(`Datos de preguntas no válidos para el módulo ${idModulo}:`, data);
+                    console.error(`Error al obtener las preguntas para el módulo ${idModulo}:`, response.statusText);
                     setPreguntas(prevState => ({
                         ...prevState,
-                        [idModulo]: [], // Asigna un array vacío en caso de datos inválidos
+                        [idModulo]: [],
                     }));
                 }
-            } else {
-                console.error(`Error al obtener las preguntas para el módulo ${idModulo}:`, response.statusText);
+            } catch (error) {
+                console.error(`Error de red al obtener las preguntas para el módulo ${idModulo}:`, error);
                 setPreguntas(prevState => ({
                     ...prevState,
-                    [idModulo]: [], // Asigna un array vacío en caso de error en la respuesta
+                    [idModulo]: [],
                 }));
             }
-        } catch (error) {
-            console.error(`Error de red al obtener las preguntas para el módulo ${idModulo}:`, error);
-            setPreguntas(prevState => ({
-                ...prevState,
-                [idModulo]: [], // Asigna un array vacío en caso de error de red
-            }));
-        }
-    };
+        };
 
-    modulos.forEach(modulo => {
-        fetchPreguntasPorModulo(modulo.id_modulo);
-    });
-}, [modulos]);
-
-    
-    
-     // Se ejecuta una vez que los módulos estén cargados
+        modulos.forEach(modulo => {
+            fetchPreguntasPorModulo(modulo.id_modulo);
+        });
+    }, [modulos]);
 
     return (
         <>
@@ -139,7 +162,6 @@ useEffect(() => {
                         <div className="bg-greyBg flex flex-col h-full w-full px-12 pt-6 overflow-auto">
                             <div className="gap-8 flex flex-col p-8 w-full h-full rounded-md">
                                 <div className="rounded-xl flex flex-col gap-6 h-full">
-                                    {/* Mostrar el nombre de la empresa dinámicamente */}
                                     <GoBack text={`Diagnostico / ${nombreEmpresa || 'Cargando...'}`} />
                                     <div className="flex flex-col gap-6 h-full overflow-auto custom-scrollbar">
                                         {loading ? (
@@ -148,9 +170,10 @@ useEffect(() => {
                                             modulos.map((modulo, index) => (
                                                 <div key={index} className="flex-1">
                                                     <DesempenoForm
-                                                        criterios={preguntas[modulo.id_modulo]?.map(pregunta => ({ descripcion: pregunta.descripcion })) || []} // Mostrar descripciones de preguntas
-                                                        titulo={modulo.nombre || 'Sin título'} // Usar el nombre del módulo como título
-                                                        onFormChange={handleFormChange}
+                                                        criterios={preguntas[modulo.id_modulo]?.map(pregunta => ({ descripcion: pregunta.descripcion, id_pregunta: pregunta.id_pregunta })) || []}
+                                                        titulo={modulo.nombre || 'Sin título'}
+                                                        nit={nit}
+                                                        onFormSubmit={handleFormChange}
                                                     />
                                                 </div>
                                             ))

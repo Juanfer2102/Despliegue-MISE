@@ -22,6 +22,34 @@ from django.views.decorators.csrf import csrf_exempt
 class CalificacionesViewSet(generics.ListCreateAPIView):
     queryset = Calificaciones.objects.all()
     serializer_class = CalificacionesSerializer
+class SaveCalificacionView(APIView):
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        print(data)  # Agrega esta línea para depurar
+
+        if isinstance(data, list):
+            for item in data:
+                calificacion = item.get('calificacion')
+                id_pregunta = item.get('id_pregunta')
+                nit = item.get('nit')
+
+                # Validar y obtener la pregunta
+                pregunta = get_object_or_404(Preguntas, id=id_pregunta)
+                
+                # Validar y obtener la empresa
+                empresa = get_object_or_404(Empresas, nit=nit)
+
+                # Crear y guardar la calificación
+                Calificaciones.objects.create(
+                    calificacion=calificacion,
+                    pregunta=pregunta,
+                    empresa=empresa
+                )
+
+            return Response({"message": "Calificaciones guardadas con éxito"}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"error": "Formato de datos incorrecto"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 @csrf_exempt
 def registrar_calificacion(request):

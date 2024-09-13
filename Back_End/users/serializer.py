@@ -4,7 +4,7 @@ from .models import Autoevaluacion, Calificaciones, Diagnostico1, Modulo1, Respu
 class CalificacionesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Calificaciones
-        fields = ['id', 'nit', 'id_pregunta', 'calificacion']
+        fields = '__all__'
 
 
 class Respuesta1Serializer(serializers.ModelSerializer):
