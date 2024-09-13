@@ -2,10 +2,12 @@
 import colors from 'tailwindcss/colors';
 
 export default {
-  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}', 
-        "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}"],
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
+    "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}"],
   theme: {
     colors: {
+      barColor1: '#4ECDC4',
+      barColor2: '#FF6B6B',
       darkslategray: "#262b32",
       azulclaro: "#00B0F0",
       fucsia: "#FF33CC",
@@ -29,36 +31,36 @@ export default {
       greyBg: "#3C4147",
       textBg: "#64748B",
       red: "#EE0004",
-       // light mode
-       tremor: {
+      // light mode
+      tremor: {
         brand: {
-            faint: colors.blue[50],
-            muted: colors.transparent,
-            subtle: colors.transparent,
-            DEFAULT: colors.blue[500],
-            emphasis: colors.blue[700],
-            inverted: colors.white,
+          faint: colors.blue[50],
+          muted: colors.transparent,
+          subtle: colors.transparent,
+          DEFAULT: colors.blue[500],
+          emphasis: colors.blue[700],
+          inverted: colors.white,
         },
         background: {
-            muted: colors.gray[50],
-            subtle: colors.gray[100],
-            DEFAULT: colors.white,
-            emphasis: colors.gray[700],
+          muted: colors.gray[50],
+          subtle: colors.gray[100],
+          DEFAULT: colors.white,
+          emphasis: colors.gray[700],
         },
         border: {
-            DEFAULT: 'transparent',
+          DEFAULT: 'transparent',
         },
         ring: {
-            DEFAULT: colors.gray[200],
+          DEFAULT: colors.gray[200],
         },
         content: {
-            subtle: colors.gray[400],
-            DEFAULT: colors.gray[500],
-            emphasis: colors.gray[700],
-            strong: colors.gray[900],
-            inverted: colors.white,
+          subtle: colors.gray[400],
+          DEFAULT: colors.gray[500],
+          emphasis: colors.gray[700],
+          strong: colors.gray[900],
+          inverted: colors.white,
         },
-        
+
       },
     },
 
@@ -79,7 +81,7 @@ export default {
       // => @media (min-width: 1920px) { ... }
     },
 
-    
+
     fontFamily: {
       "base-medium": "Poppins",
       roboto: "Roboto",
@@ -96,7 +98,7 @@ export default {
       'dark-tremor-dropdown': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
     },
 
-    
+
 
     extend: {
       keyframes: {

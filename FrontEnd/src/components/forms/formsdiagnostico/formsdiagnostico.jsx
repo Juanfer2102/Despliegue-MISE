@@ -17,7 +17,7 @@ const DesempenoForm = ({ criterios, titulo, onFormChange }) => {
     const valoracionKey = `valoracion_${index + 1}`;
 
     // Actualizar el estado local del formulario
-    
+
 
     // Enviar el cambio al componente padre
     onFormChange(titulo, {
@@ -27,40 +27,57 @@ const DesempenoForm = ({ criterios, titulo, onFormChange }) => {
     });
   };
 
+  // Estilos en JSX
+  const styles = {
+    customScrollbar: {
+      scrollbarWidth: '13px',
+      scrollbarColor: '#888 #262b32',
+    },
+    customScrollbarTrack: {
+      background: '#262b32',
+      borderRadius: '12px',
+    },
+    customScrollbarThumb: {
+      background: '#888',
+      borderRadius: '10px',
+    },
+    customScrollbarThumbHover: {
+      background: '#555',
+    }
+  };
+
   return (
-    <div className="flex flex-col w-full h-full p-6 shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-4 text-white">
+    <div className="flex flex-col w-full h-full p-4 md:p-6 shadow-md rounded-lg">
+      <h2 className="text-xl md:text-2xl font-bold mb-4 text-white">
         {titulo} <span className="text-white">*</span>
       </h2>
-      <table className="min-w-full text-white flex-1">
-        <thead>
-          <tr>
-            <th className="py-2 px-4 text-left border-b">Pregunta</th>
-            <th className="py-2 px-4 border-b">Valoración</th>
-          </tr>
-        </thead>
-        <tbody>
-          {criterios.map((criterio, index) => (
-            <tr key={index} className="border-b">
-              <td className="py-2 px-4 w-[75rem]">{criterio.descripcion}</td>
-              <td className="py-2 px-4 w-[10rem]">
-                <input
-                  type="number"
-                  name={`valoracion_${index + 1}`}
-                  value={values[`valoracion_${index + 1}`] || ""}
-                  step="0.01" // Permite números decimales
-                  min="0"
-                  max="100"
-                  className="border border-white bg-transparent text-white rounded-md p-2 w-full"
-                  onChange={(e) =>
-                    handleInputChange(index, e.target.value)
-                  }
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="flex flex-col w-full text-white">
+        <div className="hidden md:flex border-b">
+          <div className="py-2 flex-grow text-left font-bold">Pregunta</div>
+          <div className="py-2 px-4 w-40 text-center font-bold">Valoración</div>
+        </div>
+        {criterios.map((criterio, index) => (
+          <div key={index} className="flex flex-col md:flex-row border-b">
+            <div className="py-2 md:py-4 md:pt-6 flex-grow">
+              <div className="font-bold md:hidden mb-2">Pregunta:</div>
+              {criterio.descripcion}
+            </div>
+            <div className="py-2 md:py-4 md:px-4 md:w-40">
+              <div className="font-bold md:hidden mb-2">Valoración:</div>
+              <input
+                type="number"
+                name={`valoracion_${index + 1}`}
+                value={values[`valoracion_${index + 1}`] || ""}
+                step="0.01"
+                min="0"
+                max="100"
+                className="border border-white bg-transparent text-white rounded-md p-2 w-full"
+                onChange={(e) => handleInputChange(index, e.target.value)}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

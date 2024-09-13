@@ -30,6 +30,25 @@ const TablaDiagnostico = () => {
         setSearchTerm(term);
     };
 
+     // Estilos en JSX
+     const styles = {
+        customScrollbar: {
+            scrollbarWidth: '13px',
+            scrollbarColor: '#888 #262b32',
+        },
+        customScrollbarTrack: {
+            background: '#262b32',
+            borderRadius: '12px',
+        },
+        customScrollbarThumb: {
+            background: '#888',
+            borderRadius: '10px',
+        },
+        customScrollbarThumbHover: {
+            background: '#555',
+        }
+    };
+
     return (
         <>
             <div className='flex flex-row w-full'>
@@ -45,7 +64,7 @@ const TablaDiagnostico = () => {
                     <div className="flex-1 xl:p-5 lg:p-5 p-2  text-center">Actividad Economica</div>
                     <div className="flex-1 xl:p-5 lg:p-5 p-2  text-center"></div> {/* Nueva columna para el botón */}
                 </div>
-                <div className="overflow-y-auto max-h-[40rem] custom-scrollbar divide-y border border-textBg border-t-0 rounded">
+                <div className="overflow-y-auto max-h-[40rem] custom-scrollbar divide-y border border-textBg border-t-0 rounded" style={styles.customScrollbar}>
                 {empresas
                         .filter(empresa => 
                             `${empresa.nit} ${empresa.nombre_empresa}`.toLowerCase().includes(searchTerm.toLowerCase())

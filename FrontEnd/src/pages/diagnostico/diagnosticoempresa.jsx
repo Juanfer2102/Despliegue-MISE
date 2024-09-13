@@ -9,6 +9,25 @@ const DiagnosticoEmpresa = () => {
     const [formularioData, setFormularioData] = useState({});
     const [isOpen, setIsOpen] = useState(false);
 
+    // Estilos en JSX
+    const styles = {
+        customScrollbar: {
+            scrollbarWidth: '13px',
+            scrollbarColor: '#888 #262b32',
+        },
+        customScrollbarTrack: {
+            background: '#262b32',
+            borderRadius: '12px',
+        },
+        customScrollbarThumb: {
+            background: '#888',
+            borderRadius: '10px',
+        },
+        customScrollbarThumbHover: {
+            background: '#555',
+        }
+    };
+
     const formularios = [
         {
             titulo: 'Desempeño Administrativo',
@@ -52,14 +71,14 @@ const DiagnosticoEmpresa = () => {
         <>
             <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleForm} />
             <LayoutDashboard title="MISE">
-                <main className="flex flex-row w-full bg-greyBlack h-screen">
+                <main className="bg-greyBg w-full h-screen overflow-x-hidden">
                     <div className="flex flex-col w-full h-full">
-                        <div className="flex content-center justify-end h-20 w-full" />
-                        <div className="bg-greyBg flex flex-col h-full w-full px-12 pt-6 overflow-auto">
+                        <div className="bg-greyBlack h-20 w-full"></div>
+                        <div className="bg-greyBg flex flex-col h-full w-full px-4 overflow-auto">
                             <div className="gap-8 flex flex-col p-8 w-full h-full rounded-md">
                                 <div className="rounded-xl flex flex-col gap-6 h-full">
                                     <GoBack text={"Diagnostico / Arroz Chino"} />
-                                    <div className="flex flex-col gap-6 h-full overflow-auto custom-scrollbar">
+                                    <div className="flex flex-col gap-6 h-full overflow-auto custom-scrollbar" style={styles.customScrollbar}>
                                         {formularios.map((formulario, index) => (
                                             <div key={index} className="flex-1">
                                                 <DesempenoForm
@@ -69,6 +88,8 @@ const DiagnosticoEmpresa = () => {
                                                 />
                                             </div>
                                         ))}
+                                    </div>
+                                    <div className='px-5 flex w-full xl:justify-start lg:justify-start justify-center'>
                                         <Boton text={"Guardar"} onClick={openModal} />
                                     </div>
                                 </div>

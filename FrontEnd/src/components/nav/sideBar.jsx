@@ -51,7 +51,7 @@ const Sidebar = ({ condicion, nombre }) => {
       {condicion === 1 && (
         <aside
           className={`sidebar hidden sm:flex ${sidebarExpanded ? "w-[18rem] absolute h-full " : "w-[5.5rem] sticky h-auto"
-            }  bg-greyBlack rounded-br-md transition-all duration-500 ease-in-out z-50`}
+            }  bg-greyBlack rounded-br-md transition-all duration-500 ease-in-out z-10`}
           id="sidebar"
         >
           <div className="cajasidebar1 flex flex-col gap-5 h-full w-full" id="cajasidebar1">
@@ -139,7 +139,7 @@ const Sidebar = ({ condicion, nombre }) => {
       {condicion === 2 && (
         <aside
           className={`sidebar hidden sm:flex ${sidebarExpanded ? "w-[18rem] absolute h-full " : "w-[5.5rem] sticky h-auto"
-            }  bg-greyBlack rounded-br-md transition-all duration-500 ease-in-out z-50`}
+            }  bg-greyBlack rounded-br-md transition-all duration-500 ease-in-out z-10`}
           id="sidebar"
         >
           <div className="cajasidebar1 flex flex-col gap-5 h-full w-full" id="cajasidebar1">
@@ -214,7 +214,7 @@ const Sidebar = ({ condicion, nombre }) => {
 {condicion === 3 && (
         <aside
           className={`sidebar hidden sm:flex ${sidebarExpanded ? "w-[18rem] absolute h-full " : "w-[5.5rem] sticky h-auto"
-            }  bg-greyBlack rounded-br-md transition-all duration-500 ease-in-out z-50`}
+            }  bg-greyBlack rounded-br-md transition-all duration-500 ease-in-out z-10`}
           id="sidebar"
         >
           <div className="cajasidebar1 flex flex-col gap-5 h-full w-full" id="cajasidebar1">
