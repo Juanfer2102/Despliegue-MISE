@@ -56,12 +56,13 @@ const DetalleEmpresas = lazy(() => import("./pages/aceptarEmpresas/verinfoempres
 const Autoevaluacion = lazy(() => import("./pages/autoevaluacion/autoevaluacion.jsx"));
 const VerEmpDiag = lazy(() => import("./pages/diagnostico/verempdiag.jsx"));
 const DiagnosticoEmpresa = lazy(() => import("./pages/diagnostico/diagnosticoempresa.jsx"));
+const Page404 = lazy(() => import("./pages/404/page404.jsx"));
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const userData = JSON.parse(localStorage.getItem('userData'));
   const role = userData ? userData.id_rol : null;
 
-  return allowedRoles.includes(role) ? children : <Navigate to="/" />;
+  return allowedRoles.includes(role) ? children : <Navigate to="/404" />;
 };
 
 // Definir las propTypes para ProtectedRoute
@@ -85,7 +86,9 @@ const AppRoutes = () => {
           <Route path="/reescribir-contraseña" element={<Rescribircontrase />} />
           <Route path="/credenciales" element={<Credencial />} />
           <Route path="/expiracion" element={<Expirado />} />
-
+          <Route path="/404" element={<Page404 />} />
+          <Route path="*" element={<Page404 />} />
+          
 
           {/* Rutas protegidas */}
           <Route path="/detalles-empresa/:nit" element={

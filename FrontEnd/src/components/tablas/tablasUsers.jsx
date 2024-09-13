@@ -41,6 +41,25 @@ const UserTable = () => {
         setSelectedRoleId(roleId);  // Actualiza el ID del rol seleccionado
     };
 
+    // Estilos en JSX
+    const styles = {
+        customScrollbar: {
+            scrollbarWidth: '13px',
+            scrollbarColor: '#888 #262b32',
+        },
+        customScrollbarTrack: {
+            background: '#262b32',
+            borderRadius: '12px',
+        },
+        customScrollbarThumb: {
+            background: '#888',
+            borderRadius: '10px',
+        },
+        customScrollbarThumbHover: {
+            background: '#555',
+        }
+    };
+
     const filteredUsuarios = usuarios.filter(usuario => {
         const nombreCompleto = `${usuario.nombres} ${usuario.apellidos}`.toLowerCase();
 
@@ -74,7 +93,7 @@ const UserTable = () => {
                     <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">Rol</div>
                     <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">Acciones</div>
                 </div>
-                <div className="divide-y border overflow-y-auto max-h-[25rem] custom-scrollbar border-textBg border-t-0 rounded-b-xl">
+                <div className="divide-y border overflow-y-auto max-h-[25rem] custom-scrollbar border-textBg border-t-0 rounded-b-xl" style={styles.customScrollbar}>
                     {filteredUsuarios.map(usuario => (
                         <InfoUser
                             key={usuario.id_usuario}

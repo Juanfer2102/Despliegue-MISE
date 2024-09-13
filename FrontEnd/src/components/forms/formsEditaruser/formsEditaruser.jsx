@@ -102,12 +102,12 @@ export const FormsEditaruser = () => {
 
     const handleForm = async (event) => {
         event.preventDefault();
-        console.log("Inputs value:", values); // Mostrar los valores de los inputs en la consola
         closeModal();
         openSuccessModal();
     }
 
     const openSuccessModal = () => {
+        console.log("Inputs value:", values); // Mostrar los valores de los inputs en la consola
         setIsSuccessModalVisible(true);
         setTimeout(() => {
             setIsSuccessModalVisible(false);
@@ -251,7 +251,7 @@ export const FormsEditaruser = () => {
             </form>
             {/* Modal de éxito */}
             {isSuccessModalVisible && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div className="bg-white p-8 rounded-lg shadow-lg text-center">
                         <div className="loading-balls">
                             <div></div>
