@@ -1,17 +1,18 @@
-from django.db import models
+from django.db import models, connection
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager    
+from django.http import JsonResponse
 import bcrypt
 
 
 class Empresas(models.Model):
-    nit = models.IntegerField(db_column='NIT', primary_key=True)  # Field name made lowercase.
+    nit = models.IntegerField(db_column='nit', primary_key=True)
     nombre_empresa = models.TextField()
     celular = models.BigIntegerField()
     razon_social = models.TextField()
     direccion = models.TextField()
     act_economica = models.TextField()
     gerente = models.TextField()
-    producto_servicio = models.TextField(db_column='producto/servicio')  # Field renamed to remove unsuitable characters.
+    producto_servicio = models.TextField(db_column='producto/servicio')
     correo = models.TextField()
     pagina_web = models.TextField()
     fecha_creacion = models.DateField()
@@ -20,13 +21,15 @@ class Empresas(models.Model):
     empleados_perm = models.BigIntegerField()
     sector = models.TextField()
     estado = models.IntegerField()
-    diagnostico = models.IntegerField()
+    diagnostico_value = models.IntegerField()  # Renamed field
     id_programa = models.ForeignKey('Programas', models.DO_NOTHING, db_column='id_programa')
     id_postulante = models.ForeignKey('Postulante', models.DO_NOTHING, db_column='id_postulante')
 
     class Meta:
         managed = False
         db_table = 'empresas'
+
+
 
 
 
@@ -63,34 +66,6 @@ class MisePrueba(models.Model):
         db_table = 'mise_prueba'
 
 
-class Modulos(models.Model):
-    id_modulo = models.IntegerField(primary_key=True)
-    nombre = models.TextField()
-    escala = models.TextField()
-    objetivo = models.TextField()
-    observaciones = models.TextField()
-    alcance = models.TextField()
-    estado_actual = models.TextField()
-    nivel_ideal = models.TextField()
-    id_tema = models.ForeignKey('Temas', models.DO_NOTHING, db_column='id_tema')
-
-    class Meta:
-        managed = False
-        db_table = 'modulos'
-
-
-
-class Preguntas(models.Model):
-    id_pregunta = models.IntegerField(primary_key=True)
-    descripcion = models.TextField()
-    criterio = models.TextField()
-    id_modulo = models.ForeignKey(Modulos, models.DO_NOTHING, db_column='id_modulo')
-
-    class Meta:
-        managed = False
-        db_table = 'preguntas'
-
-
 class Programas(models.Model):
     id_programa = models.IntegerField(primary_key=True)
     nombre_programa = models.TextField()
@@ -102,17 +77,7 @@ class Programas(models.Model):
         db_table = 'programas'
 
 
-class Registros(models.Model):
-    id_registro = models.IntegerField(primary_key=True)
-    hora = models.IntegerField()
-    fecha = models.DateField()
-    comentarios = models.TextField()
-    id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_usuario')
-    id_modulo = models.ForeignKey(Modulos, models.DO_NOTHING, db_column='id_modulo')
 
-    class Meta:
-        managed = False
-        db_table = 'registros'
 
 
 class Rol(models.Model):
@@ -122,6 +87,58 @@ class Rol(models.Model):
     class Meta:
         managed = False
         db_table = 'rol'
+
+class Temas(models.Model):
+    id_tema = models.IntegerField(primary_key=True)
+    area = models.TextField()
+    titulo = models.TextField()
+    contenido = models.TextField()
+    fecha = models.DateField()
+    horario = models.DateField()
+    ubicacion = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'temas'
+
+class Modulos(models.Model):
+    id_modulo = models.AutoField(primary_key=True)
+    nombre = models.TextField(db_collation='utf8mb4_0900_ai_ci', blank=True, null=True)
+    objetivo = models.TextField(db_collation='utf8mb4_0900_ai_ci', blank=True, null=True)
+    observaciones = models.TextField(db_collation='utf8mb4_0900_ai_ci', blank=True, null=True)
+    alcance = models.TextField(db_collation='utf8mb4_0900_ai_ci', blank=True, null=True)
+    estado_actual = models.TextField(db_collation='utf8mb4_0900_ai_ci', blank=True, null=True)
+    nivel_ideal = models.TextField(db_collation='utf8mb4_0900_ai_ci', blank=True, null=True)
+    id_tema = models.ForeignKey(Temas, on_delete=models.DO_NOTHING, db_column='id_tema')  # Relación con Temas
+
+    class Meta:
+        managed = False
+        db_table = 'modulos'
+
+
+class Escalas(models.Model):
+    id_escala = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=50)
+    descripcion = models.TextField()
+    rango_minimo = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    rango_maximo = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # Valor predeterminado
+    id_modulo = models.ForeignKey(Modulos, on_delete=models.CASCADE, default=1)
+
+    class Meta:
+        db_table = 'escalas'
+
+
+
+class Preguntas(models.Model):
+    id_pregunta = models.AutoField(primary_key=True)
+    descripcion = models.TextField()
+    criterio = models.TextField()
+    id_modulo = models.ForeignKey(Modulos, on_delete=models.DO_NOTHING, db_column='id_modulo')
+    id_escala = models.ForeignKey(Escalas, on_delete=models.DO_NOTHING, db_column='id_escala')  # Nueva relación con la tabla Escalas
+
+    class Meta:
+        managed = False
+        db_table = 'preguntas'
 
 
 class Suenos(models.Model):
@@ -146,6 +163,62 @@ class Talleres(models.Model):
         managed = False
         db_table = 'talleres'
 
+class Calificaciones(models.Model):
+    id = models.AutoField(primary_key=True)
+    nit = models.ForeignKey(Empresas, on_delete=models.CASCADE, db_column='nit')
+    id_pregunta = models.ForeignKey(
+        'Preguntas',
+        on_delete=models.CASCADE,
+        related_name='calificaciones'
+    )
+    calificacion = models.DecimalField(max_digits=5, decimal_places=2)
+
+    class Meta:
+        db_table = 'calificaciones'
+
+
+
+
+class Evaluaciones(models.Model):
+    id_evaluacion = models.AutoField(primary_key=True)
+    nit = models.ForeignKey(Empresas, on_delete=models.CASCADE, db_column='nit')
+    id_modulo = models.ForeignKey(Modulos, on_delete=models.CASCADE, db_column='id_modulo')
+    id_pregunta = models.ForeignKey(Preguntas, on_delete=models.CASCADE, db_column='id_pregunta')
+    id_escala = models.ForeignKey(Escalas, on_delete=models.CASCADE, db_column='id_escala')
+    observaciones = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'evaluaciones'
+
+
+class Diagnostico(models.Model):
+    id = models.AutoField(primary_key=True)
+    nit = models.ForeignKey(Empresas, on_delete=models.CASCADE, db_column='nit')
+    id_modulo = models.ForeignKey(
+        'Modulos',
+        on_delete=models.CASCADE,
+        related_name='diagnosticos'
+    )
+    promedio = models.DecimalField(max_digits=5, decimal_places=2)
+    estado = models.CharField(max_length=50)
+
+    class Meta:
+        db_table = 'diagnostico'
+
+
+
+class Registros(models.Model):
+    id_registro = models.IntegerField(primary_key=True)
+    hora = models.IntegerField()
+    fecha = models.DateField()
+    comentarios = models.TextField()
+    id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_usuario')
+    id_modulo = models.ForeignKey(Modulos, models.DO_NOTHING, db_column='id_modulo')
+
+    class Meta:
+        managed = False
+        db_table = 'registros'
 
 class Usuario(models.Model):
     id_usuario = models.AutoField(primary_key=True)
@@ -205,15 +278,57 @@ class CalificacionModulo(models.Model):
         managed = False
         db_table = 'calificacion_modulo'
 
-class Temas(models.Model):
-    id_tema = models.IntegerField(primary_key=True)
-    area = models.TextField()
-    titulo = models.TextField()
-    contenido = models.TextField()
-    fecha = models.DateField()
-    horario = models.DateField()
-    ubicacion = models.TextField()
 
-    class Meta:
-        managed = False
-        db_table = 'temas'
+
+class Modulo1(models.Model):
+    nombre = models.CharField(max_length=255)
+    descripcion = models.TextField()
+
+    def __str__(self):
+        return self.nombre
+
+class Pregunta1(models.Model):
+    modulo1 = models.ForeignKey(Modulo1, related_name='preguntas1', on_delete=models.CASCADE)
+    texto = models.TextField()
+
+    def __str__(self):
+        return self.texto
+
+class Escala1(models.Model):
+    descripcion = models.TextField()
+    nivel = models.CharField(max_length=50, choices=[
+        ('No Desarrollado', 'No Desarrollado'),
+        ('Parcialmente Desarrollado', 'Parcialmente Desarrollado'),
+        ('Ampliamente Desarrollado', 'Ampliamente Desarrollado'),
+        ('No Aplica', 'No Aplica')
+    ])
+
+    def __str__(self):
+        return self.nivel
+
+class Diagnostico1(models.Model):
+    empresa = models.ForeignKey('Empresas', on_delete=models.CASCADE)
+    modulo1 = models.ForeignKey(Modulo1, on_delete=models.CASCADE)
+    fecha = models.DateField()
+    observaciones = models.TextField()
+
+    @property
+    def promedio_modulo(self):
+        respuestas = Respuesta1.objects.filter(diagnostico=self, pregunta__modulo1=self.modulo1)
+        if not respuestas.exists():
+            return 0
+        total_calificacion = sum(r.calificacion for r in respuestas)
+        return total_calificacion / respuestas.count()
+
+    def __str__(self):
+        return f"Diagnóstico para {self.empresa} en {self.modulo1} el {self.fecha}"
+
+class Respuesta1(models.Model):
+    diagnostico = models.ForeignKey(Diagnostico1, related_name='respuestas1', on_delete=models.CASCADE)
+    pregunta = models.ForeignKey(Pregunta1, related_name='respuestas1', on_delete=models.CASCADE)
+    escala = models.ForeignKey(Escala1, on_delete=models.CASCADE)
+    calificacion = models.IntegerField()  # Calificación numérica entre 0 y 100
+    comentarios = models.TextField()
+
+    def __str__(self):
+        return f"Respuesta a {self.pregunta} con calificación {self.calificacion}"

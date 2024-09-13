@@ -43,11 +43,11 @@ const Editarmodulos = ({ id }) => {
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setValues(prev => ({ ...prev, [name]: value }));
+        setValues((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleMultiSelectChange = (values) => {
-        setValues(prev => ({ ...prev, preg_mod_edit: values }));
+        setValues((prev) => ({ ...prev, preg_mod_edit: values }));
     };
 
     const openModal = () => setIsOpen(true);
@@ -64,24 +64,21 @@ const Editarmodulos = ({ id }) => {
                 },
                 body: JSON.stringify(values) // Envía los datos actualizados como JSON
             });
-    
+
             if (!response.ok) {
                 throw new Error('Error updating module');
             }
-    
+
             const updatedModule = await response.json();
             console.log('Module updated successfully:', updatedModule);
             // Puedes actualizar el estado o redirigir al usuario si es necesario
-    
+
         } catch (error) {
             console.error('Error updating module:', error);
         }
-    
+
         closeModal(); // Cierra el modal después de la actualización
     };
-    
-    
-    
 
     const renderFields = () => {
         const commonProps = {

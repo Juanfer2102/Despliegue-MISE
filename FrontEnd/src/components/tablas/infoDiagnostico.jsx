@@ -1,13 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const InfoDiag = ({ nit, nombre_empresa, act_economica }) => {
 
     const CompanyName = nombre_empresa;
+    const navigate = useNavigate();
 
     const handleEditClick = () => {
-        // Redirigir a la página de edición del usuario con el id_usuario
-        window.location.href = `/diagnostico/empresa`;
+        // Redirigir a la página de diagnóstico del NIT de la empresa seleccionada
+        navigate(`/diagnostico/empresa/${nit}`);
     };
+
 
     return (
         <div className={`${CompanyName} bg-transparent border-transparent flex`}>

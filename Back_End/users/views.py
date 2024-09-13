@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
-from .serializer import AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
-from rest_framework import status, generics, serializers
+from .models import Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .serializer import Diagnostico1Serializer, CalificacionesSerializer, Modulo1Serializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
+from rest_framework import status, generics, serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
@@ -13,6 +13,105 @@ from django.contrib.auth import get_user_model, authenticate
 from rest_framework_simplejwt.tokens import RefreshToken, UntypedToken
 
 from rest_framework.views import APIView
+
+from django.db import connection
+from django.http import JsonResponse
+import json
+from django.views.decorators.csrf import csrf_exempt
+
+class CalificacionesViewSet(generics.ListCreateAPIView):
+    queryset = Calificaciones.objects.all()
+    serializer_class = CalificacionesSerializer
+
+@csrf_exempt
+def registrar_calificacion(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            nit = data['nit']
+            id_pregunta = data['id_pregunta']
+            calificacion = data['calificacion']
+
+            # Validar los datos aquí si es necesario
+
+            calificacion_obj = Calificaciones.objects.create(
+                nit=nit,
+                id_pregunta_id=id_pregunta,
+                calificacion=calificacion
+            )
+
+            return JsonResponse({
+                'success': True,
+                'message': 'Calificación registrada correctamente',
+            })
+        except KeyError as e:
+            return JsonResponse({
+                'success': False,
+                'message': f'Faltan datos: {str(e)}'
+            }, status=400)
+        except Exception as e:
+            return JsonResponse({
+                'success': False,
+                'message': str(e)
+            }, status=500)
+    else:
+        return JsonResponse({
+            'success': False,
+            'message': 'Método no permitido'
+        }, status=405)
+
+def calcular_promedio_calificaciones(nit, id_modulo):
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT AVG(calificacion) as promedio
+            FROM calificaciones
+            WHERE nit = %s AND id_pregunta IN (
+                SELECT id_pregunta FROM preguntas WHERE id_modulo = %s
+            );
+        """, [nit, id_modulo])
+        row = cursor.fetchone()
+    return row[0]  # Promedio de las calificaciones
+
+def generar_diagnostico(request, nit, id_modulo):
+    try:
+        empresa = Empresas.objects.get(nit=nit)
+        modulo = Modulos.objects.get(id_modulo=id_modulo)
+    except Empresas.DoesNotExist:
+        return JsonResponse({'error': 'Empresa no encontrada'}, status=404)
+    except Modulos.DoesNotExist:
+        return JsonResponse({'error': 'Módulo no encontrado'}, status=404)
+
+    promedio = calcular_promedio_calificaciones(nit, id_modulo)
+
+    if promedio is None:
+        return JsonResponse({'error': 'No hay calificaciones disponibles'}, status=404)
+
+    escala = Escalas.objects.filter(id_modulo=id_modulo, rango_minimo__lte=promedio, rango_maximo__gte=promedio).first()
+
+    if escala:
+        estado = escala.nombre
+    else:
+        estado = 'No definido'
+
+    Diagnostico.objects.create(
+        nit=empresa,
+        id_modulo=modulo,
+        promedio=promedio,
+        estado=estado
+    )
+
+    return JsonResponse({
+        'modulo': id_modulo,
+        'promedio': promedio,
+        'estado': estado
+    })
+
+
+
+
+class Modulo1ViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Modulo1.objects.all()
+    serializer_class = Modulo1Serializer
 
 @api_view(['POST'])
 def login(request):
@@ -419,20 +518,22 @@ class ModulosRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 class ModulosListView(generics.GenericAPIView):
     serializer_class = ModulosSerializer
 
+    def get_queryset(self):
+        return Modulos.objects.all()  # Definir el queryset dentro del método
+
     def get(self, request, *args, **kwargs):
-        modulos = Modulos.objects.all()  # Obtener todos los módulos
+        modulos = self.get_queryset()
         serializer = self.get_serializer(modulos, many=True)
         return Response(serializer.data)
+
+
     
 class ModuloUpdateView(generics.UpdateAPIView):
     queryset = Modulos.objects.all()
     serializer_class = ModulosSerializer
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
     def patch(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)    
+        return self.partial_update(request, *args, **kwargs)
 
 # Postulante Views
 class PostulanteListCreate(generics.ListCreateAPIView):
