@@ -68,20 +68,24 @@ class UsuarioSerializer(serializers.ModelSerializer):
             validated_data.pop('contrasena', None)
             
         return super().update(instance, validated_data)
-    
-    
-    
-class AutoevaluacionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Autoevaluacion
-        fields = '__all__'
-
-class CalificacionModuloSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CalificacionModulo
-        fields = '__all__'
-
 class ModuloAutoevaluacionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ModuloAutoevaluacion
         fields = '__all__'
+
+class CalificacionModuloSerializer(serializers.ModelSerializer):
+    # Usa solo los IDs en lugar de los detalles completos
+    id_autoevaluacion = serializers.PrimaryKeyRelatedField(queryset=Autoevaluacion.objects.all())
+    id_modulo = serializers.PrimaryKeyRelatedField(queryset=ModuloAutoevaluacion.objects.all())
+
+    class Meta:
+        model = CalificacionModulo
+        fields = ['id_calificacion', 'calificacion', 'comentarios', 'id_autoevaluacion', 'id_modulo']
+
+class AutoevaluacionSerializer(serializers.ModelSerializer):
+    calificaciones = CalificacionModuloSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Autoevaluacion
+        fields = '__all__'
+

@@ -6,25 +6,29 @@ const TablaDiagnostico = () => {
     const [empresas, setEmpresas] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
+    // Petición para obtener las empresas
     useEffect(() => {
-        // Simulación de la obtención de datos (ajustar según tu fuente de datos real)
-        fetch('http://localhost:8000/api/v2/empresas/')
-            .then((response) => response.json())
-            .then((data) => {
-                // Filtrar las empresas para obtener las activas, si es necesario
-                const empresasFiltradas = data.filter(empresa => empresa.estado === '1');
+        const fetchEmpresas = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/api/v2/empresas/');
+                const data = await response.json();
+                
+                // Filtramos las empresas que tienen diagnostico en 0 y estado en 2
+                const empresasFiltradas = data.filter(empresa => empresa.diagnostico === 0 && empresa.estado === 2);
                 setEmpresas(empresasFiltradas);
-            })
-            .catch((error) => console.error('Error fetching empresas:', error));
+                console.log(empresasFiltradas)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        
+
+        fetchEmpresas();
     }, []);
 
     const handleSearch = (term) => {
         setSearchTerm(term);
     };
-
-    const filteredEmpresas = empresas.filter(empresa =>
-        `${empresa.nit} ${empresa.nombre_empresa}`.toLowerCase().includes(searchTerm.toLowerCase())
-    );
 
     return (
         <>
@@ -42,14 +46,19 @@ const TablaDiagnostico = () => {
                     <div className="flex-1 p-5 text-center"></div> {/* Nueva columna para el botón */}
                 </div>
                 <div className="overflow-auto divide-y border border-textBg border-t-0 rounded">
-                    {filteredEmpresas.map(empresa => (
-                        <InfoDiag
-                            key={empresa.nit}
-                            nit={empresa.nit}
-                            nombre={empresa.nombre_empresa}
-                            act_economica={empresa.actividad_economica}
-                        />
-                    ))}
+                {empresas
+                        .filter(empresa => 
+                            `${empresa.nit} ${empresa.nombre_empresa}`.toLowerCase().includes(searchTerm.toLowerCase())
+                        )
+                        .map(empresa => (
+                            <InfoDiag
+                                key={empresa.nit}
+                                nit={empresa.nit}
+                                nombre_empresa={empresa.nombre_empresa}
+                                act_economica={empresa.act_economica}
+                            />
+                        ))
+                    }
                 </div>
             </div>
         </>

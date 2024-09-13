@@ -7,13 +7,13 @@ import GoBack from '../../components/inputs/goback/GoBack.jsx';
 const NuevoUser = () => {
   return (
     <LayoutDashboard>
-      <main className="flex flex-row w-full bg-greyBlack h-screen">
+      <main className="bg-greyBg w-full h-screen overflow-x-hidden">
         <div className="flex flex-col w-full h-full">
-          <div className="bg-greyBlack flex content-center pt-4 pr-5 justify-end h-20 w-full" />
-          <div className="bg-greyBg flex flex-col px-6 h-full w-full">
+          <div className="bg-greyBlack h-20 w-full" />
+          <div className="bg-greyBg flex flex-col px-4 gap-2 py-2 sm:px-8 h-full w-full">
             <GoBack text={"Nuevo Usuario"} />
-            <div className="bg-greyBlack flex flex-col px-6 py-5 w-full rounded-md">
-              <div className="flex flex-col w-full px-6">
+            <div className="bg-greyBlack flex flex-col gap-2 lg:gap-8 p-4 lg:p-5 w-full rounded-md">
+              <div className="flex flex-col w-full px-6 py-2">
                 <p className="text-white text-3xl">
                   Información para Creación de Usuario
                 </p>

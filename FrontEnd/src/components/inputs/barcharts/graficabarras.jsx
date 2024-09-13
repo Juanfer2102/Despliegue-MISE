@@ -64,7 +64,7 @@ export default function Grafica() {
 
   return (
     <>
-      <Card className="bg-greyBlack xl:w-[39rem] rounded-xl border-greyBlack  sm:max-w-2xl z-10">
+      <Card className="bg-greyBlack xl:w-[39rem] lg:w-[35rem] rounded-xl border-greyBlack  sm:max-w-2xl z-10">
         <h3 className=" font-semibold text-white dark:text-dark-tremor-content-strong">
           Gráfica de empresas desarrolladas (2023-2024)
         </h3>
@@ -78,7 +78,7 @@ export default function Grafica() {
           valueFormatter={valueFormatter}
           yAxisWidth={50}
           yAxisDomain={[0, 100]} // Establecer el rango del eje Y de 0 a 100
-          className="mt-6 hidden h-60 sm:block"
+          className="hidden h-60 sm:block "
         />
         <BarChart
           data={data}
@@ -90,10 +90,10 @@ export default function Grafica() {
           valueFormatter={valueFormatter}
           yAxisDomain={[0, 100]} // Establecer el rango del eje Y de 0 a 100
           showYAxis={false}
-          className="mt-4 h-56 sm:hidden"
+          className="h-56 sm:hidden"
         />
         <Divider />
-        <div className="mb-2 flex items-center space-x-3">
+        <div className="flex items-center space-x-3">
           <Switch
             id="comparison"
             onChange={() => setShowComparison(!showComparison)}

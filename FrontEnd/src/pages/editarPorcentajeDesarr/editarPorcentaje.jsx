@@ -1,14 +1,15 @@
-import React from 'react';
 import LayoutDashboard from "../../layouts/LayoutDashboard";
 import { Formseditporc } from "../../components/forms/formseditporc/formseditporc.jsx";
+import GoBack from "../../components/inputs/goback/GoBack.jsx";
 
 const EditarPorcentaje = () => {
   return (
-    <LayoutDashboard title="Editar Usuario">
-      <main className="flex flex-row w-full bg-greyBlack h-screen">
+    <LayoutDashboard title="Editar Porcentaje">
+      <main className="bg-greyBg w-full h-screen overflow-x-hidden">
         <div className="flex flex-col w-full h-full">
-          <div className="bg-greyBlack flex content-center pt-4 pr-5 justify-end h-20 w-full" />
-          <div className="bg-greyBg flex flex-col px-8 h-full w-full">
+          <div className="bg-greyBlack h-20 w-full" />
+          <div className="bg-greyBg flex flex-col gap-1 w-full xl:h-full px-4 xl:px-12 pt-4 xl:pt-6">
+            <GoBack text={"Porcentajes de Desarrollo"} />
             <Formseditporc client:load />
           </div>
         </div>

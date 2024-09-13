@@ -51,7 +51,7 @@ const UserTable = () => {
 
     return (
         <>
-            <div className='flex flex-col lg:flex-row w-full p-4'>
+            <div className='flex flex-col lg:flex-row xl:flex-row w-full py-4'>
                 <Buscador
                     onSearch={handleSearch}
                     onRoleChange={handleRoleChange}  // Nuevo manejador de cambio de rol
@@ -59,7 +59,7 @@ const UserTable = () => {
                     roles={roles}  // Pasamos los roles obtenidos
                     contexto="usuarios"  // Definimos el contexto como 'usuarios'
                 />
-                <div className='w-full xl:w-full py-4 xl:py-5 flex items-center xl:justify-end justify-center'>
+                <div className='w-full xl:w-full py-4 xl:py-5 flex items-center xl:justify-end lg:justify-end max-md:justify-center'>
                     <a href="/nuevo-user">
                         <button className='bg-principalGreen rounded-xl p-2 text-white hover:bg-white hover:text-principalGreen'>
                             Nuevo Usuario
@@ -67,14 +67,14 @@ const UserTable = () => {
                     </a>
                 </div>
             </div>
-            <div className="overflow-x-auto lg:overflow-x-hidden overflow-y-auto max-h-[40rem] custom-scrollbar w-full rounded-xl bg-greyBg">
+            <div className="overflow-x-auto lg:overflow-x-hidden w-full rounded-xl bg-greyBg">
                 <div className="bg-greyBlack border-textBg rounded-t-xl text-white flex flex-col lg:flex-row">
                     <div className="flex-1 p-3 xl:text-left text-center font-bold border-b border-textBg lg:border-b-0">Nombre</div>
                     <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">MISE encargado</div>
                     <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">Rol</div>
                     <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">Acciones</div>
                 </div>
-                <div className="divide-y border border-textBg border-t-0 rounded-b-xl">
+                <div className="divide-y border overflow-y-auto max-h-[25rem] custom-scrollbar border-textBg border-t-0 rounded-b-xl">
                     {filteredUsuarios.map(usuario => (
                         <InfoUser
                             key={usuario.id_usuario}

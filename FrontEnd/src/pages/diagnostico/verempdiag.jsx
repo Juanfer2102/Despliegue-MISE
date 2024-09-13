@@ -6,7 +6,7 @@ import GoBack from '../../components/inputs/goback/GoBack';
 const VerEmpDiag = () => {
   return (
     <LayoutDashboard title="Diagnóstico de Empresas">
-      <main className="flex flex-col w-full bg-greyBlack min-h-screen overflow-hidden">
+      <main className="w-full bg-greyBlack h-screen overflow-x-hidden">
         <div className="flex-1 flex flex-col">
           <div className="h-20 flex justify-end"></div>
           <div className="bg-greyBg flex flex-col h-full px-4 sm:px-6 md:px-12 pt-6">

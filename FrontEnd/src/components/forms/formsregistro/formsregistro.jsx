@@ -5,16 +5,17 @@ import './formsregistro.css';
 export const FormRegistro = () => {
 
     const [values, setValues] = useState({
-        nombre: "",
-        apellido: "",
-        documento: "",
-        ndocumento: "",
+        nombres_postulante: "",
+        apellidos_postulante: "",
+        tipo_documento: "",
+        no_documento: "",
         correo: "",
         celular: "",
         genero: "",
-        ciudad: "",
+        municipio: "",
         educacion: "",
         cargo: "",
+        id_rol: 4,
         TyC: false,
     });
 
@@ -77,21 +78,21 @@ export const FormRegistro = () => {
     const validateForm = () => {
         const newErrors = {};
 
-        if (!values.nombre) {
-            newErrors.nombre = "El nombre es obligatorio.";
+        if (!values.nombres_postulante) {
+            newErrors.nombres_postulante = "El nombre es obligatorio.";
         }
 
-        if (!values.apellido) {
-            newErrors.apellido = "El apellido es obligatorio.";
+        if (!values.apellidos_postulante) {
+            newErrors.apellidos_postulante = "El apellido es obligatorio.";
         }
 
-        if (!values.documento) {
-            newErrors.documento = "Debe seleccionar un tipo de documento.";
+        if (!values.tipo_documento) {
+            newErrors.tipo_documento = "Debe seleccionar un tipo de documento.";
         }
 
-        if (!values.ndocumento) {
-            newErrors.ndocumento = "El número de documento es obligatorio.";
-        } else if (values.ndocumento.length < 6) {
+        if (!values.no_documento) {
+            newErrors.no_documento = "El número de documento es obligatorio.";
+        } else if (values.no_documento.length < 6) {
             newErrors.ndocumento = "El número de documento debe tener al menos 6 caracteres.";
         }
 
@@ -111,8 +112,8 @@ export const FormRegistro = () => {
             newErrors.genero = "Debe seleccionar un género.";
         }
 
-        if (!values.ciudad) {
-            newErrors.ciudad = "Debe seleccionar una ciudad.";
+        if (!values.municipio) {
+            newErrors.municipio = "Debe seleccionar una ciudad.";
         }
 
         if (!values.cargo) {
@@ -135,10 +136,44 @@ export const FormRegistro = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const validationErrors = validateForm();
-
+    
         if (Object.keys(validationErrors).length === 0) {
-            // Aquí redirigimos usando `window.location`
-            window.location.href = '/registro-empresa';
+            const postulanteData = {
+                nombres_postulante: values.nombres_postulante,
+                apellidos_postulante: values.apellidos_postulante,
+                tipo_documento: values.tipo_documento,
+                no_documento: values.no_documento,
+                correo: values.correo,
+                celular: values.celular,
+                genero: values.genero,
+                municipio: values.municipio,
+                educacion: values.educacion,
+                cargo: values.cargo,
+                id_rol: values.id_rol
+            };
+    
+            // Enviar los datos del postulante a la API
+            fetch('http://localhost:8000/api/v2/registro-postulante/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ postulante: postulanteData }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.id_postulante) { // Asegúrate de que `data` contiene el ID del postulante
+                    localStorage.setItem('id_postulante', data.id_postulante);
+                    // Redirigir a la vista de registro de empresa
+                    window.location.href = '/registro-empresa';
+                } else {
+                    console.log(values)
+                    console.error('Error en el registro del postulante:', data);
+                }
+            })
+            .catch(error => {   
+                console.error('Error al enviar los datos del postulante:', error);
+            });
         } else {
             setErrors(validationErrors);
             setIsModalVisible(true);
@@ -150,52 +185,47 @@ export const FormRegistro = () => {
                 onSubmit={handleSubmit}
                 className="form custom-scrollbar w-full xl:max-h-full max-h-[21rem] md:max-h-full overflow-y-auto flex flex-col gap-6 bg-greyBlack p-6 md:p-10 rounded-xl mx-auto"
             >
-                {/* Primera Fila: Nombre y Apellido */}
-                <div className="flex flex-col sm:flex-row w-full gap-5">
+                <div className="flex flex-row w-full gap-5">
                     <input
-                        className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal transition-all placeholder-shown:border placeholder-shown:border-white ${errors.nombre ? 'border-red-500' : ''}`}
+                        className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.nombres_postulante ? 'border-red-500' : ''}`}
                         type="text"
-                        value={values.nombre || ''}
-                        name="nombre"
+                        value={values.nombres_postulante || ''}
+                        name="nombres_postulante"
                         placeholder="Ingrese su nombre..."
                         autoComplete="off"
                         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                     />
                     <input
-                        className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal transition-all placeholder-shown:border placeholder-shown:border-white ${errors.apellido ? 'border-red-500' : ''}`}
+                        className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.apellidos_postulante ? 'border-red-500' : ''}`}
                         type="text"
-                        value={values.apellido || ''}
-                        name="apellido"
+                        value={values.apellidos_postulante || ''}
+                        name="apellidos_postulante"
                         placeholder="Ingrese su apellido..."
                         autoComplete="off"
                         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                     />
                 </div>
-
-                {/* Segunda Fila: Tipo y Número de Documento */}
-                <div className="flex flex-col sm:flex-row w-full gap-5">
+                <div className="flex flex-row w-full gap-5">
                     <SelectComponent
                         type={"Tipo de Documento..."}
-                        Select="documento"
+                        Select="tipo_documento"
                         options={optionsdocu}
-                        value={values.documento || ''}
-                        onChange={(value) => handleInputChange("documento", value)}
-                        className={`${errors.documento ? 'border-red' : ''}`}
+                        value={values.tipo_documento || ''}
+                        onChange={(value) => handleInputChange("tipo_documento", value)}
+                        className={`${errors.tipo_documento ? 'border-red' : ''}`}
                     />
                     <input
-                        className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal transition-all placeholder-shown:border placeholder-shown:border-white ${errors.ndocumento ? 'border-red-500' : ''}`}
+                        className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.no_documento ? 'border-red-500' : ''}`}
                         type="number"
-                        value={values.ndocumento || ''}
-                        name="ndocumento"
+                        value={values.no_documento || ''}
+                        name="no_documento"
                         placeholder="Ingrese su número de documento..."
                         autoComplete="off"
                         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                     />
                 </div>
-
-                {/* Email */}
                 <input
-                    className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal transition-all placeholder-shown:border placeholder-shown:border-white ${errors.correo ? 'border-red-500' : ''}`}
+                    className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.correo ? 'border-red-500' : ''}`}
                     type="email"
                     value={values.correo || ''}
                     name="correo"
@@ -203,10 +233,8 @@ export const FormRegistro = () => {
                     autoComplete="off"
                     onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                 />
-
-                {/* Celular */}
                 <input
-                    className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal transition-all placeholder-shown:border placeholder-shown:border-white ${errors.celular ? 'border-red-500' : ''}`}
+                    className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white ${errors.celular ? 'border-red-500' : ''}`}
                     type="number"
                     value={values.celular || ''}
                     name="celular"
@@ -214,11 +242,9 @@ export const FormRegistro = () => {
                     autoComplete="off"
                     onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                 />
-
-                {/* Fila: Género y Ciudad */}
-                <div className="flex flex-col sm:flex-row w-full gap-5">
+                <div className="flex flex-row w-full gap-5">
                     <SelectComponent
-                        type={"Genero..."}
+                        type={"Género..."}
                         Select="genero"
                         options={optionsgender}
                         value={values.genero || ''}
@@ -226,17 +252,15 @@ export const FormRegistro = () => {
                         className={`${errors.genero ? 'border-red-500' : ''}`}
                     />
                     <SelectComponent
-                        type={"Ciudad..."}
-                        Select="ciudad"
+                        type={"Municipio..."}
+                        Select="municipio"
                         options={optionscity}
-                        value={values.ciudad || ''}
-                        onChange={(value) => handleInputChange("ciudad", value)}
-                        className={`${errors.ciudad ? 'border-red-500' : ''}`}
+                        value={values.municipio || ''}
+                        onChange={(value) => handleInputChange("municipio", value)}
+                        className={`${errors.municipio ? 'border-red-500' : ''}`}
                     />
                 </div>
-
-                {/* Fila: Educación y Cargo */}
-                <div className="flex flex-col sm:flex-row w-full gap-5">
+                <div className="flex flex-row w-full gap-5">
                     <SelectComponent
                         type={"Educación Superior..."}
                         Select="educacion"
@@ -252,11 +276,9 @@ export const FormRegistro = () => {
                         onChange={(value) => handleInputChange("cargo", value)}
                     />
                 </div>
-
-                {/* Términos y Condiciones */}
-                <div className="flex items-center gap-2">
+                <div className="flex h-8 gap-2 items-center justify-start">
                     <input
-                        className={`border-2 border-solid ${errors.TyC ? 'border-red-500' : 'border-principalGreen'} h-8 w-8`}
+                        className={`border-2 border-solid ${errors.TyC ? 'border-red-500' : 'border-principalGreen'} h-full w-8`}
                         type="checkbox"
                         name="TyC"
                         id="TyC"
@@ -265,8 +287,6 @@ export const FormRegistro = () => {
                     />
                     <p className="text-xl">Acepto términos y condiciones</p>
                 </div>
-
-                {/* Botón de Envío */}
                 <div className="flex justify-center">
                     <button
                         className="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg"

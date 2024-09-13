@@ -50,7 +50,7 @@ const Sidebar = ({ condicion, nombre }) => {
     <>
       {condicion === 1 && (
         <aside
-          className={`sidebar hidden h-auto sm:flex ${sidebarExpanded ? "w-[18rem] absolute" : "w-[5.5rem] sticky"
+          className={`sidebar hidden sm:flex ${sidebarExpanded ? "w-[18rem] absolute h-full " : "w-[5.5rem] sticky h-auto"
             }  bg-greyBlack rounded-br-md transition-all duration-500 ease-in-out z-50`}
           id="sidebar"
         >

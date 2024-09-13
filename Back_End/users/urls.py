@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 from users import views
-from .views import check_auth, UpdateEmpresaStatus, AutoevaluacionListCreate, CalificacionModuloListCreate, ModuloAutoevaluacionListCreate, RegistroPostulanteView, EmpresasListCreate, EmpresasRetrieveUpdateDestroy, ModulosListCreate, ModulosRetrieveUpdateDestroy, PostulanteListCreate, PostulanteRetrieveUpdateDestroy, PreguntasListCreate, PreguntasRetrieveUpdateDestroy, ProgramasListCreate, ProgramasRetrieveUpdateDestroy, RegistrosListCreate, RegistrosRetrieveUpdateDestroy, RolListCreate, RolRetrieveUpdateDestroy, SuenosListCreate, SuenosRetrieveUpdateDestroy, TalleresListCreate, TalleresRetrieveUpdateDestroy, UsuarioListCreate, UsuarioRetrieveUpdateDestroy, password_reset_request
+from .views import check_auth, CalificacionesModulosList, PreguntasPorModuloView, ModuloUpdateView, PreguntasNoAsignadasList, ModulosListView, AutoevaluacionDetail, RegistroAutoevaluacionView, RegistroPostulante, RegistroEmpresa, UpdateEmpresaStatus, AutoevaluacionListCreate, CalificacionModuloListCreate, ModuloAutoevaluacionListCreate, RegistroPostulanteView, EmpresasListCreate, EmpresasRetrieveUpdateDestroy, ModulosListCreate, ModulosRetrieveUpdateDestroy, PostulanteListCreate, PostulanteRetrieveUpdateDestroy, PreguntasListCreate, PreguntasRetrieveUpdateDestroy, ProgramasListCreate, ProgramasRetrieveUpdateDestroy, RegistrosListCreate, RegistrosRetrieveUpdateDestroy, RolListCreate, RolRetrieveUpdateDestroy, SuenosListCreate, SuenosRetrieveUpdateDestroy, TalleresListCreate, TalleresRetrieveUpdateDestroy, UsuarioListCreate, UsuarioRetrieveUpdateDestroy
 
 router = routers.DefaultRouter()
 
@@ -12,12 +12,26 @@ urlpatterns = [
     path('check-auth/', check_auth, name='check_auth'),
     
      path('update-empresa-status/<int:nit>/', UpdateEmpresaStatus.as_view(), name='update-empresa-status'),
+     path('calificaciones-modulos/', views.CalificacionesModulosList.as_view(), name='calificaciones-modulos-list'),
+     path('update-modulos/<int:pk>/', ModuloUpdateView.as_view(), name='modulo-update'),  # URL para actualización
+
+     path('calificaciones-modulos/<int:id_autoevaluacion>/', CalificacionesModulosList.as_view(), name='calificaciones-modulos-list'),
+
+     path('preguntas-no-asignadas/', PreguntasNoAsignadasList.as_view(), name='preguntas-no-asignadas'),
     
     path('autoevaluacion/', AutoevaluacionListCreate.as_view(), name='autoevaluacion-list-create'),
+    # Ajusta la URL para que acepte el nit como parte de la URL
+    path('autoevaluacion/<int:nit>/', AutoevaluacionDetail, name='autoevaluacion-por-nit'),
+
+    path('autoevaluacion-detail/', AutoevaluacionDetail, name='autoevaluacion-detail'),
     path('calificacion-modulo/', CalificacionModuloListCreate.as_view(), name='calificacion-modulo-list-create'),
     path('modulo-autoevaluacion/', ModuloAutoevaluacionListCreate.as_view(), name='modulo-autoevaluacion-list-create'),
 
-    path('registro-postulante/', RegistroPostulanteView.as_view(), name='registro-postulante'),
+    path('ver-modulos/', ModulosListView.as_view(), name='modulos-list'),
+
+    path('registro-postulante/', RegistroPostulante.as_view(), name='registro-postulante'),
+    path('registro-empresa/', RegistroEmpresa.as_view(), name='registro-empresa'),
+    path('registro-autoevaluacion/', RegistroAutoevaluacionView.as_view(), name='registro-autoevaluacion'),
 
     path('empresas/', EmpresasListCreate.as_view(), name='empresas-list-create'),
     path('empresas/<int:pk>/', EmpresasRetrieveUpdateDestroy.as_view(), name='empresa-detail'),
@@ -28,7 +42,7 @@ urlpatterns = [
     path('postulante/', PostulanteListCreate.as_view(), name='postulante-list-create'),
     path('postulante/<int:pk>/', PostulanteRetrieveUpdateDestroy.as_view(), name='postulante-retrieve-update-destroy'),
 
-    path('preguntas/', PreguntasListCreate.as_view(), name='preguntas-list-create'),
+    path('preguntas/', PreguntasPorModuloView.as_view(), name='preguntas-por-modulo'),
     path('preguntas/<int:pk>/', PreguntasRetrieveUpdateDestroy.as_view(), name='preguntas-retrieve-update-destroy'),
 
     path('programas/', ProgramasListCreate.as_view(), name='programas-list-create'),
@@ -48,6 +62,4 @@ urlpatterns = [
 
     path('usuario/', UsuarioListCreate.as_view(), name='usuario-list-create'),
     path('usuario/<int:pk>/', UsuarioRetrieveUpdateDestroy.as_view(), name='usuario-retrieve-update-destroy'),
-
-    path('olvidaste-contraseña/', password_reset_request, name='password-reset-request'),
 ]

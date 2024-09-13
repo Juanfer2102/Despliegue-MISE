@@ -138,9 +138,9 @@ export const FormsNuevouser = () => {
     return (
         <>
             <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleForm} />
-            <form className="flex flex-col text-textBg w-full font-semibold gap-5 py-4 overflow-y-visible">
+            <form className="flex flex-col text-textBg w-full font-semibold gap-5 py-2 overflow-y-visible">
                 <div className='flex flex-row gap-5'>
-                    <div className=' flex flex-col pl-3 font-semibold gap-5 py-4'>
+                    <div className=' flex flex-col pl-3 font-semibold gap-5 py-2'>
                         <InputComponent
                             width="w-44"
                             widthInput="w-full"
@@ -200,7 +200,7 @@ export const FormsNuevouser = () => {
                         </div>
                     </div>
 
-                    <div className='flex flex-col pl-3 font-semibold gap-5 py-4'>
+                    <div className='flex flex-col pl-3 font-semibold gap-5 py-2'>
                         <InputComponent
                             width="w-44"
                             widthInput="w-full"

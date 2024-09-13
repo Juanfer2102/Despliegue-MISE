@@ -4,22 +4,23 @@ import bcrypt
 
 
 class Empresas(models.Model):
-    nit = models.IntegerField(db_column='NIT', primary_key=True)
+    nit = models.IntegerField(db_column='NIT', primary_key=True)  # Field name made lowercase.
     nombre_empresa = models.TextField()
-    celular = models.IntegerField()
+    celular = models.BigIntegerField()
     razon_social = models.TextField()
     direccion = models.TextField()
     act_economica = models.TextField()
     gerente = models.TextField()
-    producto_servicio = models.TextField(db_column='producto/servicio')
+    producto_servicio = models.TextField(db_column='producto/servicio')  # Field renamed to remove unsuitable characters.
     correo = models.TextField()
     pagina_web = models.TextField()
     fecha_creacion = models.DateField()
-    ventas_ult_ano = models.IntegerField()
-    costos_ult_ano = models.IntegerField()
-    empleados_perm = models.IntegerField()
+    ventas_ult_ano = models.BigIntegerField()
+    costos_ult_ano = models.BigIntegerField()
+    empleados_perm = models.BigIntegerField()
     sector = models.TextField()
-    estado = models.TextField()
+    estado = models.IntegerField()
+    diagnostico = models.IntegerField()
     id_programa = models.ForeignKey('Programas', models.DO_NOTHING, db_column='id_programa')
     id_postulante = models.ForeignKey('Postulante', models.DO_NOTHING, db_column='id_postulante')
 
@@ -27,21 +28,27 @@ class Empresas(models.Model):
         managed = False
         db_table = 'empresas'
 
+
+
 class Postulante(models.Model):
-    id_postulante = models.IntegerField(primary_key=True)
+    id_postulante = models.AutoField(primary_key=True)
     nombres_postulante = models.TextField()
     apellidos_postulante = models.TextField()
-    celular = models.IntegerField()
+    celular = models.BigIntegerField()
     genero = models.TextField()
     correo = models.TextField()
     municipio = models.TextField()
-    no_documento = models.IntegerField()
+    no_documento = models.BigIntegerField()
     tipo_documento = models.TextField()
+    educacion = models.TextField()
+    cargo = models.TextField()
     id_rol = models.ForeignKey('Rol', models.DO_NOTHING, db_column='id_rol')
 
     class Meta:
         managed = False
         db_table = 'postulante'
+
+
 
 
 
@@ -58,13 +65,14 @@ class MisePrueba(models.Model):
 
 class Modulos(models.Model):
     id_modulo = models.IntegerField(primary_key=True)
-    nombre_modulo = models.TextField()
+    nombre = models.TextField()
     escala = models.TextField()
-    descripcion = models.TextField()
+    objetivo = models.TextField()
     observaciones = models.TextField()
-    nivel_basico = models.TextField()
+    alcance = models.TextField()
     estado_actual = models.TextField()
     nivel_ideal = models.TextField()
+    id_tema = models.ForeignKey('Temas', models.DO_NOTHING, db_column='id_tema')
 
     class Meta:
         managed = False
@@ -118,16 +126,15 @@ class Rol(models.Model):
 
 class Suenos(models.Model):
     id_sueno = models.IntegerField(primary_key=True)
-    nombre_sueno = models.IntegerField()
-    contenido = models.IntegerField()
-    alcance = models.IntegerField()
+    nombre_sueno = models.TextField()
+    contenido = models.TextField()
+    alcance = models.TextField()
     nit = models.ForeignKey(Empresas, models.DO_NOTHING, db_column='NIT')  # Field name made lowercase.
     id_modulo = models.ForeignKey(Modulos, models.DO_NOTHING, db_column='id_modulo')
 
     class Meta:
         managed = False
         db_table = 'suenos'
-
 
 class Talleres(models.Model):
     id_taller = models.IntegerField(primary_key=True)
@@ -169,23 +176,14 @@ class Autoevaluacion(models.Model):
     id_autoevaluacion = models.AutoField(primary_key=True)
     fecha = models.DateField()
     comentarios = models.TextField(blank=True, null=True)
-    nit_empresa = models.ForeignKey('Empresas', models.DO_NOTHING, db_column='nit_empresa', blank=True, null=True)
+    nit = models.ForeignKey('Empresas', models.DO_NOTHING, db_column='NIT')  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'autoevaluacion'
 
 
-class CalificacionModulo(models.Model):
-    id_calificacion = models.AutoField(primary_key=True)
-    calificacion = models.IntegerField()
-    comentarios = models.TextField(blank=True, null=True)
-    id_autoevaluacion = models.ForeignKey(Autoevaluacion, models.DO_NOTHING, db_column='id_autoevaluacion', blank=True, null=True)
-    id_modulo = models.ForeignKey('ModuloAutoevaluacion', models.DO_NOTHING, db_column='id_modulo', blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'calificacion_modulo'
         
 class ModuloAutoevaluacion(models.Model):
     id_modulo = models.AutoField(primary_key=True)
@@ -195,3 +193,27 @@ class ModuloAutoevaluacion(models.Model):
     class Meta:
         managed = False
         db_table = 'modulo_autoevaluacion'
+
+class CalificacionModulo(models.Model):
+    id_calificacion = models.AutoField(primary_key=True)
+    calificacion = models.IntegerField()
+    comentarios = models.TextField(blank=True, null=True)
+    id_autoevaluacion = models.ForeignKey(Autoevaluacion, models.DO_NOTHING, db_column='id_autoevaluacion')
+    id_modulo = models.ForeignKey(ModuloAutoevaluacion, models.DO_NOTHING, db_column='id_modulo')
+
+    class Meta:
+        managed = False
+        db_table = 'calificacion_modulo'
+
+class Temas(models.Model):
+    id_tema = models.IntegerField(primary_key=True)
+    area = models.TextField()
+    titulo = models.TextField()
+    contenido = models.TextField()
+    fecha = models.DateField()
+    horario = models.DateField()
+    ubicacion = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'temas'

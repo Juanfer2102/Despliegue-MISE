@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import IconProfile from "../../images/sideBarImg/avatar@2x.png";
 
 const InfoModal = ({ isOpen, onClose }) => {
-   const [userData, setUserData] = useState({ nombre: '', rol: '', correo: '', telefono: '222222'  });
+   const [userData, setUserData] = useState({ nombre: '', rol: '', correo: '', celular: ''  });
 
     useEffect(() => {
         // Obtiene los datos del usuario almacenados en localStorage después del login
@@ -12,7 +12,8 @@ const InfoModal = ({ isOpen, onClose }) => {
             setUserData({
                 nombre: storedUserData.nombres,
                 rol: storedUserData.id_rol,
-                correo: storedUserData.correo
+                correo: storedUserData.correo,
+                celular: storedUserData.celular
                   // Cambia 'rol' por 'id_rol' si así lo guardaste
             });
         }
@@ -68,7 +69,7 @@ const InfoModal = ({ isOpen, onClose }) => {
                         {/* Teléfonos */}
                         <p className="text-sm text-white">
                             <i className="fas fa-phone mr-2"></i>
-                            {userData.telefono}
+                            {userData.celular}
                         </p>
                     </div>
                 </div>
