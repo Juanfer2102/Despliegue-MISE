@@ -55,7 +55,8 @@ const AceptarEmpresas = lazy(() => import("./pages/aceptarEmpresas/aceptarempv.j
 const DetalleEmpresas = lazy(() => import("./pages/aceptarEmpresas/verinfoempresa.jsx"));
 const Autoevaluacion = lazy(() => import("./pages/autoevaluacion/autoevaluacion.jsx"));
 const VerEmpDiag = lazy(() => import("./pages/diagnostico/verempdiag.jsx"));
-const DiagnosticoEmpresa = lazy(() => import("./pages/diagnostico/diagnosticoempresa.jsx"));
+const EvaluacionEmpresa = lazy(() => import("./pages/diagnostico/diagnosticoempresa.jsx"));
+const DiagnosticoEmpresa = lazy(() => import("./pages/diagnostico/detallediagnostico.jsx"));
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const userData = JSON.parse(localStorage.getItem('userData'));
@@ -203,7 +204,12 @@ const AppRoutes = () => {
               <VerEmpDiag />
             </ProtectedRoute>
           } />
-          <Route path="/diagnostico/empresa/:nit" element={
+          <Route path="/evaluacion/empresa/:nit" element={
+            <ProtectedRoute allowedRoles={[1, 2, 3]}>
+              <EvaluacionEmpresa />
+            </ProtectedRoute>
+          } />
+          <Route path="/diagnostico/empresa" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
               <DiagnosticoEmpresa />
             </ProtectedRoute>

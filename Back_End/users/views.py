@@ -34,7 +34,7 @@ class SaveCalificacionView(APIView):
                 nit = item.get('nit')
 
                 # Validar y obtener la pregunta
-                pregunta = get_object_or_404(Preguntas, id=id_pregunta)
+                pregunta = get_object_or_404(Preguntas, id_pregunta=id_pregunta)
                 
                 # Validar y obtener la empresa
                 empresa = get_object_or_404(Empresas, nit=nit)
@@ -42,8 +42,8 @@ class SaveCalificacionView(APIView):
                 # Crear y guardar la calificación
                 Calificaciones.objects.create(
                     calificacion=calificacion,
-                    pregunta=pregunta,
-                    empresa=empresa
+                    id_pregunta=pregunta,
+                    nit=empresa
                 )
 
             return Response({"message": "Calificaciones guardadas con éxito"}, status=status.HTTP_201_CREATED)
@@ -432,6 +432,17 @@ class UpdateEmpresaStatus(APIView):
             return Response({'success': 'Estado actualizado correctamente'}, status=status.HTTP_200_OK)
         except Empresas.DoesNotExist:
             return Response({'error': 'Empresa no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+
+class UpdateEmpresaDiagStatus(APIView):
+    def post(self, request, nit):
+        try:
+            empresa = Empresas.objects.get(nit=nit)
+            empresa.diagnostico_value = '1'  # Actualiza el estado a 1
+            empresa.save()
+            return Response({'success': 'Estado actualizado correctamente'}, status=status.HTTP_200_OK)
+        except Empresas.DoesNotExist:
+            return Response({'error': 'Empresa no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+        
 class PostulanteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Postulante

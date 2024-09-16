@@ -5,8 +5,9 @@ import GoBack from '../../components/inputs/goback/GoBack';
 import Boton from '../../components/inputs/boton';
 import ConfirmModal from '../../components/modales/modalconfirm';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const DiagnosticoEmpresa = () => {
+const EvaluacionEmpresa = () => {
     const { nit } = useParams();
     const [formularioData, setFormularioData] = useState({});
     const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +15,7 @@ const DiagnosticoEmpresa = () => {
     const [modulos, setModulos] = useState([]);
     const [preguntas, setPreguntas] = useState({});
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate(); // Inicializa useNavigate
 
     const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
@@ -42,7 +44,7 @@ const DiagnosticoEmpresa = () => {
                             calificaciones.push({
                                 calificacion,
                                 id_pregunta: preguntaId,
-                                nit_empresa: nit,
+                                nit: nit,
                             });
                         }
                     }
@@ -61,8 +63,11 @@ const DiagnosticoEmpresa = () => {
     
             if (response.ok) {
                 alert('Calificaciones guardadas con éxito');
+                changeDiagState(nit)
+                navigate(`/empresas-registradas`);
             } else {
                 const errorData = await response.json();
+                console.log(nit)
                 console.error('Error al guardar las calificaciones:', errorData);
                 alert('Error al guardar las calificaciones');
             }
@@ -73,7 +78,17 @@ const DiagnosticoEmpresa = () => {
         }
     };
     
-    
+    function changeDiagState(nit) {
+        fetch(`http://localhost:8000/api/v2/update-empresa-diag-status/${nit}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ diagnostico_value: 1 }),
+        })
+            .then(response => response.ok ? response.json() : Promise.reject('Error al actualizar el estado'))
+            .catch(error => console.error('Error:', error));
+    }
 
     useEffect(() => {
         const fetchEmpresaData = async () => {
@@ -190,4 +205,4 @@ const DiagnosticoEmpresa = () => {
     );
 };
 
-export default DiagnosticoEmpresa;
+export default EvaluacionEmpresa;
