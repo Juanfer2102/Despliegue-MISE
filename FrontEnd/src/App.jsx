@@ -209,7 +209,7 @@ const AppRoutes = () => {
               <EvaluacionEmpresa />
             </ProtectedRoute>
           } />
-          <Route path="/diagnostico/empresa" element={
+          <Route path="/diagnostico/empresa/:nit" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
               <DiagnosticoEmpresa />
             </ProtectedRoute>

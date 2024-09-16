@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import LayoutDashboard from '../../layouts/LayoutDashboard';
+import { useParams } from 'react-router-dom';
 
 const EvaluacionEmpresa = () => {
+    const { nit } = useParams();
+    const [empresa, setEmpresa] = useState([]);
 
-    const nombre_empresa = "Boteritos";
+    useEffect(() => {
+        fetch(`http://localhost:8000/api/v2/empresas/${nit}/`)
+            .then(response => response.json())
+            .then(data => {
+                setEmpresa(data);
+            })
+             }, [nit])
 
     // Datos de ejemplo para cada módulo
     const datosCapacidadesGerenciales = [
@@ -215,7 +224,7 @@ const EvaluacionEmpresa = () => {
                         <div className="gap-8 flex flex-col px-8 w-full h-full rounded-md">
                             <div className="rounded-xl flex flex-col gap-6 h-full py-6">
                                 <div className="flex justify-between pr-10">
-                                    <p className='text-2xl font-bold'>Diagnóstico Inicial Empresarial {nombre_empresa}</p>
+                                    <p className='text-2xl font-bold'>Diagnóstico Inicial Empresarial {empresa.nombre_empresa}</p>
                                     <button className="p-2 text-sm tracking-wide transition-colors duration-200 bg-transparent border rounded-lg hover:bg-principalGreen hover:text-white hover:border-principalGreen border-white">
                                         Descargar Acta
                                     </button>
@@ -224,15 +233,15 @@ const EvaluacionEmpresa = () => {
                                     <div>
                                         <p className='font-bold text-xl'>Introducción</p>
                                         <p className='p-6 text-justify'>
-                                            A través del servicio de acompañamiento del Modelo Integral de Servicios Empresariales (MISE), en su dimensión de FORTALECIMIENTO dirigido a empresas, ofrecido por la Cámara de Comercio de Palmira (CCP), se presenta el diagnóstico realizado para la empresa <span className="font-bold underline">{nombre_empresa}</span>.
+                                            A través del servicio de acompañamiento del Modelo Integral de Servicios Empresariales (MISE), en su dimensión de FORTALECIMIENTO dirigido a empresas, ofrecido por la Cámara de Comercio de Palmira (CCP), se presenta el diagnóstico realizado para la empresa <span className="font-bold underline">{empresa.nombre_empresa}</span>.
 
                                             Este diagnóstico refleja las necesidades puntuales y metas empresariales acordadas, las cuales serán evidenciadas en el progreso de esta página. El MISE implementado por la CCP incluye fases clave como la identificación de necesidades, la focalización, la definición de una ruta de servicios, la oferta de un portafolio integral, y el seguimiento continuo a las empresas beneficiadas. Todo esto tiene como objetivo garantizar un mayor impacto en el crecimiento de las empresas de Palmira, Pradera, Florida y Candelaria.
 
-                                            A medida que avance en esta página, podrá observar cómo estas metas se abordan y desarrollan en el diagnóstico empresarial de <span className="font-bold underline">{nombre_empresa}</span>.
+                                            A medida que avance en esta página, podrá observar cómo estas metas se abordan y desarrollan en el diagnóstico empresarial de <span className="font-bold underline">{empresa.nombre_empresa}</span>.
                                         </p>
                                     </div>
                                     <div className="p-6">
-                                        <h1 className="text-3xl font-bold ">Evaluación de la Empresa: {nombre_empresa}</h1>
+                                        <h1 className="text-3xl font-bold ">Evaluación de la Empresa: {empresa.nombre_empresa}</h1>
 
                                         {/* Evaluación Capacidades Gerenciales */}
                                         <div className="pt-14">
@@ -268,7 +277,7 @@ const EvaluacionEmpresa = () => {
                                         <div className='p-8'>
                                             <p className='font-bold text-xl'>Conclusiones</p>
                                             <p className='p-6 text-justify'>
-                                                La evaluación inicial de la empresa <span className='font-bold underline'>{nombre_empresa}</span> ha revelado áreas clave que requieren atención inmediata. Con la implementación de los talleres recomendados y el compromiso de la empresa en abordar estas deficiencias, se espera una mejora sustancial en su desempeño gerencial, desarrollo de clientes y administración financiera.
+                                                La evaluación inicial de la empresa <span className='font-bold underline'>{empresa.nombre_empresa}</span> ha revelado áreas clave que requieren atención inmediata. Con la implementación de los talleres recomendados y el compromiso de la empresa en abordar estas deficiencias, se espera una mejora sustancial en su desempeño gerencial, desarrollo de clientes y administración financiera.
                                             </p>
                                         </div>
                                     </div>
