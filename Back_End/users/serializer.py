@@ -1,6 +1,22 @@
 
 from rest_framework import serializers
 from .models import Autoevaluacion, Calificaciones, Diagnostico1, Modulo1, Respuesta1, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+
+
+class CalificacionPreguntaSerializer(serializers.ModelSerializer):
+    descripcion_pregunta = serializers.CharField(source='id_pregunta.descripcion', read_only=True)
+    
+    class Meta:
+        model = Calificaciones
+        fields = ['id', 'calificacion', 'criterio', 'descripcion_pregunta']
+
+class CalificacionesPreguntasSerializer(serializers.ModelSerializer):
+    descripcion_pregunta = serializers.CharField(source='id_pregunta.descripcion', read_only=True)
+    
+    class Meta:
+        model = Calificaciones
+        fields = ['id', 'calificacion', 'criterio', 'nit', 'id_pregunta', 'descripcion_pregunta']
+
 class CalificacionesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Calificaciones
@@ -23,10 +39,20 @@ class Diagnostico1Serializer(serializers.ModelSerializer):
     def get_promedio_modulo(self, obj):
         return obj.promedio_modulo
 
-class Modulo1Serializer(serializers.ModelSerializer):
+class ModuloSerializer(serializers.ModelSerializer):
+    calificaciones = serializers.SerializerMethodField()
+    nombre = serializers.CharField(source='modulos.nombre', read_only=True)
+
     class Meta:
-        model = Modulo1
-        fields = ['id', 'nombre']
+        model = Modulos
+        fields = ['id_modulo', 'nombre', 'calificacion_promedio', 'criterio', 'calificaciones']
+
+    def get_calificaciones(self, obj):
+        calificaciones = Calificaciones.objects.filter(
+            id_pregunta__id_modulo=obj.id_modulo,
+            nit=self.context['nit']
+        )
+        return PreguntasSerializer(calificaciones, many=True).data
 
 class EmpresasSerializer(serializers.ModelSerializer):
     class Meta:
@@ -45,9 +71,11 @@ class PostulanteSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PreguntasSerializer(serializers.ModelSerializer):
+    descripcion_pregunta = serializers.CharField(source='id_pregunta.descripcion', read_only=True)
+    
     class Meta:
-        model = Preguntas
-        fields = '__all__'
+        model = Calificaciones
+        fields = ['id', 'calificacion', 'criterio', 'nit', 'id_pregunta', 'descripcion_pregunta']
 
 class ProgramasSerializer(serializers.ModelSerializer):
     class Meta:

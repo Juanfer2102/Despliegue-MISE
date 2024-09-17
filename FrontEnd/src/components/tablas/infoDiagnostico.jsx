@@ -8,7 +8,7 @@ const InfoDiag = ({ nit, nombre_empresa, act_economica }) => {
 
     const handleEditClick = () => {
         // Redirigir a la página de diagnóstico del NIT de la empresa seleccionada
-        navigate(`/diagnostico/empresa/${nit}`);
+        navigate(`/evaluacion/empresa/${nit}`);
     };
 
 

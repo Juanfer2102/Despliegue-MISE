@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
-from .serializer import Diagnostico1Serializer, CalificacionesSerializer, Modulo1Serializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
+from .models import TemasPreguntas, DiagnosticoEmpresarial, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .serializer import CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from rest_framework import status, generics, serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -19,36 +19,166 @@ from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
 
+class CalificacionesBajasPorNitView(APIView):
+    def get(self, request, *args, **kwargs):
+        nit = kwargs.get('nit')
+        
+        if not nit:
+            return Response({"error": "NIT no proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Filtrar todas las calificaciones con valor menor a 50
+        calificaciones_bajas = Calificaciones.objects.filter(
+            nit=nit,
+            calificacion__lt=50
+        ).select_related('id_pregunta')
+        
+        # Obtener los módulos asociados a las preguntas con calificación menor a 50
+        modulos_ids = Preguntas.objects.filter(
+            id_pregunta__in=calificaciones_bajas.values_list('id_pregunta', flat=True)
+        ).values_list('id_modulo', flat=True).distinct()
+        
+        # Filtrar DiagnosticoEmpresarial para obtener módulos que tienen preguntas con calificación menor a 50
+        modulos_diagnostico = DiagnosticoEmpresarial.objects.filter(
+            nit=nit,
+            id_modulo__in=modulos_ids
+        ).select_related('id_modulo')
+        
+        # Construir la respuesta
+        response_data = []
+        
+        for diagnostico in modulos_diagnostico:
+            modulo = diagnostico.id_modulo
+            preguntas_modulo = Preguntas.objects.filter(
+                id_modulo=modulo
+            ).select_related('id_modulo')
+            
+            preguntas_data = []
+            for pregunta in preguntas_modulo:
+                calificaciones_pregunta = Calificaciones.objects.filter(
+                    id_pregunta=pregunta, nit=nit, calificacion__lt=50
+                )
+                
+                for calificacion in calificaciones_pregunta:
+                    # Obtener la información del tema relacionado a la pregunta
+                    tema_info = {}
+                    tema_pregunta = TemasPreguntas.objects.filter(id_pregunta=pregunta).select_related('id_tema').first()
+                    if tema_pregunta:
+                        tema = tema_pregunta.id_tema
+                        tema_info = {
+                            "id_tema": tema.id,
+                            "titulo_formacion": tema.titulo_formacion,
+                            "num_sesion": tema.num_sesion,
+                            "objetivo": tema.objetivo,
+                            "alcance": tema.alcance,
+                            "contenido": tema.contenido,
+                            "conferencista": tema.conferencista,
+                            "fecha": tema.fecha,
+                            "horario": tema.horario,
+                            "ubicacion": tema.ubicacion
+                        }
+
+                    preguntas_data.append({
+                        "id": calificacion.id,
+                        "calificacion": calificacion.calificacion,
+                        "criterio": calificacion.criterio,
+                        "nit": calificacion.nit.nit,
+                        "id_pregunta": calificacion.id_pregunta.id_pregunta,
+                        "descripcion_pregunta": pregunta.descripcion,
+                        "tema": tema_info  # Agregar la información del tema, si existe
+                    })
+            
+            # Solo añadir el módulo a la respuesta si tiene preguntas con calificación menor a 50
+            if preguntas_data:
+                response_data.append({
+                    "id_modulo": modulo.id_modulo,
+                    "nombre": modulo.nombre,
+                    "calificacion_promedio": diagnostico.calificacion_promedio,
+                    "criterio": diagnostico.criterio,
+                    "preguntas": preguntas_data
+                })
+        
+        return Response(response_data, status=status.HTTP_200_OK)
+
+
+    
+class CalificacionesPorNitView(APIView):
+    def get(self, request, nit, *args, **kwargs):
+        # Obtener todos los módulos relacionados con las calificaciones de la empresa
+        modulos = Modulos.objects.filter(
+            preguntas__calificaciones__nit=nit
+        ).distinct()
+
+        diagnosticos = DiagnosticoEmpresarial.objects.filter(
+            nit=nit,
+            id_modulo__in=modulos
+        )
+
+        modulos_info = []
+        for modulo in modulos:
+            diagnostico = diagnosticos.filter(id_modulo=modulo.id_modulo).first()
+            modulos_info.append({
+                'id_modulo': modulo.id_modulo,
+                'nombre': modulo.nombre,
+                'calificacion_promedio': diagnostico.calificacion_promedio if diagnostico else None,
+                'criterio': diagnostico.criterio if diagnostico else None,
+                'preguntas': PreguntasSerializer(
+                    Calificaciones.objects.filter(id_pregunta__id_modulo=modulo.id_modulo, nit=nit),
+                    many=True,
+                    context={'nit': nit}
+                ).data
+            })
+
+        return Response(modulos_info, status=status.HTTP_200_OK)
+class CalificacionesListView(generics.ListAPIView):
+    queryset = Calificaciones.objects.select_related('id_pregunta').all()
+    serializer_class = CalificacionesPreguntasSerializer
+
 class CalificacionesViewSet(generics.ListCreateAPIView):
     queryset = Calificaciones.objects.all()
     serializer_class = CalificacionesSerializer
 class SaveCalificacionView(APIView):
     def post(self, request, *args, **kwargs):
         data = request.data
-        print(data)  # Agrega esta línea para depurar
+        print(data)  # Para depuración, puedes eliminarlo más tarde
 
+        # Verificar que los datos sean una lista
         if isinstance(data, list):
             for item in data:
-                calificacion = item.get('calificacion')
-                id_pregunta = item.get('id_pregunta')
-                nit = item.get('nit')
+                try:
+                    # Obtener y validar los campos necesarios
+                    calificacion = float(item.get('calificacion', 0))  # Convertir calificación a float
+                    id_pregunta = item.get('id_pregunta')
+                    nit = item.get('nit')
 
-                # Validar y obtener la pregunta
-                pregunta = get_object_or_404(Preguntas, id_pregunta=id_pregunta)
-                
-                # Validar y obtener la empresa
-                empresa = get_object_or_404(Empresas, nit=nit)
+                    # Validar que se envíen todos los campos requeridos
+                    if not id_pregunta or not nit:
+                        return Response({"error": "Faltan campos requeridos"}, status=status.HTTP_400_BAD_REQUEST)
 
-                # Crear y guardar la calificación
-                Calificaciones.objects.create(
-                    calificacion=calificacion,
-                    id_pregunta=pregunta,
-                    nit=empresa
-                )
+                    # Validar y obtener la pregunta
+                    pregunta = get_object_or_404(Preguntas, id_pregunta=id_pregunta)
+
+                    # Validar y obtener la empresa
+                    empresa = get_object_or_404(Empresas, nit=nit)
+
+                    # Crear y guardar la calificación
+                    calificacion_obj = Calificaciones.objects.create(
+                        calificacion=calificacion,
+                        id_pregunta=pregunta,
+                        nit=empresa
+                    )
+
+                    # La lógica de actualización del promedio se maneja automáticamente en el modelo
+                    calificacion_obj.save()
+
+                except ValueError:
+                    return Response({"error": "Calificación inválida, debe ser un número"}, status=status.HTTP_400_BAD_REQUEST)
+                except Exception as e:
+                    # Capturar cualquier otro error
+                    return Response({"error": f"Error al procesar la solicitud: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
             return Response({"message": "Calificaciones guardadas con éxito"}, status=status.HTTP_201_CREATED)
         else:
-            return Response({"error": "Formato de datos incorrecto"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Formato de datos incorrecto, se esperaba una lista"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @csrf_exempt
@@ -134,12 +264,6 @@ def generar_diagnostico(request, nit, id_modulo):
         'estado': estado
     })
 
-
-
-
-class Modulo1ViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Modulo1.objects.all()
-    serializer_class = Modulo1Serializer
 
 @api_view(['POST'])
 def login(request):
