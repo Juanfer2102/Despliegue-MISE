@@ -74,37 +74,41 @@ const EvaluacionEmpresa = () => {
                                         {/* Evaluación dinámica de módulos */}
                                         {calificacionesBajas.map(modulo => (
                                             <div key={modulo.id_modulo} className="pt-14">
-                                                <div className="flex justify-around">
-                                                    <h2 className="text-2xl font-bold">{modulo.nombre}</h2>
+                                                <div className="flex justify-between">
+                                                    <h2 className="text-2xl font-bold">Modulo: {modulo.nombre}</h2>
                                                     <p className="text-lg">{modulo.criterio}</p>
                                                 </div>
                                                 {renderTabla(modulo.preguntas)}
 
                                                 {/* Mostrar información de los temas relacionados con el módulo */}
-                                                <div className="pt-14 flex gap-8">
+                                                <div className="pt-14 flex flex-col gap-8 w-full">
                                                     <div className="temas">
-                                                        <h2 className="text-2xl font-bold">Temas Recomendados para Mejorar</h2>
-                                                        {modulo.preguntas.map(pregunta => {
-                                                            const tema = pregunta.tema; // Directamente accede al tema desde la pregunta
-                                                            if (!tema) return null;
+                                                        <h2 className="text-2xl font-bold mb-4">Temas asignados</h2>
+                                                        <div className="flex flex-wrap gap-8">
+                                                            {modulo.preguntas.map(pregunta => {
+                                                                const tema = pregunta.tema; // Directamente accede al tema desde la pregunta
+                                                                if (!tema) return null;
 
-                                                            return (
-                                                                <div key={pregunta.id_pregunta} className="p-4 border-t border-gray-200">
-                                                                    <h3 className="text-xl font-bold">{tema.titulo_formacion}</h3>
-                                                                    <p><strong>Módulo:</strong> {modulo.nombre}</p>
-                                                                    <p><strong>Sesión:</strong> {tema.num_sesion}</p>
-                                                                    <p><strong>Objetivo:</strong> {tema.objetivo}</p>
-                                                                    <p><strong>Alcance:</strong> {tema.alcance}</p>
-                                                                    <p><strong>Contenido:</strong> {tema.contenido}</p>
-                                                                    <p><strong>Conferencista:</strong> {tema.conferencista}</p>
-                                                                    <p><strong>Fecha:</strong> {tema.fecha}</p>
-                                                                    <p><strong>Horario:</strong> {tema.horario}</p>
-                                                                    <p><strong>Ubicación:</strong> {tema.ubicacion}</p>
-                                                                </div>
-                                                            );
-                                                        })}
+                                                                return (
+                                                                    <div key={pregunta.id_pregunta} className="flex-1 min-w-[300px] p-4 border-t border-gray-200 rounded-md shadow-md">
+                                                                        <h3 className="text-xl font-bold">{tema.titulo_formacion}</h3>
+                                                                        <p><strong>Módulo:</strong> {modulo.nombre}</p>
+                                                                        <p><strong>Sesión:</strong> {tema.num_sesion}</p>
+                                                                        <p><strong>Objetivo:</strong> {tema.objetivo}</p>
+                                                                        <p><strong>Alcance:</strong> {tema.alcance}</p>
+                                                                        <p><strong>Contenido:</strong> {tema.contenido}</p>
+                                                                        <p><strong>Conferencista:</strong> {tema.conferencista}</p>
+                                                                        <p><strong>Fecha:</strong> {tema.fecha}</p>
+                                                                        <p><strong>Horario:</strong> {tema.horario}</p>
+                                                                        <p><strong>Ubicación:</strong> {tema.ubicacion}</p>
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
                                                     </div>
                                                 </div>
+
+
                                             </div>
                                         ))}
 

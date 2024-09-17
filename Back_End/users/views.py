@@ -35,12 +35,12 @@ class CalificacionesBajasPorNitView(APIView):
         # Obtener los módulos asociados a las preguntas con calificación menor a 50
         modulos_ids = Preguntas.objects.filter(
             id_pregunta__in=calificaciones_bajas.values_list('id_pregunta', flat=True)
-        ).values_list('id_modulo', flat=True).distinct()
+        ).values_list('id_modulo_id', flat=True).distinct()  # Usar id_modulo_id
         
         # Filtrar DiagnosticoEmpresarial para obtener módulos que tienen preguntas con calificación menor a 50
         modulos_diagnostico = DiagnosticoEmpresarial.objects.filter(
             nit=nit,
-            id_modulo__in=modulos_ids
+            id_modulo_id__in=modulos_ids  # Usar id_modulo_id
         ).select_related('id_modulo')
         
         # Construir la respuesta
@@ -89,15 +89,22 @@ class CalificacionesBajasPorNitView(APIView):
             
             # Solo añadir el módulo a la respuesta si tiene preguntas con calificación menor a 50
             if preguntas_data:
+                # Agregar información de sueños para el módulo
+                suenos_modulo = Suenos.objects.filter(modulo_id=modulo.id_modulo).values(
+                    'nivel', 'sueño', 'medicion', 'fortalecimiento', 'evidencia'
+                )
+                
                 response_data.append({
                     "id_modulo": modulo.id_modulo,
                     "nombre": modulo.nombre,
                     "calificacion_promedio": diagnostico.calificacion_promedio,
                     "criterio": diagnostico.criterio,
-                    "preguntas": preguntas_data
+                    "preguntas": preguntas_data,
+                    "suenos": list(suenos_modulo)  # Añadir sueños del módulo
                 })
         
         return Response(response_data, status=status.HTTP_200_OK)
+
 
 
     

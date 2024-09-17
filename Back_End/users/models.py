@@ -153,16 +153,17 @@ class TemasPreguntas(models.Model):
 
 
 class Suenos(models.Model):
-    id_sueno = models.IntegerField(primary_key=True)
-    nombre_sueno = models.TextField()
-    contenido = models.TextField()
-    alcance = models.TextField()
-    nit = models.ForeignKey(Empresas, models.DO_NOTHING, db_column='NIT')  # Field name made lowercase.
-    id_modulo = models.ForeignKey(Modulos, models.DO_NOTHING, db_column='id_modulo')
+    modulo = models.ForeignKey(Modulos, on_delete=models.CASCADE, related_name='suenos', db_column='id_modulo')
+    nivel = models.CharField(max_length=50)
+    sueño = models.TextField()
+    medicion = models.TextField()
+    fortalecimiento = models.TextField()
+    evidencia = models.TextField()
 
     class Meta:
         managed = False
         db_table = 'suenos'
+
 
 class Talleres(models.Model):
     id_taller = models.IntegerField(primary_key=True)
