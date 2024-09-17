@@ -6,9 +6,9 @@ from .models import Autoevaluacion, Calificaciones, Diagnostico1, Modulo1, Respu
 class CalificacionPreguntaSerializer(serializers.ModelSerializer):
     descripcion_pregunta = serializers.CharField(source='id_pregunta.descripcion', read_only=True)
     
-    class Meta:
+    class Meta: 
         model = Calificaciones
-        fields = ['id', 'calificacion', 'criterio', 'descripcion_pregunta']
+        fields = ['id', 'calificacion', 'criterio', 'descripcion']
 
 class CalificacionesPreguntasSerializer(serializers.ModelSerializer):
     descripcion_pregunta = serializers.CharField(source='id_pregunta.descripcion', read_only=True)
@@ -71,12 +71,18 @@ class PostulanteSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PreguntasSerializer(serializers.ModelSerializer):
-    descripcion_pregunta = serializers.CharField(source='id_pregunta.descripcion', read_only=True)
-    
-    class Meta:
-        model = Calificaciones
-        fields = ['id', 'calificacion', 'criterio', 'nit', 'id_pregunta', 'descripcion_pregunta']
+    calificacion = serializers.SerializerMethodField()
 
+    class Meta:
+        model = Preguntas
+        fields = ['id_pregunta', 'descripcion', 'criterio', 'id_modulo', 'calificacion']
+
+    def get_calificacion(self, obj):
+        # Obtiene la calificación más reciente o la que necesites de la tabla Calificaciones
+        calificacion = Calificaciones.objects.filter(id_pregunta=obj).order_by('-id').first()
+        if calificacion:
+            return calificacion.calificacion
+        return None  # Retorna None si no hay calificación para la pregunta
 class ProgramasSerializer(serializers.ModelSerializer):
     class Meta:
         model = Programas

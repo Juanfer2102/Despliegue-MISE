@@ -136,7 +136,6 @@ class Preguntas(models.Model):
     descripcion = models.TextField()
     criterio = models.TextField()
     id_modulo = models.ForeignKey(Modulos, on_delete=models.DO_NOTHING, db_column='id_modulo')
-    id_escala = models.ForeignKey(Escalas, on_delete=models.DO_NOTHING, db_column='id_escala')  # Nueva relación con la tabla Escalas
 
     class Meta:
         managed = False
