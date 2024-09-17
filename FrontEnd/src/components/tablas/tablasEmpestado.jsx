@@ -24,7 +24,7 @@ const TablasEmpestado = () => {
   return (
     <div className="overflow-x-auto rounded-xl">
       <div className="min-w-full rounded-xl">
-        <div className="bg-greyBlack border-textBg rounded-xl text-white sticky top-0 z-10 flex">
+        <div className="bg-greyBlack border-textBg rounded-xl text-white sticky top-0  flex">
           <div className="flex-1 p-3 md:p-5 text-left font-bold">Nombre</div>
           <div className="flex-1 p-3 md:p-5 text-left font-bold hidden sm:block">Sector</div>
           <div className="flex-1 p-3 md:p-5 text-center font-bold">Estado</div>

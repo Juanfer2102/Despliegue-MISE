@@ -1,5 +1,5 @@
 import React from "react";
-
+import DownloadPDFButton from "../../components/inputs/botones/botonpdf.jsx";
 import LayoutDashboard from "../../layouts/LayoutDashboard.jsx";
 import Grafica from "../../components/inputs/barcharts/graficabarras.jsx";
 import { ProgressCircleHero } from "../../components/inputs/porcentaje/porcentaje.jsx";
@@ -14,9 +14,6 @@ const Dashboard = () => {
           <div className="bg-greyBlack xl:h-20 w-full"></div>
           <div className="bg-greyBg flex flex-col w-full xl:h-full px-4 xl:px-12 lg:px-12 pt-4 xl:pt-6">
             <div className="flex flex-col lg:flex-row gap-5 h-full">
-              <div className="flex flex-col gap-5">
-                <TablasEmpresaporc />
-              </div>
               <div className="w-full lg:w-1/2 flex flex-col gap-5">
                 <div className="w-full bg-greyBlack p-4 sm:p-5 rounded-xl text-white">
                   <div className="flex flex-col sm:flex-row sm:justify-between gap-4 sm:gap-8">
@@ -36,6 +33,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="w-full">
+                  <DownloadPDFButton filename="ACTA_INICIAL_MISE.pdf" />
                   <TablasEmpestado />
                 </div>
               </div>

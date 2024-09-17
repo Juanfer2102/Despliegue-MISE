@@ -55,8 +55,8 @@ const TableComponent = () => {
         )}
       </div> */}
 
-      <div className="w-full rounded-xl bg-greyBg">
-        <div className="bg-greyBlack border-textBg rounded-t-xl text-white z-10">
+      <div className="w-full rounded-xl bg-greyBg"> 
+        <div className="bg-greyBlack border-textBg rounded-t-xl rounded-b-xl text-white z-10">
           {filteredEmpresas.length > 0 ? (
             <div className="bg-greyBlack border-textBg rounded-t-xl text-white flex flex-col lg:flex-row">
               <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">Empresa</div>

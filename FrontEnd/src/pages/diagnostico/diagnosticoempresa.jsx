@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import LayoutDashboard from '../../layouts/LayoutDashboard';
 import DesempenoForm from '../../components/forms/formsdiagnostico/formsdiagnostico';
 import GoBack from '../../components/inputs/goback/GoBack';
-import Boton from '../../components/inputs/boton';
+import Boton from '../../components/inputs/botones/boton';
 import ConfirmModal from '../../components/modales/modalconfirm';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';

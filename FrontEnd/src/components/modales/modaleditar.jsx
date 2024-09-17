@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Input3 from '../inputs/input3/input3.jsx';
-import Boton from '../inputs/boton.jsx';
+import Boton from '../inputs/botones/boton.jsx';
 import { TextareaHero } from '../inputs/textarea/TextArea.jsx';
 import ConfirmModal from './modalconfirm.jsx';
 import SelectComponent from '../inputs/selectores/selectores.jsx';
