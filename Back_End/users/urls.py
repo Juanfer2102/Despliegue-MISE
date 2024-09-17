@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 from users import views
-from .views import check_auth, CalificacionesModulosList, PreguntasPorModuloView, ModuloUpdateView, PreguntasNoAsignadasList, ModulosListView, AutoevaluacionDetail, RegistroAutoevaluacionView, RegistroPostulante, RegistroEmpresa, UpdateEmpresaStatus, AutoevaluacionListCreate, CalificacionModuloListCreate, ModuloAutoevaluacionListCreate, RegistroPostulanteView, EmpresasListCreate, EmpresasRetrieveUpdateDestroy, ModulosListCreate, ModulosRetrieveUpdateDestroy, PostulanteListCreate, PostulanteRetrieveUpdateDestroy, PreguntasListCreate, PreguntasRetrieveUpdateDestroy, ProgramasListCreate, ProgramasRetrieveUpdateDestroy, RegistrosListCreate, RegistrosRetrieveUpdateDestroy, RolListCreate, RolRetrieveUpdateDestroy, SuenosListCreate, SuenosRetrieveUpdateDestroy, TalleresListCreate, TalleresRetrieveUpdateDestroy, UsuarioListCreate, UsuarioRetrieveUpdateDestroy
+from .views import check_auth, CalificacionesBajasPorNitView, CalificacionesPorNitView, CalificacionesListView, generar_diagnostico, UpdateEmpresaDiagStatus, SaveCalificacionView, CalificacionesViewSet, registrar_calificacion, CalificacionesModulosList, PreguntasPorModuloList, ModuloUpdateView, PreguntasNoAsignadasList, ModulosListView, AutoevaluacionDetail, RegistroAutoevaluacionView, RegistroPostulante, RegistroEmpresa, UpdateEmpresaStatus, AutoevaluacionListCreate, CalificacionModuloListCreate, ModuloAutoevaluacionListCreate, RegistroPostulanteView, EmpresasListCreate, EmpresasRetrieveUpdateDestroy, ModulosListCreate, ModulosRetrieveUpdateDestroy, PostulanteListCreate, PostulanteRetrieveUpdateDestroy, PreguntasListCreate, PreguntasRetrieveUpdateDestroy, ProgramasListCreate, ProgramasRetrieveUpdateDestroy, RegistrosListCreate, RegistrosRetrieveUpdateDestroy, RolListCreate, RolRetrieveUpdateDestroy, SuenosListCreate, SuenosRetrieveUpdateDestroy, TalleresListCreate, TalleresRetrieveUpdateDestroy, UsuarioListCreate, UsuarioRetrieveUpdateDestroy
 
 router = routers.DefaultRouter()
 
@@ -10,8 +10,17 @@ urlpatterns = [
     path('login', views.login),
     path('user', views.user),
     path('check-auth/', check_auth, name='check_auth'),
+
+    path('calificacion/', SaveCalificacionView.as_view(), name='save_calificacion'),
+    path('calificaciones/empresa/<int:nit>/', CalificacionesPorNitView.as_view(), name='calificacion-especifica'),
+    path('calificaciones-bajas/empresa/<int:nit>/', CalificacionesBajasPorNitView.as_view(), name='calificaciones-bajas-por-nit'),
+
+    path('diagnostico/<int:nit>/<int:id_modulo>/', generar_diagnostico, name='generar_diagnostico'),
+    path('registrar-calificacion/', registrar_calificacion, name='registrar_calificacion'),
+    path('calificaciones/', CalificacionesListView.as_view(), name='calificaciones-list'),
     
      path('update-empresa-status/<int:nit>/', UpdateEmpresaStatus.as_view(), name='update-empresa-status'),
+     path('update-empresa-diag-status/<int:nit>/', UpdateEmpresaDiagStatus.as_view(), name='update-empresa-diag-status'),
      path('calificaciones-modulos/', views.CalificacionesModulosList.as_view(), name='calificaciones-modulos-list'),
      path('update-modulos/<int:pk>/', ModuloUpdateView.as_view(), name='modulo-update'),  # URL para actualización
 
@@ -42,8 +51,8 @@ urlpatterns = [
     path('postulante/', PostulanteListCreate.as_view(), name='postulante-list-create'),
     path('postulante/<int:pk>/', PostulanteRetrieveUpdateDestroy.as_view(), name='postulante-retrieve-update-destroy'),
 
-    path('preguntas/', PreguntasPorModuloView.as_view(), name='preguntas-por-modulo'),
-    path('preguntas/<int:pk>/', PreguntasRetrieveUpdateDestroy.as_view(), name='preguntas-retrieve-update-destroy'),
+    path('preguntas/', PreguntasListCreate.as_view(), name='preguntas-por-modulo'),
+    path('preguntas/modulo/<int:id_modulo>/', PreguntasPorModuloList.as_view(), name='preguntas-por-modulo'),
 
     path('programas/', ProgramasListCreate.as_view(), name='programas-list-create'),
     path('programas/<int:pk>/', ProgramasRetrieveUpdateDestroy.as_view(), name='programas-retrieve-update-destroy'),
