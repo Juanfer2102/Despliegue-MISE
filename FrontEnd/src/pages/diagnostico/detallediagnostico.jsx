@@ -6,6 +6,7 @@ const EvaluacionEmpresa = () => {
     const { nit } = useParams();
     const [empresa, setEmpresa] = useState({});
     const [calificacionesBajas, setCalificacionesBajas] = useState([]);
+    const [sueñosSeleccionados, setSueñosSeleccionados] = useState({}); // Estado para manejar los sueños seleccionados
 
     useEffect(() => {
         // Obtener información de la empresa
@@ -24,6 +25,14 @@ const EvaluacionEmpresa = () => {
                 setCalificacionesBajas(data);
             });
     }, [nit]);
+
+    // Manejar la selección de un sueño
+    const handleSelectSueño = (id_modulo, sueñoSeleccionado) => {
+        setSueñosSeleccionados(prevState => ({
+            ...prevState,
+            [id_modulo]: sueñoSeleccionado
+        }));
+    };
 
     // Renderiza las calificaciones bajas en una tabla
     const renderTabla = (preguntas) => (
@@ -64,8 +73,6 @@ const EvaluacionEmpresa = () => {
                                             A través del servicio de acompañamiento del Modelo Integral de Servicios Empresariales (MISE), en su dimensión de FORTALECIMIENTO dirigido a empresas, ofrecido por la Cámara de Comercio de Palmira (CCP), se presenta el diagnóstico realizado para la empresa <span className="font-bold underline">{empresa.nombre_empresa}</span>.
 
                                             Este diagnóstico refleja las necesidades puntuales y metas empresariales acordadas, las cuales serán evidenciadas en el progreso de esta página. El MISE implementado por la CCP incluye fases clave como la identificación de necesidades, la focalización, la definición de una ruta de servicios, la oferta de un portafolio integral, y el seguimiento continuo a las empresas beneficiadas. Todo esto tiene como objetivo garantizar un mayor impacto en el crecimiento de las empresas de Palmira, Pradera, Florida y Candelaria.
-
-                                            A medida que avance en esta página, podrá observar cómo estas metas se abordan y desarrollan en el diagnóstico empresarial de <span className="font-bold underline">{empresa.nombre_empresa}</span>.
                                         </p>
                                     </div>
                                     <div className="p-6">
@@ -96,22 +103,40 @@ const EvaluacionEmpresa = () => {
                                                                         <p><strong>Sesión:</strong> {tema.num_sesion}</p>
                                                                         <p><strong>Objetivo:</strong> {tema.objetivo}</p>
                                                                         <p><strong>Alcance:</strong> {tema.alcance}</p>
-                                                                        <p><strong>Contenido:</strong> {tema.contenido}</p>
-                                                                        <p><strong>Conferencista:</strong> {tema.conferencista}</p>
-                                                                        <p><strong>Fecha:</strong> {tema.fecha}</p>
-                                                                        <p><strong>Horario:</strong> {tema.horario}</p>
-                                                                        <p><strong>Ubicación:</strong> {tema.ubicacion}</p>
                                                                     </div>
                                                                 );
                                                             })}
                                                         </div>
                                                     </div>
+
+                                                    {/* Mostrar los sueños del módulo */}
+                                                    <div className="suenos pt-10">
+                                                        <h2 className="text-2xl font-bold mb-4">Sueños del módulo</h2>
+                                                        <div className="flex flex-wrap gap-8">
+                                                            {modulo.suenos.map((sueño, index) => (
+                                                                <div key={index} className="flex-1 min-w-[300px] p-4 border-t border-gray-200 rounded-md shadow-md">
+                                                                    <h3 className="text-xl font-bold">Sueño {index + 1}</h3>
+                                                                    <p><strong>Nivel:</strong> {sueño.nivel}</p>
+                                                                    <p><strong>Sueño:</strong> {sueño.sueño}</p>
+                                                                    <p><strong>Medición:</strong> {sueño.medicion}</p>
+                                                                    <p><strong>Fortalecimiento:</strong> {sueño.fortalecimiento}</p>
+                                                                    <p><strong>Evidencia:</strong> {sueño.evidencia}</p>
+                                                                    <button
+                                                                        className={`mt-4 p-2 bg-${sueñosSeleccionados[modulo.id_modulo] === sueño.sueño ? 'green-500' : 'blue-500'} text-white rounded`}
+                                                                        onClick={() => handleSelectSueño(modulo.id_modulo, sueño.sueño)}
+                                                                    >
+                                                                        Seleccionar este sueño
+                                                                    </button>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                        {sueñosSeleccionados[modulo.id_modulo] && (
+                                                            <p className="mt-4 text-lg">Sueño seleccionado: {sueñosSeleccionados[modulo.id_modulo]}</p>
+                                                        )}
+                                                    </div>
                                                 </div>
-
-
                                             </div>
                                         ))}
-
                                         {/* Conclusiones */}
                                         <div className="pt-14 flex gap-8">
                                             <div className="">

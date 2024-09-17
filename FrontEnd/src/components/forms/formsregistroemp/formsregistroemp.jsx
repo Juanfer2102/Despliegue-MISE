@@ -66,10 +66,6 @@ export const FormRegistro = () => {
 
 
     const handleInputChange = (name, value) => {
-        if (name === "razon_social") {
-            // Filtrar caracteres no permitidos para nombre y apellido
-            value = value.replace(/[0-9]/g, "");
-        }
         if (name === "celular") {
             if (value.length > 10) {
                 return; // Evitar que se ingrese más de 10 dígitos

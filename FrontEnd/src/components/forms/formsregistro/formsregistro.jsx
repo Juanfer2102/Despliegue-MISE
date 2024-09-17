@@ -64,7 +64,7 @@ export const FormRegistro = () => {
                 return; // Evitar que se ingrese más de 10 dígitos
             }
         }
-        if (name === "ndocumento") {
+        if (name === "no_documento") {
             if (value.length > 10) {
                 return; // Evitar que se ingrese más de 10 dígitos
             }
