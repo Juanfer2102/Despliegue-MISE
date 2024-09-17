@@ -15,7 +15,6 @@ const Dashboard = () => {
           <div className="bg-greyBg flex flex-col w-full xl:h-full px-4 xl:px-12 lg:px-12 pt-4 xl:pt-6">
             <div className="flex flex-col lg:flex-row gap-5 h-full">
               <div className="flex flex-col gap-5">
-                <Grafica />
                 <TablasEmpresaporc />
               </div>
               <div className="w-full lg:w-1/2 flex flex-col gap-5">
