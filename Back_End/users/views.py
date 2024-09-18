@@ -336,6 +336,11 @@ class SaveCalificacionView(APIView):
             else:
                 return Response({"error": "Formato de datos incorrecto"}, status=status.HTTP_400_BAD_REQUEST)
 
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist
+
+
 def obtener_postulante_por_nit(request, nit):
     try:
         empresa = get_object_or_404(Empresas, nit=nit)
@@ -354,8 +359,11 @@ def obtener_postulante_por_nit(request, nit):
             'cargo': postulante.cargo
         }
         return JsonResponse(data)
-    except ObjectDoesNotExist:
-        return JsonResponse({'error': 'No se encontró el postulante para el NIT proporcionado.'}, status=404)
+    except Empresas.DoesNotExist:
+        return JsonResponse({'error': 'No se encontró la empresa con el NIT proporcionado.'}, status=404)
+    except Postulante.DoesNotExist:
+        return JsonResponse({'error': 'No se encontró el postulante asociado a la empresa.'}, status=404)
+
 
 def listar_empresas_sin_diagnostico(request):
     # Obtener las empresas cuyo diagnostico_value es 0
