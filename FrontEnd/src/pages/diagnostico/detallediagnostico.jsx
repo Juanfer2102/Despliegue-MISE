@@ -3,12 +3,14 @@ import LayoutDashboard from '../../layouts/LayoutDashboard';
 import DownloadPDFButton from "../../components/inputs/botones/botonpdf";
 import { useParams } from 'react-router-dom';
 import GoBack from "../../components/inputs/goback/GoBack";
+import { useNavigate } from "react-router-dom";
 
 const EvaluacionEmpresa = () => {
     const { nit } = useParams();
     const [empresa, setEmpresa] = useState({});
     const [calificacionesBajas, setCalificacionesBajas] = useState([]);
     const [sueñosSeleccionados, setSueñosSeleccionados] = useState({}); // Estado para manejar los sueños seleccionados
+    const navigate = useNavigate();
     
 
     useEffect(() => {
@@ -58,12 +60,14 @@ const EvaluacionEmpresa = () => {
                 return response.json().then(errData => {
                     console.error("Error en la respuesta del backend:", errData);
                     throw new Error("Error al registrar el diagnóstico");
+
                 });
             }
             return response.json();
         })
         .then(result => {
             alert('Diagnóstico registrado con éxito');
+            navigate(`/dashboard-emp/${nit}/`);
         })
         .catch(error => {
             console.error('Error al registrar el diagnóstico:', error);
