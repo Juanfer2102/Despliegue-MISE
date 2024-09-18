@@ -53,7 +53,7 @@ const TarjetasTema = () => {
                             Ver Diagnostico Inicial
                         </button>
                     </a>
-                    <DownloadPDFButton filename="ACTA_FINAL_MISE.pdf" />
+                    <DownloadPDFButton pdfType={"inicial"} filename="ACTA_FINAL_MISE.pdf" />
                 </div>
             </div>
             <div className="temas flex p-4 border-t border-white max-w-[70rem] max-h-[25rem] h-[25rem] overflow-x-auto" style={styles.customScrollbar}>

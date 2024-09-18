@@ -1,3 +1,29 @@
+/**
+ * DashboardEmp.jsx
+ * 
+ * Esta vista muestra el dashboard de una empresa específica, proporcionando una visión detallada de la información del postulante
+ * y de la empresa. Está organizada en diferentes secciones que incluyen tarjetas temáticas, tablas de preguntas y validaciones, 
+ * e información detallada de la empresa y el postulante.
+ * 
+ * Componentes utilizados:
+ * - LayoutDashboard: Envuelve la estructura del dashboard, proporcionando un layout base para la página.
+ * - GoBack: Un botón que permite volver a la vista anterior, en este caso, al listado de empresas registradas.
+ * - TarjetasTema: Muestra tarjetas con temas relacionados al estado del dashboard.
+ * - TablaPreguntas: Componente que contiene una tabla de preguntas relacionadas con la empresa.
+ * - ValidacionDeSueños: Tabla que muestra la validación de los sueños del emprendedor o empresario.
+ * 
+ * Estructura de la vista:
+ * - Encabezado: Incluye un fondo oscuro que ocupa la parte superior de la pantalla.
+ * - GoBack: Un componente de retorno que indica la ruta de navegación anterior.
+ * - Tarjetas: Un contenedor flexible que muestra tarjetas temáticas.
+ * - Sección de tablas: Incluye tablas con preguntas relevantes y validaciones.
+ * - Información del postulante y de la empresa: Presenta datos personales y empresariales de manera estructurada con dos columnas.
+ * 
+ * Estilos:
+ * - El diseño se adapta a diferentes tamaños de pantalla (diseño responsive) con clases de Tailwind CSS.
+ * - Personalización adicional del scroll utilizando estilos en JSX para la scrollbar.
+ */
+
 import React, { useEffect, useState } from "react";
 import GoBack from "../../components/inputs/goback/GoBack.jsx";
 import LayoutDashboard from "../../layouts/LayoutDashboard.jsx";
