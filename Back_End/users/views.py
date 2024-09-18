@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import TemasPreguntas, DiagnosticoEmpresarial, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .models import DiagnosticoEmpresarialSuenos, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 from .serializer import CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from rest_framework import status, generics, serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
@@ -14,7 +14,7 @@ from rest_framework_simplejwt.tokens import RefreshToken, UntypedToken
 
 from rest_framework.views import APIView
 
-from django.db import connection
+from django.db import connection, transaction
 from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -38,7 +38,7 @@ class CalificacionesBajasPorNitView(APIView):
         ).values_list('id_modulo_id', flat=True).distinct()  # Usar id_modulo_id
         
         # Filtrar DiagnosticoEmpresarial para obtener módulos que tienen preguntas con calificación menor a 50
-        modulos_diagnostico = DiagnosticoEmpresarial.objects.filter(
+        modulos_diagnostico = DiagnosticoEmpresarialModulos.objects.filter(
             nit=nit,
             id_modulo_id__in=modulos_ids  # Usar id_modulo_id
         ).select_related('id_modulo')
@@ -104,10 +104,118 @@ class CalificacionesBajasPorNitView(APIView):
                 })
         
         return Response(response_data, status=status.HTTP_200_OK)
-    
+
+class ConsultarDiagnosticoView(APIView):
+    def get(self, request, *args, **kwargs):
+        nit = request.query_params.get('nit')
+        if not nit:
+            return Response({"error": "NIT no proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            empresa = Empresas.objects.get(nit=nit)
+        except Empresas.DoesNotExist:
+            return Response({"error": "Empresa no encontrada"}, status=status.HTTP_404_NOT_FOUND)
+
+        diagnosticos = DiagnosticoEmpresarial.objects.filter(empresa=empresa).prefetch_related('suenos')
+        
+        datos_diagnostico = []
+        for diagnostico in diagnosticos:
+            suenos = diagnostico.suenos.all()
+            datos_diagnostico.append({
+                "modulo": diagnostico.modulo.nombre,
+                "calificacion_promedio": diagnostico.calificacion_promedio,
+                "suenos": [sueno.nombre for sueno in suenos]
+            })
+
+        return Response({
+            "empresa": empresa.nit,
+            "diagnosticos": datos_diagnostico
+        }, status=status.HTTP_200_OK)
+
+class RegistrarDiagnosticoView(APIView):
+    def post(self, request, *args, **kwargs):
+        try:
+            data = request.data
+
+            # Verifica que data es un diccionario, si es un string, lo convierte
+            if isinstance(data, str):
+                import json
+                data = json.loads(data)
+
+            nit = data.get('nit')
+            sueños_seleccionados = data.get('sueños', {})
+
+            if not nit:
+                return Response({"error": "NIT no proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
+
+            try:
+                empresa = Empresas.objects.get(nit=nit)
+            except Empresas.DoesNotExist:
+                return Response({"error": "Empresa no encontrada"}, status=status.HTTP_404_NOT_FOUND)
+
+            suenos_registrados = []
+
+            for sueno_id, sueno_descripcion in sueños_seleccionados.items():
+                try:
+                    modulo = Modulos.objects.get(id_modulo=sueno_id)
+                except Modulos.DoesNotExist:
+                    return Response({"error": f"Módulo {sueno_id} no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+
+                diagnostico, created = DiagnosticoEmpresarial.objects.get_or_create(
+                    empresa=empresa,
+                    modulo=modulo,
+                    defaults={"calificacion_promedio": 0}
+                )
+
+                suenos = Suenos.objects.filter(
+                    modulo=modulo,
+                    nivel="Nivel predeterminado"  # Ajusta el criterio según tu lógica
+                )
+
+                if suenos.exists():
+                    sueno = suenos.first()  # O ajusta según tu lógica de selección
+                else:
+                    sueno = Suenos.objects.create(
+                        modulo=modulo,
+                        nivel="Nivel predeterminado",
+                        sueño=sueno_descripcion,
+                        medicion="Medición predeterminada",
+                        fortalecimiento="Fortalecimiento predeterminado",
+                        evidencia="Evidencia predeterminada"
+                    )
+
+                diagnostico_sueno, created = DiagnosticoEmpresarialSuenos.objects.get_or_create(
+                    diagnostico=diagnostico,
+                    sueno=sueno
+                )
+
+                # Debug: Verifica los datos antes de agregar al registro
+                print(f"Creando DiagnosticoEmpresarialSuenos con: {diagnostico_sueno}, creado: {created}")
+
+                suenos_registrados.append({
+                    "id_modulo": modulo.id_modulo,
+                    "nivel": sueno.nivel,
+                    "sueño": sueno.sueño
+                })
+
+            return Response({
+                "empresa": empresa.nit,
+                "suenos_registrados": suenos_registrados
+            }, status=status.HTTP_201_CREATED)
+
+        except Empresas.DoesNotExist:
+            return Response({"error": "Empresa no encontrada"}, status=status.HTTP_404_NOT_FOUND)
+        except Modulos.DoesNotExist:
+            return Response({"error": "Módulo no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        except Suenos.DoesNotExist:
+            return Response({"error": "Sueño no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            import traceback
+            print("Error detallado:", traceback.format_exc())
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-    
+
 class CalificacionesPorNitView(APIView):
     def get(self, request, nit, *args, **kwargs):
         # Obtener todos los módulos relacionados con las calificaciones de la empresa
@@ -115,7 +223,7 @@ class CalificacionesPorNitView(APIView):
             preguntas__calificaciones__nit=nit
         ).distinct()
 
-        diagnosticos = DiagnosticoEmpresarial.objects.filter(
+        diagnosticos = DiagnosticoEmpresarialModulos.objects.filter(
             nit=nit,
             id_modulo__in=modulos
         )
@@ -148,39 +256,28 @@ class SaveCalificacionView(APIView):
         data = request.data
         print(data)  # Para depuración, puedes eliminarlo más tarde
 
-        # Verificar que los datos sean una lista
         if isinstance(data, list):
             for item in data:
                 try:
-                    # Obtener y validar los campos necesarios
-                    calificacion = float(item.get('calificacion', 0))  # Convertir calificación a float
+                    calificacion = float(item.get('calificacion', 0))
                     id_pregunta = item.get('id_pregunta')
                     nit = item.get('nit')
 
-                    # Validar que se envíen todos los campos requeridos
                     if not id_pregunta or not nit:
                         return Response({"error": "Faltan campos requeridos"}, status=status.HTTP_400_BAD_REQUEST)
 
-                    # Validar y obtener la pregunta
                     pregunta = get_object_or_404(Preguntas, id_pregunta=id_pregunta)
-
-                    # Validar y obtener la empresa
                     empresa = get_object_or_404(Empresas, nit=nit)
 
-                    # Crear y guardar la calificación
-                    calificacion_obj = Calificaciones.objects.create(
+                    Calificaciones.objects.create(
                         calificacion=calificacion,
                         id_pregunta=pregunta,
                         nit=empresa
                     )
 
-                    # La lógica de actualización del promedio se maneja automáticamente en el modelo
-                    calificacion_obj.save()
-
                 except ValueError:
                     return Response({"error": "Calificación inválida, debe ser un número"}, status=status.HTTP_400_BAD_REQUEST)
                 except Exception as e:
-                    # Capturar cualquier otro error
                     return Response({"error": f"Error al procesar la solicitud: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
             return Response({"message": "Calificaciones guardadas con éxito"}, status=status.HTTP_201_CREATED)

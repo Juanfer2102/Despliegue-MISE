@@ -1,7 +1,12 @@
 
 from rest_framework import serializers
-from .models import Autoevaluacion, Calificaciones, Diagnostico1, Modulo1, Respuesta1, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .models import Autoevaluacion, DiagnosticoEmpresarialSuenos, Calificaciones, Diagnostico1, Modulo1, Respuesta1, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 
+
+class DiagnosticoEmpresarialSuenosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DiagnosticoEmpresarialSuenos
+        fields = ['diagnostico', 'sueno']
 
 class CalificacionPreguntaSerializer(serializers.ModelSerializer):
     descripcion_pregunta = serializers.CharField(source='id_pregunta.descripcion', read_only=True)

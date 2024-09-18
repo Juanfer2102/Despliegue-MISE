@@ -104,6 +104,8 @@ class Modulos(models.Model):
         managed = False
         db_table = 'modulos'
 
+
+
 class Temas(models.Model):
     id_modulo = models.ForeignKey(Modulos, models.DO_NOTHING, db_column='id_modulo')
     titulo_formacion = models.CharField(max_length=255)
@@ -163,6 +165,28 @@ class Suenos(models.Model):
         managed = False
         db_table = 'suenos'
 
+class DiagnosticoEmpresarial(models.Model):
+    empresa = models.ForeignKey(Empresas, on_delete=models.CASCADE)  # Elimina db_column aquí
+    modulo = models.ForeignKey(Modulos, on_delete=models.CASCADE)
+    calificacion_promedio = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+
+    class Meta:
+        db_table = 'diagnosticoempresarial'
+
+
+class DiagnosticoEmpresarialSuenos(models.Model):
+    id = models.AutoField(primary_key=True)  # Agrega el campo id
+    diagnostico = models.ForeignKey(DiagnosticoEmpresarial, on_delete=models.CASCADE)
+    sueno = models.ForeignKey(Suenos, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'diagnosticosuenos'
+        unique_together = (('diagnostico', 'sueno'),)
+        indexes = [
+            models.Index(fields=['diagnostico', 'sueno']),
+        ]
+
+        
 
 class Talleres(models.Model):
     id_taller = models.IntegerField(primary_key=True)
@@ -388,7 +412,7 @@ class Respuesta1(models.Model):
         return f"Respuesta a {self.pregunta} con calificación {self.calificacion}"
 
 
-class DiagnosticoEmpresarial(models.Model):
+class DiagnosticoEmpresarialModulos(models.Model):
     id_diagnostico = models.AutoField(primary_key=True)
     nit = models.ForeignKey('Empresas', models.DO_NOTHING, db_column='nit', blank=True, null=True)
     id_modulo = models.ForeignKey('Modulos', models.DO_NOTHING, db_column='id_modulo', blank=True, null=True)
