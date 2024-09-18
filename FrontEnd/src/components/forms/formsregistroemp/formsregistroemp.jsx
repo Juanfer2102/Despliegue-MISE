@@ -3,7 +3,7 @@ import SelectComponent from '../../inputs/selectores/selectores';
 import './formsregistroemp.css';
 import { DatePicker } from '@tremor/react';
 import ConfirmModal from '../../modales/modalconfirm.jsx';
-import Boton from '../../inputs/boton.jsx';
+import Boton from '../../inputs/botones/boton.jsx';
 import { format } from 'date-fns'
 
 export const FormRegistro = () => {

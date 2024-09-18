@@ -1,7 +1,7 @@
 import React from 'react';
 import { MultiSelect, MultiSelectItem } from '@tremor/react';
 
-const Selectormultiple = ({ width, DataType, name, widthInput, height, onChange, items = [] }) => { 
+const Selectormultiple = ({ width, DataType, name, widthInput, height, onChange, items = [] }) => { // Definir items como array por defecto
   return (
     <div className={`text-textBg items-center text-start content-center flex flex-row`}>
       <div className={width}>
@@ -20,7 +20,7 @@ const Selectormultiple = ({ width, DataType, name, widthInput, height, onChange,
               </MultiSelectItem>
             ))
           ) : (
-            <p className="text-red-500">No options available</p> // Puedes cambiar el estilo del mensaje
+            <p>No options available</p> // Mensaje alternativo si no hay elementos
           )}
         </MultiSelect>
       </div>

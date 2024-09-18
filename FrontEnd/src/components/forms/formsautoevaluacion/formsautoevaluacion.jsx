@@ -189,6 +189,7 @@ export const FormAuto = () => {
     
     const openSuccessModal = () => {
         setIsSuccessModalVisible(true);
+        closeModal();
         setTimeout(() => {
             setIsSuccessModalVisible(false);
             window.location.href = "/";

@@ -4,6 +4,12 @@ from .serializer import CalificacionPreguntaSerializer, CalificacionesPreguntasS
 from rest_framework import status, generics, serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from datetime import datetime
+
+
+from weasyprint import HTML
+import io
+from django.http import HttpResponse
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -874,3 +880,529 @@ class PreguntasNoAsignadasList(generics.ListAPIView):
 
     def get_queryset(self):
         return Preguntas.objects.filter(id_modulo__isnull=True)
+    
+@api_view(['GET'])
+def generar_pdf(request, nit):
+    try:
+
+        empresa = Empresas.objects.get(nit=nit)
+        postulante = empresa.id_postulante
+        fecha_actual = datetime.now().strftime("%d/%m/%Y")
+
+        html_content = f"""
+        <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACTA INICIAL DE SERVICIO DE ACOMPAÑAMIENTO MISE FORTALECIMIENTO</title>
+    <style>
+                body {{
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                    color: #333;
+                    max-width: 800px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }}
+                h1, h2 {{
+                    color: #005a87;
+                    text-align: center;
+                }}
+                table {{
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 20px;
+                }}
+                th, td {{
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                    text-align: left;
+                }}
+                th {{
+                    background-color: #f2f2f2;
+                }}
+                .container {{
+                    display: flex;
+                    justify-content: space-between; /* Espacio entre los divs */
+                    width: 100%; /* Ajusta el ancho total según lo necesites */
+                    max-width: 600px; /* Ancho máximo del contenedor */
+                }}
+                .signature-section {{
+                    text-align: center;
+                    margin: 0 20px; /* Espacio horizontal entre los divs */
+                }}
+                .line {{
+                    border-bottom: 1px solid #000;
+                    width: 200px; /* Ajusta el ancho de la línea según lo necesites */
+                    display: inline-block;
+                    margin: 0 auto;
+                }}
+    </style>
+</head>
+<body>
+    <h1>ACTA INICIAL DE SERVICIO DE ACOMPAÑAMIENTO MISE FORTALECIMIENTO</h1>
+    <h2>DESARROLLO EMPRESARIAL</h2>
+
+    <h2>INTRODUCCIÓN</h2>
+    <p>Por medio del servicio de acompañamiento del Modelo Integral de Servicios Empresariales (MISE), en su dimensión de FORTALECIMIENTO (dirigido a empresas), que le ofrece la Cámara de Comercio de Palmira (CCP), usted podrá contar con un consultor empresarial que lo apoyará en el cumplimiento de las metas o sueños empresariales acordados.</p>
+    <p>Estos sueños empresariales dependen de sus necesidades puntuales. El MISE implementado por la CCP tiene dentro de sus premisas las siguientes: identificación de necesidades, focalización, ruta de servicios, portafolio integral y seguimiento y acompañamiento a los beneficiados (empresarios y emprendedores) vinculados al mismo, con el fin de garantizar un mayor impacto en las empresas de Palmira, Pradera, Florida y Candelaria.</p>
+
+    <h2>DATOS GENERALES DE LA EMPRESA A PARTIR DE DIAGNÓSTICO</h2>
+    <table>
+        <tr>
+            <th>Campo</th>
+            <th>Información</th>
+        </tr>
+        <tr>
+            <td>Fecha de realización diagnóstico</td>
+            <td>{fecha_actual}</td>
+        </tr>
+        <tr>
+            <td>Nombre de quien diligencia el diagnóstico</td>
+            <td>{postulante.nombres_postulante} {postulante.apellidos_postulante}</td>
+        </tr>
+        <tr>
+            <td>N° de documento de identificación</td>
+            <td>{postulante.no_documento}</td>
+        </tr>
+        <tr>
+            <td>Cargo en la empresa</td>
+            <td>{postulante.cargo}</td>
+        </tr>
+        <tr>
+            <td>Nombre o razón social de la empresa</td>
+            <td>{empresa.razon_social}</td>
+        </tr>
+        <tr>
+            <td>Dirección</td>
+            <td>{empresa.direccion}</td>
+        </tr>
+        <tr>
+            <td>Principal actividad económica (CIIU)</td>
+            <td>{empresa.act_economica}</td>
+        </tr>
+        <tr>
+            <td>Producto o servicio</td>
+            <td>{empresa.producto_servicio}</td>
+        </tr>
+        <tr>
+            <td>Nombre del gerente o representante Legal</td>
+            <td>{empresa.gerente}</td>
+        </tr>
+        <tr>
+            <td>NIT</td>
+            <td>{empresa.nit}</td>
+        </tr>
+        <tr>
+            <td>Celular</td>
+            <td>{empresa.celular}</td>
+        </tr>
+        <tr>
+            <td>Correo electrónico</td>
+            <td>{empresa.correo}</td>
+        </tr>
+        <tr>
+            <td>Página Web</td>
+            <td>{empresa.pagina_web}</td>
+        </tr>
+        <tr>
+            <td>Fecha de creación o constitución de la empresa</td>
+            <td>{empresa.fecha_creacion}</td>
+        </tr>
+        <tr>
+            <td>Ventas del último año</td>
+            <td>{empresa.ventas_ult_ano}</td>
+        </tr>
+        <tr>
+            <td>Costos del último año</td>
+            <td>{empresa.costos_ult_ano}</td>
+        </tr>
+        <tr>
+            <td>N° de empleados permanentes (directos)</td>
+            <td>{empresa.empleados_perm}</td>
+        </tr>
+        <tr>
+            <td>Sector al que pertenece la empresa</td>
+            <td>{empresa.sector}</td>
+        </tr>
+    </table>
+
+    <h2>DIAGNÓSTICO DE LA EMPRESA</h2>
+    <p>El presente análisis se elaboró a partir de la aplicación del diagnóstico de profundización MISE. Este muestra la línea base de la empresa para ser atendida en el marco del MISE. El diagnóstico tiene unas preguntas que atienden a diferentes ejes como Estrategia, Operaciones, Mercadeo, Ventas, Talento humano, Finanzas. Se aplica la metodología semáforo a cada una de las preguntas de la siguiente manera:</p>
+    
+    <img src="/api/placeholder/400/320" alt="Imagen de metodología semáforo" />
+
+    <p>El resultado de la evaluación está enfocado con los siguientes enunciados:</p>
+    <br>
+    
+    <table>
+        <tr>
+            <th>Rango de calificación</th>
+            <th>Enunciado</th>
+        </tr>
+        <tr>
+            <td>0,00 a 49,00</td>
+            <td>Evidenciamos una debilidad por tanto es necesario que sea priorizado dentro de la ruta de servicios del programa</td>
+        </tr>
+        <tr>
+            <td>50,00 a 80,00</td>
+            <td>Encontramos oportunidades de mejora, se le recomienda revisar en profundidad con un consultor MISE</td>
+        </tr>
+        <tr>
+            <td>81,00 a 100,00</td>
+            <td>Cuenta con un gran avance, lo invitamos a seguir fortaleciendo con nuestras consultorías o programas especializados</td>
+        </tr>
+    </table>
+
+    <p>A continuación, se muestra el resultado del diagnóstico de la empresa:</p>
+    <!-- Aquí se puede agregar una tabla o gráfico con los resultados del diagnóstico -->
+
+    <h2>DEFINICIÓN DE SUEÑOS</h2>
+    <p>A partir del diagnóstico realizado en la reunión, usted y su consultor empresarial, concertaron los siguientes sueños empresariales para su empresa o proyecto empresarial:</p>
+    
+    <table>
+        <tr>
+            <th>SUEÑOS CONCERTADOS</th>
+        </tr>
+        <tr>
+            <td>
+             <br>
+             <br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+             <br>
+             <br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+             <br>
+             <br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+             <br>
+             <br>
+            </td>
+        </tr>
+    </table>
+
+    <h2>RUTA DE SERVICIOS</h2>
+    <p>A partir del análisis y verificación realizados en la reunión, usted y su consultor empresarial, concertaron la siguiente ruta de servicios:</p>
+    
+    <table>
+        <tr>
+            <th>Nombre del servicio</th>
+            <th>Descripción y sueño que ayuda a cumplir</th>
+            <th>Fecha de inicio concertada</th>
+            <th>Fecha final concertada</th>
+        </tr>
+        <tr>
+            <td><em>Ej.: Módulo, taller, información, asesoría, consultoría, contactos</em></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <p><strong>Nota:</strong> Los sueños empresariales concertados y la ruta de servicios están sujetos a cambios de acuerdo con las necesidades del beneficiado. Los ajustes quedarán registrados en el formato ACTA FINAL MISE (F-7 V3).</p>
+
+    <h2>COMPROMISOS</h2>
+    <p>A continuación, enunciamos algunos aspectos a tener en cuenta para el cumplimiento de los sueños acordados:</p>
+
+    <h3>Compromisos asumidos por el beneficiado:</h3>
+    <ul>
+        <li>Suministrar la información técnica y financiera que se requiera para el cumplimiento de los sueños</li>
+        <li>Aprobar los sueños y la ruta de servicios acordada con el consultor de la Cámara de Comercio de Palmira</li>
+        <li>Inscribirse y participar en los servicios definidos para avanzar en la ruta de servicios acordada</li>
+        <li>Cumplir con los compromisos pactados en este documento y los que se desprendan del normal desarrollo del proceso</li>
+        <li>Atender las visitas, citas presenciales o virtuales del consultor empresarial según agenda acordada</li>
+        <li>Disponer de tiempo y/o asignar una persona responsable de manera permanente para garantizar los avances de la ruta de servicios y el cumplimiento de los sueños establecidos</li>
+        <li>Asumir la responsabilidad para el cumplimiento del objetivo trazado</li>
+        <li>Suscribir el acta final del servicio de acompañamiento. Si una vez finalizado el servicio en el término de cinco (5) días hábiles el empresario no suscribe el acta enunciada, la Cámara de Comercio de Palmira quedará facultada para completar la información pertinente y remitirla mediante correo electrónica a mi dirección de notificaciones</li>
+    </ul>
+
+    <h3>Compromisos asumidos por la Cámara de Comercio de Palmira:</h3>
+    <ul>
+        <li>Acompañar al empresario en el cumplimiento de los sueños</li>
+        <li>Poner a disposición del empresario una ruta de servicios (árbol de rutas) pertinentes para el cumplimiento de los sueños empresariales</li>
+        <li>Hacer su mayor esfuerzo y desplegar todas las actividades que estén a su alcance para que el empresario cumpla los sueños empresariales concertados en este documento (este es un compromiso que también depende de la disposición del beneficiado)</li>
+        <li>Suscribir el acta final del servicio de acompañamiento</li>
+    </ul>
+
+    <p>La Cámara de Comercio de Palmira realizará todas las actuaciones tendientes a lograr los sueños acordados con el beneficiado sin asumir un compromiso con el efectivo cumplimiento de estos, pues las obligaciones que adquiere en el programa son de medio y no de resultados. Es decir, la entidad desplegará diferentes actividades tendientes al fortalecimiento empresarial, pero la responsabilidad directa del cumplimiento de los sueños recae en el empresario. La Cámara de Comercio de Palmira se reserva el derecho de modificar o cambiar el contenido, nombre o fechas de su ruta de servicios (árbol de rutas) que le ofrece al beneficiado; también podrá dejar fechas pendientes cuando estas dependan de la disponibilidad del conferencista/asesor o del beneficiado. La entidad también podrá suscribir este documento después del inicio de una ruta de servicios para analizar si las personas están cumpliendo con las actividades propuestas.</p>
+
+    <h3>En los siguientes casos la Cámara de Comercio de Palmira no continuará prestando el servicio de acompañamiento:</h3>
+    <ul>
+        <li>Si el registro mercantil no está renovado al momento de iniciar el proceso o durante todo el proceso (en los casos que aplica)</li>
+        <li>Si pasados tres (3) meses, no inician la ruta de servicios o no cumple con los compromisos acordados</li>
+        <li>Si no se avanza en la ruta de servicios durante tres (3) meses</li>
+        <li>Por mutuo acuerdo entre el consultor y la empresa</li>
+        <li>Por decisión unilateral de la Cámara de Comercio de Palmira o del beneficiado</li>
+        <li>Cuando se cumplan los sueños y ruta de servicios acordados y la empresa considere que no se tienen más sueños empresariales a trabajar</li>
+        <li>Por terminación del plazo pactado, si alguna de las partes considera que no logrará alcanzar el sueño establecido</li>
+        <li>Si hay incumplimiento de la asistencia mínima exigida en los módulos o talleres priorizados no se brindará el servicio de asesoría personalizada</li>
+    </ul>
+
+    <p>
+        Al diligenciar y firmar este formulario autoriza a La Cámara de Comercio de Palmira - CCP, identificada con el NIT. 891.380.012-0, domiciliada y 
+        ubicada en Palmira – Valle - Colombia en la Calle 28 # 31-30, para el tratamiento de sus datos personales conforme a lo establecido en la Ley 1581 
+        de 2012 de Protección de Datos Personales y su Decreto reglamentario 1377 de 2013. Para más información, consulte nuestra política de 
+        tratamiento de datos en <a href="http://www.ccpalmira.org.co">www.ccpalmira.org.co</a>.
+    </p>
+
+    <br>
+
+    <div> 
+
+    <div class="container">
+        <div class="signature-section">
+            <p class="line"></p>
+            <p>FIRMA DEL REPRESENTANTE LEGAL</p>
+        </div>
+        <div class="signature-section">
+            <p class="line"></p>
+            <p>FIRMA DEL CONSULTOR MISE ASIGNADO</p>
+        </div>
+    </div>
+
+
+    <p>EMPRESA: CÁMARA DE COMERCIO DE PALMIRA</p>
+        </body>
+        </html>
+        """
+
+        pdf_file = io.BytesIO()
+        HTML(string=html_content).write_pdf(pdf_file)
+        pdf_file.seek(0)
+
+        response = HttpResponse(pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{empresa.nit}_acta_inicial_mise.pdf"'
+        return response
+
+    except Exception as e:
+        return HttpResponse(f'Error: {str(e)}', status=500)
+
+
+@api_view(['GET'])
+def generar_pdf_final(request, nit):
+    try:
+
+        empresa = Empresas.objects.get(nit=nit)
+        postulante = empresa.id_postulante
+        fecha_actual = datetime.now().strftime("%d/%m/%Y")
+
+        html_content = f"""
+        <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACTA FINAL DE SERVICIO DE ACOMPAÑAMIENTO MISE</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }}
+        h1, h2 {{
+            color: #005a87;
+            text-align: center;
+        }}
+        table {{
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }}
+        th, td {{
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }}
+        th {{
+            background-color: #f2f2f2;
+        }}
+        ul {{
+            list-style-type: disc;
+            margin-left: 20px;
+        }}
+        .container {{
+                    display: flex;
+                    justify-content: space-between; /* Espacio entre los divs */
+                    width: 100%; /* Ajusta el ancho total según lo necesites */
+                    max-width: 600px; /* Ancho máximo del contenedor */
+                }}
+                .signature-section {{
+                    text-align: center;
+                    margin: 0 20px; /* Espacio horizontal entre los divs */
+                }}
+                .line {{
+                    border-bottom: 1px solid #000;
+                    width: 200px; /* Ajusta el ancho de la línea según lo necesites */
+                    display: inline-block;
+                    margin: 0 auto;
+                }}
+    </style>
+</head>
+<body>
+    <h1>ACTA FINAL DE SERVICIO DE ACOMPAÑAMIENTO MISE</h1>
+    <h2>PROCESO DE DESARROLLO EMPRESARIAL</h2>
+
+    <h2>1. CIERRE</h2>
+    <p>
+        Por medio del servicio de acompañamiento del Modelo Integral de Servicios Empresariales (MISE), en su dimensión de 
+        FORTALECIMIENTO (dirigido a empresas), que le ofrece la Cámara de Comercio de Palmira (CCP), formalizamos acta final de MISE donde 
+        se detallan las modificaciones del proceso, el cumplimiento de sueños, diagnóstico de salida de sus resultados en el programa y 
+        observaciones o recomendaciones.
+    </p>
+
+    <table>
+        <tr>
+            <th>Campo</th>
+            <th>Información</th>
+        </tr>
+        <tr>
+            <td>Fecha de cierre</td>
+            <td>{fecha_actual}</td>
+        </tr>
+        <tr>
+            <td>Nombre de quien diligencia el diagnóstico</td>
+            <td>{postulante.nombres_postulante} {postulante.apellidos_postulante}</td>
+        </tr>
+        <tr>
+            <td>N° de documento de identificación</td>
+            <td>{postulante.no_documento}</td>
+        </tr>
+        <tr>
+            <td>Cargo en la empresa</td>
+            <td>{postulante.cargo}</td>
+        </tr>
+        <tr>
+            <td>Nombre o razón social de la empresa</td>
+            <td>{empresa.razon_social}</td>
+        </tr>
+    </table>
+
+    <h2>2. MODIFICACIONES DEL PROCESO</h2>
+    <p>Describa las modificaciones a los sueños empresariales y la ruta de servicios que se realizaron durante todo el proceso:</p>
+    <br>
+    <br>
+    <br>
+
+    <table>
+        <tr>
+            <th>MODIFICACIONES DEL PROCESO</th>
+        </tr>
+        <tr>
+            <td>
+             <br>
+             <br>
+             <br>
+             <br>
+             <br>
+             <br>
+            </td>
+        </tr>
+    </table>
+
+    <h2>3. CUMPLIMIENTO DE SUEÑOS</h2>
+    <table>
+        <tr>
+            <th>SUEÑOS CONCERTADOS</th>
+            <th>¿Se cumplió?</th>
+            <th>Fecha en que se cumplió el sueño</th>
+            <th>Observaciones</th>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Sí/No</td>
+            <td></td>
+            <td>Puntualmente qué actividades se hicieron para el cumplimiento del sueño</td>
+        </tr>
+    </table>
+
+    <h2>4. DIAGNÓSTICO DE SALIDA</h2>
+    <p>
+        Después de finalizada la ruta de servicios y el cumplimiento de sueños se realiza junto con el beneficiado el diagnóstico de cierre de brechas donde 
+        se evidencia el avance en su nivel de fortalecimiento empresarial. El diagnóstico muestra solo avance en los ejes y sueños que se priorizaron o que 
+        durante el proceso se modificaron o adicionaron. Se muestran los resultados:
+    </p>
+
+    <table>
+        <tr>
+            <th>DIAGNÓSTICO DE SALIDA</th>
+        </tr>
+        <tr>
+            <td>
+             <br>
+             <br>
+             <br>
+             <br>
+             <br>
+             <br>
+            </td>
+        </tr>
+    </table>
+
+    <h2>5. OBSERVACIONES O RECOMENDACIONES</h2>
+
+    <table>
+        <tr>
+            <th>OBSERVACIONES O RECOMENDACIONES</th>
+        </tr>
+        <tr>
+            <td>
+             <br>
+             <br>
+             <br>
+             <br>
+             <br>
+             <br>
+            </td>
+        </tr>
+    </table>
+
+    <p>
+        Al diligenciar y firmar este formulario autoriza a La Cámara de Comercio de Palmira - CCP, identificada con el NIT. 891.380.012-0, domiciliada y 
+        ubicada en Palmira – Valle - Colombia en la Calle 28 # 31-30, para el tratamiento de sus datos personales conforme a lo establecido en la Ley 1581 
+        de 2012 de Protección de Datos Personales y su Decreto reglamentario 1377 de 2013. Para más información, consulte nuestra política de 
+        tratamiento de datos en <a href="http://www.ccpalmira.org.co">www.ccpalmira.org.co</a>.
+    </p>
+
+    <br>
+
+    <div> 
+
+    <div class="container">
+        <div class="signature-section">
+            <p class="line"></p>
+            <p>FIRMA DEL REPRESENTANTE LEGAL</p>
+        </div>
+        <div class="signature-section">
+            <p class="line"></p>
+            <p>FIRMA DEL CONSULTOR MISE ASIGNADO</p>
+        </div>
+    </div>.
+
+    <p>EMPRESA: CÁMARA DE COMERCIO DE PALMIRA</p>
+</body>
+</html>
+        """
+
+        pdf_file = io.BytesIO()
+        HTML(string=html_content).write_pdf(pdf_file)
+        pdf_file.seek(0)
+
+        response = HttpResponse(pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{empresa.nit}_acta_final_mise.pdf"'
+        return response
+
+    except Exception as e:
+        return HttpResponse(f'Error: {str(e)}', status=500)

@@ -12,7 +12,7 @@ const NuevoTaller = () => {
           <div className="bg-greyBg flex flex-col px-4 sm:px-8 h-full w-full">
             <div className="flex max-md:flex-col xl:flex-row min-lg:flex-row gap-5 py-2">
               <div className="h-full flex flex-col gap-[5rem] justify-center">
-                <Modaleditar condicion={9} />
+                <Modaleditar condicion={8} />
               </div>
             </div>
           </div>

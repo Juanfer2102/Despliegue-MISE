@@ -97,7 +97,6 @@ DATABASES = {
 }
 
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -181,3 +180,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'juanfergrajales21@gmail.com'
 EMAIL_HOST_PASSWORD = 'Losdelsur123'
 PASSWORD_RESET_TIMEOUT = 3600  # 1 hora en segundos
+

@@ -53,13 +53,13 @@ const InfoAE = ({ nit, nombre_empresa, representante, razon_social }) => {
             <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleConfirm} />
             <CancelModal isCOpen={isCOpen} closeCModal={closeCModal} handleCancel={handleCancel} />
             <div className="bg-transparent border-transparent flex flex-col lg:flex-row">
-                <div className="flex-1 p-3 text-white text-lg xl:text-left text-center whitespace-nowrap truncate xl:w-[9rem]">
+                <div className="flex-1 p-3 lg:py-7 text-white text-lg text-center whitespace-nowrap truncate xl:w-[9rem]">
                     {nombre_empresa}
                 </div>
-                <div className="flex-1 p-3 text-white text-lg xl:text-left text-center whitespace-nowrap truncate xl:w-[7rem]">
+                <div className="flex-1 p-3 lg:py-7 text-white text-lg text-center whitespace-nowrap truncate xl:w-[7rem]">
                     {representante}
                 </div>
-                <div className="flex-1 p-3 text-white text-lg xl:text-left text-center whitespace-nowrap truncate xl:w-[9rem]">
+                <div className="flex-1 p-3 lg:py-7 text-white text-lg text-center whitespace-nowrap truncate xl:w-[9rem]">
                     {razon_social}
                 </div>
                 <div className="flex-1 p-3 text-white text-lg xl:text-center items-center text-center whitespace-nowrap truncate xl:w-[11rem]">
@@ -70,7 +70,7 @@ const InfoAE = ({ nit, nombre_empresa, representante, razon_social }) => {
                         Ver Empresa
                     </button>
                 </div>
-                <div className="flex-1 p-3 text-sm text-center whitespace-nowrap text-white border-b xl:border-b-transparent">
+                <div className="flex-1 p-3 text-sm text-center whitespace-nowrap text-white border-b lg:border-b-transparent xl:border-b-transparent">
                     <button
                         onClick={openModal}
                         className="z-10 p-4 pl-5 pr-5 tracking-wide text-xl transition-colors duration-200 bg-principalGreen transform border-solid rounded-tl-lg rounded-bl-lg hover:text-principalGreen hover:bg-colorwhite"

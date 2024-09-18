@@ -1,6 +1,6 @@
-
 import React, { useState } from 'react';
 import { BarChart, Card, Divider, Switch } from '@tremor/react';
+import './graficabarras.css';
 
 const data = [
   {
@@ -64,8 +64,8 @@ export default function Grafica() {
 
   return (
     <>
-      <Card className="bg-greyBlack xl:w-[39rem] lg:w-[35rem] rounded-xl border-greyBlack  sm:max-w-2xl z-10">
-        <h3 className=" font-semibold text-white dark:text-dark-tremor-content-strong">
+      <Card className="bg-greyBlack xl:w-[39rem] lg:w-[35rem] rounded-xl border-greyBlack sm:max-w-2xl z-10">
+        <h3 className="font-semibold text-white">
           Gráfica de empresas desarrolladas (2023-2024)
         </h3>
         <BarChart
@@ -74,11 +74,11 @@ export default function Grafica() {
           categories={
             showComparison ? ['Año Anterior', 'Este Año'] : ['Este Año']
           }
-          colors={showComparison ? ['cyan', 'blue'] : ['blue']}
+          colors={showComparison ? ['blue', 'blue'] : ['blue']}
           valueFormatter={valueFormatter}
           yAxisWidth={50}
-          yAxisDomain={[0, 100]} // Establecer el rango del eje Y de 0 a 100
-          className="hidden h-60 sm:block "
+          yAxisDomain={[0, 100]}
+          className="hidden h-60 sm:block"
         />
         <BarChart
           data={data}
@@ -86,9 +86,9 @@ export default function Grafica() {
           categories={
             showComparison ? ['Año Anterior', 'Este Año'] : ['Este Año']
           }
-          colors={showComparison ? ['cyan', 'blue'] : ['blue']}
+          colors={showComparison ? ['lime', 'lime'] : ['lime']}
           valueFormatter={valueFormatter}
-          yAxisDomain={[0, 100]} // Establecer el rango del eje Y de 0 a 100
+          yAxisDomain={[0, 100]}
           showYAxis={false}
           className="h-56 sm:hidden"
         />
@@ -100,7 +100,7 @@ export default function Grafica() {
           />
           <label
             htmlFor="comparison"
-            className="text-tremor-default text-tremor-content dark:text-dark-tremor-content"
+            className="text-tremor-default text-white"
           >
             Mostrar mismo periodo el año pasado
           </label>

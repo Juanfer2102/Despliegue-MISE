@@ -1,17 +1,8 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Asegúrate de tener react-router-dom instalado
+import React from 'react'
 
-const Modal = ({ id, texto, colorborde, colorhover }) => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    // Redirecciona a la vista de edición del módulo con el id correspondiente
-    navigate(`/editar-modulos/${id}`);
-  };
-
+const Modal = ({ texto, colorborde, colorhover }) => {
   return (
     <div
-      onClick={handleClick}
       className={`
         flex justify-center items-center
         w-full aspect-square
@@ -30,6 +21,5 @@ const Modal = ({ id, texto, colorborde, colorhover }) => {
       </p>
     </div>
   );
-};
-
+}
 export default Modal;
