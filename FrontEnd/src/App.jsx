@@ -57,7 +57,9 @@ const DetalleEmpresas = lazy(() => import("./pages/aceptarEmpresas/verinfoempres
 const Autoevaluacion = lazy(() => import("./pages/autoevaluacion/autoevaluacion.jsx"));
 const VerEmpDiag = lazy(() => import("./pages/diagnostico/verempdiag.jsx"));
 const EvaluacionEmpresa = lazy(() => import("./pages/diagnostico/diagnosticoempresa.jsx"));
+const EvaluacionEmpresaf = lazy(() => import("./pages/diagnostico/diagnosticoempresaf.jsx"));
 const DiagnosticoEmpresa = lazy(() => import("./pages/diagnostico/detallediagnostico.jsx"));
+const DetalleDiagnosticof = lazy(() => import("./pages/diagnostico/detallediagnosticof.jsx"));
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const userData = JSON.parse(localStorage.getItem('userData'));
@@ -100,7 +102,7 @@ const AppRoutes = () => {
               <Dashboard />
             </ProtectedRoute>
           } />
-          <Route path="/dashboard-emp" element={
+          <Route path="/dashboard-emp/:nit" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
               <DashboardEmp />
             </ProtectedRoute>
@@ -215,9 +217,20 @@ const AppRoutes = () => {
               <EvaluacionEmpresa />
             </ProtectedRoute>
           } />
+
+          <Route path="/evaluacionfinal/empresa" element={
+            <ProtectedRoute allowedRoles={[1, 2, 3]}>
+              <EvaluacionEmpresaf />
+            </ProtectedRoute>
+          } />
           <Route path="/diagnostico/empresa/:nit" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
               <DiagnosticoEmpresa />
+            </ProtectedRoute>
+          } />
+          <Route path="/diagnosticofinal/empresa" element={
+            <ProtectedRoute allowedRoles={[1, 2, 3]}>
+              <DetalleDiagnosticof />
             </ProtectedRoute>
           } />
         </Routes>

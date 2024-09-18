@@ -52,7 +52,7 @@ export const TablasEmpresas = () => {
   };
 
   const handleViewDash = () => {
-    navigate("/dashboard-emp"); 
+    navigate("/dashboard-emp");
   };
 
 
@@ -87,9 +87,11 @@ export const TablasEmpresas = () => {
                   <div className="flex-1 p-5 xl:text-left text-center">{empresa.nombre_empresa}</div>
                   <div className="flex-1 p-5 xl:text-left text-center">{empresa.sector}</div>
                   <div className="flex-1 p-5 text-center">
-                    <button onClick={handleViewDash} className="p-2 text-sm tracking-wide transition-colors duration-200 bg-transparent border rounded-lg hover:bg-principalGreen hover:text-white hover:border-principalGreen border-white">
-                      Ver Detalles
-                    </button>
+                    <a href="/dashboard-emp/:nit">
+                      <button onClick={handleViewDash} className="p-2 text-sm tracking-wide transition-colors duration-200 bg-transparent border rounded-lg hover:bg-principalGreen hover:text-white hover:border-principalGreen border-white">
+                        Ver Detalles
+                      </button>
+                    </a>
                   </div>
                 </div>
               ))}

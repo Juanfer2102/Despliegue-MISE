@@ -15,7 +15,7 @@ class CalificacionesPreguntasSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Calificaciones
-        fields = ['id', 'calificacion', 'criterio', 'nit', 'id_pregunta', 'descripcion_pregunta']
+        fields = ['id', 'calificacion', 'nit', 'id_pregunta', 'descripcion_pregunta']
 
 class CalificacionesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -75,7 +75,7 @@ class PreguntasSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Preguntas
-        fields = ['id_pregunta', 'descripcion', 'criterio', 'id_modulo', 'calificacion']
+        fields = ['id_pregunta', 'descripcion', 'id_modulo', 'calificacion']
 
     def get_calificacion(self, obj):
         # Obtiene la calificación más reciente o la que necesites de la tabla Calificaciones

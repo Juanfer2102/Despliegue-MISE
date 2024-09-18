@@ -134,7 +134,6 @@ class Escalas(models.Model):
 class Preguntas(models.Model):
     id_pregunta = models.AutoField(primary_key=True)
     descripcion = models.TextField()
-    criterio = models.TextField()
     id_modulo = models.ForeignKey(Modulos, on_delete=models.DO_NOTHING, db_column='id_modulo')
 
     class Meta:
@@ -156,7 +155,6 @@ class Suenos(models.Model):
     nivel = models.CharField(max_length=50)
     sueño = models.TextField()
     medicion = models.TextField()
-    fortalecimiento = models.TextField()
     evidencia = models.TextField()
 
     class Meta:

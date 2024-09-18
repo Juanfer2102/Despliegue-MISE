@@ -36,7 +36,6 @@ const Dashboard = () => {
                 </div>
                 <div className="w-full">
                   <TablasEmpestado />
-                  <DownloadPDFButton nit={nit} filename="ACTA_FINAL_MISE.pdf" />
                 </div>
             </div>
           </div>
