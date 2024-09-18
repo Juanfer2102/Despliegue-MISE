@@ -29,7 +29,7 @@ const TablasEmpestado = () => {
           <div className="flex-1 p-3 md:p-5 text-left font-bold hidden sm:block">Sector</div>
           <div className="flex-1 p-3 md:p-5 text-center font-bold">Estado</div>
         </div>
-        <div className="divide-y border overflow-y-auto max-h-[10rem] custom-scrollbar border-textBg border-t-0 rounded" style={styles.customScrollbar}>
+        <div className="divide-y border overflow-y-auto max-h-[40rem] custom-scrollbar border-textBg border-t-0 rounded" style={styles.customScrollbar}>
           <div className="flex bg-transparent border-transparent">
             <div className="flex-1 p-3 md:p-5 md:py-8 text-xs sm:text-sm text-white">
               nit

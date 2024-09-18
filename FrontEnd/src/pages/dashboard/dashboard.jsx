@@ -14,11 +14,10 @@ const Dashboard = () => {
     <LayoutDashboard title="Dashboard">
       <main className="bg-greyBg w-full h-screen overflow-x-hidden">
         <div className="flex flex-col w-full h-full">
-          <div className="bg-greyBlack xl:h-20 w-full"></div>
+          <div className="bg-greyBlack xl:h-20 lg:h-20 w-full"></div>
           <div className="bg-greyBg flex flex-col w-full xl:h-full px-4 xl:px-12 lg:px-12 pt-4 xl:pt-6">
             <div className="flex flex-col lg:flex-row gap-5 h-full">
-              <div className="w-full lg:w-1/2 flex flex-col gap-5">
-                <div className="w-full bg-greyBlack p-4 sm:p-5 rounded-xl text-white">
+                <div className="w-full h-full bg-greyBlack p-4 sm:p-5 rounded-xl text-white">
                   <div className="flex flex-col sm:flex-row sm:justify-between gap-4 sm:gap-8">
                     <p className="pt-1 text-center sm:text-left">
                       Porcentaje de Desarrollo
@@ -36,10 +35,9 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="w-full">
-                  <DownloadPDFButton nit={nit} filename="ACTA_FINAL_MISE.pdf" />
                   <TablasEmpestado />
+                  <DownloadPDFButton nit={nit} filename="ACTA_FINAL_MISE.pdf" />
                 </div>
-              </div>
             </div>
           </div>
         </div>
