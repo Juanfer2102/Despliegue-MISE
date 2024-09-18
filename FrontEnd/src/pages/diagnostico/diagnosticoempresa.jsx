@@ -64,7 +64,7 @@ const EvaluacionEmpresa = () => {
             if (response.ok) {
                 alert('Calificaciones guardadas con éxito');
                 changeDiagState(nit)
-                navigate(`/empresas-registradas`);
+                navigate(`/diagnostico/empresa/${nit}`);
             } else {
                 const errorData = await response.json();
                 console.log(nit)
