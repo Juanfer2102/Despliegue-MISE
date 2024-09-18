@@ -27,7 +27,7 @@ const EditarPorcentaje = lazy(() => import("./pages/editarPorcentajeDesarr/edita
 const EditarUsuario = lazy(() => import("./pages/editarUsuario/editarUsuario.jsx"));
 
 // Componentes de usuarios
-const VerUsers = lazy(() => import("./pages/visualizarUsers.jsx"));
+const VerUsers = lazy(() => import("./pages/visualizarUsers/visualizarUsers.jsx"));
 const EmpresasRegistradas = lazy(() => import("./pages/empresasRegistradas/empresasRegistradas"));
 const EmpresasVinculacion = lazy(() => import("./pages/empresasvinculacion/empresasVinculacion.jsx"));
 
