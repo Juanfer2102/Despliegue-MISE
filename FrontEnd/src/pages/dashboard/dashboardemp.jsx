@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import GoBack from "../../components/inputs/goback/GoBack.jsx";
 import LayoutDashboard from "../../layouts/LayoutDashboard.jsx";
 import Grafica from "../../components/inputs/barcharts/graficabarras.jsx";
@@ -12,6 +12,29 @@ import ValidacionDeSueños from "../../components/tablas/validacionSuenos.jsx";
 import { useParams } from 'react-router-dom';
 
 const DashboardEmp = () => {
+
+  const { nit } = useParams();
+  const [empresa, setEmpresa] = useState({});
+  const [calificacionesBajas, setCalificacionesBajas] = useState([]);
+
+  useEffect(() => {
+    // Obtener información de la empresa
+    fetch(`http://localhost:8000/api/v2/empresas/${nit}/`)
+      .then(response => response.json())
+      .then(data => {
+        setEmpresa(data);
+      });
+  }, [nit]);
+
+  useEffect(() => {
+    // Obtener calificaciones bajas
+    fetch(`http://localhost:8000/api/v2/calificaciones-bajas/empresa/${nit}/`)
+      .then(response => response.json())
+      .then(data => {
+        setCalificacionesBajas(data);
+      });
+  }, [nit]);
+
 
   // Estilos en JSX
   const styles = {
@@ -32,7 +55,7 @@ const DashboardEmp = () => {
     }
   };
 
-  const { nit } = useParams();
+
 
   return (
     <LayoutDashboard title="Dashboard">
@@ -40,7 +63,8 @@ const DashboardEmp = () => {
         <div className="flex flex-col w-full h-full">
           <div className="bg-greyBlack xl:h-20 lg:h-20 w-full"></div>
           <div className="bg-greyBg flex flex-col py-2 xl:gap-5 lg:gap-5 gap-4 w-full xl:h-full px-4 lg:px-12 xl:px-12 pt-4 xl:pt-6">
-            <GoBack text={"Empresas Registradas / Boteritos"} />
+            <GoBack text={`Empresas Registradas / ${empresa.nombre_empresa}`} />
+
             <div className="flex flex-col xl:flex-row lg:flex-row xl:gap-[5rem] lg:gap-[3rem] gap-10">
               <div className="flex flex-col lg:h-[28rem] lg:flex-row gap-5 w-full xl:w-auto lg:w-auto">
                 <TarjetasTema />

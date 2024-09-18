@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 export const TablasEmpresas = () => {
   const [empresas, setEmpresas] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();  // Obtener la función navigate
 
   useEffect(() => {
     const fetchEmpresas = async () => {
@@ -51,10 +52,9 @@ export const TablasEmpresas = () => {
     }
   };
 
-  const handleViewDash = () => {
-    navigate("/dashboard-emp");
+  const handleViewDash = (nit) => {
+    navigate(`/dashboard-emp/${nit}/`);  // Usar el nit recibido para la navegación
   };
-
 
   return (
     <>
@@ -87,11 +87,9 @@ export const TablasEmpresas = () => {
                   <div className="flex-1 p-5 xl:text-left text-center">{empresa.nombre_empresa}</div>
                   <div className="flex-1 p-5 xl:text-left text-center">{empresa.sector}</div>
                   <div className="flex-1 p-5 text-center">
-                    <a href="/dashboard-emp/:nit">
-                      <button onClick={handleViewDash} className="p-2 text-sm tracking-wide transition-colors duration-200 bg-transparent border rounded-lg hover:bg-principalGreen hover:text-white hover:border-principalGreen border-white">
-                        Ver Detalles
-                      </button>
-                    </a>
+                    <button onClick={() => handleViewDash(empresa.nit)} className="p-2 text-sm tracking-wide transition-colors duration-200 bg-transparent border rounded-lg hover:bg-principalGreen hover:text-white hover:border-principalGreen border-white">
+                      Ver Detalles
+                    </button>
                   </div>
                 </div>
               ))}
