@@ -153,15 +153,18 @@ class TemasPreguntas(models.Model):
 
 
 class Suenos(models.Model):
-    modulo = models.ForeignKey(Modulos, on_delete=models.CASCADE, related_name='suenos', db_column='id_modulo')
+    id_modulo = models.IntegerField()  # Cambiado de ForeignKey a IntegerField
     nivel = models.CharField(max_length=50)
     sueño = models.TextField()
     medicion = models.TextField()
-    evidencia = models.TextField()
+    evidencia = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'suenos'
+
+
+
 
 class DiagnosticoEmpresarial(models.Model):
     empresa = models.ForeignKey(Empresas, on_delete=models.CASCADE)

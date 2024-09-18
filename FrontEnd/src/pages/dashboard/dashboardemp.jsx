@@ -16,6 +16,10 @@ const DashboardEmp = () => {
   const { nit } = useParams();
   const [empresa, setEmpresa] = useState({});
   const [calificacionesBajas, setCalificacionesBajas] = useState([]);
+  const [diagnosticos, setDiagnosticos] = useState([]);
+  const [calificaciones, setCalificaciones] = useState([]);
+  const [postulante, setPostulante] = useState([]);
+
 
   useEffect(() => {
     // Obtener información de la empresa
@@ -33,6 +37,32 @@ const DashboardEmp = () => {
       .then(data => {
         setCalificacionesBajas(data);
       });
+  }, [nit]);
+
+  useEffect(() => {
+    // Obtener los diagnósticos
+    fetch(`http://localhost:8000/api/v2/diagnostico/${nit}/`)
+      .then(response => response.json())
+      .then(data => {
+        setDiagnosticos(data.diagnosticos);
+      });
+  }, [nit]);
+
+  useEffect(() => {
+    // Obtener las calificaciones de la empresa
+    fetch(`http://localhost:8000/api/v2/calificaciones/empresa/${nit}/`)
+      .then(response => response.json())
+      .then(data => {
+        setCalificaciones(data); // Asegúrate de que el formato del API coincida
+      });
+  }, [nit]);
+
+  useEffect (() => {
+    fetch(`http://localhost:8000/api/v2/postulante/${nit}/`)
+    .then(response => response.json())
+    .then(data =>{
+      setPostulante(data);
+    })
   }, [nit]);
 
 
@@ -55,7 +85,7 @@ const DashboardEmp = () => {
     }
   };
 
-
+  console.log(calificaciones)
 
   return (
     <LayoutDashboard title="Dashboard">
@@ -70,9 +100,9 @@ const DashboardEmp = () => {
                 <TarjetasTema />
               </div>
             </div>
-            <div className="flex flex-col xl:flex-row lg:flex-row gap-8 max-md:pb-2 xl:pb-2 lg:pb-2 xl:justify-between">
-              <TablaPreguntas />
-              <ValidacionDeSueños />
+            <div className="flex flex-col xl:flex-row lg:flex-row gap-8 max-md:pb-2 xl:pb-2 lg:pb-2 xl:justify-between h-full">
+              <TablaPreguntas calificaciones={calificaciones} />
+              <ValidacionDeSueños diagnosticos={diagnosticos} />
             </div>
             <div className="flex xl:flex-row lg:flex-row flex-col xl:gap-[5rem] lg:gap-[5rem]">
               <div className="w-full">
@@ -83,30 +113,30 @@ const DashboardEmp = () => {
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Nombre</h2>
                         <p className="text-principalGreen font-semibold">
-                          6
+                          {postulante.nombres_postulante}
                         </p>
                       </div>
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Celular</h2>
-                        <p className="text-principalGreen font-semibold">5</p>
+                        <p className="text-principalGreen font-semibold">{postulante.celular}</p>
                       </div>
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Correo</h2>
-                        <p className="text-principalGreen font-semibold">4</p>
+                        <p className="text-principalGreen font-semibold">{postulante.correo}</p>
                       </div>
                     </div>
                     <div className="space-y-4">
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Municipio</h2>
-                        <p className="text-principalGreen font-semibold">3</p>
+                        <p className="text-principalGreen font-semibold">{postulante.municipio}</p>
                       </div>
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Tipo de Documento</h2>
-                        <p className="text-principalGreen font-semibold">2</p>
+                        <p className="text-principalGreen font-semibold">{postulante.tipo_documento}</p>
                       </div>
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">No. Documento</h2>
-                        <p className="text-principalGreen font-semibold">1</p>
+                        <p className="text-principalGreen font-semibold">{postulante.no_documento}</p>
                       </div>
                     </div>
                   </div>
@@ -120,41 +150,41 @@ const DashboardEmp = () => {
                     <div className="space-y-4">
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Producto o Servicio</h2>
-                        <p className="text-principalGreen font-semibold">9</p>
+                        <p className="text-principalGreen font-semibold">{empresa.producto_servicio}</p>
                       </div>
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Fecha de Inicio</h2>
-                        <p className="text-principalGreen font-semibold">8</p>
+                        <p className="text-principalGreen font-semibold">{empresa.fecha_creacion}</p>
                       </div>
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Costos el Ultimo Año</h2>
-                        <p className="text-principalGreen font-semibold">7</p>
+                        <p className="text-principalGreen font-semibold">{empresa.costos_ult_ano}</p>
                       </div>
                     </div>
                     <div className="space-y-4">
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Razon Social</h2>
-                        <p className="text-principalGreen font-semibold">6</p>
+                        <p className="text-principalGreen font-semibold">{empresa.razon_social}</p>
                       </div>
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Celular Empresa</h2>
-                        <p className="text-principalGreen font-semibold">5</p>
+                        <p className="text-principalGreen font-semibold">{empresa.celular}</p>
                       </div>
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Ventas el Ultimo Año</h2>
-                        <p className="text-principalGreen font-semibold">3</p>
+                        <p className="text-principalGreen font-semibold">{empresa.ventas_ult_ano}</p>
                       </div>
                     </div>
                     <div className="space-y-4">
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">NIT</h2>
-                        <p className="text-principalGreen font-semibold">2</p>
+                        <p className="text-principalGreen font-semibold">{empresa.nit}</p>
                       </div>
                     </div>
                     <div className="space-y-4">
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Empleados Permanentes</h2>
-                        <p className="text-principalGreen font-semibold">1</p>
+                        <p className="text-principalGreen font-semibold">{empresa.empleados_perm}</p>
                       </div>
                     </div>
                   </div>

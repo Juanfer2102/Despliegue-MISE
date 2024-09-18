@@ -116,7 +116,7 @@ class CalificacionesBajasPorNitView(APIView):
             # Solo añadir el módulo a la respuesta si tiene preguntas con calificación menor a 50
             if preguntas_data:
                 # Agregar información de sueños para el módulo
-                suenos_modulo = Suenos.objects.filter(modulo_id=modulo.id_modulo).values(
+                suenos_modulo = Suenos.objects.filter(id_modulo=modulo.id_modulo).values(
                     'nivel', 'sueño', 'medicion', 'evidencia'
                 )
                 
@@ -154,10 +154,10 @@ class ConsultarDiagnosticoView(APIView):
                 "calificacion_promedio": diagnostico.calificacion_promedio,
                 "suenos": [
                     {
+                        "modulo": diagnostico.modulo.nombre,
                         "nivel": sueno.sueno.nivel,
                         "sueño": sueno.sueno.sueño,
                         "medicion": sueno.sueno.medicion,
-                        "fortalecimiento": sueno.sueno.fortalecimiento,
                         "evidencia": sueno.sueno.evidencia,
                     }
                     for sueno in suenos
@@ -207,7 +207,7 @@ class RegistrarDiagnosticoView(APIView):
                 )
 
                 suenos = Suenos.objects.filter(
-                    modulo=modulo,
+                    id_modulo=modulo.id_modulo,
                     nivel="Nivel predeterminado"  # Ajusta el criterio según tu lógica
                 )
 
@@ -215,11 +215,10 @@ class RegistrarDiagnosticoView(APIView):
                     sueno = suenos.first()  # O ajusta según tu lógica de selección
                 else:
                     sueno = Suenos.objects.create(
-                        modulo=modulo,
+                        id_modulo=modulo.id_modulo,
                         nivel="Nivel predeterminado",
                         sueño=sueno_descripcion,
                         medicion="Medición predeterminada",
-                        fortalecimiento="Fortalecimiento predeterminado",
                         evidencia="Evidencia predeterminada"
                     )
 
@@ -270,19 +269,24 @@ class CalificacionesPorNitView(APIView):
         modulos_info = []
         for modulo in modulos:
             diagnostico = diagnosticos.filter(id_modulo=modulo.id_modulo).first()
+            
+            # Obtener todas las preguntas relacionadas con el módulo
+            preguntas = Preguntas.objects.filter(id_modulo=modulo.id_modulo)
+
             modulos_info.append({
                 'id_modulo': modulo.id_modulo,
                 'nombre': modulo.nombre,
                 'calificacion_promedio': diagnostico.calificacion_promedio if diagnostico else None,
                 'criterio': diagnostico.criterio if diagnostico else None,
                 'preguntas': PreguntasSerializer(
-                    Calificaciones.objects.filter(id_pregunta__id_modulo=modulo.id_modulo, nit=nit),
+                    preguntas,
                     many=True,
                     context={'nit': nit}
                 ).data
             })
 
         return Response(modulos_info, status=status.HTTP_200_OK)
+
 class CalificacionesListView(generics.ListAPIView):
     queryset = Calificaciones.objects.select_related('id_pregunta').all()
     serializer_class = CalificacionesPreguntasSerializer
@@ -297,42 +301,63 @@ from rest_framework.views import APIView
 from .models import Calificaciones, Preguntas, Empresas
 
 class SaveCalificacionView(APIView):
-    def post(self, request, *args, **kwargs):
-        data = request.data
+        def post(self, request, *args, **kwargs):
+            data = request.data
 
-        if isinstance(data, list):
-            for item in data:
-                try:
-                    calificacion = float(item.get('calificacion', 0))
-                except ValueError:
-                    return Response({"error": "Calificación inválida"}, status=status.HTTP_400_BAD_REQUEST)
+            if isinstance(data, list):
+                for item in data:
+                    try:
+                        calificacion = float(item.get('calificacion', 0))
+                    except ValueError:
+                        return Response({"error": "Calificación inválida"}, status=status.HTTP_400_BAD_REQUEST)
 
-                id_pregunta = item.get('id_pregunta')
-                nit = item.get('nit')
+                    id_pregunta = item.get('id_pregunta')
+                    nit = item.get('nit')
 
-                pregunta = get_object_or_404(Preguntas, id_pregunta=id_pregunta)
-                empresa = get_object_or_404(Empresas, nit=nit)
+                    pregunta = get_object_or_404(Preguntas, id_pregunta=id_pregunta)
+                    empresa = get_object_or_404(Empresas, nit=nit)
 
-                # Verificar si ya existe una calificación para esta empresa y pregunta
-                calificacion_existente = Calificaciones.objects.filter(id_pregunta=pregunta, nit=empresa).first()
+                    # Verificar si ya existe una calificación para esta empresa y pregunta
+                    calificacion_existente = Calificaciones.objects.filter(id_pregunta=pregunta, nit=empresa).first()
 
-                if calificacion_existente:
-                    # Opcional: Actualizar la calificación existente
-                    calificacion_existente.calificacion = calificacion
-                    calificacion_existente.save()
-                else:
-                    # Crear una nueva calificación si no existe
-                    Calificaciones.objects.create(
-                        calificacion=calificacion,
-                        id_pregunta=pregunta,
-                        nit=empresa
-                    )
+                    if calificacion_existente:
+                        # Opcional: Actualizar la calificación existente
+                        calificacion_existente.calificacion = calificacion
+                        calificacion_existente.save()
+                    else:
+                        # Crear una nueva calificación si no existe
+                        Calificaciones.objects.create(
+                            calificacion=calificacion,
+                            id_pregunta=pregunta,
+                            nit=empresa
+                        )
 
-            return Response({"message": "Calificaciones guardadas con éxito"}, status=status.HTTP_201_CREATED)
-        else:
-            return Response({"error": "Formato de datos incorrecto"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"message": "Calificaciones guardadas con éxito"}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"error": "Formato de datos incorrecto"}, status=status.HTTP_400_BAD_REQUEST)
 
+def obtener_postulante_por_nit(request, nit):
+    # Buscar la empresa por el NIT
+    empresa = get_object_or_404(Empresas, nit=nit)
+    
+    # Obtener el postulante asociado a la empresa
+    postulante = empresa.id_postulante  # La relación ya está definida en tu modelo
+    
+    # Formatear la información del postulante para devolverla como JSON
+    data = {
+        'nombres_postulante': postulante.nombres_postulante,
+        'apellidos_postulante': postulante.apellidos_postulante,
+        'celular': postulante.celular,
+        'correo': postulante.correo,
+        'genero': postulante.genero,
+        'municipio': postulante.municipio,
+        'no_documento': postulante.no_documento,
+        'tipo_documento': postulante.tipo_documento,
+        'educacion': postulante.educacion,
+        'cargo': postulante.cargo
+    }
 
+    return JsonResponse(data)
 
 @csrf_exempt
 def registrar_calificacion(request):
@@ -598,8 +623,8 @@ class RegistroAutoevaluacionView(APIView):
         # Recorrer los campos de calificaciones y construir la lista de calificaciones
         for key, calificacion in data.items():
             if key in modulos_map:
-                modulo_id = modulos_map[key]
-                modulo = get_object_or_404(ModuloAutoevaluacion, id_modulo=modulo_id)
+                id_modulo = modulos_map[key]
+                modulo = get_object_or_404(ModuloAutoevaluacion, id_modulo=id_modulo)
 
                 calificaciones_data = {
                     'calificacion': calificacion,
