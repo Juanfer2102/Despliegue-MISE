@@ -45,9 +45,9 @@ const Dashboard = () => {
                   </a>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-5 pt-8 sm:pt-12 justify-center">
-                  <ProgressCircleHero text="No Desarro..." value={25} width="w-full sm:w-1/3 max-w-[13rem]" />
-                  <ProgressCircleHero text="Parcial... Desa.." value={25} width="w-full sm:w-1/3 max-w-[13rem]" />
-                  <ProgressCircleHero text="Desarro..." value={50} width="w-full sm:w-1/3 max-w-[13rem]" />
+                  <ProgressCircleHero text="No Desarro..." value={"49.00"} width="w-full sm:w-1/3 max-w-[13rem]" />
+                  <ProgressCircleHero text="Parcial... Desa.." value={"80.00"} width="w-full sm:w-1/3 max-w-[13rem]" />
+                  <ProgressCircleHero text="Desarro..." value={"100"} width="w-full sm:w-1/3 max-w-[13rem]" />
                 </div>
               </div>
               {/* Sección de la tabla con el estado de las empresas */}

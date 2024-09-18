@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import LayoutDashboard from '../../layouts/LayoutDashboard';
-import DownloadPDFButton from "../../components/inputs/botones/botonpdf";
 import { useParams } from 'react-router-dom';
-import GoBack from "../../components/inputs/goback/GoBack";
 import { useNavigate } from "react-router-dom";
 
 const EvaluacionEmpresa = () => {
@@ -106,7 +104,6 @@ const EvaluacionEmpresa = () => {
                             <div className="rounded-xl flex flex-col gap-6 h-full py-6">
                                 <div className="flex justify-between pr-10">
                                     <p className='text-2xl font-bold'>Diagnóstico Inicial Empresarial {empresa.nombre_empresa}</p>
-                                    <DownloadPDFButton filename="ACTA_FINAL_MISE.pdf" />
                                 </div>
                                 <div className="px-6">
                                     <div>

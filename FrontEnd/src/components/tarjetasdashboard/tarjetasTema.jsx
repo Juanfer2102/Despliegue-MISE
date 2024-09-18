@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import DownloadPDFButton from "../../components/inputs/botones/botonpdf";
 
 const TarjetasTema = () => {
     const [temas, setTemas] = useState([]);
@@ -11,7 +12,7 @@ const TarjetasTema = () => {
             .then(response => response.json())
             .then(data => {
                 // Extraer los temas de los datos de la respuesta
-                const extraidos = data.flatMap(calificacion => 
+                const extraidos = data.flatMap(calificacion =>
                     calificacion.preguntas.map(pregunta => pregunta.tema)
                 );
                 setTemas(extraidos);
@@ -38,26 +39,26 @@ const TarjetasTema = () => {
     };
 
     return (
-        <div className="bg-greyBlack rounded-xl p-4 text-white w-max h-max">
-            <div className='flex flex-row justify-between'>
-                <h2 className="text-2xl font-bold mb-4">Procesos en los que se encuentra la empresa</h2>
-                <div className='flex flex-row gap-5'>
+        <div className="bg-greyBlack rounded-xl p-4 text-white w-full ">
+            <div className='flex flex-col md:flex-row justify-between py-2 xl:items-start lg:items-start items-center md:items-center'>
+                <h2 className="text-2xl font-bold mb-4 md:mb-0 max-md:text-center">Procesos en los que se encuentra la empresa</h2>
+                <div className='flex flex-col md:flex-row gap-3 md:gap-5'>
                     <a href={`/diagnostico/empresa/${nit}`}>
-                        <button className="p-2 text-sm tracking-wide transition-colors duration-200 bg-transparent border rounded-lg hover:bg-principalGreen hover:text-white hover:border-principalGreen border-white">
+                        <button className="w-full md:w-auto p-2 text-sm tracking-wide transition-colors duration-200 bg-transparent border rounded-lg hover:bg-principalGreen hover:text-white hover:border-principalGreen border-white">
                             Diagnostico Final
                         </button>
                     </a>
                     <a href={`/diagnostico/empresa/${nit}`}>
-                        <button className="p-2 text-sm tracking-wide transition-colors duration-200 bg-transparent border rounded-lg hover:bg-principalGreen hover:text-white hover:border-principalGreen border-white">
+                        <button className="w-full md:w-auto p-2 text-sm tracking-wide transition-colors duration-200 bg-transparent border rounded-lg hover:bg-principalGreen hover:text-white hover:border-principalGreen border-white">
                             Ver Diagnostico Inicial
                         </button>
                     </a>
+                    <DownloadPDFButton filename="ACTA_FINAL_MISE.pdf" />
                 </div>
             </div>
-            <div className="temas flex gap-8 p-4 border-t border-white max-w-[70rem] overflow-x-auto" style={styles.customScrollbar}>
-                {/*
+            <div className="temas flex p-4 border-t border-white max-w-[70rem] max-h-[25rem] h-[25rem] overflow-x-auto" style={styles.customScrollbar}>
                 {temas.map((tema, index) => (
-                    <div key={index} className="flex-shrink-0 w-64 bg-darkGrey p-4 rounded-lg gap-8">
+                    <div key={index} className="flex-shrink-0 w-[35rem] bg-darkGrey p-4 rounded-lg gap-8">
                         <h3 className="text-xl font-bold">{tema.num_sesion}</h3>
                         <p><strong>Módulo:</strong> {tema.nombre}</p>
                         <p><strong>Sesión:</strong> {tema.num_sesion}</p>
@@ -69,7 +70,7 @@ const TarjetasTema = () => {
                         <p><strong>Horario:</strong> {tema.horario}</p>
                         <p><strong>Ubicación:</strong> {tema.ubicacion}</p>
                     </div>
-                ))}*/}
+                ))}
             </div>
         </div>
     );
