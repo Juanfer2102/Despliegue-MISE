@@ -1,3 +1,4 @@
+import React from 'react'
 import { useEffect, useState } from 'react';
 import LayoutDashboard from '../../layouts/LayoutDashboard';
 import DesempenoForm from '../../components/forms/formsdiagnostico/formsdiagnostico';
@@ -7,7 +8,8 @@ import ConfirmModal from '../../components/modales/modalconfirm';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-const EvaluacionEmpresa = () => {
+const EvaluacionEmpresaf = () => {
+
     const { nit } = useParams();
     const [formularioData, setFormularioData] = useState({});
     const [isOpen, setIsOpen] = useState(false);
@@ -81,7 +83,7 @@ const EvaluacionEmpresa = () => {
             if (response.ok) {
                 alert('Calificaciones guardadas con éxito');
                 changeDiagState(nit)
-                navigate(`/diagnostico/empresa/${nit}`);
+                navigate(`/diagnosticofinal/empresa`);
             } else {
                 const errorData = await response.json();
                 console.log(nit)
@@ -219,7 +221,7 @@ const EvaluacionEmpresa = () => {
                 </main>
             </LayoutDashboard>
         </>
-    );
-};
+    )
+}
 
-export default EvaluacionEmpresa;
+export default EvaluacionEmpresaf;

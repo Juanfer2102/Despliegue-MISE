@@ -1,9 +1,8 @@
 import React from 'react';
-import { motion } from 'framer-motion'; // Para las animaciones
 
 const tarjetasEmpresasreg = ({ numeroEmpresas, tipoTarjeta, empresaicon, URL }) => {
   return (
-    <motion.a
+    <a
       href={URL}
       className="w-full bg-greyBlack rounded-xl p-6 cursor-pointer hover:bg-principalGreen hover:scale-105 transition-all flex flex-row items-center justify-center space-y-4"
       whileHover={{ scale: 1.05 }}
@@ -17,7 +16,7 @@ const tarjetasEmpresasreg = ({ numeroEmpresas, tipoTarjeta, empresaicon, URL }) 
           <p className="text-3xl md:text-4xl">{numeroEmpresas}</p>
           <p className="text-lg md:text-xl">{tipoTarjeta}</p>
         </div>
-    </motion.a>
+    </a>
   );
 }
 

@@ -65,7 +65,7 @@ const TablaPreguntas = () => {
     <div className="overflow-x-auto rounded-xl">
       <div className="w-full">
         <div className="bg-greyBlack border-textBg rounded-t-xl text-white sticky top-0 z-10 flex">
-          <div className="flex-1 px-2 sm:px-4 py-2 text-xs sm:text-sm font-bold">Nombre</div>
+          <div className="flex-1 px-2 sm:px-4 py-2 text-xs sm:text-sm font-bold">Pregunta</div>
           <div className="flex-1 px-2 sm:px-4 py-2 text-xs sm:text-sm font-bold hidden sm:block">Módulo</div>
           <div className="flex-1 px-2 sm:px-4 py-2 text-xs sm:text-sm font-bold">Calificación</div>
         </div>

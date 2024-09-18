@@ -2,14 +2,12 @@ import React, { useState, useEffect } from "react";
 import LayoutDashboard from '../../layouts/LayoutDashboard';
 import DownloadPDFButton from "../../components/inputs/botones/botonpdf";
 import { useParams } from 'react-router-dom';
-import GoBack from "../../components/inputs/goback/GoBack";
 
-const EvaluacionEmpresa = () => {
+const DetalleDiagnosticof = () => {
     const { nit } = useParams();
     const [empresa, setEmpresa] = useState({});
     const [calificacionesBajas, setCalificacionesBajas] = useState([]);
     const [sueñosSeleccionados, setSueñosSeleccionados] = useState({}); // Estado para manejar los sueños seleccionados
-    
 
     useEffect(() => {
         // Obtener información de la empresa
@@ -36,43 +34,6 @@ const EvaluacionEmpresa = () => {
             [id_modulo]: sueñoSeleccionado
         }));
     };
-
-    // Registrar diagnóstico (enviar sueños seleccionados al backend)
-    const registrarDiagnostico = () => {
-        const data = {
-            nit: nit,
-            sueños: sueñosSeleccionados,
-        };
-    
-        console.log("Datos enviados al backend:", data); // Verifica los datos aquí
-    
-        fetch('http://localhost:8000/api/v2/registrar-diagnostico/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(errData => {
-                    console.error("Error en la respuesta del backend:", errData);
-                    throw new Error("Error al registrar el diagnóstico");
-                });
-            }
-            return response.json();
-        })
-        .then(result => {
-            alert('Diagnóstico registrado con éxito');
-        })
-        .catch(error => {
-            console.error('Error al registrar el diagnóstico:', error);
-        });
-        
-    };
-    
-    
-    
 
     // Renderiza las calificaciones bajas en una tabla
     const renderTabla = (preguntas) => (
@@ -102,19 +63,19 @@ const EvaluacionEmpresa = () => {
                             <div className="rounded-xl flex flex-col gap-6 h-full py-6">
                                 <div className="flex justify-between pr-10">
                                     <p className='text-2xl font-bold'>Diagnóstico Inicial Empresarial {empresa.nombre_empresa}</p>
-                                    <DownloadPDFButton filename="ACTA_FINAL_MISE.pdf" />
+                                    <DownloadPDFButton pdfType={"final"} filename="ACTA_FINAL_MISE.pdf" />
                                 </div>
                                 <div className="px-6">
                                     <div>
                                         <p className='font-bold text-xl'>Introducción</p>
                                         <p className='p-6 text-justify'>
-                                            A través del servicio de acompañamiento del Modelo Integral de Servicios Empresariales (MISE), en su dimensión de FORTALECIMIENTO dirigido a empresas, ofrecido por la Cámara de Comercio de Palmira (CCP), se presenta el diagnóstico realizado para la empresa <span className="font-bold underline">{empresa.nombre_empresa}</span>.
+                                            Por medio del servicio de acompañamiento del Modelo Integral de Servicios Empresariales (MISE), en su dimensión de FORTALECIMIENTO (dirigido a empresas), que le ofrece la Cámara de Comercio de Palmira (CCP), se presenta el diagnóstico final realizado para la empresa <span className="font-bold underline">{empresa.nombre_empresa}</span>.
 
-                                            Este diagnóstico refleja las necesidades puntuales y metas empresariales acordadas, las cuales serán evidenciadas en el progreso de esta página. El MISE implementado por la CCP incluye fases clave como la identificación de necesidades, la focalización, la definición de una ruta de servicios, la oferta de un portafolio integral, y el seguimiento continuo a las empresas beneficiadas. Todo esto tiene como objetivo garantizar un mayor impacto en el crecimiento de las empresas de Palmira, Pradera, Florida y Candelaria.
+                                            Este diagnóstico detalla las modificaciones del proceso, el cumplimiento de sueños, diagnóstico de salida de sus resultados en el programa y observaciones o recomendaciones.
                                         </p>
                                     </div>
                                     <div className="p-6">
-                                        <h1 className="text-3xl font-bold ">Diagnóstico de la Empresa: {empresa.nombre_empresa}</h1>
+                                        <h1 className="text-3xl font-bold ">Diagnóstico Final de la Empresa: {empresa.nombre_empresa}</h1>
 
                                         {/* Evaluación dinámica de módulos */}
                                         {calificacionesBajas.map(modulo => (
@@ -160,7 +121,7 @@ const EvaluacionEmpresa = () => {
                                                                     <p><strong>Fortalecimiento:</strong> {sueño.fortalecimiento}</p>
                                                                     <p><strong>Evidencia:</strong> {sueño.evidencia}</p>
                                                                     <button
-                                                                        className={`mt-4 p-2 bg-${sueñosSeleccionados[modulo.id_modulo] === sueño.sueño ? 'principalGreen' : 'blue-500'} text-white rounded`}
+                                                                        className={`mt-4 p-2 bg-${sueñosSeleccionados[modulo.id_modulo] === sueño.sueño ? 'green-500' : 'blue-500'} text-white rounded`}
                                                                         onClick={() => handleSelectSueño(modulo.id_modulo, sueño.sueño)}
                                                                     >
                                                                         Seleccionar este sueño
@@ -180,17 +141,10 @@ const EvaluacionEmpresa = () => {
                                             <div className="">
                                                 <h2 className="text-2xl font-bold">Conclusiones</h2>
                                                 <p className='text-justify'>
-                                                    Con base en los resultados obtenidos, se generarán estrategias y recomendaciones específicas para mejorar las áreas identificadas. Se prevé un seguimiento detallado para evaluar el progreso de la empresa en función de los objetivos planteados.
+                                                    Después de finalizada la ruta de servicios y el cumplimiento de sueños se realiza junto con el beneficiado el diagnóstico de cierre de brechas donde se evidencia el avance en su nivel de fortalecimiento empresarial.
                                                 </p>
                                             </div>
                                         </div>
-                                        {/* Botón de registrar diagnóstico */}
-                                        <button
-                                            className="mt-4 p-2 bg-principalGreen text-white rounded"
-                                            onClick={registrarDiagnostico}
-                                        >
-                                            Registrar Diagnóstico
-                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -200,6 +154,6 @@ const EvaluacionEmpresa = () => {
             </main>
         </LayoutDashboard>
     );
-};
+}
 
-export default EvaluacionEmpresa;
+export default DetalleDiagnosticof;
