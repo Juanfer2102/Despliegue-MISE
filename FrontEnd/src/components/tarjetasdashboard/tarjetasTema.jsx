@@ -35,7 +35,7 @@ const TarjetasTema = () => {
                             Diagnostico Final
                         </button>
                     </a>
-                    <a href={`/diagnostico/empresa/101020203`}>
+                    <a href={`/diagnostico/empresa/658952354`}>
                         <button className="p-2 text-sm tracking-wide transition-colors duration-200 bg-transparent border rounded-lg hover:bg-principalGreen hover:text-white hover:border-principalGreen border-white">
                             Ver Diagnostico Inicial
                         </button>

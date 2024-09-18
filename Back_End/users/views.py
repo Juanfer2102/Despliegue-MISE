@@ -117,7 +117,7 @@ class CalificacionesBajasPorNitView(APIView):
             if preguntas_data:
                 # Agregar información de sueños para el módulo
                 suenos_modulo = Suenos.objects.filter(modulo_id=modulo.id_modulo).values(
-                    'nivel', 'sueño', 'medicion', 'fortalecimiento', 'evidencia'
+                    'nivel', 'sueño', 'medicion', 'evidencia'
                 )
                 
                 response_data.append({
