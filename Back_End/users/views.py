@@ -4,6 +4,7 @@ from .serializer import CalificacionPreguntaSerializer, CalificacionesPreguntasS
 from rest_framework import status, generics, serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from datetime import datetime
 
 
 from weasyprint import HTML
@@ -777,9 +778,14 @@ class PreguntasNoAsignadasList(generics.ListAPIView):
         return Preguntas.objects.filter(id_modulo__isnull=True)
     
 @api_view(['GET'])
-def generar_pdf(request):
+def generar_pdf(request, nit):
     try:
-        html_content = """
+
+        empresa = Empresas.objects.get(nit=nit)
+        postulante = empresa.id_postulante
+        fecha_actual = datetime.now().strftime("%d/%m/%Y")
+
+        html_content = f"""
         <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -787,37 +793,47 @@ def generar_pdf(request):
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ACTA INICIAL DE SERVICIO DE ACOMPAÑAMIENTO MISE FORTALECIMIENTO</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            color: #005a87;
-        }
-        h2 {
-            color: #007baa;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-        }
+                body {{
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                    color: #333;
+                    max-width: 800px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }}
+                h1, h2 {{
+                    color: #005a87;
+                    text-align: center;
+                }}
+                table {{
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 20px;
+                }}
+                th, td {{
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                    text-align: left;
+                }}
+                th {{
+                    background-color: #f2f2f2;
+                }}
+                .container {{
+                    display: flex;
+                    justify-content: space-between; /* Espacio entre los divs */
+                    width: 100%; /* Ajusta el ancho total según lo necesites */
+                    max-width: 600px; /* Ancho máximo del contenedor */
+                }}
+                .signature-section {{
+                    text-align: center;
+                    margin: 0 20px; /* Espacio horizontal entre los divs */
+                }}
+                .line {{
+                    border-bottom: 1px solid #000;
+                    width: 200px; /* Ajusta el ancho de la línea según lo necesites */
+                    display: inline-block;
+                    margin: 0 auto;
+                }}
     </style>
 </head>
 <body>
@@ -836,75 +852,75 @@ def generar_pdf(request):
         </tr>
         <tr>
             <td>Fecha de realización diagnóstico</td>
-            <td></td>
+            <td>{fecha_actual}</td>
         </tr>
         <tr>
             <td>Nombre de quien diligencia el diagnóstico</td>
-            <td></td>
+            <td>{postulante.nombres_postulante} {postulante.apellidos_postulante}</td>
         </tr>
         <tr>
             <td>N° de documento de identificación</td>
-            <td></td>
+            <td>{postulante.no_documento}</td>
         </tr>
         <tr>
             <td>Cargo en la empresa</td>
-            <td></td>
+            <td>{postulante.cargo}</td>
         </tr>
         <tr>
             <td>Nombre o razón social de la empresa</td>
-            <td></td>
+            <td>{empresa.razon_social}</td>
         </tr>
         <tr>
             <td>Dirección</td>
-            <td></td>
+            <td>{empresa.direccion}</td>
         </tr>
         <tr>
             <td>Principal actividad económica (CIIU)</td>
-            <td></td>
+            <td>{empresa.act_economica}</td>
         </tr>
         <tr>
             <td>Producto o servicio</td>
-            <td></td>
+            <td>{empresa.producto_servicio}</td>
         </tr>
         <tr>
             <td>Nombre del gerente o representante Legal</td>
-            <td></td>
+            <td>{empresa.gerente}</td>
         </tr>
         <tr>
             <td>NIT</td>
-            <td></td>
+            <td>{empresa.nit}</td>
         </tr>
         <tr>
             <td>Celular</td>
-            <td></td>
+            <td>{empresa.celular}</td>
         </tr>
         <tr>
             <td>Correo electrónico</td>
-            <td></td>
+            <td>{empresa.correo}</td>
         </tr>
         <tr>
             <td>Página Web</td>
-            <td></td>
+            <td>{empresa.pagina_web}</td>
         </tr>
         <tr>
             <td>Fecha de creación o constitución de la empresa</td>
-            <td></td>
+            <td>{empresa.fecha_creacion}</td>
         </tr>
         <tr>
             <td>Ventas del último año</td>
-            <td></td>
+            <td>{empresa.ventas_ult_ano}</td>
         </tr>
         <tr>
             <td>Costos del último año</td>
-            <td></td>
+            <td>{empresa.costos_ult_ano}</td>
         </tr>
         <tr>
             <td>N° de empleados permanentes (directos)</td>
-            <td></td>
+            <td>{empresa.empleados_perm}</td>
         </tr>
         <tr>
             <td>Sector al que pertenece la empresa</td>
-            <td></td>
+            <td>{empresa.sector}</td>
         </tr>
     </table>
 
@@ -914,6 +930,7 @@ def generar_pdf(request):
     <img src="/api/placeholder/400/320" alt="Imagen de metodología semáforo" />
 
     <p>El resultado de la evaluación está enfocado con los siguientes enunciados:</p>
+    <br>
     
     <table>
         <tr>
@@ -945,7 +962,28 @@ def generar_pdf(request):
             <th>SUEÑOS CONCERTADOS</th>
         </tr>
         <tr>
-            <td></td>
+            <td>
+             <br>
+             <br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+             <br>
+             <br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+             <br>
+             <br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+             <br>
+             <br>
+            </td>
         </tr>
     </table>
 
@@ -1006,7 +1044,30 @@ def generar_pdf(request):
         <li>Si hay incumplimiento de la asistencia mínima exigida en los módulos o talleres priorizados no se brindará el servicio de asesoría personalizada</li>
     </ul>
 
-    <p>Al diligenciar y firmar este formulario autoriza a La Cámara de Comercio de Palmira - CCP, identificada con el NIT. 891.380.012-0, domiciliada y ubicada en Palmira -- Valle - Colombia en la Calle 28 # 31-30, teléfono 2806911 y página web: <a href="http://www.ccpalmira.org.co">www.ccpalmira.org.co</a>, para que como responsable del tratamiento de datos personales los recolecte, almacene, use y circule para acceder al servicio de acompañamiento en el marco de la ruta de servicios acordada: a) para definir las metas o sueños empresariales, b) Solicitar información técnica y financiera que se requiera para adelantar las actividades de acompañamiento, c) concertar las visitas/citas presenciales y/o virtuales del consultor empresarial según agenda acordada, d) realizar una análisis de la información entregada, e) transferir los datos de contacto para realizar la evaluación del servicio de acompañamiento. g) Generar informes o estadísticas. Estas finalidades se podrán realizar a través de medios físicos, electrónicos, digitales o telefónicos. Usted podrá consultar y conocer la Política de Tratamiento de datos personales, en cumplimiento de la Ley 1581 de 2012 de Protección de Datos Personal y su Decreto reglamentario 1377 de 2013, en <a href="http://www.ccpalmira.org.co">www.ccpalmira.org.co</a> los cuales la CCP como responsable del tratamiento no comparte ni cede a ninguna empresa o tercero sin previa autorización. Sus datos personales forman parte de nuestra base de datos, con la única finalidad de contactarle por nuestros diferentes canales de comunicación, para mantenerle informado sobre tendencias de nuestros productos y servicios, de acuerdo con las preferencias que usted nos ha manifestado previamente. Salvo que usted informe no estar interesado en estas comunicaciones podrá solicitar la supresión de sus datos personales de nuestras bases de datos. Comuníquese con n
+    <p>
+        Al diligenciar y firmar este formulario autoriza a La Cámara de Comercio de Palmira - CCP, identificada con el NIT. 891.380.012-0, domiciliada y 
+        ubicada en Palmira – Valle - Colombia en la Calle 28 # 31-30, para el tratamiento de sus datos personales conforme a lo establecido en la Ley 1581 
+        de 2012 de Protección de Datos Personales y su Decreto reglamentario 1377 de 2013. Para más información, consulte nuestra política de 
+        tratamiento de datos en <a href="http://www.ccpalmira.org.co">www.ccpalmira.org.co</a>.
+    </p>
+
+    <br>
+
+    <div> 
+
+    <div class="container">
+        <div class="signature-section">
+            <p class="line"></p>
+            <p>FIRMA DEL REPRESENTANTE LEGAL</p>
+        </div>
+        <div class="signature-section">
+            <p class="line"></p>
+            <p>FIRMA DEL CONSULTOR MISE ASIGNADO</p>
+        </div>
+    </div>
+
+
+    <p>EMPRESA: CÁMARA DE COMERCIO DE PALMIRA</p>
         </body>
         </html>
         """
@@ -1016,7 +1077,227 @@ def generar_pdf(request):
         pdf_file.seek(0)
 
         response = HttpResponse(pdf_file, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="acta_inicial_mise.pdf"'
+        response['Content-Disposition'] = f'attachment; filename="{empresa.nit}_acta_inicial_mise.pdf"'
+        return response
+
+    except Exception as e:
+        return HttpResponse(f'Error: {str(e)}', status=500)
+
+
+@api_view(['GET'])
+def generar_pdf_final(request, nit):
+    try:
+
+        empresa = Empresas.objects.get(nit=nit)
+        postulante = empresa.id_postulante
+        fecha_actual = datetime.now().strftime("%d/%m/%Y")
+
+        html_content = f"""
+        <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACTA FINAL DE SERVICIO DE ACOMPAÑAMIENTO MISE</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }}
+        h1, h2 {{
+            color: #005a87;
+            text-align: center;
+        }}
+        table {{
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }}
+        th, td {{
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }}
+        th {{
+            background-color: #f2f2f2;
+        }}
+        ul {{
+            list-style-type: disc;
+            margin-left: 20px;
+        }}
+        .container {{
+                    display: flex;
+                    justify-content: space-between; /* Espacio entre los divs */
+                    width: 100%; /* Ajusta el ancho total según lo necesites */
+                    max-width: 600px; /* Ancho máximo del contenedor */
+                }}
+                .signature-section {{
+                    text-align: center;
+                    margin: 0 20px; /* Espacio horizontal entre los divs */
+                }}
+                .line {{
+                    border-bottom: 1px solid #000;
+                    width: 200px; /* Ajusta el ancho de la línea según lo necesites */
+                    display: inline-block;
+                    margin: 0 auto;
+                }}
+    </style>
+</head>
+<body>
+    <h1>ACTA FINAL DE SERVICIO DE ACOMPAÑAMIENTO MISE</h1>
+    <h2>PROCESO DE DESARROLLO EMPRESARIAL</h2>
+
+    <h2>1. CIERRE</h2>
+    <p>
+        Por medio del servicio de acompañamiento del Modelo Integral de Servicios Empresariales (MISE), en su dimensión de 
+        FORTALECIMIENTO (dirigido a empresas), que le ofrece la Cámara de Comercio de Palmira (CCP), formalizamos acta final de MISE donde 
+        se detallan las modificaciones del proceso, el cumplimiento de sueños, diagnóstico de salida de sus resultados en el programa y 
+        observaciones o recomendaciones.
+    </p>
+
+    <table>
+        <tr>
+            <th>Campo</th>
+            <th>Información</th>
+        </tr>
+        <tr>
+            <td>Fecha de cierre</td>
+            <td>{fecha_actual}</td>
+        </tr>
+        <tr>
+            <td>Nombre de quien diligencia el diagnóstico</td>
+            <td>{postulante.nombres_postulante} {postulante.apellidos_postulante}</td>
+        </tr>
+        <tr>
+            <td>N° de documento de identificación</td>
+            <td>{postulante.no_documento}</td>
+        </tr>
+        <tr>
+            <td>Cargo en la empresa</td>
+            <td>{postulante.cargo}</td>
+        </tr>
+        <tr>
+            <td>Nombre o razón social de la empresa</td>
+            <td>{empresa.razon_social}</td>
+        </tr>
+    </table>
+
+    <h2>2. MODIFICACIONES DEL PROCESO</h2>
+    <p>Describa las modificaciones a los sueños empresariales y la ruta de servicios que se realizaron durante todo el proceso:</p>
+    <br>
+    <br>
+    <br>
+
+    <table>
+        <tr>
+            <th>MODIFICACIONES DEL PROCESO</th>
+        </tr>
+        <tr>
+            <td>
+             <br>
+             <br>
+             <br>
+             <br>
+             <br>
+             <br>
+            </td>
+        </tr>
+    </table>
+
+    <h2>3. CUMPLIMIENTO DE SUEÑOS</h2>
+    <table>
+        <tr>
+            <th>SUEÑOS CONCERTADOS</th>
+            <th>¿Se cumplió?</th>
+            <th>Fecha en que se cumplió el sueño</th>
+            <th>Observaciones</th>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Sí/No</td>
+            <td></td>
+            <td>Puntualmente qué actividades se hicieron para el cumplimiento del sueño</td>
+        </tr>
+    </table>
+
+    <h2>4. DIAGNÓSTICO DE SALIDA</h2>
+    <p>
+        Después de finalizada la ruta de servicios y el cumplimiento de sueños se realiza junto con el beneficiado el diagnóstico de cierre de brechas donde 
+        se evidencia el avance en su nivel de fortalecimiento empresarial. El diagnóstico muestra solo avance en los ejes y sueños que se priorizaron o que 
+        durante el proceso se modificaron o adicionaron. Se muestran los resultados:
+    </p>
+
+    <table>
+        <tr>
+            <th>DIAGNÓSTICO DE SALIDA</th>
+        </tr>
+        <tr>
+            <td>
+             <br>
+             <br>
+             <br>
+             <br>
+             <br>
+             <br>
+            </td>
+        </tr>
+    </table>
+
+    <h2>5. OBSERVACIONES O RECOMENDACIONES</h2>
+
+    <table>
+        <tr>
+            <th>OBSERVACIONES O RECOMENDACIONES</th>
+        </tr>
+        <tr>
+            <td>
+             <br>
+             <br>
+             <br>
+             <br>
+             <br>
+             <br>
+            </td>
+        </tr>
+    </table>
+
+    <p>
+        Al diligenciar y firmar este formulario autoriza a La Cámara de Comercio de Palmira - CCP, identificada con el NIT. 891.380.012-0, domiciliada y 
+        ubicada en Palmira – Valle - Colombia en la Calle 28 # 31-30, para el tratamiento de sus datos personales conforme a lo establecido en la Ley 1581 
+        de 2012 de Protección de Datos Personales y su Decreto reglamentario 1377 de 2013. Para más información, consulte nuestra política de 
+        tratamiento de datos en <a href="http://www.ccpalmira.org.co">www.ccpalmira.org.co</a>.
+    </p>
+
+    <br>
+
+    <div> 
+
+    <div class="container">
+        <div class="signature-section">
+            <p class="line"></p>
+            <p>FIRMA DEL REPRESENTANTE LEGAL</p>
+        </div>
+        <div class="signature-section">
+            <p class="line"></p>
+            <p>FIRMA DEL CONSULTOR MISE ASIGNADO</p>
+        </div>
+    </div>.
+
+    <p>EMPRESA: CÁMARA DE COMERCIO DE PALMIRA</p>
+</body>
+</html>
+        """
+
+        pdf_file = io.BytesIO()
+        HTML(string=html_content).write_pdf(pdf_file)
+        pdf_file.seek(0)
+
+        response = HttpResponse(pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{empresa.nit}_acta_final_mise.pdf"'
         return response
 
     except Exception as e:

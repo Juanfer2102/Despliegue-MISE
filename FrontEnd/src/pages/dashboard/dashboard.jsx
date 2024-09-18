@@ -7,6 +7,9 @@ import TablasEmpestado from "../../components/tablas/tablasEmpestado.jsx";
 import TablasEmpresaporc from "../../components/tablas/tablasEmpresaporc.jsx";
 
 const Dashboard = () => {
+
+  const nit = 658952354;
+
   return (
     <LayoutDashboard title="Dashboard">
       <main className="bg-greyBg w-full h-screen overflow-x-hidden">
@@ -33,7 +36,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="w-full">
-                  <DownloadPDFButton filename="ACTA_INICIAL_MISE.pdf" />
+                  <DownloadPDFButton nit={nit} filename="ACTA_FINAL_MISE.pdf" />
                   <TablasEmpestado />
                 </div>
               </div>
