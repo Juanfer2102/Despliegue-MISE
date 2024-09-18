@@ -58,7 +58,7 @@ const DashboardEmp = () => {
   }, [nit]);
 
   useEffect (() => {
-    fetch(`http://localhost:8000/api/v2/postulante/${nit}/`)
+    fetch(`http://localhost:8000/api/v2/postulante/num/${nit}/`)
     .then(response => response.json())
     .then(data =>{
       setPostulante(data);

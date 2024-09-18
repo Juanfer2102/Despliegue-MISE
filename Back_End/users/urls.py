@@ -53,7 +53,8 @@ urlpatterns = [
     path('modulos/<int:pk>/', ModulosRetrieveUpdateDestroy.as_view(), name='modulos-retrieve-update-destroy'),
 
     path('postulante/', PostulanteListCreate.as_view(), name='postulante-list-create'),
-    path('postulante/<int:nit>/', obtener_postulante_por_nit, name='obtener_postulante_por_nit'),
+    path('postulante/<int:pk>/', PostulanteRetrieveUpdateDestroy.as_view(), name='obtener_postulante_por_nit'),
+    path('postulante/num/<int:nit>/', obtener_postulante_por_nit, name='obtener_postulante_por_nit'),
 
     path('preguntas/', PreguntasListCreate.as_view(), name='preguntas-por-modulo'),
     path('preguntas/modulo/<int:id_modulo>/', PreguntasPorModuloList.as_view(), name='preguntas-por-modulo'),

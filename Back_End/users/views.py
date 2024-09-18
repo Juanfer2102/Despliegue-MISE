@@ -337,27 +337,25 @@ class SaveCalificacionView(APIView):
                 return Response({"error": "Formato de datos incorrecto"}, status=status.HTTP_400_BAD_REQUEST)
 
 def obtener_postulante_por_nit(request, nit):
-    # Buscar la empresa por el NIT
-    empresa = get_object_or_404(Empresas, nit=nit)
-    
-    # Obtener el postulante asociado a la empresa
-    postulante = empresa.id_postulante  # La relación ya está definida en tu modelo
-    
-    # Formatear la información del postulante para devolverla como JSON
-    data = {
-        'nombres_postulante': postulante.nombres_postulante,
-        'apellidos_postulante': postulante.apellidos_postulante,
-        'celular': postulante.celular,
-        'correo': postulante.correo,
-        'genero': postulante.genero,
-        'municipio': postulante.municipio,
-        'no_documento': postulante.no_documento,
-        'tipo_documento': postulante.tipo_documento,
-        'educacion': postulante.educacion,
-        'cargo': postulante.cargo
-    }
-
-    return JsonResponse(data)
+    try:
+        empresa = get_object_or_404(Empresas, nit=nit)
+        postulante = empresa.id_postulante
+        
+        data = {
+            'nombres_postulante': postulante.nombres_postulante,
+            'apellidos_postulante': postulante.apellidos_postulante,
+            'celular': postulante.celular,
+            'correo': postulante.correo,
+            'genero': postulante.genero,
+            'municipio': postulante.municipio,
+            'no_documento': postulante.no_documento,
+            'tipo_documento': postulante.tipo_documento,
+            'educacion': postulante.educacion,
+            'cargo': postulante.cargo
+        }
+        return JsonResponse(data)
+    except ObjectDoesNotExist:
+        return JsonResponse({'error': 'No se encontró el postulante para el NIT proporcionado.'}, status=404)
 
 def listar_empresas_sin_diagnostico(request):
     # Obtener las empresas cuyo diagnostico_value es 0
