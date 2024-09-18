@@ -7,7 +7,7 @@ export const ProgressCircleHero = ({ value, text, width }) => (
     <div className="flex justify-center relative">
       <ProgressCircle value={value} csize="xl">
         <div className="absolute inset-0 flex items-center justify-center">
-          <p className="text-sm font-bold">{value}%</p>
+          <p className="text-sm font-bold">{value}</p>
         </div>
       </ProgressCircle>
     </div>
