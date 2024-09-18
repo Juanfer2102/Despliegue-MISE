@@ -3,12 +3,15 @@ import LayoutDashboard from '../../layouts/LayoutDashboard';
 import DownloadPDFButton from "../../components/inputs/botones/botonpdf";
 import { useParams } from 'react-router-dom';
 import GoBack from "../../components/inputs/goback/GoBack";
+import { useNavigate } from "react-router-dom";
 
 const EvaluacionEmpresa = () => {
     const { nit } = useParams();
     const [empresa, setEmpresa] = useState({});
     const [calificacionesBajas, setCalificacionesBajas] = useState([]);
     const [sueñosSeleccionados, setSueñosSeleccionados] = useState({}); // Estado para manejar los sueños seleccionados
+    const navigate = useNavigate();
+    
 
     useEffect(() => {
         // Obtener información de la empresa
@@ -35,6 +38,45 @@ const EvaluacionEmpresa = () => {
             [id_modulo]: sueñoSeleccionado
         }));
     };
+
+    // Registrar diagnóstico (enviar sueños seleccionados al backend)
+    const registrarDiagnostico = () => {
+        const data = {
+            nit: nit,
+            sueños: sueñosSeleccionados,
+        };
+    
+        console.log("Datos enviados al backend:", data); // Verifica los datos aquí
+    
+        fetch('http://localhost:8000/api/v2/registrar-diagnostico/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errData => {
+                    console.error("Error en la respuesta del backend:", errData);
+                    throw new Error("Error al registrar el diagnóstico");
+
+                });
+            }
+            return response.json();
+        })
+        .then(result => {
+            alert('Diagnóstico registrado con éxito');
+            navigate(`/dashboard-emp/${nit}/`);
+        })
+        .catch(error => {
+            console.error('Error al registrar el diagnóstico:', error);
+        });
+        
+    };
+    
+    
+    
 
     // Renderiza las calificaciones bajas en una tabla
     const renderTabla = (preguntas) => (
@@ -122,7 +164,7 @@ const EvaluacionEmpresa = () => {
                                                                     <p><strong>Fortalecimiento:</strong> {sueño.fortalecimiento}</p>
                                                                     <p><strong>Evidencia:</strong> {sueño.evidencia}</p>
                                                                     <button
-                                                                        className={`mt-4 p-2 bg-${sueñosSeleccionados[modulo.id_modulo] === sueño.sueño ? 'green-500' : 'blue-500'} text-white rounded`}
+                                                                        className={`mt-4 p-2 bg-${sueñosSeleccionados[modulo.id_modulo] === sueño.sueño ? 'principalGreen' : 'blue-500'} text-white rounded`}
                                                                         onClick={() => handleSelectSueño(modulo.id_modulo, sueño.sueño)}
                                                                     >
                                                                         Seleccionar este sueño
@@ -142,10 +184,17 @@ const EvaluacionEmpresa = () => {
                                             <div className="">
                                                 <h2 className="text-2xl font-bold">Conclusiones</h2>
                                                 <p className='text-justify'>
-                                                    Con base en los resultados obtenidos, se generarán estrategias y recomendaciones específicas para mejorar las áreas identificadas. Se prevé un seguimiento detallado para asegurar que las sugerencias sean implementadas y para evaluar los avances en las próximas fases de la consultoría.
+                                                    Con base en los resultados obtenidos, se generarán estrategias y recomendaciones específicas para mejorar las áreas identificadas. Se prevé un seguimiento detallado para evaluar el progreso de la empresa en función de los objetivos planteados.
                                                 </p>
                                             </div>
                                         </div>
+                                        {/* Botón de registrar diagnóstico */}
+                                        <button
+                                            className="mt-4 p-2 bg-principalGreen text-white rounded"
+                                            onClick={registrarDiagnostico}
+                                        >
+                                            Registrar Diagnóstico
+                                        </button>
                                     </div>
                                 </div>
                             </div>

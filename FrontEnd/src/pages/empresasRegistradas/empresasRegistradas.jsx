@@ -1,11 +1,44 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import LayoutDashboard from "../../layouts/LayoutDashboard";
-import { Elementosempresas } from "../../helpers/elementosempresas";
 import TarjetasEmpresasreg from "../../components/tarjetasdashboard/tarjetasEmpresasreg";
 import { TablasEmpresas } from "../../components/tablas/tablasEmpresas";
 
-
 export const EmpresasRegistradas = () => {
+  // Estado para registrar los números de empresas
+  const [empresasData, setEmpresasData] = useState({
+    empresasVinculadas: 0,
+    empresasSinDiagnostico: 0,
+    nuevasSolicitudes: 0,
+  });
+
+  // Función para obtener el número de empresas desde el endpoint
+  const fetchData = async () => {
+    try {
+      // Obtén el número de empresas sin diagnosticar
+      const resSinDiagnostico = await fetch("http://localhost:8000/api/v2/empresas-sin-diagnostico/");
+      const dataSinDiagnostico = await resSinDiagnostico.json();
+      const numEmpresasSinDiagnostico = dataSinDiagnostico.length;
+
+      // Obtén el número de nuevas solicitudes
+      const resNuevasSolicitudes = await fetch("http://localhost:8000/api/v2/empresas-por-aceptar/");
+      const dataNuevasSolicitudes = await resNuevasSolicitudes.json();
+      const numNuevasSolicitudes = dataNuevasSolicitudes.length;
+
+      // Actualiza el estado con los datos obtenidos
+      setEmpresasData({
+        empresasVinculadas: empresasData.empresasVinculadas, // Mantén el valor actual
+        empresasSinDiagnostico: numEmpresasSinDiagnostico,
+        nuevasSolicitudes: numNuevasSolicitudes,
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // Llama a fetchData cuando el componente se monta
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <LayoutDashboard title="Dashboard">
@@ -17,20 +50,37 @@ export const EmpresasRegistradas = () => {
               <div className="text-white gap-6">
                 <div className="flex flex-col">
                   <div className="pb-5">
-                    <p className="text-xl md:text-2xl xl:text-left min-lg:text-left max-md:text-center pl-4">Empresas registradas</p>
+                    <p className="text-xl md:text-2xl xl:text-left min-lg:text-left max-md:text-center pl-4">
+                      Empresas registradas
+                    </p>
                   </div>
 
                   {/* Tarjetas de empresas */}
                   <div className="flex xl:flex-row min-lg:flex-col max-md:flex-col gap-4 md:gap-24 text-sm pl-3">
-                    {Elementosempresas.map((Elementosempresas, index) => (
-                      <TarjetasEmpresasreg
-                        key={Elementosempresas.numeroEmpresas}
-                        empresaicon={Elementosempresas.empresaicon}
-                        tipoTarjeta={Elementosempresas.tipoTarjeta}
-                        numeroEmpresas={Elementosempresas.numeroEmpresas}
-                        URL={Elementosempresas.URL}
-                      />
-                    ))}
+
+                    {/* Primera tarjeta: Empresas en proceso de vinculación */}
+                    <TarjetasEmpresasreg
+                      empresaicon="fa-solid fa-building-circle-check"
+                      tipoTarjeta="En Proceso de Vinculacion"
+                      numeroEmpresas={empresasData.empresasVinculadas}
+                      URL="/empresas-vinculadas"
+                    />
+
+                    {/* Segunda tarjeta: Empresas sin diagnosticar */}
+                    <TarjetasEmpresasreg
+                      empresaicon="fa-solid fa-building-circle-exclamation"
+                      tipoTarjeta="Sin Diagnosticar"
+                      numeroEmpresas={empresasData.empresasSinDiagnostico}
+                      URL="/diagnostico"
+                    />
+
+                    {/* Tercera tarjeta: Nuevas solicitudes */}
+                    <TarjetasEmpresasreg
+                      empresaicon="fa-solid fa-building-user"
+                      tipoTarjeta="Nuevas Solicitudes"
+                      numeroEmpresas={empresasData.nuevasSolicitudes}
+                      URL="/aceptar-empresas"
+                    />
                   </div>
 
                   {/* Tabla de empresas */}
@@ -41,6 +91,7 @@ export const EmpresasRegistradas = () => {
                       </div>
                     </div>
                   </div>
+
                 </div>
               </div>
             </div>
@@ -49,7 +100,6 @@ export const EmpresasRegistradas = () => {
       </main>
     </LayoutDashboard>
   );
-
 };
 
 export default EmpresasRegistradas;

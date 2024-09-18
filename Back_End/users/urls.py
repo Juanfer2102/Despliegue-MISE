@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 from users import views
-from .views import generar_pdf, generar_pdf_final, check_auth, CalificacionesBajasPorNitView, CalificacionesPorNitView, CalificacionesListView, generar_diagnostico, UpdateEmpresaDiagStatus, SaveCalificacionView, CalificacionesViewSet, registrar_calificacion, CalificacionesModulosList, PreguntasPorModuloList, ModuloUpdateView, PreguntasNoAsignadasList, ModulosListView, AutoevaluacionDetail, RegistroAutoevaluacionView, RegistroPostulante, RegistroEmpresa, UpdateEmpresaStatus, AutoevaluacionListCreate, CalificacionModuloListCreate, ModuloAutoevaluacionListCreate, RegistroPostulanteView, EmpresasListCreate, EmpresasRetrieveUpdateDestroy, ModulosListCreate, ModulosRetrieveUpdateDestroy, PostulanteListCreate, PostulanteRetrieveUpdateDestroy, PreguntasListCreate, PreguntasRetrieveUpdateDestroy, ProgramasListCreate, ProgramasRetrieveUpdateDestroy, RegistrosListCreate, RegistrosRetrieveUpdateDestroy, RolListCreate, RolRetrieveUpdateDestroy, SuenosListCreate, SuenosRetrieveUpdateDestroy, TalleresListCreate, TalleresRetrieveUpdateDestroy, UsuarioListCreate, UsuarioRetrieveUpdateDestroy
+from .views import check_auth, obtener_postulante_por_nit, listar_empresas_activas, listar_empresas_sin_diagnostico, RegistrarDiagnosticoView, ConsultarDiagnosticoView, CalificacionesBajasPorNitView, CalificacionesPorNitView, CalificacionesListView, generar_diagnostico, UpdateEmpresaDiagStatus, SaveCalificacionView, CalificacionesViewSet, registrar_calificacion, CalificacionesModulosList, PreguntasPorModuloList, ModuloUpdateView, PreguntasNoAsignadasList, ModulosListView, AutoevaluacionDetail, RegistroAutoevaluacionView, RegistroPostulante, RegistroEmpresa, UpdateEmpresaStatus, AutoevaluacionListCreate, CalificacionModuloListCreate, ModuloAutoevaluacionListCreate, RegistroPostulanteView, EmpresasListCreate, EmpresasRetrieveUpdateDestroy, ModulosListCreate, ModulosRetrieveUpdateDestroy, PostulanteListCreate, PostulanteRetrieveUpdateDestroy, PreguntasListCreate, PreguntasRetrieveUpdateDestroy, ProgramasListCreate, ProgramasRetrieveUpdateDestroy, RegistrosListCreate, RegistrosRetrieveUpdateDestroy, RolListCreate, RolRetrieveUpdateDestroy, SuenosListCreate, SuenosRetrieveUpdateDestroy, TalleresListCreate, TalleresRetrieveUpdateDestroy, UsuarioListCreate, UsuarioRetrieveUpdateDestroy
 
 router = routers.DefaultRouter()
 
@@ -11,16 +11,15 @@ urlpatterns = [
     path('user', views.user),
     path('check-auth/', check_auth, name='check_auth'),
 
-    path('generar-pdf/<int:nit>/', generar_pdf, name='generar_pdf'),
-    path('generar-pdf-final/<int:nit>/', generar_pdf_final, name='generar_pdf_final'),
-
-    path('calificacion/', SaveCalificacionView.as_view(), name='save_calificacion'),
+    path('calificacion/', SaveCalificacionView.as_view(), name='calificacion-list-create'),
     path('calificaciones/empresa/<int:nit>/', CalificacionesPorNitView.as_view(), name='calificacion-especifica'),
     path('calificaciones-bajas/empresa/<int:nit>/', CalificacionesBajasPorNitView.as_view(), name='calificaciones-bajas-por-nit'),
 
     path('diagnostico/<int:nit>/<int:id_modulo>/', generar_diagnostico, name='generar_diagnostico'),
+    path('registrar-diagnostico/', RegistrarDiagnosticoView.as_view(), name='registrar_diagnostico'),
+    path('diagnostico/<int:nit>/', ConsultarDiagnosticoView.as_view(), name='registrar_diagnostico'),
     path('registrar-calificacion/', registrar_calificacion, name='registrar_calificacion'),
-    path('calificaciones/', CalificacionesListView.as_view(), name='calificaciones-list'),
+
     
      path('update-empresa-status/<int:nit>/', UpdateEmpresaStatus.as_view(), name='update-empresa-status'),
      path('update-empresa-diag-status/<int:nit>/', UpdateEmpresaDiagStatus.as_view(), name='update-empresa-diag-status'),
@@ -47,12 +46,14 @@ urlpatterns = [
 
     path('empresas/', EmpresasListCreate.as_view(), name='empresas-list-create'),
     path('empresas/<int:pk>/', EmpresasRetrieveUpdateDestroy.as_view(), name='empresa-detail'),
+    path('empresas-por-aceptar/', listar_empresas_activas, name='listar_empresas_activas'),
+    path('empresas-sin-diagnostico/', listar_empresas_sin_diagnostico, name='listar_empresas_sin_diagnostico'),
 
     path('modulos/', ModulosListCreate.as_view(), name='modulos-list-create'),
     path('modulos/<int:pk>/', ModulosRetrieveUpdateDestroy.as_view(), name='modulos-retrieve-update-destroy'),
 
     path('postulante/', PostulanteListCreate.as_view(), name='postulante-list-create'),
-    path('postulante/<int:pk>/', PostulanteRetrieveUpdateDestroy.as_view(), name='postulante-retrieve-update-destroy'),
+    path('postulante/<int:nit>/', obtener_postulante_por_nit, name='obtener_postulante_por_nit'),
 
     path('preguntas/', PreguntasListCreate.as_view(), name='preguntas-por-modulo'),
     path('preguntas/modulo/<int:id_modulo>/', PreguntasPorModuloList.as_view(), name='preguntas-por-modulo'),
