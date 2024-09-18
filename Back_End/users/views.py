@@ -359,6 +359,65 @@ def obtener_postulante_por_nit(request, nit):
 
     return JsonResponse(data)
 
+def listar_empresas_sin_diagnostico(request):
+    # Obtener las empresas cuyo diagnostico_value es 0
+    empresas_sin_diagnostico = Empresas.objects.filter(diagnostico_value=0)
+    
+    # Preparar los datos para enviarlos en formato JSON
+    data = []
+    for empresa in empresas_sin_diagnostico:
+        data.append({
+            'nit': empresa.nit,
+            'nombre_empresa': empresa.nombre_empresa,
+            'celular': empresa.celular,
+            'razon_social': empresa.razon_social,
+            'direccion': empresa.direccion,
+            'act_economica': empresa.act_economica,
+            'gerente': empresa.gerente,
+            'producto_servicio': empresa.producto_servicio,
+            'correo': empresa.correo,
+            'pagina_web': empresa.pagina_web,
+            'fecha_creacion': empresa.fecha_creacion,
+            'ventas_ult_ano': empresa.ventas_ult_ano,
+            'costos_ult_ano': empresa.costos_ult_ano,
+            'empleados_perm': empresa.empleados_perm,
+            'sector': empresa.sector,
+            'diagnostico_value': empresa.diagnostico_value,
+            'estado': empresa.estado
+        })
+    
+    # Devolver la lista de empresas sin diagnóstico como JSON
+    return JsonResponse(data, safe=False)
+
+def listar_empresas_activas(request):
+    # Obtener las empresas cuyo estado es 1
+    empresas_activas = Empresas.objects.filter(estado=1)
+    
+    # Preparar los datos para enviarlos en formato JSON
+    data = []
+    for empresa in empresas_activas:
+        data.append({
+            'nit': empresa.nit,
+            'nombre_empresa': empresa.nombre_empresa,
+            'celular': empresa.celular,
+            'razon_social': empresa.razon_social,
+            'direccion': empresa.direccion,
+            'act_economica': empresa.act_economica,
+            'gerente': empresa.gerente,
+            'producto_servicio': empresa.producto_servicio,
+            'correo': empresa.correo,
+            'pagina_web': empresa.pagina_web,
+            'fecha_creacion': empresa.fecha_creacion,
+            'ventas_ult_ano': empresa.ventas_ult_ano,
+            'costos_ult_ano': empresa.costos_ult_ano,
+            'empleados_perm': empresa.empleados_perm,
+            'sector': empresa.sector,
+            'estado': empresa.estado
+        })
+    
+    # Devolver la lista de empresas activas como JSON
+    return JsonResponse(data, safe=False)   
+
 @csrf_exempt
 def registrar_calificacion(request):
     if request.method == 'POST':
