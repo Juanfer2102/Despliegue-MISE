@@ -24,6 +24,26 @@ from django.db import connection, transaction
 from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render, get_object_or_404
+from .models import DiagnosticoEmpresarialSuenos, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .serializer import CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
+from rest_framework import status, generics, serializers, viewsets
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+
+from django.contrib.auth import get_user_model, authenticate
+
+from rest_framework_simplejwt.tokens import RefreshToken, UntypedToken
+
+from rest_framework.views import APIView
+
+from django.db import connection, transaction
+from django.http import JsonResponse
+import json
+from django.views.decorators.csrf import csrf_exempt
 
 class CalificacionesBajasPorNitView(APIView):
     def get(self, request, *args, **kwargs):
@@ -113,7 +133,8 @@ class CalificacionesBajasPorNitView(APIView):
 
 class ConsultarDiagnosticoView(APIView):
     def get(self, request, *args, **kwargs):
-        nit = request.query_params.get('nit')
+        nit = kwargs.get('nit')
+        
         if not nit:
             return Response({"error": "NIT no proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -122,21 +143,33 @@ class ConsultarDiagnosticoView(APIView):
         except Empresas.DoesNotExist:
             return Response({"error": "Empresa no encontrada"}, status=status.HTTP_404_NOT_FOUND)
 
+        # Filtrar diagnósticos empresariales relacionados con la empresa
         diagnosticos = DiagnosticoEmpresarial.objects.filter(empresa=empresa).prefetch_related('suenos')
         
         datos_diagnostico = []
         for diagnostico in diagnosticos:
-            suenos = diagnostico.suenos.all()
+            suenos = diagnostico.suenos.all()  # Acceder a los sueños a través de la relación inversa
             datos_diagnostico.append({
                 "modulo": diagnostico.modulo.nombre,
                 "calificacion_promedio": diagnostico.calificacion_promedio,
-                "suenos": [sueno.nombre for sueno in suenos]
+                "suenos": [
+                    {
+                        "nivel": sueno.sueno.nivel,
+                        "sueño": sueno.sueno.sueño,
+                        "medicion": sueno.sueno.medicion,
+                        "fortalecimiento": sueno.sueno.fortalecimiento,
+                        "evidencia": sueno.sueno.evidencia,
+                    }
+                    for sueno in suenos
+                ]
             })
 
         return Response({
             "empresa": empresa.nit,
             "diagnosticos": datos_diagnostico
         }, status=status.HTTP_200_OK)
+
+
 
 class RegistrarDiagnosticoView(APIView):
     def post(self, request, *args, **kwargs):
@@ -257,38 +290,48 @@ class CalificacionesListView(generics.ListAPIView):
 class CalificacionesViewSet(generics.ListCreateAPIView):
     queryset = Calificaciones.objects.all()
     serializer_class = CalificacionesSerializer
+from rest_framework import status
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView
+from .models import Calificaciones, Preguntas, Empresas
+
 class SaveCalificacionView(APIView):
     def post(self, request, *args, **kwargs):
         data = request.data
-        print(data)  # Para depuración, puedes eliminarlo más tarde
 
         if isinstance(data, list):
             for item in data:
                 try:
                     calificacion = float(item.get('calificacion', 0))
-                    id_pregunta = item.get('id_pregunta')
-                    nit = item.get('nit')
+                except ValueError:
+                    return Response({"error": "Calificación inválida"}, status=status.HTTP_400_BAD_REQUEST)
 
-                    if not id_pregunta or not nit:
-                        return Response({"error": "Faltan campos requeridos"}, status=status.HTTP_400_BAD_REQUEST)
+                id_pregunta = item.get('id_pregunta')
+                nit = item.get('nit')
 
-                    pregunta = get_object_or_404(Preguntas, id_pregunta=id_pregunta)
-                    empresa = get_object_or_404(Empresas, nit=nit)
+                pregunta = get_object_or_404(Preguntas, id_pregunta=id_pregunta)
+                empresa = get_object_or_404(Empresas, nit=nit)
 
+                # Verificar si ya existe una calificación para esta empresa y pregunta
+                calificacion_existente = Calificaciones.objects.filter(id_pregunta=pregunta, nit=empresa).first()
+
+                if calificacion_existente:
+                    # Opcional: Actualizar la calificación existente
+                    calificacion_existente.calificacion = calificacion
+                    calificacion_existente.save()
+                else:
+                    # Crear una nueva calificación si no existe
                     Calificaciones.objects.create(
                         calificacion=calificacion,
                         id_pregunta=pregunta,
                         nit=empresa
                     )
 
-                except ValueError:
-                    return Response({"error": "Calificación inválida, debe ser un número"}, status=status.HTTP_400_BAD_REQUEST)
-                except Exception as e:
-                    return Response({"error": f"Error al procesar la solicitud: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
             return Response({"message": "Calificaciones guardadas con éxito"}, status=status.HTTP_201_CREATED)
         else:
-            return Response({"error": "Formato de datos incorrecto, se esperaba una lista"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Formato de datos incorrecto"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @csrf_exempt
@@ -880,7 +923,6 @@ class PreguntasNoAsignadasList(generics.ListAPIView):
 
     def get_queryset(self):
         return Preguntas.objects.filter(id_modulo__isnull=True)
-    
 @api_view(['GET'])
 def generar_pdf(request, nit):
     try:

@@ -166,7 +166,7 @@ class Suenos(models.Model):
         db_table = 'suenos'
 
 class DiagnosticoEmpresarial(models.Model):
-    empresa = models.ForeignKey(Empresas, on_delete=models.CASCADE)  # Elimina db_column aquí
+    empresa = models.ForeignKey(Empresas, on_delete=models.CASCADE)
     modulo = models.ForeignKey(Modulos, on_delete=models.CASCADE)
     calificacion_promedio = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
@@ -175,8 +175,8 @@ class DiagnosticoEmpresarial(models.Model):
 
 
 class DiagnosticoEmpresarialSuenos(models.Model):
-    id = models.AutoField(primary_key=True)  # Agrega el campo id
-    diagnostico = models.ForeignKey(DiagnosticoEmpresarial, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
+    diagnostico = models.ForeignKey(DiagnosticoEmpresarial, on_delete=models.CASCADE, related_name='suenos')
     sueno = models.ForeignKey(Suenos, on_delete=models.CASCADE)
 
     class Meta:
@@ -204,7 +204,8 @@ class Calificaciones(models.Model):
     calificacion = models.DecimalField(max_digits=5, decimal_places=2)
     id_pregunta = models.ForeignKey('Preguntas', models.DO_NOTHING, db_column='id_pregunta')
     nit = models.ForeignKey('Empresas', models.DO_NOTHING, db_column='nit')
-    criterio = models.CharField(max_length=50, blank=True, null=True)
+    
+    criterio = models.CharField(max_length=50, blank=True)
 
     class Meta:
         managed = False
@@ -214,7 +215,7 @@ class Calificaciones(models.Model):
         self.criterio = self.asignar_criterio(self.calificacion)
         super(Calificaciones, self).save(*args, **kwargs)
 
-        # Actualizar el promedio del módulo para la empresa
+        # Después de guardar la calificación, actualizar el promedio del módulo para la empresa
         self.actualizar_promedio_modulo_empresa()
 
     def asignar_criterio(self, calificacion):
@@ -227,11 +228,12 @@ class Calificaciones(models.Model):
         else:
             return "Valor fuera de rango"
 
+    # Método para actualizar el promedio del módulo para la empresa (por nit)
     def actualizar_promedio_modulo_empresa(self):
         modulo = self.id_pregunta.id_modulo
         empresa = self.nit
 
-        # Obtener todas las calificaciones del módulo para esta empresa
+        # Obtener todas las calificaciones de las preguntas del módulo para esta empresa
         calificaciones_modulo_empresa = Calificaciones.objects.filter(
             id_pregunta__id_modulo=modulo, nit=empresa
         )
@@ -239,18 +241,19 @@ class Calificaciones(models.Model):
         # Calcular el promedio de calificaciones
         promedio = calificaciones_modulo_empresa.aggregate(models.Avg('calificacion'))['calificacion__avg'] or 0.00
 
-        # Obtener o crear un registro de diagnóstico para esta empresa y módulo
-        diagnostico, created = DiagnosticoEmpresarial.objects.get_or_create(
+        # Obtener o crear un registro de diagnóstico para este módulo y empresa
+        diagnostico, created = DiagnosticoEmpresarialModulos.objects.get_or_create(
             nit=empresa,
             id_modulo=modulo,
             defaults={'calificacion_promedio': promedio, 'criterio': self.asignar_criterio(promedio)}
         )
 
-        # Si ya existe el registro, actualizar el promedio y criterio
+        # Si el registro ya existía, actualizar el promedio y el criterio
         if not created:
             diagnostico.calificacion_promedio = promedio
             diagnostico.criterio = self.asignar_criterio(promedio)
             diagnostico.save()
+
 
 
 
