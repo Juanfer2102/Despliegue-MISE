@@ -1,15 +1,9 @@
 import React from "react";
 import GoBack from "../../components/inputs/goback/GoBack.jsx";
 import LayoutDashboard from "../../layouts/LayoutDashboard.jsx";
-import Grafica from "../../components/inputs/barcharts/graficabarras.jsx";
-import { ProgressCircleHero } from "../../components/inputs/porcentaje/porcentaje.jsx";
-import TablasEmpestado from "../../components/tablas/tablasEmpestado.jsx";
-import TablasEmpresaporc from "../../components/tablas/tablasEmpresaporc.jsx";
-import TarjetasModulos from "../../components/tarjetasdashboard/tarjetasModulos.jsx";
 import TarjetasTema from "../../components/tarjetasdashboard/tarjetasTema.jsx";
 import TablaPreguntas from "../../components/tablas/tablaempregunta.jsx";
 import ValidacionDeSueños from "../../components/tablas/validacionSuenos.jsx";
-import { useParams } from 'react-router-dom';
 
 const DashboardEmp = () => {
 
@@ -31,8 +25,6 @@ const DashboardEmp = () => {
       background: '#555',
     }
   };
-
-  const { nit } = useParams();
 
   return (
     <LayoutDashboard title="Dashboard">
