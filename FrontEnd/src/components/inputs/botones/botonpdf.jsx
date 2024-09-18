@@ -56,7 +56,7 @@ const DownloadPDFButton = ({ filename, pdfType }) => {
 
     return (
         <button onClick={handleDownload} className='bg-principalGreen hover:bg-white rounded-md text-white hover:text-principalGreen text-center font-semibold cursor-pointer w-auto h-10 p-2'>
-            Descargar PDF
+            Descargar Acta Inicial / Final
         </button>
     );
 };
