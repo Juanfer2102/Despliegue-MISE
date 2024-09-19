@@ -5,13 +5,13 @@ from rest_framework import status, generics, serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from datetime import datetime
-
+from django.views.generic import ListView, DetailView
 
 from weasyprint import HTML
 import io
 from django.http import HttpResponse
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.contrib.auth import get_user_model, authenticate
@@ -25,8 +25,8 @@ from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
-from .models import DiagnosticoEmpresarialSuenos, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
-from .serializer import CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
+from .models import Temas, DiagnosticoEmpresarialSuenos, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .serializer import TemasSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from rest_framework import status, generics, serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -44,6 +44,7 @@ from django.db import connection, transaction
 from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 
 class CalificacionesBajasPorNitView(APIView):
     def get(self, request, *args, **kwargs):
@@ -86,11 +87,12 @@ class CalificacionesBajasPorNitView(APIView):
                 
                 for calificacion in calificaciones_pregunta:
                     # Obtener la información del tema relacionado a la pregunta
-                    tema_info = {}
-                    tema_pregunta = TemasPreguntas.objects.filter(id_pregunta=pregunta).select_related('id_tema').first()
-                    if tema_pregunta:
+                    tema_info = []
+                    temas_pregunta = TemasPreguntas.objects.filter(id_pregunta=pregunta).select_related('id_tema')
+
+                    for tema_pregunta in temas_pregunta:
                         tema = tema_pregunta.id_tema
-                        tema_info = {
+                        tema_info.append({
                             "id_tema": tema.id,
                             "titulo_formacion": tema.titulo_formacion,
                             "num_sesion": tema.num_sesion,
@@ -101,7 +103,7 @@ class CalificacionesBajasPorNitView(APIView):
                             "fecha": tema.fecha,
                             "horario": tema.horario,
                             "ubicacion": tema.ubicacion
-                        }
+                        })
 
                     preguntas_data.append({
                         "id": calificacion.id,
@@ -182,7 +184,7 @@ class RegistrarDiagnosticoView(APIView):
                 data = json.loads(data)
 
             nit = data.get('nit')
-            sueños_seleccionados = data.get('sueños', {})
+            sueños_seleccionados = data.get('sueños', [])
 
             if not nit:
                 return Response({"error": "NIT no proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
@@ -194,11 +196,17 @@ class RegistrarDiagnosticoView(APIView):
 
             suenos_registrados = []
 
-            for sueno_id, sueno_descripcion in sueños_seleccionados.items():
+            for modulo_sueno in sueños_seleccionados:
+                sueno_id_modulo = modulo_sueno.get('id_modulo')
+                suenos = modulo_sueno.get('sueños', [])
+
+                if not isinstance(suenos, list):
+                    return Response({"error": "La clave 'sueños' debe ser una lista"}, status=status.HTTP_400_BAD_REQUEST)
+
                 try:
-                    modulo = Modulos.objects.get(id_modulo=sueno_id)
+                    modulo = Modulos.objects.get(id_modulo=sueno_id_modulo)
                 except Modulos.DoesNotExist:
-                    return Response({"error": f"Módulo {sueno_id} no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+                    return Response({"error": f"Módulo {sueno_id_modulo} no encontrado"}, status=status.HTTP_404_NOT_FOUND)
 
                 diagnostico, created = DiagnosticoEmpresarial.objects.get_or_create(
                     empresa=empresa,
@@ -206,35 +214,24 @@ class RegistrarDiagnosticoView(APIView):
                     defaults={"calificacion_promedio": 0}
                 )
 
-                suenos = Suenos.objects.filter(
-                    id_modulo=modulo.id_modulo,
-                    nivel="Nivel predeterminado"  # Ajusta el criterio según tu lógica
-                )
-
-                if suenos.exists():
-                    sueno = suenos.first()  # O ajusta según tu lógica de selección
-                else:
-                    sueno = Suenos.objects.create(
+                for sueno_descripcion in suenos:
+                    sueno, created = Suenos.objects.get_or_create(
                         id_modulo=modulo.id_modulo,
-                        nivel="Nivel predeterminado",
+                        nivel="Nivel predeterminado",  # Ajusta el criterio según tu lógica
                         sueño=sueno_descripcion,
-                        medicion="Medición predeterminada",
-                        evidencia="Evidencia predeterminada"
+                        defaults={"medicion": "Medición predeterminada", "evidencia": "Evidencia predeterminada"}
                     )
 
-                diagnostico_sueno, created = DiagnosticoEmpresarialSuenos.objects.get_or_create(
-                    diagnostico=diagnostico,
-                    sueno=sueno
-                )
+                    diagnostico_sueno, created = DiagnosticoEmpresarialSuenos.objects.get_or_create(
+                        diagnostico=diagnostico,
+                        sueno=sueno
+                    )
 
-                # Debug: Verifica los datos antes de agregar al registro
-                print(f"Creando DiagnosticoEmpresarialSuenos con: {diagnostico_sueno}, creado: {created}")
-
-                suenos_registrados.append({
-                    "id_modulo": modulo.id_modulo,
-                    "nivel": sueno.nivel,
-                    "sueño": sueno.sueño
-                })
+                    suenos_registrados.append({
+                        "id_modulo": modulo.id_modulo,
+                        "nivel": sueno.nivel,
+                        "sueño": sueno.sueño
+                    })
 
             return Response({
                 "empresa": empresa.nit,
@@ -251,7 +248,6 @@ class RegistrarDiagnosticoView(APIView):
             import traceback
             print("Error detallado:", traceback.format_exc())
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 
 
 class CalificacionesPorNitView(APIView):
@@ -336,28 +332,34 @@ class SaveCalificacionView(APIView):
             else:
                 return Response({"error": "Formato de datos incorrecto"}, status=status.HTTP_400_BAD_REQUEST)
 
-def obtener_postulante_por_nit(request, nit):
-    # Buscar la empresa por el NIT
-    empresa = get_object_or_404(Empresas, nit=nit)
-    
-    # Obtener el postulante asociado a la empresa
-    postulante = empresa.id_postulante  # La relación ya está definida en tu modelo
-    
-    # Formatear la información del postulante para devolverla como JSON
-    data = {
-        'nombres_postulante': postulante.nombres_postulante,
-        'apellidos_postulante': postulante.apellidos_postulante,
-        'celular': postulante.celular,
-        'correo': postulante.correo,
-        'genero': postulante.genero,
-        'municipio': postulante.municipio,
-        'no_documento': postulante.no_documento,
-        'tipo_documento': postulante.tipo_documento,
-        'educacion': postulante.educacion,
-        'cargo': postulante.cargo
-    }
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist
 
-    return JsonResponse(data)
+
+def obtener_postulante_por_nit(request, nit):
+    try:
+        empresa = get_object_or_404(Empresas, nit=nit)
+        postulante = empresa.id_postulante
+        
+        data = {
+            'nombres_postulante': postulante.nombres_postulante,
+            'apellidos_postulante': postulante.apellidos_postulante,
+            'celular': postulante.celular,
+            'correo': postulante.correo,
+            'genero': postulante.genero,
+            'municipio': postulante.municipio,
+            'no_documento': postulante.no_documento,
+            'tipo_documento': postulante.tipo_documento,
+            'educacion': postulante.educacion,
+            'cargo': postulante.cargo
+        }
+        return JsonResponse(data)
+    except Empresas.DoesNotExist:
+        return JsonResponse({'error': 'No se encontró la empresa con el NIT proporcionado.'}, status=404)
+    except Postulante.DoesNotExist:
+        return JsonResponse({'error': 'No se encontró el postulante asociado a la empresa.'}, status=404)
+
 
 def listar_empresas_sin_diagnostico(request):
     # Obtener las empresas cuyo diagnostico_value es 0
@@ -712,7 +714,68 @@ class CalificacionesModulosList(generics.ListAPIView):
     def get_queryset(self):
         autoevaluacion_id = self.kwargs['id_autoevaluacion']
         return CalificacionModulo.objects.filter(id_autoevaluacion=autoevaluacion_id)
+
+# Lista de temas
+class TemasListView(ListView):
+    model = Temas
+    # Puedes ajustar los campos según lo que necesites
+    fields = ['id_modulo', 'titulo_formacion', 'num_sesion', 'objetivo']
     
+    def get(self, request, *args, **kwargs):
+        temas = list(Temas.objects.all().values())
+        return JsonResponse(temas, safe=False)
+
+# Detalle de un tema específico
+class TemaDetailView(DetailView):
+    model = Temas
+    
+    def get(self, request, *args, **kwargs):
+        tema = get_object_or_404(Temas, id=self.kwargs['id'])
+        return JsonResponse(tema.to_dict())
+
+# Crear o actualizar un tema
+
+
+class TemasCreateUpdateView(APIView):
+    permission_classes = [AllowAny]  # Permitir acceso sin autenticación
+
+    def post(self, request, *args, **kwargs):
+        serializer = TemasSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, *args, **kwargs):
+        tema_id = request.data.get('id')
+        if not tema_id:
+            return Response({"error": "ID is required for update"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            tema = Temas.objects.get(id=tema_id)
+        except Temas.DoesNotExist:
+            return Response({"error": "Tema not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = TemasSerializer(tema, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Obtener módulos
+def get_modulos(request):
+    modulos = list(Modulos.objects.all().values())
+    return JsonResponse(modulos, safe=False)
+
+# Obtener preguntas por módulo
+def get_preguntas(request):
+    id_modulo = request.GET.get('id_modulo')
+    if id_modulo:
+        preguntas = list(Preguntas.objects.filter(id_modulo=id_modulo).values())
+    else:
+        preguntas = []
+    return JsonResponse(preguntas, safe=False) 
 
 @api_view(['GET'])
 def AutoevaluacionDetail(request, nit):

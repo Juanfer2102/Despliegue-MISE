@@ -33,7 +33,6 @@ import ValidacionDeSueños from "../../components/tablas/validacionSuenos.jsx";
 import { useParams } from 'react-router-dom';
 
 const DashboardEmp = () => {
-
   const { nit } = useParams();
   const [empresa, setEmpresa] = useState({});
   const [calificacionesBajas, setCalificacionesBajas] = useState([]);
@@ -41,72 +40,54 @@ const DashboardEmp = () => {
   const [calificaciones, setCalificaciones] = useState([]);
   const [postulante, setPostulante] = useState([]);
 
-
   useEffect(() => {
-    // Obtener información de la empresa
-    fetch(`http://localhost:8000/api/v2/empresas/${nit}/`)
-      .then(response => response.json())
-      .then(data => {
-        setEmpresa(data);
-      });
-  }, [nit]);
-
-  useEffect(() => {
-    // Obtener calificaciones bajas
-    fetch(`http://localhost:8000/api/v2/calificaciones-bajas/empresa/${nit}/`)
-      .then(response => response.json())
-      .then(data => {
-        setCalificacionesBajas(data);
-      });
-  }, [nit]);
-
-  useEffect(() => {
-    // Obtener los diagnósticos
-    fetch(`http://localhost:8000/api/v2/diagnostico/${nit}/`)
-      .then(response => response.json())
-      .then(data => {
-        setDiagnosticos(data.diagnosticos);
-      });
-  }, [nit]);
-
-  useEffect(() => {
-    // Obtener las calificaciones de la empresa
-    fetch(`http://localhost:8000/api/v2/calificaciones/empresa/${nit}/`)
-      .then(response => response.json())
-      .then(data => {
-        setCalificaciones(data); // Asegúrate de que el formato del API coincida
-      });
-  }, [nit]);
-
-  useEffect (() => {
-    fetch(`http://localhost:8000/api/v2/postulante/${nit}/`)
-    .then(response => response.json())
-    .then(data =>{
-      setPostulante(data);
-    })
-  }, [nit]);
-
-
-  // Estilos en JSX
-  const styles = {
-    customScrollbar: {
-      scrollbarWidth: '13px',
-      scrollbarColor: '#888 #262b32',
-    },
-    customScrollbarTrack: {
-      background: '#262b32',
-      borderRadius: '12px',
-    },
-    customScrollbarThumb: {
-      background: '#888',
-      borderRadius: '10px',
-    },
-    customScrollbarThumbHover: {
-      background: '#555',
+    if (nit) {
+      // Obtener información de la empresa
+      fetch(`http://localhost:8000/api/v2/empresas/${nit}/`)
+        .then(response => response.json())
+        .then(data => setEmpresa(data))
+        .catch(error => console.error("Error fetching empresa:", error));
     }
-  };
+  }, [nit]);
 
-  console.log(calificaciones)
+  useEffect(() => {
+    if (nit) {
+      // Obtener calificaciones bajas
+      fetch(`http://localhost:8000/api/v2/calificaciones-bajas/empresa/${nit}/`)
+        .then(response => response.json())
+        .then(data => setCalificacionesBajas(data))
+        .catch(error => console.error("Error fetching calificaciones bajas:", error));
+    }
+  }, [nit]);
+
+  useEffect(() => {
+    if (nit) {
+      // Obtener los diagnósticos
+      fetch(`http://localhost:8000/api/v2/diagnostico/${nit}/`)
+        .then(response => response.json())
+        .then(data => setDiagnosticos(data.diagnosticos))
+        .catch(error => console.error("Error fetching diagnosticos:", error));
+    }
+  }, [nit]);
+
+  useEffect(() => {
+    if (nit) {
+      // Obtener las calificaciones de la empresa
+      fetch(`http://localhost:8000/api/v2/calificaciones/empresa/${nit}/`)
+        .then(response => response.json())
+        .then(data => setCalificaciones(data))
+        .catch(error => console.error("Error fetching calificaciones:", error));
+    }
+  }, [nit]);
+
+  useEffect(() => {
+    if (nit) {
+      fetch(`http://localhost:8000/api/v2/postulante/num/${nit}/`)
+        .then(response => response.json())
+        .then(data => setPostulante(data))
+        .catch(error => console.error("Error fetching postulante:", error));
+    }
+  }, [nit]);
 
   return (
     <LayoutDashboard title="Dashboard">
@@ -114,11 +95,11 @@ const DashboardEmp = () => {
         <div className="flex flex-col w-full h-full">
           <div className="bg-greyBlack xl:h-20 lg:h-20 w-full"></div>
           <div className="bg-greyBg flex flex-col py-2 xl:gap-5 lg:gap-5 gap-4 w-full xl:h-full px-4 lg:px-12 xl:px-12 pt-4 xl:pt-6">
-            <GoBack text={`Empresas Registradas / ${empresa.nombre_empresa}`} />
+            <GoBack text={`Empresas Registradas / ${empresa.nombre_empresa || 'Cargando...'}`} />
 
             <div className="flex flex-col xl:flex-row lg:w-full lg:flex-row xl:gap-[5rem] lg:gap-[3rem] gap-10">
-              <div className="flex flex-col xl:h-[30rem] lg:h-[30rem] lg:flex-row gap-5 w-full xl:w-auto lg:w-full">
-                <TarjetasTema />
+              <div className="flex flex-col h-max lg:flex-row gap-5 w-full xl:w-full lg:w-full">
+                <TarjetasTema nit={nit} />
               </div>
             </div>
             <div className="flex flex-col xl:flex-row lg:flex-row gap-8 max-md:pb-2 xl:pb-2 lg:pb-2 xl:justify-between h-full">

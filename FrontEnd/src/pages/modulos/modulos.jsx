@@ -3,6 +3,7 @@ import LayoutDashboard from "../../layouts/LayoutDashboard";
 import Modal from "../../components/modales/modal";
 import Aadirmodulo from "../../components/modales/añadirmodulo";
 import Modalopciones from "../../components/modales/modalopciones";
+import TemasContainer from "../../components/e"
 
 // Estilos en JSX
 const styles = {
@@ -37,26 +38,7 @@ const Modulos = () => {
                 className="container bg-greyBlack rounded-xl max-h-[calc(100vh-10rem)] overflow-y-auto flex-grow"
                 style={styles.customScrollbar}
               >
-                <div className="grid max-md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 sm:gap-6 xl:gap-8 p-4 items-center w-full">
-                  <a href="/editar-modulos" className="w-full">
-                    <Modal
-                      texto="CAPACIDADES GERENCIALES"
-                      colorborde="border-principalGreen"
-                      colorhover="hover:bg-principalGreen"
-                    />
-                  </a>
-                  {[...Array(9)].map((_, index) => (
-                    <Modal
-                      key={index}
-                      texto={index % 2 === 0 ? "MEJORA DE OPERACIONES" : "GERENCIA DE MARKETING"}
-                      colorborde="border-principalGreen"
-                      colorhover="hover:bg-principalGreen"
-                    />
-                  ))}
-                  <a href="/nuevo-modulo" className="w-full">
-                    <Aadirmodulo />
-                  </a>
-                </div>
+                  <TemasContainer />
               </div>
               <div className="flex flex-col xl:flex-col justify-between xl:justify-center gap-4 xl:gap-10 mt-4 lg:mt-0">
                 <Modalopciones texto="Sueños" URL="/sueños" />

@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from .models import Autoevaluacion, DiagnosticoEmpresarialSuenos, Calificaciones, Diagnostico1, Modulo1, Respuesta1, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .models import Temas, TemasPreguntas, Autoevaluacion, DiagnosticoEmpresarialSuenos, Calificaciones, Diagnostico1, Modulo1, Respuesta1, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 
 
 class DiagnosticoEmpresarialSuenosSerializer(serializers.ModelSerializer):
@@ -74,6 +74,42 @@ class PostulanteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Postulante
         fields = '__all__'
+
+
+class TemasPreguntasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TemasPreguntas
+        fields = ['id_pregunta']
+
+class TemasPreguntasSerializer(serializers.ModelSerializer):
+    id_pregunta = serializers.PrimaryKeyRelatedField(queryset=Preguntas.objects.all(), write_only=True)
+
+    class Meta:
+        model = TemasPreguntas
+        fields = ['id_pregunta']
+
+
+class TemasSerializer(serializers.ModelSerializer):
+    preguntas = TemasPreguntasSerializer(many=True, write_only=True)
+
+    class Meta:
+        model = Temas
+        fields = ['id', 'id_modulo', 'titulo_formacion', 'num_sesion', 'objetivo', 'alcance', 'contenido', 'conferencista', 'fecha', 'horario', 'ubicacion', 'preguntas']
+
+    def create(self, validated_data):
+        preguntas_data = validated_data.pop('preguntas', [])
+        tema = Temas.objects.create(**validated_data)
+        for pregunta_data in preguntas_data:
+            TemasPreguntas.objects.create(id_tema=tema, **pregunta_data)
+        return tema
+
+    def update(self, instance, validated_data):
+        preguntas_data = validated_data.pop('preguntas', [])
+        instance = super().update(instance, validated_data)
+        TemasPreguntas.objects.filter(id_tema=instance).delete()
+        for pregunta_data in preguntas_data:
+            TemasPreguntas.objects.create(id_tema=instance, **pregunta_data)
+        return instance
 
 class PreguntasSerializer(serializers.ModelSerializer):
     calificacion = serializers.SerializerMethodField()
