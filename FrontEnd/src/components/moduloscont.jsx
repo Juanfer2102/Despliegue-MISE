@@ -52,10 +52,12 @@ const ModulosContainer = () => {
             console.log('Modulo creado:', data);
         } catch (error) {
             console.error('Error creando módulo:', error);
+            console.log(moduloData)
         }
     };
 
     const updateModulo = async (id_modulo, moduloData) => {
+        console.log(moduloData)
         try {
             const response = await fetch(`http://localhost:8000/api/v2/modulos/${id_modulo}/`, {
                 method: 'PUT',
@@ -67,12 +69,14 @@ const ModulosContainer = () => {
     
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
+                
             }
     
-            const data = await response.json();
+            const data = await response.json(); 
             console.log('Modulo actualizado:', data);
         } catch (error) {
             console.error('Error actualizando módulo:', error);
+            console.log(moduloData)
         }
     };
     
