@@ -1,9 +1,8 @@
 import React from 'react';
 import LayoutDashboard from "../../layouts/LayoutDashboard";
 import Modal from "../../components/modales/modal";
-import Aadirmodulo from "../../components/modales/añadirmodulo";
 import Modalopciones from "../../components/modales/modalopciones";
-import TemasContainer from "../../components/e"
+import ModulosContainer from '../../components/moduloscont';
 
 // Estilos en JSX
 const styles = {
@@ -38,12 +37,12 @@ const Modulos = () => {
                 className="container bg-greyBlack rounded-xl max-h-[calc(100vh-10rem)] overflow-y-auto flex-grow"
                 style={styles.customScrollbar}
               >
-                  <TemasContainer />
+                  <ModulosContainer />
               </div>
               <div className="flex flex-col xl:flex-col justify-between xl:justify-center gap-4 xl:gap-10 mt-4 lg:mt-0">
                 <Modalopciones texto="Sueños" URL="/sueños" />
                 <Modalopciones texto="Preguntas" URL="/preguntas" />
-                <Modalopciones texto="Talleres" URL="/talleres" />
+                <Modalopciones texto="Temas" URL="/temas" />
               </div>
             </div>
           </div>

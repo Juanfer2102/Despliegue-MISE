@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import TemasView from './a';
+import TemasView from './temasview';
 
 const TemasContainer = () => {
     const [temas, setTemas] = useState([]);

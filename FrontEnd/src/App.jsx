@@ -47,9 +47,7 @@ const NuevaPregunta = lazy(() => import("./pages/preguntas/nuevapregunta.jsx"));
 const Editarpreguntas = lazy(() => import("./pages/preguntas/editarpreguntas.jsx"));
 
 // Componentes de talleres
-const Talleres = lazy(() => import("./pages/talleres/talleres.jsx"));
-const EditarTalleres = lazy(() => import("./pages/talleres/editartalleres.jsx"));
-const NuevoTaller = lazy(() => import("./pages/talleres/nuevotaller.jsx"));
+const Temas = lazy(() => import("./pages/temas/temas.jsx"));
 
 // Otros componentes
 const AceptarEmpresas = lazy(() => import("./pages/aceptarEmpresas/aceptarempv.jsx"));
@@ -177,19 +175,9 @@ const AppRoutes = () => {
               <NuevaPregunta />
             </ProtectedRoute>
           } />
-          <Route path="/talleres" element={
+          <Route path="/temas" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <Talleres />
-            </ProtectedRoute>
-          } />
-          <Route path="/editar-taller" element={
-            <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <EditarTalleres />
-            </ProtectedRoute>
-          } />
-          <Route path="/nuevo-taller" element={
-            <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <NuevoTaller />
+              <Temas />
             </ProtectedRoute>
           } />
           <Route path="/aceptar-empresas" element={

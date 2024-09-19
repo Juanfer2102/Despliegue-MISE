@@ -87,9 +87,9 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
     
     return (
         <div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6 p-2">
                 <div
-                    className="bg-gray-800 text-white p-4 rounded-lg shadow-md flex items-center justify-center cursor-pointer"
+                    className="bg-transparent border border-principalGreen text-white p-4 rounded-lg shadow-md flex items-center justify-center cursor-pointer"
                     onClick={() => openModal({})}
                 >
                     <p className="text-lg font-bold">Crear Nuevo Tema</p>
@@ -97,7 +97,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                 {temas.map((tema) => (
                     <div
                         key={tema.id}
-                        className="bg-gray-800 text-white p-4 rounded-lg shadow-md flex items-center justify-center cursor-pointer"
+                        className="bg-transparent border border-principalGreen text-white p-4 rounded-lg shadow-md flex items-center justify-center cursor-pointer"
                         onClick={() => openModal(tema)}
                     >
                         <p className="text-lg">{tema.objetivo}</p>
@@ -120,7 +120,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                             handleChange(e);
                                             onModuloChange(e.target.value);
                                         }}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md text-black"
+                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     >
                                         <option value="">Seleccionar módulo</option>
                                         {modulos.map((modulo) => (
@@ -137,7 +137,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         multiple // Permite seleccionar varias preguntas
                                         value={newTema.preguntas}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md text-black"
+                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     >
                                         {preguntas.map((pregunta) => (
                                             <option key={pregunta.id_pregunta} value={pregunta.id_pregunta}>
@@ -154,7 +154,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="titulo_formacion"
                                         value={newTema.titulo_formacion}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md text-black"
+                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     />
                                 </div>
                                 <div className="mb-4">
@@ -164,7 +164,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="num_sesion"
                                         value={newTema.num_sesion}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md text-black"
+                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     />
                                 </div>
                                 <div className="mb-4">
@@ -173,7 +173,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="objetivo"
                                         value={newTema.objetivo}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md text-black"
+                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
                                         rows="3"
                                     />
                                 </div>
@@ -183,7 +183,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="alcance"
                                         value={newTema.alcance}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md text-black"
+                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
                                         rows="3"
                                     />
                                 </div>
@@ -193,7 +193,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="contenido"
                                         value={newTema.contenido}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md text-black"
+                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
                                         rows="3"
                                     />
                                 </div>
@@ -204,7 +204,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="conferencista"
                                         value={newTema.conferencista}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md text-black"
+                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     />
                                 </div>
                                 <div className="mb-4">
@@ -214,7 +214,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="fecha"
                                         value={newTema.fecha}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md text-black"
+                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     />
                                 </div>
                                 <div className="mb-4">
@@ -224,7 +224,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="horario"
                                         value={newTema.horario}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md text-black"
+                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     />
                                 </div>
                                 <div className="mb-4">
@@ -234,7 +234,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="ubicacion"
                                         value={newTema.ubicacion}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md text-black"
+                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     />
                                 </div>
                                 <div className="mb-4">
@@ -244,18 +244,18 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="ubicacion"
                                         value={newTema.ubicacion}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md text-black"
+                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     />
                                 </div>
                             </div>
                             <div className="flex justify-end gap-4 mt-4">
-                                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">
+                                <button type="submit" className="bg-principalGreen text-white px-4 py-2 rounded-md hover:bg-white hover:text-principalGreen transition duration-300">
                                     {modalTema.id ? 'Actualizar Tema' : 'Crear Tema'}
                                 </button>
                                 <button
                                     type="button"
                                     onClick={closeModal}
-                                    className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition duration-300"
+                                    className="bg-principalGreen text-white px-4 py-2 rounded-md hover:bg-white hover:text-principalGreen transition duration-300"
                                 >
                                     Cancelar
                                 </button>

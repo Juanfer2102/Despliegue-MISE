@@ -763,6 +763,29 @@ class TemasCreateUpdateView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ModuloCreateUpdateAPIView(APIView):
+    permission_classes = [AllowAny]  # Permitir acceso sin autenticación
+
+    def post(self, request, *args, **kwargs):
+        serializer = ModulosSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, id_modulo, *args, **kwargs):
+        try:
+            modulo = Modulos.objects.get(id=id_modulo)
+        except Modulos.DoesNotExist:
+            return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = ModulosSerializer(modulo, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 # Obtener módulos
 def get_modulos(request):
     modulos = list(Modulos.objects.all().values())
