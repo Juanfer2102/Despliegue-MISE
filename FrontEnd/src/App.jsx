@@ -155,24 +155,9 @@ const AppRoutes = () => {
               <Editarmodulos />
             </ProtectedRoute>
           } />
-          <Route path="/editar-sueños" element={
-            <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <Editarsueos />
-            </ProtectedRoute>
-          } />
-          <Route path="/editar-preguntas" element={
-            <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <Editarpreguntas />
-            </ProtectedRoute>
-          } />
           <Route path="/preguntas" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
               <Preguntas />
-            </ProtectedRoute>
-          } />
-          <Route path="/nueva-pregunta" element={
-            <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <NuevaPregunta />
             </ProtectedRoute>
           } />
           <Route path="/temas" element={
