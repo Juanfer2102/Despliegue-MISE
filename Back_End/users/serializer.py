@@ -110,48 +110,46 @@ class PreguntasSerializer(serializers.ModelSerializer):
             return calificacion.calificacion
         return None  # Retorna None si no hay calificación para la pregunta
     
-class ModuloSerializer(serializers.ModelSerializer):
+class ModulosSerializer(serializers.ModelSerializer):
     calificaciones = serializers.SerializerMethodField()
-    preguntas = PreguntasSerializer(many=True)  # Relación de preguntas
-    nombre = serializers.CharField(source='modulos.nombre', read_only=True)
+    preguntas = PreguntasSerializer(many=True, read_only=True)
 
     class Meta:
         model = Modulos
-        fields = ['id_modulo', 'nombre', 'objetivo', 'observaciones', 'alcance', 'estado_actual', 'nivel_ideal', 'calificacion_promedio', 'preguntas', 'calificaciones']
+        fields = ['id_modulo', 'nombre', 'objetivo', 'observaciones', 'alcance', 'estado_actual', 'nivel_ideal', 'calificaciones', 'preguntas']
 
     def get_calificaciones(self, obj):
+        # Este método puede estar realizando alguna lógica que no es necesario cambiar,
+        # pero asegúrate de que `self.context['nit']` esté disponible o modifica según sea necesario.
         calificaciones = Calificaciones.objects.filter(
             id_pregunta__id_modulo=obj.id_modulo,
-            nit=self.context['nit']
+            nit=self.context.get('nit')
         )
-
+        return calificaciones.values()  # Ajusta según cómo quieras retornar las calificaciones
+    
     def create(self, validated_data):
-        # Manejo de la creación de un módulo junto con sus preguntas
-        preguntas_data = validated_data.pop('preguntas')
+        preguntas_data = validated_data.pop('preguntas', [])
         modulo = Modulos.objects.create(**validated_data)
-
-        # Crear las preguntas relacionadas
         for pregunta_data in preguntas_data:
             Preguntas.objects.create(id_modulo=modulo, **pregunta_data)
-
         return modulo
 
     def update(self, instance, validated_data):
-        # Manejo de la edición de un módulo junto con sus preguntas
-        preguntas_data = validated_data.pop('preguntas')
+        preguntas_data = validated_data.pop('preguntas', None)
         instance.nombre = validated_data.get('nombre', instance.nombre)
-        instance.objetivo = validated_data.get('objetivo', instance.objetivo)
-        instance.observaciones = validated_data.get('observaciones', instance.observaciones)
-        instance.alcance = validated_data.get('alcance', instance.alcance)
-        instance.estado_actual = validated_data.get('estado_actual', instance.estado_actual)
-        instance.nivel_ideal = validated_data.get('nivel_ideal', instance.nivel_ideal)
         instance.save()
 
-        # Actualizar las preguntas
-        Preguntas.objects.filter(id_modulo=instance).delete()
-        for pregunta_data in preguntas_data:
-            Preguntas.objects.create(id_modulo=instance, **pregunta_data)
-
+        if preguntas_data is not None:
+            # Aquí puedes actualizar o crear preguntas asociadas
+            for pregunta_data in preguntas_data:
+                pregunta_id = pregunta_data.get('id_pregunta')
+                if pregunta_id:  # Si la pregunta ya existe, actualiza
+                    pregunta = Preguntas.objects.get(id_pregunta=pregunta_id)
+                    pregunta.descripcion = pregunta_data.get('descripcion', pregunta.descripcion)
+                    pregunta.save()
+                else:  # Si no existe, crea una nueva pregunta
+                    Preguntas.objects.create(id_modulo=instance, **pregunta_data)
+        
         return instance
 
 class ProgramasSerializer(serializers.ModelSerializer):

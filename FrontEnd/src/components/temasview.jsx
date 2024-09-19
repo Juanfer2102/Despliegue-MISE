@@ -109,7 +109,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                     <div className="bg-greyBg text-white p-4 rounded-lg shadow-lg w-full max-w-4xl">
                         <h3 className="text-xl font-bold mb-4">{modalTema.id ? 'Editar Tema' : 'Crear Nuevo Tema'}</h3>
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit} className='max-h-[30rem] overflow-y-auto p-2'>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                 <div className="mb-4">
                                     <label className="block text-white">Módulo</label>
@@ -122,16 +122,16 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         }}
                                         className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     >
-                                        <option value="">Seleccionar módulo</option>
+                                        <option className='text-black' value="">Seleccionar módulo</option>
                                         {modulos.map((modulo) => (
-                                            <option key={modulo.id_modulo} value={modulo.id_modulo}>
+                                            <option className='text-black' key={modulo.id_modulo} value={modulo.id_modulo}>
                                                 {modulo.nombre}
                                             </option>
                                         ))}
                                     </select>
                                 </div>
                                 <div className="mb-4">
-                                    <label className="block text-gray-700">Preguntas</label>
+                                    <label className="block text-white">Preguntas</label>
                                     <select
                                         name="preguntas"
                                         multiple // Permite seleccionar varias preguntas
@@ -154,7 +154,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="titulo_formacion"
                                         value={newTema.titulo_formacion}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     />
                                 </div>
                                 <div className="mb-4">
@@ -164,7 +164,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="num_sesion"
                                         value={newTema.num_sesion}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     />
                                 </div>
                                 <div className="mb-4">
@@ -173,7 +173,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="objetivo"
                                         value={newTema.objetivo}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
                                         rows="3"
                                     />
                                 </div>
@@ -183,7 +183,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="alcance"
                                         value={newTema.alcance}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
                                         rows="3"
                                     />
                                 </div>
@@ -193,7 +193,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="contenido"
                                         value={newTema.contenido}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
                                         rows="3"
                                     />
                                 </div>
@@ -204,7 +204,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="conferencista"
                                         value={newTema.conferencista}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     />
                                 </div>
                                 <div className="mb-4">
@@ -214,7 +214,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="fecha"
                                         value={newTema.fecha}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     />
                                 </div>
                                 <div className="mb-4">
@@ -224,7 +224,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="horario"
                                         value={newTema.horario}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     />
                                 </div>
                                 <div className="mb-4">
@@ -234,17 +234,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         name="ubicacion"
                                         value={newTema.ubicacion}
                                         onChange={handleChange}
-                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
-                                    />
-                                </div>
-                                <div className="mb-4">
-                                    <label className="block text-gray-700">Ubicación</label>
-                                    <input
-                                        type="text"
-                                        name="ubicacion"
-                                        value={newTema.ubicacion}
-                                        onChange={handleChange}
-                                        className="mt-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     />
                                 </div>
                             </div>

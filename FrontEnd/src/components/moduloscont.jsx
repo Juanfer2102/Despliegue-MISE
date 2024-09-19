@@ -3,89 +3,47 @@ import ModulosView from './modulosview';
 
 const ModulosContainer = () => {
     const [modulos, setModulos] = useState([]);
-    const [preguntas, setPreguntas] = useState([]);
-    const [selectedModulo, setSelectedModulo] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-    // Función para obtener todos los módulos
     const fetchModulos = async () => {
+        setLoading(true);
         try {
             const response = await fetch('http://localhost:8000/api/v2/modulos/');
             const data = await response.json();
             setModulos(data);
         } catch (error) {
+            setError('Error fetching modulos.');
             console.error('Error fetching modulos:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
-    // Función para obtener todas las preguntas basadas en el módulo seleccionado
-    const fetchPreguntas = async (moduloId) => {
+    const createOrUpdateModulo = async (modulo) => {
+        setLoading(true);
         try {
-            const response = await fetch(`http://localhost:8000/api/v2/preguntas/?id_modulo=${moduloId}`);
-            const data = await response.json();
-            setPreguntas(data);
-        } catch (error) {
-            console.error('Error fetching preguntas:', error);
-        }
-    };
+            const response = modulo.id_modulo
+                ? await fetch(`http://localhost:8000/api/v2/modulos/${modulo.id_modulo}/`, {
+                      method: 'PUT',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ nombre: modulo.nombre })
+                  })
+                : await fetch('http://localhost:8000/api/v2/cmodulos/', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ nombre: modulo.nombre })
+                  });
 
-    // Función para manejar el cambio en el módulo seleccionado
-    const handleModuloChange = (moduloId) => {
-        setSelectedModulo(moduloId);
-        fetchPreguntas(moduloId);
-    };
-
-    const createModulo = async (moduloData) => {
-        try {
-            const response = await fetch('http://localhost:8000/api/v2/cmodulos/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(moduloData),
-            });
-    
             if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+                throw new Error('Error al guardar módulo.');
             }
-    
-            const data = await response.json();
-            console.log('Modulo creado:', data);
+            await fetchModulos();
         } catch (error) {
-            console.error('Error creando módulo:', error);
-            console.log(moduloData)
-        }
-    };
-
-    const updateModulo = async (id_modulo, moduloData) => {
-        console.log(moduloData)
-        try {
-            const response = await fetch(`http://localhost:8000/api/v2/modulos/${id_modulo}/`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(moduloData),
-            });
-    
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-                
-            }
-    
-            const data = await response.json(); 
-            console.log('Modulo actualizado:', data);
-        } catch (error) {
-            console.error('Error actualizando módulo:', error);
-            console.log(moduloData)
-        }
-    };
-    
-
-    const createOrUpdateModulo = async (moduloData) => {
-        if (selectedModulo) {
-            await updateModulo(selectedModulo, moduloData);
-        } else {
-            await createModulo(moduloData);
+            setError('Error al guardar módulo.');
+            console.error('Error al guardar módulo:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -94,13 +52,14 @@ const ModulosContainer = () => {
     }, []);
 
     return (
-        <ModulosView
-            modulos={modulos}
-            preguntas={preguntas}
-            selectedModulo={selectedModulo}
-            onModuloChange={handleModuloChange}
-            onCreateOrUpdateModulo={createOrUpdateModulo}
-        />
+        <div>
+            {loading && <p>Loading...</p>}
+            {error && <p className="text-red">{error}</p>}
+            <ModulosView
+                modulos={modulos}
+                onCreateOrUpdateModulo={createOrUpdateModulo}
+            />
+        </div>
     );
 };
 

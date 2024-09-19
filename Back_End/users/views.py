@@ -771,27 +771,27 @@ def get_modulos(request):
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 
-class ModuloCreateUpdateAPIView(APIView):
-    permission_classes = [AllowAny]  # Permitir acceso sin autenticación
+@api_view(['POST'])
+def create_modulo(request):
+    serializer = ModulosSerializer(data=request.data)
+    if serializer.is_valid():
+        modulo = serializer.save()  # Este método ahora maneja la creación de preguntas automáticamente
+        return Response(ModulosSerializer(modulo).data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def post(self, request, *args, **kwargs):
-        serializer = ModulosSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, id_modulo, *args, **kwargs):
-        try:
-            modulo = Modulos.objects.get(pk=id_modulo)
-        except Modulos.DoesNotExist:
-            return Response({'error': 'Modulo no encontrado'}, status=status.HTTP_404_NOT_FOUND)
-        
-        serializer = ModulosSerializer(modulo, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['PUT'])
+def update_modulo(request, id_modulo):
+    try:
+        modulo = Modulos.objects.get(id_modulo=id_modulo)
+    except Modulos.DoesNotExist:
+        return Response({'error': 'Modulo no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = ModulosSerializer(modulo, data=request.data, partial=True)
+    if serializer.is_valid():
+        modulo = serializer.save()  # Actualiza el módulo y las preguntas
+        return Response(ModulosSerializer(modulo).data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Obtener preguntas por módulo

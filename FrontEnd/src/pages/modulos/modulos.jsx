@@ -39,9 +39,9 @@ const Modulos = () => {
               >
                   <ModulosContainer />
               </div>
-              <div className="flex flex-col xl:flex-col justify-between xl:justify-center gap-4 xl:gap-10 mt-4 lg:mt-0">
+              <div className="flex flex-col xl:flex-col justify-center xl:justify-center gap-4 lg:gap-5 xl:gap-5 mt-4 lg:mt-0">
                 <Modalopciones texto="Sueños" URL="/sueños" />
-                <Modalopciones texto="Preguntas" URL="/preguntas" />
+                <Modalopciones texto="Sueños" URL="/preguntas" />
                 <Modalopciones texto="Temas" URL="/temas" />
               </div>
             </div>
