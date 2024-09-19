@@ -118,6 +118,21 @@ class Temas(models.Model):
     horario = models.TimeField(blank=True, null=True)
     ubicacion = models.CharField(max_length=255, blank=True, null=True)
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "id_modulo": self.id_modulo.id_modulo,
+            "titulo_formacion": self.titulo_formacion,
+            "num_sesion": self.num_sesion,
+            "objetivo": self.objetivo,
+            "alcance": self.alcance,
+            "contenido": self.contenido,
+            "conferencista": self.conferencista,
+            "fecha": self.fecha,
+            "horario": self.horario,
+            "ubicacion": self.ubicacion
+        }
+
     class Meta:
         managed = False
         db_table = 'temas'

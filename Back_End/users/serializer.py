@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from .models import Autoevaluacion, DiagnosticoEmpresarialSuenos, Calificaciones, Diagnostico1, Modulo1, Respuesta1, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .models import Temas, TemasPreguntas, Autoevaluacion, DiagnosticoEmpresarialSuenos, Calificaciones, Diagnostico1, Modulo1, Respuesta1, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 
 
 class DiagnosticoEmpresarialSuenosSerializer(serializers.ModelSerializer):
@@ -74,6 +74,33 @@ class PostulanteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Postulante
         fields = '__all__'
+
+class TemasSerializer(serializers.ModelSerializer):
+    id_modulo = serializers.PrimaryKeyRelatedField(queryset=Modulos.objects.all())
+    preguntas = serializers.PrimaryKeyRelatedField(queryset=Preguntas.objects.all(), many=True, required=False)
+
+    class Meta:
+        model = Temas
+        fields = ['id', 'id_modulo', 'titulo_formacion', 'num_sesion', 'objetivo', 'alcance', 'contenido', 'conferencista', 'fecha', 'horario', 'ubicacion', 'preguntas']
+
+    def create(self, validated_data):
+        preguntas = validated_data.pop('preguntas', [])
+        tema = super().create(validated_data)
+        for pregunta_id in preguntas:
+            TemasPreguntas.objects.create(id_pregunta_id=pregunta_id, id_tema=tema)
+        return tema
+
+    def update(self, instance, validated_data):
+        preguntas = validated_data.pop('preguntas', [])
+        tema = super().update(instance, validated_data)
+
+        # Eliminar preguntas anteriores
+        TemasPreguntas.objects.filter(id_tema=tema).delete()
+
+        # Agregar preguntas nuevas
+        for pregunta_id in preguntas:
+            TemasPreguntas.objects.create(id_pregunta_id=pregunta_id, id_tema=tema)
+        return tema
 
 class PreguntasSerializer(serializers.ModelSerializer):
     calificacion = serializers.SerializerMethodField()

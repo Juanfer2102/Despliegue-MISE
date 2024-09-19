@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 from users import views
-from .views import check_auth, generar_pdf_final, generar_pdf, obtener_postulante_por_nit, listar_empresas_activas, listar_empresas_sin_diagnostico, RegistrarDiagnosticoView, ConsultarDiagnosticoView, CalificacionesBajasPorNitView, CalificacionesPorNitView, CalificacionesListView, generar_diagnostico, UpdateEmpresaDiagStatus, SaveCalificacionView, CalificacionesViewSet, registrar_calificacion, CalificacionesModulosList, PreguntasPorModuloList, ModuloUpdateView, PreguntasNoAsignadasList, ModulosListView, AutoevaluacionDetail, RegistroAutoevaluacionView, RegistroPostulante, RegistroEmpresa, UpdateEmpresaStatus, AutoevaluacionListCreate, CalificacionModuloListCreate, ModuloAutoevaluacionListCreate, RegistroPostulanteView, EmpresasListCreate, EmpresasRetrieveUpdateDestroy, ModulosListCreate, ModulosRetrieveUpdateDestroy, PostulanteListCreate, PostulanteRetrieveUpdateDestroy, PreguntasListCreate, PreguntasRetrieveUpdateDestroy, ProgramasListCreate, ProgramasRetrieveUpdateDestroy, RegistrosListCreate, RegistrosRetrieveUpdateDestroy, RolListCreate, RolRetrieveUpdateDestroy, SuenosListCreate, SuenosRetrieveUpdateDestroy, TalleresListCreate, TalleresRetrieveUpdateDestroy, UsuarioListCreate, UsuarioRetrieveUpdateDestroy
+from .views import TemasListView, TemaDetailView, TemasCreateUpdateView, get_modulos, get_preguntas, check_auth, generar_pdf_final, generar_pdf, obtener_postulante_por_nit, listar_empresas_activas, listar_empresas_sin_diagnostico, RegistrarDiagnosticoView, ConsultarDiagnosticoView, CalificacionesBajasPorNitView, CalificacionesPorNitView, CalificacionesListView, generar_diagnostico, UpdateEmpresaDiagStatus, SaveCalificacionView, CalificacionesViewSet, registrar_calificacion, CalificacionesModulosList, PreguntasPorModuloList, ModuloUpdateView, PreguntasNoAsignadasList, ModulosListView, AutoevaluacionDetail, RegistroAutoevaluacionView, RegistroPostulante, RegistroEmpresa, UpdateEmpresaStatus, AutoevaluacionListCreate, CalificacionModuloListCreate, ModuloAutoevaluacionListCreate, RegistroPostulanteView, EmpresasListCreate, EmpresasRetrieveUpdateDestroy, ModulosListCreate, ModulosRetrieveUpdateDestroy, PostulanteListCreate, PostulanteRetrieveUpdateDestroy, PreguntasListCreate, PreguntasRetrieveUpdateDestroy, ProgramasListCreate, ProgramasRetrieveUpdateDestroy, RegistrosListCreate, RegistrosRetrieveUpdateDestroy, RolListCreate, RolRetrieveUpdateDestroy, SuenosListCreate, SuenosRetrieveUpdateDestroy, TalleresListCreate, TalleresRetrieveUpdateDestroy, UsuarioListCreate, UsuarioRetrieveUpdateDestroy
 
 router = routers.DefaultRouter()
 
@@ -10,6 +10,12 @@ urlpatterns = [
     path('login', views.login),
     path('user', views.user),
     path('check-auth/', check_auth, name='check_auth'),
+
+    path('temas/', TemasListView.as_view(), name='temas-list'),
+    path('temas/<int:id>/', TemaDetailView.as_view(), name='tema-detail'),
+    path('temas/create-update/', TemasCreateUpdateView.as_view(), name='create-update-tema'),
+    path('modulos/', get_modulos, name='get-modulos'),
+    path('preguntas/', get_preguntas, name='get-preguntas'),
 
     path('generar-pdf/<int:nit>/', generar_pdf, name='generar_pdf'),
     path('generar-pdf-final/<int:nit>/', generar_pdf_final, name='generar_pdf_final'),

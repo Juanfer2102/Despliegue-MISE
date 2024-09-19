@@ -5,7 +5,7 @@ from rest_framework import status, generics, serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from datetime import datetime
-
+from django.views.generic import ListView, DetailView
 
 from weasyprint import HTML
 import io
@@ -25,8 +25,8 @@ from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
-from .models import DiagnosticoEmpresarialSuenos, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
-from .serializer import CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
+from .models import Temas, DiagnosticoEmpresarialSuenos, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .serializer import TemasSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from rest_framework import status, generics, serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -44,6 +44,7 @@ from django.db import connection, transaction
 from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 
 class CalificacionesBajasPorNitView(APIView):
     def get(self, request, *args, **kwargs):
@@ -718,7 +719,68 @@ class CalificacionesModulosList(generics.ListAPIView):
     def get_queryset(self):
         autoevaluacion_id = self.kwargs['id_autoevaluacion']
         return CalificacionModulo.objects.filter(id_autoevaluacion=autoevaluacion_id)
+
+# Lista de temas
+class TemasListView(ListView):
+    model = Temas
+    # Puedes ajustar los campos según lo que necesites
+    fields = ['id_modulo', 'titulo_formacion', 'num_sesion', 'objetivo']
     
+    def get(self, request, *args, **kwargs):
+        temas = list(Temas.objects.all().values())
+        return JsonResponse(temas, safe=False)
+
+# Detalle de un tema específico
+class TemaDetailView(DetailView):
+    model = Temas
+    
+    def get(self, request, *args, **kwargs):
+        tema = get_object_or_404(Temas, id=self.kwargs['id'])
+        return JsonResponse(tema.to_dict())
+
+# Crear o actualizar un tema
+class TemasPreguntasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TemasPreguntas
+        fields = ['id_pregunta']
+
+class TemasCreateUpdateView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = TemasSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, *args, **kwargs):
+        tema_id = request.data.get('id')
+        if not tema_id:
+            return Response({"error": "ID is required for update"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            tema = Temas.objects.get(id=tema_id)
+        except Temas.DoesNotExist:
+            return Response({"error": "Tema not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = TemasSerializer(tema, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Obtener módulos
+def get_modulos(request):
+    modulos = list(Modulos.objects.all().values())
+    return JsonResponse(modulos, safe=False)
+
+# Obtener preguntas por módulo
+def get_preguntas(request):
+    id_modulo = request.GET.get('id_modulo')
+    if id_modulo:
+        preguntas = list(Preguntas.objects.filter(id_modulo=id_modulo).values())
+    else:
+        preguntas = []
+    return JsonResponse(preguntas, safe=False) 
 
 @api_view(['GET'])
 def AutoevaluacionDetail(request, nit):
