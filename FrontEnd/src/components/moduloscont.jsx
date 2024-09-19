@@ -36,7 +36,7 @@ const ModulosContainer = () => {
 
     const createModulo = async (moduloData) => {
         try {
-            const response = await fetch('http://localhost:8000/api/v2/modulos/', {
+            const response = await fetch('http://localhost:8000/api/v2/cmodulos/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,6 +75,7 @@ const ModulosContainer = () => {
             console.error('Error actualizando módulo:', error);
         }
     };
+    
 
     const createOrUpdateModulo = async (moduloData) => {
         if (selectedModulo) {

@@ -761,6 +761,14 @@ class TemasCreateUpdateView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# Obtener módulos
+@csrf_exempt  # Esto desactiva la verificación CSRF para esta vista
+def get_modulos(request):
+    if request.method == 'GET':
+        modulos = list(Modulos.objects.all().values())
+        return JsonResponse(modulos, safe=False)
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 
 class ModuloCreateUpdateAPIView(APIView):
@@ -775,9 +783,9 @@ class ModuloCreateUpdateAPIView(APIView):
 
     def put(self, request, id_modulo, *args, **kwargs):
         try:
-            modulo = Modulos.objects.get(id=id_modulo)
+            modulo = Modulos.objects.get(pk=id_modulo)
         except Modulos.DoesNotExist:
-            return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Modulo no encontrado'}, status=status.HTTP_404_NOT_FOUND)
         
         serializer = ModulosSerializer(modulo, data=request.data, partial=True)
         if serializer.is_valid():
@@ -785,11 +793,6 @@ class ModuloCreateUpdateAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-# Obtener módulos
-def get_modulos(request):
-    modulos = list(Modulos.objects.all().values())
-    return JsonResponse(modulos, safe=False)
 
 # Obtener preguntas por módulo
 def get_preguntas(request):

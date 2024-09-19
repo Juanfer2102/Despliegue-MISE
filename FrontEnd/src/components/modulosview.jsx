@@ -5,7 +5,7 @@ const ModulosView = ({ modulos, preguntas, selectedModulo, onModuloChange, onCre
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalModulo, setModalModulo] = useState(null);
     const [newModulo, setNewModulo] = useState({
-        id_modulo: '',
+        id_modulo: null,
         nombre: '',
         descripcion: '',
         preguntas: []
