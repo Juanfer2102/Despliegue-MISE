@@ -51,16 +51,20 @@ const TemasContainer = () => {
     const createOrUpdateTema = async (temaData) => {
         try {
             const method = temaData.id ? 'PUT' : 'POST';
-            const url = 'http://localhost:8000/api/v2/temas/create-update/';  // URL actualizada
+            const url = 'http://localhost:8000/api/v2/temas/create-update/';
     
-            // Asegúrate de que temaData incluye un campo para preguntas
+            // Formateo de las preguntas para asegurarse de que solo pasen sus IDs
+            const temaDataFormatted = {
+                ...temaData,
+                preguntas: temaData.preguntas.map(pregunta => ({ id_pregunta: pregunta })) // Enviar como un objeto con `id_pregunta`
+            };
+    
             const response = await fetch(url, {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json'
-                    // Incluye otros encabezados si es necesario, como autenticación
                 },
-                body: JSON.stringify(temaData)
+                body: JSON.stringify(temaDataFormatted)
             });
     
             if (!response.ok) {
@@ -74,6 +78,9 @@ const TemasContainer = () => {
             console.error('Error creating/updating tema:', error);
         }
     };
+    
+    
+    
     
     
 

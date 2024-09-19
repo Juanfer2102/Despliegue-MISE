@@ -11,7 +11,7 @@ from weasyprint import HTML
 import io
 from django.http import HttpResponse
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.contrib.auth import get_user_model, authenticate
@@ -87,11 +87,12 @@ class CalificacionesBajasPorNitView(APIView):
                 
                 for calificacion in calificaciones_pregunta:
                     # Obtener la información del tema relacionado a la pregunta
-                    tema_info = {}
-                    tema_pregunta = TemasPreguntas.objects.filter(id_pregunta=pregunta).select_related('id_tema').first()
-                    if tema_pregunta:
+                    tema_info = []
+                    temas_pregunta = TemasPreguntas.objects.filter(id_pregunta=pregunta).select_related('id_tema')
+
+                    for tema_pregunta in temas_pregunta:
                         tema = tema_pregunta.id_tema
-                        tema_info = {
+                        tema_info.append({
                             "id_tema": tema.id,
                             "titulo_formacion": tema.titulo_formacion,
                             "num_sesion": tema.num_sesion,
@@ -102,7 +103,7 @@ class CalificacionesBajasPorNitView(APIView):
                             "fecha": tema.fecha,
                             "horario": tema.horario,
                             "ubicacion": tema.ubicacion
-                        }
+                        })
 
                     preguntas_data.append({
                         "id": calificacion.id,
@@ -183,7 +184,7 @@ class RegistrarDiagnosticoView(APIView):
                 data = json.loads(data)
 
             nit = data.get('nit')
-            sueños_seleccionados = data.get('sueños', {})
+            sueños_seleccionados = data.get('sueños', [])
 
             if not nit:
                 return Response({"error": "NIT no proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
@@ -195,11 +196,17 @@ class RegistrarDiagnosticoView(APIView):
 
             suenos_registrados = []
 
-            for sueno_id, sueno_descripcion in sueños_seleccionados.items():
+            for modulo_sueno in sueños_seleccionados:
+                sueno_id_modulo = modulo_sueno.get('id_modulo')
+                suenos = modulo_sueno.get('sueños', [])
+
+                if not isinstance(suenos, list):
+                    return Response({"error": "La clave 'sueños' debe ser una lista"}, status=status.HTTP_400_BAD_REQUEST)
+
                 try:
-                    modulo = Modulos.objects.get(id_modulo=sueno_id)
+                    modulo = Modulos.objects.get(id_modulo=sueno_id_modulo)
                 except Modulos.DoesNotExist:
-                    return Response({"error": f"Módulo {sueno_id} no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+                    return Response({"error": f"Módulo {sueno_id_modulo} no encontrado"}, status=status.HTTP_404_NOT_FOUND)
 
                 diagnostico, created = DiagnosticoEmpresarial.objects.get_or_create(
                     empresa=empresa,
@@ -207,35 +214,24 @@ class RegistrarDiagnosticoView(APIView):
                     defaults={"calificacion_promedio": 0}
                 )
 
-                suenos = Suenos.objects.filter(
-                    id_modulo=modulo.id_modulo,
-                    nivel="Nivel predeterminado"  # Ajusta el criterio según tu lógica
-                )
-
-                if suenos.exists():
-                    sueno = suenos.first()  # O ajusta según tu lógica de selección
-                else:
-                    sueno = Suenos.objects.create(
+                for sueno_descripcion in suenos:
+                    sueno, created = Suenos.objects.get_or_create(
                         id_modulo=modulo.id_modulo,
-                        nivel="Nivel predeterminado",
+                        nivel="Nivel predeterminado",  # Ajusta el criterio según tu lógica
                         sueño=sueno_descripcion,
-                        medicion="Medición predeterminada",
-                        evidencia="Evidencia predeterminada"
+                        defaults={"medicion": "Medición predeterminada", "evidencia": "Evidencia predeterminada"}
                     )
 
-                diagnostico_sueno, created = DiagnosticoEmpresarialSuenos.objects.get_or_create(
-                    diagnostico=diagnostico,
-                    sueno=sueno
-                )
+                    diagnostico_sueno, created = DiagnosticoEmpresarialSuenos.objects.get_or_create(
+                        diagnostico=diagnostico,
+                        sueno=sueno
+                    )
 
-                # Debug: Verifica los datos antes de agregar al registro
-                print(f"Creando DiagnosticoEmpresarialSuenos con: {diagnostico_sueno}, creado: {created}")
-
-                suenos_registrados.append({
-                    "id_modulo": modulo.id_modulo,
-                    "nivel": sueno.nivel,
-                    "sueño": sueno.sueño
-                })
+                    suenos_registrados.append({
+                        "id_modulo": modulo.id_modulo,
+                        "nivel": sueno.nivel,
+                        "sueño": sueno.sueño
+                    })
 
             return Response({
                 "empresa": empresa.nit,
@@ -252,7 +248,6 @@ class RegistrarDiagnosticoView(APIView):
             import traceback
             print("Error detallado:", traceback.format_exc())
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 
 
 class CalificacionesPorNitView(APIView):
@@ -739,12 +734,11 @@ class TemaDetailView(DetailView):
         return JsonResponse(tema.to_dict())
 
 # Crear o actualizar un tema
-class TemasPreguntasSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TemasPreguntas
-        fields = ['id_pregunta']
+
 
 class TemasCreateUpdateView(APIView):
+    permission_classes = [AllowAny]  # Permitir acceso sin autenticación
+
     def post(self, request, *args, **kwargs):
         serializer = TemasSerializer(data=request.data)
         if serializer.is_valid():
@@ -767,6 +761,7 @@ class TemasCreateUpdateView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 # Obtener módulos
 def get_modulos(request):

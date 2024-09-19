@@ -330,6 +330,7 @@ class Usuario(models.Model):
     class Meta:
         managed = False
         db_table = 'usuario'
+
         
     def set_password(self, raw_password):
     #HASH DE CONTRASEÑA

@@ -75,32 +75,41 @@ class PostulanteSerializer(serializers.ModelSerializer):
         model = Postulante
         fields = '__all__'
 
+
+class TemasPreguntasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TemasPreguntas
+        fields = ['id_pregunta']
+
+class TemasPreguntasSerializer(serializers.ModelSerializer):
+    id_pregunta = serializers.PrimaryKeyRelatedField(queryset=Preguntas.objects.all(), write_only=True)
+
+    class Meta:
+        model = TemasPreguntas
+        fields = ['id_pregunta']
+
+
 class TemasSerializer(serializers.ModelSerializer):
-    id_modulo = serializers.PrimaryKeyRelatedField(queryset=Modulos.objects.all())
-    preguntas = serializers.PrimaryKeyRelatedField(queryset=Preguntas.objects.all(), many=True, required=False)
+    preguntas = TemasPreguntasSerializer(many=True, write_only=True)
 
     class Meta:
         model = Temas
         fields = ['id', 'id_modulo', 'titulo_formacion', 'num_sesion', 'objetivo', 'alcance', 'contenido', 'conferencista', 'fecha', 'horario', 'ubicacion', 'preguntas']
 
     def create(self, validated_data):
-        preguntas = validated_data.pop('preguntas', [])
-        tema = super().create(validated_data)
-        for pregunta_id in preguntas:
-            TemasPreguntas.objects.create(id_pregunta_id=pregunta_id, id_tema=tema)
+        preguntas_data = validated_data.pop('preguntas', [])
+        tema = Temas.objects.create(**validated_data)
+        for pregunta_data in preguntas_data:
+            TemasPreguntas.objects.create(id_tema=tema, **pregunta_data)
         return tema
 
     def update(self, instance, validated_data):
-        preguntas = validated_data.pop('preguntas', [])
-        tema = super().update(instance, validated_data)
-
-        # Eliminar preguntas anteriores
-        TemasPreguntas.objects.filter(id_tema=tema).delete()
-
-        # Agregar preguntas nuevas
-        for pregunta_id in preguntas:
-            TemasPreguntas.objects.create(id_pregunta_id=pregunta_id, id_tema=tema)
-        return tema
+        preguntas_data = validated_data.pop('preguntas', [])
+        instance = super().update(instance, validated_data)
+        TemasPreguntas.objects.filter(id_tema=instance).delete()
+        for pregunta_data in preguntas_data:
+            TemasPreguntas.objects.create(id_tema=instance, **pregunta_data)
+        return instance
 
 class PreguntasSerializer(serializers.ModelSerializer):
     calificacion = serializers.SerializerMethodField()

@@ -13,7 +13,7 @@ urlpatterns = [
 
     path('temas/', TemasListView.as_view(), name='temas-list'),
     path('temas/<int:id>/', TemaDetailView.as_view(), name='tema-detail'),
-    path('temas/create-update/', TemasCreateUpdateView.as_view(), name='create-update-tema'),
+    path('temas/create-update/', TemasCreateUpdateView.as_view(), name='temas-create-update'),
     path('modulos/', get_modulos, name='get-modulos'),
     path('preguntas/', get_preguntas, name='get-preguntas'),
 

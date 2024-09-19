@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import LayoutDashboard from '../../layouts/LayoutDashboard';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from 'react-router-dom';
 
 const EvaluacionEmpresa = () => {
     const { nit } = useParams();
@@ -9,7 +8,6 @@ const EvaluacionEmpresa = () => {
     const [calificacionesBajas, setCalificacionesBajas] = useState([]);
     const [sueñosSeleccionados, setSueñosSeleccionados] = useState({}); // Estado para manejar los sueños seleccionados
     const navigate = useNavigate();
-    
 
     useEffect(() => {
         // Obtener información de la empresa
@@ -31,21 +29,36 @@ const EvaluacionEmpresa = () => {
 
     // Manejar la selección de un sueño
     const handleSelectSueño = (id_modulo, sueñoSeleccionado) => {
-        setSueñosSeleccionados(prevState => ({
-            ...prevState,
-            [id_modulo]: sueñoSeleccionado
-        }));
+        setSueñosSeleccionados(prevState => {
+            const seleccionados = prevState[id_modulo] || [];
+            if (seleccionados.includes(sueñoSeleccionado)) {
+                // Si el sueño ya está seleccionado, deselecciónalo
+                return {
+                    ...prevState,
+                    [id_modulo]: seleccionados.filter(sueño => sueño !== sueñoSeleccionado)
+                };
+            } else {
+                // Si el sueño no está seleccionado, añádelo
+                return {
+                    ...prevState,
+                    [id_modulo]: [...seleccionados, sueñoSeleccionado]
+                };
+            }
+        });
     };
 
     // Registrar diagnóstico (enviar sueños seleccionados al backend)
     const registrarDiagnostico = () => {
         const data = {
             nit: nit,
-            sueños: sueñosSeleccionados,
+            sueños: Object.entries(sueñosSeleccionados).map(([id_modulo, sueños]) => ({
+                id_modulo,
+                sueños
+            })),
         };
-    
+
         console.log("Datos enviados al backend:", data); // Verifica los datos aquí
-    
+
         fetch('http://localhost:8000/api/v2/registrar-diagnostico/', {
             method: 'POST',
             headers: {
@@ -53,28 +66,23 @@ const EvaluacionEmpresa = () => {
             },
             body: JSON.stringify(data),
         })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(errData => {
-                    console.error("Error en la respuesta del backend:", errData);
-                    throw new Error("Error al registrar el diagnóstico");
-
-                });
-            }
-            return response.json();
-        })
-        .then(result => {
-            alert('Diagnóstico registrado con éxito');
-            navigate(`/dashboard-emp/${nit}/`);
-        })
-        .catch(error => {
-            console.error('Error al registrar el diagnóstico:', error);
-        });
-        
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errData => {
+                        console.error("Error en la respuesta del backend:", errData);
+                        throw new Error("Error al registrar el diagnóstico");
+                    });
+                }
+                return response.json();
+            })
+            .then(result => {
+                alert('Diagnóstico registrado con éxito');
+                navigate(`/dashboard-emp/${nit}/`);
+            })
+            .catch(error => {
+                console.error('Error al registrar el diagnóstico:', error);
+            });
     };
-    
-    
-    
 
     // Renderiza las calificaciones bajas en una tabla
     const renderTabla = (preguntas) => (
@@ -132,16 +140,27 @@ const EvaluacionEmpresa = () => {
                                                         <h2 className="text-2xl font-bold mb-4">Temas asignados</h2>
                                                         <div className="flex flex-wrap gap-8">
                                                             {modulo.preguntas.map(pregunta => {
-                                                                const tema = pregunta.tema; // Directamente accede al tema desde la pregunta
-                                                                if (!tema) return null;
+                                                                if (!pregunta.tema || pregunta.tema.length === 0) return null; // Verifica si hay temas
 
                                                                 return (
-                                                                    <div key={pregunta.id_pregunta} className="flex-1 min-w-[300px] p-4 border-t border-gray-200 rounded-md shadow-md">
-                                                                        <h3 className="text-xl font-bold">{tema.titulo_formacion}</h3>
-                                                                        <p><strong>Módulo:</strong> {modulo.nombre}</p>
-                                                                        <p><strong>Sesión:</strong> {tema.num_sesion}</p>
-                                                                        <p><strong>Objetivo:</strong> {tema.objetivo}</p>
-                                                                        <p><strong>Alcance:</strong> {tema.alcance}</p>
+                                                                    <div key={pregunta.id_pregunta} className="flex flex-1 flex-col gap-4 min-w-[300px] p-4 border-t border-gray-200 rounded-md shadow-md">
+                                                                        <h3 className="text-xl font-bold">{pregunta.descripcion_pregunta}</h3> {/* Mostrar la descripción de la pregunta */}
+
+                                                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                                            {pregunta.tema.map(tema => (
+                                                                                <div key={tema.id_tema} className="p-4 border border-gray-300 rounded-md shadow-sm">
+                                                                                    <h4 className="text-lg font-semibold">{tema.titulo_formacion}</h4>
+                                                                                    <p><strong>Sesión:</strong> {tema.num_sesion}</p>
+                                                                                    <p><strong>Objetivo:</strong> {tema.objetivo}</p>
+                                                                                    <p><strong>Alcance:</strong> {tema.alcance}</p>
+                                                                                    <p><strong>Contenido:</strong> {tema.contenido}</p>
+                                                                                    <p><strong>Conferencista:</strong> {tema.conferencista}</p>
+                                                                                    <p><strong>Fecha:</strong> {tema.fecha}</p>
+                                                                                    <p><strong>Horario:</strong> {tema.horario}</p>
+                                                                                    <p><strong>Ubicación:</strong> {tema.ubicacion}</p>
+                                                                                </div>
+                                                                            ))}
+                                                                        </div>
                                                                     </div>
                                                                 );
                                                             })}
@@ -161,34 +180,33 @@ const EvaluacionEmpresa = () => {
                                                                     <p><strong>Fortalecimiento:</strong> {sueño.fortalecimiento}</p>
                                                                     <p><strong>Evidencia:</strong> {sueño.evidencia}</p>
                                                                     <button
-                                                                        className={`mt-4 p-2 bg-${sueñosSeleccionados[modulo.id_modulo] === sueño.sueño ? 'principalGreen' : 'blue-500'} text-white rounded`}
+                                                                        className={`mt-4 p-2 bg-${sueñosSeleccionados[modulo.id_modulo]?.includes(sueño.sueño) ? 'principalGreen' : 'blue-500'} text-white rounded`}
                                                                         onClick={() => handleSelectSueño(modulo.id_modulo, sueño.sueño)}
                                                                     >
-                                                                        Seleccionar este sueño
+                                                                        {sueñosSeleccionados[modulo.id_modulo]?.includes(sueño.sueño) ? 'Deseleccionar' : 'Seleccionar este sueño'}
                                                                     </button>
                                                                 </div>
                                                             ))}
                                                         </div>
                                                         {sueñosSeleccionados[modulo.id_modulo] && (
-                                                            <p className="mt-4 text-lg">Sueño seleccionado: {sueñosSeleccionados[modulo.id_modulo]}</p>
+                                                            <div className="mt-4">
+                                                                <p className="text-lg">Sueños seleccionados:</p>
+                                                                <ul>
+                                                                    {sueñosSeleccionados[modulo.id_modulo].map((sueño, index) => (
+                                                                        <li key={index} className="text-lg">{sueño}</li>
+                                                                    ))}
+                                                                </ul>
+                                                            </div>
                                                         )}
                                                     </div>
                                                 </div>
                                             </div>
                                         ))}
-                                        {/* Conclusiones */}
-                                        <div className="pt-14 flex gap-8">
-                                            <div className="">
-                                                <h2 className="text-2xl font-bold">Conclusiones</h2>
-                                                <p className='text-justify'>
-                                                    Con base en los resultados obtenidos, se generarán estrategias y recomendaciones específicas para mejorar las áreas identificadas. Se prevé un seguimiento detallado para evaluar el progreso de la empresa en función de los objetivos planteados.
-                                                </p>
-                                            </div>
-                                        </div>
-                                        {/* Botón de registrar diagnóstico */}
+                                    </div>
+                                    <div className="flex justify-end mt-8">
                                         <button
-                                            className="mt-4 p-2 bg-principalGreen text-white rounded"
                                             onClick={registrarDiagnostico}
+                                            className="p-2 px-4 bg-green-500 text-white rounded-md"
                                         >
                                             Registrar Diagnóstico
                                         </button>

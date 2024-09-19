@@ -12,8 +12,9 @@ const TarjetasTema = ({ nit }) => {
             fetch(`http://localhost:8000/api/v2/calificaciones-bajas/empresa/${nit}/`)
                 .then(response => response.json())
                 .then(data => {
+                    // Aplana la estructura para obtener una lista de temas
                     const extraidos = data.flatMap(calificacion =>
-                        calificacion.preguntas.map(pregunta => pregunta.tema)
+                        calificacion.preguntas.flatMap(pregunta => pregunta.tema) // Asegúrate de usar flatMap aquí
                     );
                     setTemas(extraidos);
                 })
@@ -36,9 +37,9 @@ const TarjetasTema = ({ nit }) => {
             <h2 className="text-2xl font-bold mb-4 text-center">Procesos en los que se encuentra la empresa</h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            {temas.map((tema, index) => (
+                {temas.map((tema) => (
                     <div
-                        key={index}
+                        key={tema.id_tema}
                         className="relative flex items-center justify-center bg-darkGrey rounded-lg border border-principalGreen shadow-lg hover:shadow-xl hover:bg-principalGreen transition-all duration-300 cursor-pointer"
                         onClick={() => openModal(tema)}
                     >
@@ -57,7 +58,7 @@ const TarjetasTema = ({ nit }) => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <p className="text-lg font-semibold mb-2"><strong>Módulo:</strong></p>
-                                <p className="mb-4">{selectedTema.nombre_modulo}</p>
+                                <p className="mb-4">{selectedTema.id_modulo}</p> {/* Cambia esto si tienes el nombre del módulo en el tema */}
                             </div>
                             <div>
                                 <p className="text-lg font-semibold mb-2"><strong>Sesión:</strong></p>
