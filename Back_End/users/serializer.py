@@ -113,7 +113,7 @@ class PreguntasSerializer(serializers.ModelSerializer):
 class PreguntaCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Preguntas
-        fields = ['descripcion', 'id_modulo']  # El campo 'id_modulo' se puede establecer automáticamente
+        fields = ['descripcion']
     
 class ModulosSerializer(serializers.ModelSerializer):
     calificaciones = serializers.SerializerMethodField()

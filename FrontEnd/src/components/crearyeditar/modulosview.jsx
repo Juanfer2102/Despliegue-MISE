@@ -56,7 +56,7 @@ const ModulosView = ({ modulos, onCreateOrUpdateModulo }) => {
     };
 
     const handleEditSubmit = (e) => {
-        window.location.reload();
+        e.preventDefault();
         onCreateOrUpdateModulo({
             id_modulo: currentModulo.id_modulo,
             nombre: nuevoNombre

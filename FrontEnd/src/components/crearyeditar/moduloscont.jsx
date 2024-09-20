@@ -38,7 +38,7 @@ const ModulosContainer = () => {
             if (!response.ok) {
                 throw new Error('Error al guardar módulo.');
             }
-            await fetchModulos();
+            fetchModulos();
         } catch (error) {
             setError('Error al guardar módulo.');
             console.error('Error al guardar módulo:', error);
