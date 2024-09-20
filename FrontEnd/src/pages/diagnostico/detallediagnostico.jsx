@@ -77,7 +77,7 @@ const EvaluacionEmpresa = () => {
             })
             .then(result => {
                 alert('Diagnóstico registrado con éxito');
-                navigate(`/dashboard-emp/${nit}/`);
+                navigate(`/dashboard-emp/${nit}`);
             })
             .catch(error => {
                 console.error('Error al registrar el diagnóstico:', error);
@@ -180,7 +180,7 @@ const EvaluacionEmpresa = () => {
                                                                     <p><strong>Fortalecimiento:</strong> {sueño.fortalecimiento}</p>
                                                                     <p><strong>Evidencia:</strong> {sueño.evidencia}</p>
                                                                     <button
-                                                                        className={`mt-4 p-2 bg-${sueñosSeleccionados[modulo.id_modulo]?.includes(sueño.sueño) ? 'principalGreen' : 'blue-500'} text-white rounded`}
+                                                                        className={`mt-4 p-2 bg-${sueñosSeleccionados[modulo.id_modulo]?.includes(sueño.sueño) ? 'principalGreen' : ' bg-transparent border border-white'} text-white rounded`}
                                                                         onClick={() => handleSelectSueño(modulo.id_modulo, sueño.sueño)}
                                                                     >
                                                                         {sueñosSeleccionados[modulo.id_modulo]?.includes(sueño.sueño) ? 'Deseleccionar' : 'Seleccionar este sueño'}
@@ -203,10 +203,10 @@ const EvaluacionEmpresa = () => {
                                             </div>
                                         ))}
                                     </div>
-                                    <div className="flex justify-end mt-8">
+                                    <div className="flex justify-end mt-8 pb-5">
                                         <button
                                             onClick={registrarDiagnostico}
-                                            className="p-2 px-4 bg-green-500 text-white rounded-md"
+                                            className="p-2 px-4 bg-principalGreen hover:bg-white hover:text-principalGreen text-white rounded-md"
                                         >
                                             Registrar Diagnóstico
                                         </button>

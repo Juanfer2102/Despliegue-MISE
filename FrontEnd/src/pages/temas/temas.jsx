@@ -1,7 +1,7 @@
 import React from 'react';
 import LayoutDashboard from "../../layouts/LayoutDashboard";
 import Modal from "../../components/modales/modal";
-import TemasContainer from "../../components/temascont";
+import TemasContainer from "../../components/crearyeditar/temascont";
 import Modalopciones from "../../components/modales/modalopciones";
 
 

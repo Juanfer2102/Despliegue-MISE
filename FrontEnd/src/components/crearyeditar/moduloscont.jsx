@@ -32,7 +32,7 @@ const ModulosContainer = () => {
                 : await fetch('http://localhost:8000/api/v2/cmodulos/', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ nombre: modulo.nombre })
+                      body: JSON.stringify({ nombre: modulo.nombre, preguntas: modulo.preguntas })
                   });
 
             if (!response.ok) {
@@ -53,12 +53,8 @@ const ModulosContainer = () => {
 
     return (
         <div>
-            {loading && <p>Loading...</p>}
-            {error && <p className="text-red">{error}</p>}
-            <ModulosView
-                modulos={modulos}
-                onCreateOrUpdateModulo={createOrUpdateModulo}
-            />
+            <ModulosView modulos={modulos} onCreateOrUpdateModulo={createOrUpdateModulo} />
+            {loading && <p>Cargando...</p>}
         </div>
     );
 };
