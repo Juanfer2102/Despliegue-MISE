@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../components/logo";
+import Logo from "../../components/logo/logo";
 import Formsreescribircont from "../../components/forms/formsreescribircont/formsreescribircont";
 
 const Rescribircontrase = () => {

@@ -110,6 +110,11 @@ class PreguntasSerializer(serializers.ModelSerializer):
             return calificacion.calificacion
         return None  # Retorna None si no hay calificación para la pregunta
     
+class PreguntaCreateUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Preguntas
+        fields = ['descripcion']
+    
 class ModulosSerializer(serializers.ModelSerializer):
     calificaciones = serializers.SerializerMethodField()
     preguntas = PreguntasSerializer(many=True, read_only=True)
@@ -151,7 +156,7 @@ class ModulosSerializer(serializers.ModelSerializer):
                     Preguntas.objects.create(id_modulo=instance, **pregunta_data)
         
         return instance
-
+    
 class ProgramasSerializer(serializers.ModelSerializer):
     class Meta:
         model = Programas

@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import DiagnosticoEmpresarialSuenos, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
-from .serializer import CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
+from .serializer import CalificacionPreguntaSerializer, PreguntaCreateUpdateSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from rest_framework import status, generics, serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -775,9 +775,20 @@ def get_modulos(request):
 def create_modulo(request):
     serializer = ModulosSerializer(data=request.data)
     if serializer.is_valid():
-        modulo = serializer.save()  # Este método ahora maneja la creación de preguntas automáticamente
+        modulo = serializer.save()  # Guardar el módulo primero
+        
+        # Guardar las preguntas asociadas
+        preguntas_data = request.data.get('preguntas', [])
+        for pregunta_data in preguntas_data:
+            pregunta_serializer = PreguntasSerializer(data={**pregunta_data, 'id_modulo': modulo.id_modulo})
+            if pregunta_serializer.is_valid():
+                pregunta_serializer.save()
+            else:
+                return Response(pregunta_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
         return Response(ModulosSerializer(modulo).data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @api_view(['PUT'])
@@ -789,9 +800,28 @@ def update_modulo(request, id_modulo):
 
     serializer = ModulosSerializer(modulo, data=request.data, partial=True)
     if serializer.is_valid():
-        modulo = serializer.save()  # Actualiza el módulo y las preguntas
+        modulo = serializer.save()  # Actualiza el módulo
+        
+        # Actualizar preguntas asociadas
+        preguntas_data = request.data.get('preguntas', [])
+        
+        # Aquí puedes decidir si quieres eliminar las preguntas existentes y volver a crear
+        # o solo actualizar las que vienen en la solicitud.
+        
+        # Por simplicidad, eliminamos todas las preguntas existentes
+        Preguntas.objects.filter(id_modulo=modulo.id_modulo).delete()
+        
+        # Guardar las nuevas preguntas
+        for pregunta_data in preguntas_data:
+            pregunta_serializer = PreguntasSerializer(data={**pregunta_data, 'id_modulo': modulo.id_modulo})
+            if pregunta_serializer.is_valid():
+                pregunta_serializer.save()
+            else:
+                return Response(pregunta_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
         return Response(ModulosSerializer(modulo).data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 # Obtener preguntas por módulo
@@ -802,6 +832,19 @@ def get_preguntas(request):
     else:
         preguntas = []
     return JsonResponse(preguntas, safe=False) 
+
+class EditarPreguntaAPIView(APIView):
+
+    def put(self, request, id_pregunta):
+        pregunta = get_object_or_404(Preguntas, id_pregunta=id_pregunta)
+        serializer = PreguntaCreateUpdateSerializer(pregunta, data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    
 
 @api_view(['GET'])
 def AutoevaluacionDetail(request, nit):

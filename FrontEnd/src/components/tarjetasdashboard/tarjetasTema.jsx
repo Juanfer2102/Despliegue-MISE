@@ -1,10 +1,30 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import DownloadPDFButton from "../inputs/botones/botonpdf";
 
 const TarjetasTema = ({ nit }) => {
     const [temas, setTemas] = useState([]);
     const [selectedTema, setSelectedTema] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Estilos en JSX
+    const styles = {
+        customScrollbar: {
+            scrollbarWidth: '13px',
+            scrollbarColor: '#888 #262b32',
+        },
+        customScrollbarTrack: {
+            background: '#262b32',
+            borderRadius: '12px',
+        },
+        customScrollbarThumb: {
+            background: '#888',
+            borderRadius: '10px',
+        },
+        customScrollbarThumbHover: {
+            background: '#555',
+        }
+    };
 
     useEffect(() => {
         if (nit) {
@@ -34,9 +54,19 @@ const TarjetasTema = ({ nit }) => {
 
     return (
         <div className="bg-greyBlack rounded-xl p-4 text-white w-full">
-            <h2 className="text-2xl font-bold mb-4 text-center">Procesos en los que se encuentra la empresa</h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="flex flex-row justify-between py-2">
+                <h2 className="text-2xl font-bold mb-4 text-center">Procesos en los que se encuentra la empresa</h2>
+                <div className=" flex flex-row gap-5">
+                    <a href={`/diagnostico/empresa/${nit}`}><button className="bg-transparent border border-white hover:bg-white rounded-md text-white hover:text-principalGreen text-center font-semibold cursor-pointer w-auto h-10 p-2">
+                        Ir a Diagnostico Inicial
+                    </button>
+                    </a>
+                    <DownloadPDFButton pdfType={"inicial"} />
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 p-2 max-h-[35rem] overflow-y-auto" style={styles.customScrollbar}>
                 {temas.map((tema) => (
                     <div
                         key={tema.id_tema}
@@ -55,7 +85,7 @@ const TarjetasTema = ({ nit }) => {
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                     <div className="bg-greyBlack text-white p-6 rounded-lg shadow-lg w-full max-w-2xl overflow-auto">
                         <h3 className="text-2xl font-bold mb-4">Detalles del Tema</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[22rem] overflow-y-auto" style={styles.customScrollbar}>
                             <div>
                                 <p className="text-lg font-semibold mb-2"><strong>Módulo:</strong></p>
                                 <p className="mb-4">{selectedTema.id_modulo}</p> {/* Cambia esto si tienes el nombre del módulo en el tema */}

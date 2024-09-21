@@ -2,7 +2,7 @@ import React from 'react';
 import LayoutDashboard from "../../layouts/LayoutDashboard";
 import Modal from "../../components/modales/modal";
 import Modalopciones from "../../components/modales/modalopciones";
-import ModulosContainer from '../../components/moduloscont';
+import ModulosContainer from '../../components/crearyeditar/moduloscont';
 
 // Estilos en JSX
 const styles = {
@@ -41,7 +41,7 @@ const Modulos = () => {
               </div>
               <div className="flex flex-col xl:flex-col justify-center xl:justify-center gap-4 lg:gap-5 xl:gap-5 mt-4 lg:mt-0">
                 <Modalopciones texto="Sueños" URL="/sueños" />
-                <Modalopciones texto="Sueños" URL="/preguntas" />
+                <Modalopciones texto="Preguntas" URL="/preguntas" />
                 <Modalopciones texto="Temas" URL="/temas" />
               </div>
             </div>

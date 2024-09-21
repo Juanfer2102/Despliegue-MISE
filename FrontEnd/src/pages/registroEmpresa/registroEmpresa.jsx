@@ -1,6 +1,6 @@
 import React from "react";
 import FormsRegistro from "../../components/forms/formsregistroemp/formsregistroemp";
-import Logo from "../../components/logo";
+import Logo from "../../components/logo/logo";
 
 const RegistroEmpresa = () => {
 

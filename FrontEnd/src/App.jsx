@@ -33,18 +33,13 @@ const EmpresasVinculacion = lazy(() => import("./pages/empresasvinculacion/empre
 
 // Componentes de módulos
 const Modulos = lazy(() => import("./pages/modulos/modulos.jsx"))
-const Nuevomodulo = lazy(() => import("./pages/modulos/nuevomodulo.jsx"));
 const Editarmodulos = lazy(() => import("./pages/modulos/editarmodulos.jsx"));
 
 // Componentes de sueños
 const Sueos = lazy(() => import("./pages/sueños/sueños.jsx"));
-const NuevoSueo = lazy(() => import("./pages/sueños/nuevosueño.jsx"));
-const Editarsueos = lazy(() => import("./pages/sueños/editarSueños.jsx"));
 
 // Componentes de preguntas
 const Preguntas = lazy(() => import("./pages/preguntas/preguntas.jsx"));
-const NuevaPregunta = lazy(() => import("./pages/preguntas/nuevapregunta.jsx"));
-const Editarpreguntas = lazy(() => import("./pages/preguntas/editarpreguntas.jsx"));
 
 // Componentes de talleres
 const Temas = lazy(() => import("./pages/temas/temas.jsx"));
@@ -135,19 +130,9 @@ const AppRoutes = () => {
               <Modulos />
             </ProtectedRoute>
           } />
-          <Route path="/nuevo-modulo" element={
-            <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <Nuevomodulo />
-            </ProtectedRoute>
-          } />
           <Route path="/sueños" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
               <Sueos />
-            </ProtectedRoute>
-          } />
-          <Route path="/nuevo-sueño" element={
-            <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <NuevoSueo />
             </ProtectedRoute>
           } />
           <Route path="/editar-modulos/:id" element={

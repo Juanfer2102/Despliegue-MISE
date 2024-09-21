@@ -21,15 +21,12 @@ const styles = {
 
 const validacionDeSueños = [
   {
-    texto: "Deseo definir mi propósito empresarial",
     bordeColor: "border-azulclaro",
   },
   {
-    texto: "Deseo definir mis estrategias de promoción y publicidad",
     bordeColor: "border-fucsia",
   },
   {
-    texto: "Deseo definir mi margen de contribución",
     bordeColor: "border-amarillo",
   },
 ];
@@ -41,12 +38,12 @@ const ValidacionDeSueños = ({ diagnosticos }) => {
         <span className="text-lg">🌥️</span>
         <h2 className="text-lg font-semibold">Validación de sueños</h2>
       </div>
-      <div className="grid gap-5 xl:max-h-[32rem] lg:max-h-[32rem] xl:h-[32rem] lg:h-[32rem] overflow-y-auto" style={{ gridTemplateColumns: 'repeat(2, 1fr)', ...styles.customScrollbar }}>
+      <div className="grid gap-5 xl:max-h-[30rem] lg:max-h-[30rem] xl:h-[30rem] lg:h-[30rem] overflow-y-auto" style={{ gridTemplateColumns: 'repeat(2, 1fr)', ...styles.customScrollbar }}>
         {diagnosticos.map((diagnostico, index) =>
           diagnostico.suenos.map((sueno, subIndex) => (
             <div
               key={`${index}-${subIndex}`}
-              className={`flex justify-center items-center bg-gray-700 border-l-4 ${validacionDeSueños[subIndex]?.bordeColor} rounded-md p-4 text-center text-white h-40 sm:h-48 md:h-56`}>
+              className={`flex justify-center items-center bg-transparent border-l-4 ${validacionDeSueños[subIndex]?.bordeColor} rounded-md p-4 text-center text-white h-40 sm:h-48 md:h-56`}>
               <p>{sueno.sueño}</p>
             </div>
           ))
