@@ -147,7 +147,15 @@ const ModulosView = ({ modulos, onCreateOrUpdateModulo }) => {
             {isEditModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                     <div className="bg-greyBg text-white p-4 rounded-lg shadow-lg w-full max-w-lg">
-                        <h3 className="text-xl font-bold mb-4">Editar Módulo</h3>
+                        <div className='flex flex-row justify-between'>
+                            <h3 className="text-xl font-bold mb-4">Editar Módulo</h3>
+                            <button
+                                type="button"
+                                className="bg-red text-white px-4 py-2 rounded-md hover:bg-white hover:text-principalGreen transition duration-300"
+                            >
+                                Eliminar Modulo
+                            </button>
+                        </div>
                         <form onSubmit={handleEditSubmit}>
                             <div className="mb-4">
                                 <label className="block text-white">Nombre</label>

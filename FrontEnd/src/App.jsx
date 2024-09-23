@@ -33,7 +33,6 @@ const EmpresasVinculacion = lazy(() => import("./pages/empresasvinculacion/empre
 
 // Componentes de módulos
 const Modulos = lazy(() => import("./pages/modulos/modulos.jsx"))
-const Editarmodulos = lazy(() => import("./pages/modulos/editarmodulos.jsx"));
 
 // Componentes de sueños
 const Sueos = lazy(() => import("./pages/sueños/sueños.jsx"));
@@ -133,11 +132,6 @@ const AppRoutes = () => {
           <Route path="/sueños" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
               <Sueos />
-            </ProtectedRoute>
-          } />
-          <Route path="/editar-modulos/:id" element={
-            <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <Editarmodulos />
             </ProtectedRoute>
           } />
           <Route path="/preguntas" element={
