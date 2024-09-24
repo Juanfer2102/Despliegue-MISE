@@ -77,9 +77,6 @@ class Programas(models.Model):
         db_table = 'programas'
 
 
-
-
-
 class Rol(models.Model):
     id_rol = models.IntegerField(primary_key=True)
     descripcion = models.TextField()
@@ -87,8 +84,6 @@ class Rol(models.Model):
     class Meta:
         managed = False
         db_table = 'rol'
-
-
 
 
 class Modulos(models.Model):
@@ -99,6 +94,7 @@ class Modulos(models.Model):
     alcance = models.TextField(db_collation='utf8mb4_0900_ai_ci', blank=True, null=True)
     estado_actual = models.TextField(db_collation='utf8mb4_0900_ai_ci', blank=True, null=True)
     nivel_ideal = models.TextField(db_collation='utf8mb4_0900_ai_ci', blank=True, null=True)
+    estado = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -117,6 +113,7 @@ class Temas(models.Model):
     fecha = models.DateField(blank=True, null=True)
     horario = models.TimeField(blank=True, null=True)
     ubicacion = models.CharField(max_length=255, blank=True, null=True)
+    estado = models.IntegerField(blank=True, null=True)
 
     def to_dict(self):
         return {
@@ -152,6 +149,7 @@ class Preguntas(models.Model):
     id_pregunta = models.AutoField(primary_key=True)
     descripcion = models.TextField()
     id_modulo = models.ForeignKey(Modulos, on_delete=models.DO_NOTHING, db_column='id_modulo')
+    estado = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -168,11 +166,13 @@ class TemasPreguntas(models.Model):
 
 
 class Suenos(models.Model):
+    id = models.BigAutoField(primary_key=True)
     id_modulo = models.IntegerField()  # Cambiado de ForeignKey a IntegerField
     nivel = models.CharField(max_length=50)
     sueño = models.TextField()
     medicion = models.TextField()
     evidencia = models.TextField(blank=True, null=True)
+    estado = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

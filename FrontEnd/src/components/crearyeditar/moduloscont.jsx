@@ -43,6 +43,7 @@ const ModulosContainer = () => {
             setError('Error al guardar módulo.');
             console.error('Error al guardar módulo:', error);
         } finally {
+            console.log(modulos);
             setLoading(false);
         }
     };

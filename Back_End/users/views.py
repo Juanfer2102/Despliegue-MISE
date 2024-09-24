@@ -132,6 +132,27 @@ class CalificacionesBajasPorNitView(APIView):
                 })
         
         return Response(response_data, status=status.HTTP_200_OK)
+    
+class SuenosAPIView(APIView):
+
+    def post(self, request, *args, **kwargs):
+        serializer = SuenosSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, pk, *args, **kwargs):
+        try:
+            sueño = Suenos.objects.get(pk=pk)
+        except Suenos.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = SuenosSerializer(sueño, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ConsultarDiagnosticoView(APIView):
     def get(self, request, *args, **kwargs):
@@ -766,7 +787,8 @@ class TemasCreateUpdateView(APIView):
 @csrf_exempt  # Esto desactiva la verificación CSRF para esta vista
 def get_modulos(request):
     if request.method == 'GET':
-        modulos = list(Modulos.objects.all().values())
+        # Filtrar módulos con estado 0
+        modulos = list(Modulos.objects.filter(estado=0).values())
         return JsonResponse(modulos, safe=False)
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
@@ -828,10 +850,11 @@ def update_modulo(request, id_modulo):
 def get_preguntas(request):
     id_modulo = request.GET.get('id_modulo')
     if id_modulo:
-        preguntas = list(Preguntas.objects.filter(id_modulo=id_modulo).values())
+        # Filtrar preguntas por id_modulo y estado = 0
+        preguntas = list(Preguntas.objects.filter(id_modulo=id_modulo, estado=0).values())
     else:
         preguntas = []
-    return JsonResponse(preguntas, safe=False) 
+    return JsonResponse(preguntas, safe=False)
 
 class EditarPreguntaAPIView(APIView):
 
@@ -1109,8 +1132,11 @@ class RolRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
 # Suenos Views
 class SuenosListCreate(generics.ListCreateAPIView):
-    queryset = Suenos.objects.all()
     serializer_class = SuenosSerializer
+
+    def get_queryset(self):
+        # Filtrar sueños por estado = 0
+        return Suenos.objects.filter(estado=0)
 
 class SuenosRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Suenos.objects.all()
@@ -1118,8 +1144,11 @@ class SuenosRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
 # Talleres Views
 class TalleresListCreate(generics.ListCreateAPIView):
-    queryset = Talleres.objects.all()
     serializer_class = TalleresSerializer
+
+    def get_queryset(self):
+        # Filtrar por estado = 0
+        return Talleres.objects.filter(estado=0)
 
 class TalleresRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Talleres.objects.all()

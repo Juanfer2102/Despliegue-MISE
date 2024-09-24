@@ -176,7 +176,7 @@ class RolSerializer(serializers.ModelSerializer):
 class SuenosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Suenos
-        fields = '__all__'
+        fields = ['id', 'id_modulo', 'nivel', 'sueño', 'medicion', 'evidencia', 'estado']
 
 class TalleresSerializer(serializers.ModelSerializer):
     class Meta:
