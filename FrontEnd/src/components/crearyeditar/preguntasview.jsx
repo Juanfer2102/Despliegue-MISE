@@ -65,15 +65,7 @@ const PreguntasView = ({ modulos, preguntas, selectedModulo, onModuloChange, onU
             {isModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                     <div className="bg-greyBg text-white p-4 rounded-lg shadow-lg w-full max-w-4xl">
-                        <div className='flex flex-row justify-between'>
-                            <h3 className="text-xl font-bold mb-4">Editar Pregunta</h3>
-                            <button
-                                type="button"
-                                className="bg-red text-white px-4 py-2 rounded-md hover:bg-white hover:text-principalGreen transition duration-300"
-                            >
-                                Eliminar Pregunta
-                            </button>
-                        </div>
+                        <h3 className="text-xl font-bold mb-4">Editar Pregunta</h3>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-4">
                                 <label className="block text-white">Nombre de la Pregunta</label>
@@ -86,19 +78,19 @@ const PreguntasView = ({ modulos, preguntas, selectedModulo, onModuloChange, onU
                                 />
                             </div>
 
-                            <div className="flex justify-end gap-4 mt-4">
-                                <button
-                                    type="submit"
-                                    className="bg-principalGreen hover:bg-white hover:text-principalGreen text-white px-4 py-2 rounded-lg"
-                                >
-                                    Guardar Cambios
-                                </button>
+                            <div className="flex justify-end">
                                 <button
                                     type="button"
                                     onClick={closeModal}
                                     className="bg-principalGreen hover:bg-white hover:text-principalGreen text-white px-4 py-2 rounded-lg mr-2"
                                 >
                                     Cancelar
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="bg-principalGreen hover:bg-white hover:text-principalGreen text-white px-4 py-2 rounded-lg"
+                                >
+                                    Guardar Cambios
                                 </button>
                             </div>
                         </form>
