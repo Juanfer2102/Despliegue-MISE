@@ -55,13 +55,13 @@ const TableComponent = () => {
         )}
       </div> */}
 
-      <div className="w-full rounded-xl bg-greyBg">
-        <div className="bg-greyBlack border-textBg rounded-t-xl text-white z-10">
+      <div className="w-full rounded-xl bg-greyBg"> 
+        <div className="bg-greyBlack border-textBg rounded-t-xl rounded-b-xl text-white z-10">
           {filteredEmpresas.length > 0 ? (
             <div className="bg-greyBlack border-textBg rounded-t-xl text-white flex flex-col lg:flex-row">
-              <div className="flex-1 p-3 xl:text-left text-center font-bold border-b border-textBg lg:border-b-0">Empresa</div>
-              <div className="flex-1 p-3 xl:text-left text-center font-bold border-b border-textBg lg:border-b-0">Representante</div>
-              <div className="flex-1 p-3 xl:text-left text-center font-bold border-b border-textBg lg:border-b-0">Razón Social</div>
+              <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">Empresa</div>
+              <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">Representante</div>
+              <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">Razón Social</div>
               <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0">Información</div>
               <div className="flex-1 p-3 text-center font-bold border-b border-textBg lg:border-b-0 lg:block sm:hidden md:hidden"></div>
             </div>

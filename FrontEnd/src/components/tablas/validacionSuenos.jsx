@@ -1,37 +1,53 @@
 import React from "react";
 
+// Estilos en JSX
+const styles = {
+  customScrollbar: {
+    scrollbarWidth: '13px',
+    scrollbarColor: '#888 #262b32',
+  },
+  customScrollbarTrack: {
+    background: '#262b32',
+    borderRadius: '12px',
+  },
+  customScrollbarThumb: {
+    background: '#888',
+    borderRadius: '10px',
+  },
+  customScrollbarThumbHover: {
+    background: '#555',
+  }
+};
+
 const validacionDeSueños = [
   {
-    texto: "Deseo definir mi propósito empresarial",
     bordeColor: "border-azulclaro",
   },
   {
-    texto: "Deseo definir mis estrategias de promoción y publicidad",
     bordeColor: "border-fucsia",
   },
   {
-    texto: "Deseo definir mi margen de contribución",
     bordeColor: "border-amarillo",
   },
 ];
 
-const ValidacionDeSueños = (URL) => {
+const ValidacionDeSueños = ({ diagnosticos }) => {
   return (
-    <div className="p-4 bg-greyBlack xl:w-[45rem] lg:w-[35rem] text-white rounded-lg">
-      <div className="flex items-center space-x-2">
+    <div className="p-4 bg-greyBlack xl:w-[45rem] lg:w-[35rem] text-white rounded-lg" style={styles.customScrollbar}>
+      <div className="flex items-center space-x-2 mb-4">
         <span className="text-lg">🌥️</span>
         <h2 className="text-lg font-semibold">Validación de sueños</h2>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:gap-[10.5rem] lg:gap-[10.5rem] gap-5 xl:items-center lg:items-center xl:pt-6 lg:pt-6">
-        {validacionDeSueños.map((item, index) => (
-          <a href={`${URL}`} key={index} className="block">
+      <div className="grid gap-5 xl:max-h-[30rem] lg:max-h-[30rem] xl:h-[30rem] lg:h-[30rem] overflow-y-auto" style={{ gridTemplateColumns: 'repeat(2, 1fr)', ...styles.customScrollbar }}>
+        {diagnosticos.map((diagnostico, index) =>
+          diagnostico.suenos.map((sueno, subIndex) => (
             <div
-              className={`flex justify-center items-center h-40 sm:h-48 md:h-56 xl:h-40 lg:h-40 xl:w-[10rem] lg:w-[10rem] text-sm uppercase overflow-hidden rounded-xl border-2 ${item.bordeColor}`}
-            >
-              <p className="text-center font-bold p-2">{item.texto}</p>
+              key={`${index}-${subIndex}`}
+              className={`flex justify-center items-center bg-transparent border-l-4 ${validacionDeSueños[subIndex]?.bordeColor} rounded-md p-4 text-center text-white h-40 sm:h-48 md:h-56`}>
+              <p>{sueno.sueño}</p>
             </div>
-          </a>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

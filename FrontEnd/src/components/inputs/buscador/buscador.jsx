@@ -52,7 +52,6 @@ const Buscador = ({ onSearch, onRoleChange, placeholder, roles, contexto }) => {
             {/* Puedes agregar más filtros según el contexto */}
             {contexto === 'empresas' && (
                 <div className="flex items-center gap-2 sm:gap-4">
-                    <p className="text-white">Filtrar por estado o sector (si se necesita)</p>
                 </div>
             )}
         </div>

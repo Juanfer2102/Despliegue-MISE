@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Buscador from "../../components/inputs/buscador/buscador";
+import { useNavigate } from 'react-router-dom';
 
 export const TablasEmpresas = () => {
   const [empresas, setEmpresas] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();  // Obtener la función navigate
 
   useEffect(() => {
     const fetchEmpresas = async () => {
@@ -16,16 +18,42 @@ export const TablasEmpresas = () => {
       }
     };
 
-    fetchEmpresas();
-  }, []);
+    // Forzar la recarga de datos después de un timeout pequeño
+    setTimeout(() => {
+      fetchEmpresas();
+    }, 50);  // Espera medio segundo para asegurarte que la redirección ha finalizado
+  }, []);  // Este useEffect se ejecuta una sola vez al montar el componente
 
   // Filtrar empresas con estado 2
   const empresasConEstado2 = empresas.filter(
-    (empresa) => empresa.estado === 2 && empresa.diagnostico === 1
+    (empresa) => empresa.estado === 2 && empresa.diagnostico_value === 1
   );
 
   const handleSearch = (term) => {
     setSearchTerm(term);
+  };
+
+  // Estilos en JSX
+  const styles = {
+    customScrollbar: {
+      scrollbarWidth: '13px',
+      scrollbarColor: '#888 #262b32',
+    },
+    customScrollbarTrack: {
+      background: '#262b32',
+      borderRadius: '12px',
+    },
+    customScrollbarThumb: {
+      background: '#888',
+      borderRadius: '10px',
+    },
+    customScrollbarThumbHover: {
+      background: '#555',
+    }
+  };
+
+  const handleViewDash = (nit) => {
+    navigate(`/dashboard-emp/${nit}/`);  // Usar el nit recibido para la navegación
   };
 
   return (
@@ -48,7 +76,7 @@ export const TablasEmpresas = () => {
             <div className="flex-1 p-5 text-center">Información</div>
           </div>
 
-          <div className="divide-y border max-h-[25rem] md:max-h-[50rem] overflow-y-auto custom-scrollbar border-textBg border-t-0 rounded">
+          <div className="divide-y border border-textBg border-t-0 rounded max-h-[10rem] overflow-y-auto custom-scrollbar" style={styles.customScrollbar}>
             {empresasConEstado2
               .filter(empresa =>
                 `${empresa.nit} ${empresa.nombre_empresa}`.toLowerCase().includes(searchTerm.toLowerCase())
@@ -59,11 +87,9 @@ export const TablasEmpresas = () => {
                   <div className="flex-1 p-5 xl:text-left text-center">{empresa.nombre_empresa}</div>
                   <div className="flex-1 p-5 xl:text-left text-center">{empresa.sector}</div>
                   <div className="flex-1 p-5 text-center">
-                    <a href="/dashboard-emp">
-                      <button className="p-2 text-sm tracking-wide transition-colors duration-200 bg-transparent border rounded-lg hover:bg-principalGreen hover:text-white hover:border-principalGreen border-white">
-                        Ver Detalles
-                      </button>
-                    </a>
+                    <button onClick={() => handleViewDash(empresa.nit)} className="p-2 text-sm tracking-wide transition-colors duration-200 bg-transparent border rounded-lg hover:bg-principalGreen hover:text-white hover:border-principalGreen border-white">
+                      Ver Detalles
+                    </button>
                   </div>
                 </div>
               ))}

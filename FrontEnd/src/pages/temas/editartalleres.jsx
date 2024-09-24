@@ -12,7 +12,7 @@ const EditarTalleres = () => {
           <div className="bg-greyBg flex flex-col px-4 sm:px-8 h-full w-full">
             <div className="flex max-md:flex-col xl:flex-row min-lg:flex-row gap-5 py-2">
               <div className="h-full w-full flex flex-col gap-[5rem] justify-center">
-                <Modaleditar condicion={8} />
+                <Modaleditar condicion={7} />
               </div>
             </div>
           </div>

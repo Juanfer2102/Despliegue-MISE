@@ -1,6 +1,6 @@
 import React from 'react';
-import LayoutDashboard from "../layouts/LayoutDashboard";
-import TablasUsers from "../components/tablas/tablasUsers.jsx";
+import LayoutDashboard from "../../layouts/LayoutDashboard.jsx";
+import TablasUsers from "../../components/tablas/tablasUsers.jsx";
 
 const VerUsers = () => {
   return (

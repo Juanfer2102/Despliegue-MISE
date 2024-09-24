@@ -27,35 +27,32 @@ const EditarPorcentaje = lazy(() => import("./pages/editarPorcentajeDesarr/edita
 const EditarUsuario = lazy(() => import("./pages/editarUsuario/editarUsuario.jsx"));
 
 // Componentes de usuarios
-const VerUsers = lazy(() => import("./pages/visualizarUsers.jsx"));
+const VerUsers = lazy(() => import("./pages/visualizarUsers/visualizarUsers.jsx"));
 const EmpresasRegistradas = lazy(() => import("./pages/empresasRegistradas/empresasRegistradas"));
+const EmpresasVinculacion = lazy(() => import("./pages/empresasvinculacion/empresasVinculacion.jsx"));
 
 // Componentes de módulos
 const Modulos = lazy(() => import("./pages/modulos/modulos.jsx"))
-const Nuevomodulo = lazy(() => import("./pages/modulos/nuevomodulo.jsx"));
 const Editarmodulos = lazy(() => import("./pages/modulos/editarmodulos.jsx"));
 
 // Componentes de sueños
 const Sueos = lazy(() => import("./pages/sueños/sueños.jsx"));
-const NuevoSueo = lazy(() => import("./pages/sueños/nuevosueño.jsx"));
-const Editarsueos = lazy(() => import("./pages/sueños/editarSueños.jsx"));
 
 // Componentes de preguntas
 const Preguntas = lazy(() => import("./pages/preguntas/preguntas.jsx"));
-const NuevaPregunta = lazy(() => import("./pages/preguntas/nuevapregunta.jsx"));
-const Editarpreguntas = lazy(() => import("./pages/preguntas/editarpreguntas.jsx"));
 
 // Componentes de talleres
-const Talleres = lazy(() => import("./pages/talleres/talleres.jsx"));
-const EditarTalleres = lazy(() => import("./pages/talleres/editartalleres.jsx"));
-const NuevoTaller = lazy(() => import("./pages/talleres/nuevotaller.jsx"));
+const Temas = lazy(() => import("./pages/temas/temas.jsx"));
 
 // Otros componentes
 const AceptarEmpresas = lazy(() => import("./pages/aceptarEmpresas/aceptarempv.jsx"));
 const DetalleEmpresas = lazy(() => import("./pages/aceptarEmpresas/verinfoempresa.jsx"));
 const Autoevaluacion = lazy(() => import("./pages/autoevaluacion/autoevaluacion.jsx"));
 const VerEmpDiag = lazy(() => import("./pages/diagnostico/verempdiag.jsx"));
-const DiagnosticoEmpresa = lazy(() => import("./pages/diagnostico/diagnosticoempresa.jsx"));
+const EvaluacionEmpresa = lazy(() => import("./pages/diagnostico/diagnosticoempresa.jsx"));
+const EvaluacionEmpresaf = lazy(() => import("./pages/diagnostico/diagnosticoempresaf.jsx"));
+const DiagnosticoEmpresa = lazy(() => import("./pages/diagnostico/detallediagnostico.jsx"));
+const DetalleDiagnosticof = lazy(() => import("./pages/diagnostico/detallediagnosticof.jsx"));
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const userData = JSON.parse(localStorage.getItem('userData'));
@@ -64,7 +61,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   return allowedRoles.includes(role) ? children : <Navigate to="/" />;
 };
 
-// Definir las propTypes para ProtectedRoute
+// Definir las propTypes para ProtectedRoute  
 ProtectedRoute.propTypes = {
   children: PropTypes.node.isRequired,
   allowedRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -98,7 +95,7 @@ const AppRoutes = () => {
               <Dashboard />
             </ProtectedRoute>
           } />
-          <Route path="/dashboard-emp" element={
+          <Route path="/dashboard-emp/:nit" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
               <DashboardEmp />
             </ProtectedRoute>
@@ -123,14 +120,14 @@ const AppRoutes = () => {
               <EmpresasRegistradas />
             </ProtectedRoute>
           } />
+          <Route path="/empresas-vinculadas" element={
+            <ProtectedRoute allowedRoles={[1, 2, 3]}>
+              <EmpresasVinculacion />
+            </ProtectedRoute>
+          } />
           <Route path="/modulos" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
               <Modulos />
-            </ProtectedRoute>
-          } />
-          <Route path="/nuevo-modulo" element={
-            <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <Nuevomodulo />
             </ProtectedRoute>
           } />
           <Route path="/sueños" element={
@@ -138,24 +135,9 @@ const AppRoutes = () => {
               <Sueos />
             </ProtectedRoute>
           } />
-          <Route path="/nuevo-sueño" element={
-            <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <NuevoSueo />
-            </ProtectedRoute>
-          } />
-          <Route path="/editar-modulos" element={
+          <Route path="/editar-modulos/:id" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
               <Editarmodulos />
-            </ProtectedRoute>
-          } />
-          <Route path="/editar-sueños" element={
-            <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <Editarsueos />
-            </ProtectedRoute>
-          } />
-          <Route path="/editar-preguntas" element={
-            <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <Editarpreguntas />
             </ProtectedRoute>
           } />
           <Route path="/preguntas" element={
@@ -163,24 +145,9 @@ const AppRoutes = () => {
               <Preguntas />
             </ProtectedRoute>
           } />
-          <Route path="/nueva-pregunta" element={
+          <Route path="/temas" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <NuevaPregunta />
-            </ProtectedRoute>
-          } />
-          <Route path="/talleres" element={
-            <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <Talleres />
-            </ProtectedRoute>
-          } />
-          <Route path="/editar-taller" element={
-            <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <EditarTalleres />
-            </ProtectedRoute>
-          } />
-          <Route path="/nuevo-taller" element={
-            <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <NuevoTaller />
+              <Temas />
             </ProtectedRoute>
           } />
           <Route path="/aceptar-empresas" element={
@@ -203,9 +170,25 @@ const AppRoutes = () => {
               <VerEmpDiag />
             </ProtectedRoute>
           } />
-          <Route path="/diagnostico/empresa" element={
+          <Route path="/evaluacion/empresa/:nit" element={
+            <ProtectedRoute allowedRoles={[1, 2, 3]}>
+              <EvaluacionEmpresa />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/evaluacionfinal/empresa" element={
+            <ProtectedRoute allowedRoles={[1, 2, 3]}>
+              <EvaluacionEmpresaf />
+            </ProtectedRoute>
+          } />
+          <Route path="/diagnostico/empresa/:nit" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
               <DiagnosticoEmpresa />
+            </ProtectedRoute>
+          } />
+          <Route path="/diagnosticofinal/empresa" element={
+            <ProtectedRoute allowedRoles={[1, 2, 3]}>
+              <DetalleDiagnosticof />
             </ProtectedRoute>
           } />
         </Routes>
