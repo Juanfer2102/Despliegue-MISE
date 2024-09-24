@@ -16,9 +16,6 @@
  * 
  * Estilos:
  * - El diseño se adapta a diferentes tamaños de pantalla (diseño responsive) con clases de Tailwind CSS.
- * 
- * Rutas:
- * - El botón "Editar Porcentaje" redirige al usuario a la página "/editar-porcentaje".
  */
 import React from "react";
 import LayoutDashboard from "../../layouts/LayoutDashboard.jsx";
@@ -38,11 +35,6 @@ const Dashboard = () => {
               <div className="w-full h-[20rem] bg-greyBlack p-4 sm:p-5 rounded-xl text-white">
                 <div className="flex flex-col sm:flex-row sm:justify-between gap-4 sm:gap-8">
                   <p className="pt-1 text-center sm:text-left">Porcentaje de Desarrollo</p>
-                  <a href="/editar-porcentaje" className="flex justify-center">
-                    <button className="bg-principalGreen text-center rounded-xl h-10 px-2 hover:bg-white hover:text-principalGreen hover:border-principalGreen hover:border">
-                      Editar Porcentaje
-                    </button>
-                  </a>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-5 pt-8 sm:pt-12 justify-center">
                   <ProgressCircleHero text="No Desarro..." value={"49.00"} width="w-full sm:w-1/3 max-w-[13rem]" />

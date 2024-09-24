@@ -3,6 +3,7 @@ from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 from users import views
 from .views import TemasListView, EditarPreguntaAPIView, ConcretarSuenoAPIView, create_modulo, update_modulo, TemaDetailView, TemasCreateUpdateView, get_modulos, get_preguntas, check_auth, generar_pdf_final, generar_pdf, obtener_postulante_por_nit, listar_empresas_activas, listar_empresas_sin_diagnostico, RegistrarDiagnosticoView, ConsultarDiagnosticoView, CalificacionesBajasPorNitView, CalificacionesPorNitView, CalificacionesListView, generar_diagnostico, UpdateEmpresaDiagStatus, SaveCalificacionView, CalificacionesViewSet, registrar_calificacion, CalificacionesModulosList, PreguntasPorModuloList, ModuloUpdateView, PreguntasNoAsignadasList, ModulosListView, AutoevaluacionDetail, RegistroAutoevaluacionView, RegistroPostulante, RegistroEmpresa, UpdateEmpresaStatus, AutoevaluacionListCreate, CalificacionModuloListCreate, ModuloAutoevaluacionListCreate, RegistroPostulanteView, EmpresasListCreate, EmpresasRetrieveUpdateDestroy, ModulosListCreate, ModulosRetrieveUpdateDestroy, PostulanteListCreate, PostulanteRetrieveUpdateDestroy, PreguntasListCreate, PreguntasRetrieveUpdateDestroy, ProgramasListCreate, ProgramasRetrieveUpdateDestroy, RegistrosListCreate, RegistrosRetrieveUpdateDestroy, RolListCreate, RolRetrieveUpdateDestroy, SuenosListCreate, SuenosRetrieveUpdateDestroy, TalleresListCreate, TalleresRetrieveUpdateDestroy, UsuarioListCreate, UsuarioRetrieveUpdateDestroy
+from .views import TemasListView, PasswordResetView, PasswordResetConfirmView, EliminarObjetoAPIView, SuenosAPIView, EditarPreguntaAPIView, create_modulo, update_modulo, TemaDetailView, TemasCreateUpdateView, get_modulos, get_preguntas, check_auth, generar_pdf_final, generar_pdf, obtener_postulante_por_nit, listar_empresas_activas, listar_empresas_sin_diagnostico, RegistrarDiagnosticoView, ConsultarDiagnosticoView, CalificacionesBajasPorNitView, CalificacionesPorNitView, CalificacionesListView, generar_diagnostico, UpdateEmpresaDiagStatus, SaveCalificacionView, CalificacionesViewSet, registrar_calificacion, CalificacionesModulosList, PreguntasPorModuloList, ModuloUpdateView, PreguntasNoAsignadasList, ModulosListView, AutoevaluacionDetail, RegistroAutoevaluacionView, RegistroPostulante, RegistroEmpresa, UpdateEmpresaStatus, AutoevaluacionListCreate, CalificacionModuloListCreate, ModuloAutoevaluacionListCreate, RegistroPostulanteView, EmpresasListCreate, EmpresasRetrieveUpdateDestroy, ModulosListCreate, ModulosRetrieveUpdateDestroy, PostulanteListCreate, PostulanteRetrieveUpdateDestroy, PreguntasListCreate, PreguntasRetrieveUpdateDestroy, ProgramasListCreate, ProgramasRetrieveUpdateDestroy, RegistrosListCreate, RegistrosRetrieveUpdateDestroy, RolListCreate, RolRetrieveUpdateDestroy, SuenosListCreate, SuenosRetrieveUpdateDestroy, TalleresListCreate, TalleresRetrieveUpdateDestroy, UsuarioListCreate, UsuarioRetrieveUpdateDestroy
 
 router = routers.DefaultRouter()
 
@@ -12,6 +13,8 @@ urlpatterns = [
     path('check-auth/', check_auth, name='check_auth'),
 
     path('concretar-sueno/<int:sueno_id>/', ConcretarSuenoAPIView.as_view(), name='concretar-sueno'),
+    path('password_reset/', PasswordResetView.as_view(), name='password_reset'),
+    path('password_reset_confirm/<str:token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 
     path('temas/', TemasListView.as_view(), name='temas-list'),
     path('temas/<int:id>/', TemaDetailView.as_view(), name='tema-detail'),
@@ -85,7 +88,12 @@ urlpatterns = [
     path('rol/<int:pk>/', RolRetrieveUpdateDestroy.as_view(), name='rol-retrieve-update-destroy'),
 
     path('suenos/', SuenosListCreate.as_view(), name='suenos-list-create'),
-    path('suenos/<int:pk>/', SuenosRetrieveUpdateDestroy.as_view(), name='suenos-retrieve-update-destroy'),
+    # path('suenos/<int:pk>/', SuenosRetrieveUpdateDestroy.as_view(), name='suenos-retrieve-update-destroy'),
+
+    path('eliminar/<str:model>/<int:id>/', EliminarObjetoAPIView.as_view(), name='eliminar_objeto_cbv'),
+
+    path('crear-suenos/', SuenosAPIView.as_view(), name='suenos-create'),  # Para crear un nuevo sueño
+    path('suenos/<int:pk>/', SuenosAPIView.as_view(), name='suenos-edit'),  # Para editar un sueño existente
 
     path('talleres/', TalleresListCreate.as_view(), name='talleres-list-create'),
     path('talleres/<int:pk>/', TalleresRetrieveUpdateDestroy.as_view(), name='talleres-retrieve-update-destroy'),

@@ -52,6 +52,24 @@ const PreguntasContainer = () => {
         }
     };
 
+    const DeletePregunta = async (pregunta) => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/v2/eliminar/preguntas/${pregunta.id_pregunta}/`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ estado: pregunta.estado })
+            });
+    
+            if (!response.ok) {
+                throw new Error('Error al inhabilitar pregunta.');
+            }
+            fetchPreguntas();
+        } catch (error) {
+            setError('Error al inhabilitar pregunta.');
+            console.error('Error al inhabilitar pregunta.', error);
+        }
+    };
+
     useEffect(() => {
         fetchModulos();
         fetchPreguntas(); // Obtener todas las preguntas al montar el componente
@@ -63,6 +81,7 @@ const PreguntasContainer = () => {
             preguntas={preguntas}
             selectedModulo={selectedModulo}
             onUpdatePregunta={updatePregunta}
+            DeletePregunta={DeletePregunta}
         />
     );
 };
