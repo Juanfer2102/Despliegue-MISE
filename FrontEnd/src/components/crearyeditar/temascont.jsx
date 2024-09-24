@@ -79,10 +79,23 @@ const TemasContainer = () => {
         }
     };
     
+    const DeleteTema = async (tema) => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/v2/eliminar/temas/${tema.id}/`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ estado: tema.estado })
+            });
     
-    
-    
-    
+            if (!response.ok) {
+                throw new Error('Error al inhabilitar tema.');
+            }
+            fetchTemas();
+        } catch (error) {
+            setError('Error al inhabilitar tema.');
+            console.error('Error al inhabilitar tema:', error);
+        }
+    };
 
     useEffect(() => {
         fetchTemas();
@@ -98,6 +111,7 @@ const TemasContainer = () => {
             onModuloChange={handleModuloChange}
             onCreateOrUpdateTema={createOrUpdateTema}
             onFetchTemas={fetchTemas}
+            DeleteTema={DeleteTema}
         />
     );
 };

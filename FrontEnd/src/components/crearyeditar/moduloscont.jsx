@@ -25,15 +25,15 @@ const ModulosContainer = () => {
         try {
             const response = modulo.id_modulo
                 ? await fetch(`http://localhost:8000/api/v2/modulos/${modulo.id_modulo}/`, {
-                      method: 'PUT',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ nombre: modulo.nombre })
-                  })
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombre: modulo.nombre })
+                })
                 : await fetch('http://localhost:8000/api/v2/cmodulos/', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ nombre: modulo.nombre, preguntas: modulo.preguntas })
-                  });
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombre: modulo.nombre, preguntas: modulo.preguntas, estado: 0 })
+                });
 
             if (!response.ok) {
                 throw new Error('Error al guardar módulo.');
@@ -48,13 +48,34 @@ const ModulosContainer = () => {
         }
     };
 
+    const DeleteModulo = async (modulo) => {
+        setLoading(true);
+        try {
+            const response = await fetch(`http://localhost:8000/api/v2/eliminar/modulos/${modulo.id_modulo}/`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ estado: modulo.estado })
+            });
+    
+            if (!response.ok) {
+                throw new Error('Error al inhabilitar módulo.');
+            }
+            fetchModulos();
+        } catch (error) {
+            setError('Error al inhabilitar módulo.');
+            console.error('Error al inhabilitar módulo:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         fetchModulos();
     }, []);
 
     return (
         <div>
-            <ModulosView modulos={modulos} onCreateOrUpdateModulo={createOrUpdateModulo} />
+            <ModulosView modulos={modulos} onCreateOrUpdateModulo={createOrUpdateModulo} DeleteModulo={DeleteModulo} />
             {loading && <p>Cargando...</p>}
         </div>
     );

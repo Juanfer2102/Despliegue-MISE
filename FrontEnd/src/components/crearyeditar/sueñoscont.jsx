@@ -67,12 +67,33 @@ const SuenosContainer = () => {
         }
     };
 
+    const DeleteSueno = async (sueno) => {
+        setLoading(true);
+        try {
+            const response = await fetch(`http://localhost:8000/api/v2/eliminar/suenos/${sueno.id}/`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ estado: sueno.estado })
+            });
+    
+            if (!response.ok) {
+                throw new Error('Error al inhabilitar sueño.');
+            }
+            fetchSuenos();
+        } catch (error) {
+            setError('Error al inhabilitar sueño.');
+            console.error('Error al inhabilitar sueño:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     if (loading) return <div>Cargando...</div>;
     if (error) return <div>{error}</div>;
 
     return (
-        <SuenosView suenos={suenos} modulos={modulos} onCreateOrUpdateSuenio={handleCreateOrUpdateSuenio} />
+        <SuenosView suenos={suenos} modulos={modulos} onCreateOrUpdateSuenio={handleCreateOrUpdateSuenio} DeleteSuenos={DeleteSueno} />
     );
 
 };

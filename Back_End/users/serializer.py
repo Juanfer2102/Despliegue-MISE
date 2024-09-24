@@ -79,7 +79,7 @@ class TemasSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Temas
-        fields = ['id', 'id_modulo', 'titulo_formacion', 'num_sesion', 'objetivo', 'alcance', 'contenido', 'conferencista', 'fecha', 'horario', 'ubicacion', 'preguntas']
+        fields = ['id', 'id_modulo', 'titulo_formacion', 'num_sesion', 'objetivo', 'alcance', 'contenido', 'conferencista', 'fecha', 'horario', 'ubicacion', 'preguntas', 'estado']
 
     def create(self, validated_data):
         preguntas_data = validated_data.pop('preguntas', [])
@@ -101,7 +101,7 @@ class PreguntasSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Preguntas
-        fields = ['id_pregunta', 'descripcion', 'id_modulo', 'calificacion']
+        fields = ['id_pregunta', 'descripcion', 'id_modulo', 'calificacion', 'estado']
 
     def get_calificacion(self, obj):
         # Obtiene la calificación más reciente o la que necesites de la tabla Calificaciones
@@ -121,7 +121,7 @@ class ModulosSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Modulos
-        fields = ['id_modulo', 'nombre', 'objetivo', 'observaciones', 'alcance', 'estado_actual', 'nivel_ideal', 'calificaciones', 'preguntas']
+        fields = ['id_modulo', 'nombre', 'objetivo', 'observaciones', 'alcance', 'estado_actual', 'nivel_ideal', 'calificaciones', 'preguntas', 'estado']
 
     def get_calificaciones(self, obj):
         # Este método puede estar realizando alguna lógica que no es necesario cambiar,

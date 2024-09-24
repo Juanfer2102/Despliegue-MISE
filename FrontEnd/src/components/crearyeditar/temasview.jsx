@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, onCreateOrUpdateTema }) => {
+const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, onCreateOrUpdateTema, DeleteTema }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalTema, setModalTema] = useState(null);
     const [preguntas_, setPreguntas] = useState([]);
@@ -84,7 +84,14 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
         onCreateOrUpdateTema(newTema);
         closeModal();
     };
-    
+
+    const handleClick = () => {
+        if (modalTema) {
+            DeleteTema({ id: modalTema.id, estado: 1 });
+        }
+        closeModal();
+    };
+
     return (
         <div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6 p-2">
@@ -108,7 +115,16 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
             {isModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                     <div className="bg-greyBg text-white p-4 rounded-lg shadow-lg w-full max-w-4xl">
-                        <h3 className="text-xl font-bold mb-4">{modalTema.id ? 'Editar Tema' : 'Crear Nuevo Tema'}</h3>
+                        <div className='flex flex-row justify-between py-3'>
+                            <h3 className="text-xl font-bold mb-4">{modalTema.id ? 'Editar Tema' : 'Crear Nuevo Tema'}</h3>
+                            <button
+                                type="button"
+                                onClick={handleClick}
+                                className={`bg-red text-white ${modalTema.id ? 'block' : 'hidden'} px-4 py-2 rounded-md hover:bg-white hover:text-principalGreen transition duration-300`}
+                            >
+                                Eliminar Modulo
+                            </button>
+                        </div>
                         <form onSubmit={handleSubmit} className='max-h-[30rem] overflow-y-auto p-2'>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                 <div className="mb-4">

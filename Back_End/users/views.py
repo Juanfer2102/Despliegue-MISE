@@ -740,10 +740,11 @@ class CalificacionesModulosList(generics.ListAPIView):
 class TemasListView(ListView):
     model = Temas
     # Puedes ajustar los campos según lo que necesites
-    fields = ['id_modulo', 'titulo_formacion', 'num_sesion', 'objetivo']
+    fields = ['id_modulo', 'titulo_formacion', 'num_sesion', 'objetivo', 'estado']
     
     def get(self, request, *args, **kwargs):
-        temas = list(Temas.objects.all().values())
+        # Filtrar los temas donde el estado es 0
+        temas = list(Temas.objects.filter(estado=0).values())
         return JsonResponse(temas, safe=False)
 
 # Detalle de un tema específico
@@ -844,7 +845,25 @@ def update_modulo(request, id_modulo):
         return Response(ModulosSerializer(modulo).data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class EliminarObjetoAPIView(APIView):
+    def put(self, request, model, id):
+        # Obtener el objeto según el modelo y el ID
+        if model == 'modulos':
+            objeto = get_object_or_404(Modulos, id_modulo=id)
+        elif model == 'temas':
+            objeto = get_object_or_404(Temas, pk=id)
+        elif model == 'suenos':
+            objeto = get_object_or_404(Suenos, pk=id)
+        elif model == 'preguntas':
+            objeto = get_object_or_404(Preguntas, id_pregunta=id)
+        else:
+            return Response({'error': 'Modelo no válido'}, status=status.HTTP_400_BAD_REQUEST)
 
+        # Actualizar el estado a 1 (eliminado)
+        objeto.estado = 1
+        objeto.save()
+
+        return Response({'message': 'Estado actualizado a 1 (eliminado)'}, status=status.HTTP_200_OK)
 
 # Obtener preguntas por módulo
 def get_preguntas(request):
@@ -1096,8 +1115,11 @@ class PostulanteRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
 # Preguntas Views
 class PreguntasListCreate(generics.ListCreateAPIView):
-    queryset = Preguntas.objects.all()
     serializer_class = PreguntasSerializer
+
+    def get_queryset(self):
+        # Filtrar las preguntas con estado igual a 0
+        return Preguntas.objects.filter(estado=0)
 
 class PreguntasRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Preguntas.objects.all()
@@ -1135,7 +1157,7 @@ class SuenosListCreate(generics.ListCreateAPIView):
     serializer_class = SuenosSerializer
 
     def get_queryset(self):
-        # Filtrar sueños por estado = 0
+        # Filtrar los registros de Suenos donde el estado es 0
         return Suenos.objects.filter(estado=0)
 
 class SuenosRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
