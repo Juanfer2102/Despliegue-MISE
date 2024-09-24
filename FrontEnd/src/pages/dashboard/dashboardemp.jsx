@@ -65,7 +65,15 @@ const DashboardEmp = () => {
       // Obtener los diagnósticos
       fetch(`http://localhost:8000/api/v2/diagnostico/${nit}/`)
         .then(response => response.json())
-        .then(data => setDiagnosticos(data.diagnosticos))
+        .then(data => {
+          // Filtrar los sueños de cada diagnóstico que tienen estado 0
+          const filteredDiagnosticos = data.diagnosticos.map(diagnostico => ({
+            ...diagnostico,
+            suenos: diagnostico.suenos.filter(sueño => sueño.estado === 0)
+          })).filter(diagnostico => diagnostico.suenos.length > 0); // Solo incluir diagnósticos con sueños filtrados
+
+          setDiagnosticos(filteredDiagnosticos);
+        })
         .catch(error => console.error("Error fetching diagnosticos:", error));
     }
   }, [nit]);

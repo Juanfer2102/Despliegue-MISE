@@ -168,17 +168,29 @@ class TemasPreguntas(models.Model):
 
 
 class Suenos(models.Model):
-    id_modulo = models.IntegerField()  # Cambiado de ForeignKey a IntegerField
-    nivel = models.CharField(max_length=50)
-    sueño = models.TextField()
-    medicion = models.TextField()
+    id = models.BigAutoField(primary_key=True)
+    id_modulo = models.IntegerField()
+    nivel = models.CharField(max_length=50, blank=True, null=True)
+    sueño = models.TextField(blank=True, null=True)
+    medicion = models.TextField(blank=True, null=True)
     evidencia = models.TextField(blank=True, null=True)
+    estado = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'suenos'
 
 
+class SuenosConcretados(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    id_sueno = models.ForeignKey(Suenos, models.DO_NOTHING, db_column='id_sueno')
+    fecha = models.DateField()
+    observaciones = models.TextField(blank=True, null=True)
+    estado = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'suenos_concretados'
 
 
 class DiagnosticoEmpresarial(models.Model):
@@ -194,7 +206,7 @@ class DiagnosticoEmpresarialSuenos(models.Model):
     id = models.AutoField(primary_key=True)
     diagnostico = models.ForeignKey(DiagnosticoEmpresarial, on_delete=models.CASCADE, related_name='suenos')
     sueno = models.ForeignKey(Suenos, on_delete=models.CASCADE)
-
+    estado = models.IntegerField()
     class Meta:
         db_table = 'diagnosticosuenos'
         unique_together = (('diagnostico', 'sueno'),)

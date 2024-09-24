@@ -25,7 +25,7 @@ from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
-from .models import Temas, DiagnosticoEmpresarialSuenos, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .models import Temas, DiagnosticoEmpresarialSuenos, TemasPreguntas, SuenosConcretados, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 from .serializer import TemasSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from rest_framework import status, generics, serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
@@ -150,19 +150,23 @@ class ConsultarDiagnosticoView(APIView):
         
         datos_diagnostico = []
         for diagnostico in diagnosticos:
-            suenos = diagnostico.suenos.all()  # Acceder a los sueños a través de la relación inversa
+            suenos_concretados = diagnostico.suenos.all()  # Acceder a los sueños a través de la relación inversa
+            
+            # Agregar los sueños con el estado correspondiente
             datos_diagnostico.append({
                 "modulo": diagnostico.modulo.nombre,
                 "calificacion_promedio": diagnostico.calificacion_promedio,
                 "suenos": [
                     {
+                        "id": sueno.sueno.id,  # Agregar el ID del sueño aquí
                         "modulo": diagnostico.modulo.nombre,
                         "nivel": sueno.sueno.nivel,
                         "sueño": sueno.sueno.sueño,
                         "medicion": sueno.sueno.medicion,
                         "evidencia": sueno.sueno.evidencia,
+                        "estado": sueno.estado,  # Agregar el estado de los sueños concretados aquí
                     }
-                    for sueno in suenos
+                    for sueno in suenos_concretados  # Cambiar a suenos_concretados
                 ]
             })
 
@@ -170,7 +174,6 @@ class ConsultarDiagnosticoView(APIView):
             "empresa": empresa.nit,
             "diagnosticos": datos_diagnostico
         }, status=status.HTTP_200_OK)
-
 
 
 class RegistrarDiagnosticoView(APIView):
@@ -735,7 +738,54 @@ class TemaDetailView(DetailView):
 
 # Crear o actualizar un tema
 
+class ConcretarSuenoAPIView(APIView):
+    def post(self, request, sueno_id):
+        try:
+            # Obtener el sueño por su ID
+            sueno = Suenos.objects.get(id=sueno_id)
 
+            # Obtener el estado y las observaciones del cuerpo de la solicitud
+            estado = request.data.get('estado')  # 1 para aprobado, 0 para no aprobado
+            observaciones = request.data.get('observaciones', '')
+
+            # Formatear la fecha actual
+            fecha_actual = datetime.now().strftime("%Y-%m-%d")
+
+            # Crear o actualizar el registro de SuenosConcretados
+            sueno_concretado, created = SuenosConcretados.objects.update_or_create(
+                id_sueno=sueno,
+                defaults={
+                    'fecha': fecha_actual,
+                    'observaciones': observaciones,
+                    'estado': estado
+                }
+            )
+
+            # Actualizar el estado en DiagnosticoEmpresarialSuenos
+            # Buscamos el diagnóstico relacionado con este sueño
+            try:
+                diagnosticos_suenos  = DiagnosticoEmpresarialSuenos.objects.filter(sueno=sueno)
+
+                if diagnosticos_suenos.exists():
+                    for diagnostico_sueno in diagnosticos_suenos:
+        # Actualizar el estado según el valor recibido
+                        if estado == 1:
+                            diagnostico_sueno.estado = 1  # Si se concretó, estado a 1
+                        elif estado == 0:
+                            diagnostico_sueno.estado = 2  # Si no se concretó, estado a 2
+
+                            diagnostico_sueno.save()  # Guarda el cambio en la base de datos
+            except DiagnosticoEmpresarialSuenos.DoesNotExist:
+                return Response({"error": "No se encontró el diagnóstico relacionado con este sueño."}, 
+                                status=status.HTTP_404_NOT_FOUND)
+
+            return Response({"message": "Sueño concretado y estado actualizado correctamente."}, 
+                            status=status.HTTP_200_OK)
+
+        except Suenos.DoesNotExist:
+            return Response({"error": "Sueño no encontrado."}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 class TemasCreateUpdateView(APIView):
     permission_classes = [AllowAny]  # Permitir acceso sin autenticación
 
@@ -1139,13 +1189,33 @@ class PreguntasNoAsignadasList(generics.ListAPIView):
 
     def get_queryset(self):
         return Preguntas.objects.filter(id_modulo__isnull=True)
+    
+
 @api_view(['GET'])
 def generar_pdf(request, nit):
     try:
-
+        # Obtener la empresa por su NIT
         empresa = Empresas.objects.get(nit=nit)
         postulante = empresa.id_postulante
+        
+        # Obtener el diagnóstico empresarial asociado a la empresa
+        diagnostico = DiagnosticoEmpresarial.objects.filter(empresa=empresa).first()
+
+        # Obtener los sueños relacionados con el diagnóstico
+        suenos_asignados = DiagnosticoEmpresarialSuenos.objects.filter(diagnostico=diagnostico).select_related('sueno')
+
+        # Construir el HTML para el PDF
         fecha_actual = datetime.now().strftime("%d/%m/%Y")
+        suenos_html = ""
+
+        # Iterar sobre los sueños asignados y agregarlos a la tabla
+        for diagnostico_sueno in suenos_asignados:
+            sueno = diagnostico_sueno.sueno
+            suenos_html += f"""
+            <tr>
+                <td>{sueno.sueño}</td>
+            </tr>
+            """
 
         html_content = f"""
         <!DOCTYPE html>
@@ -1319,34 +1389,11 @@ def generar_pdf(request, nit):
     <h2>DEFINICIÓN DE SUEÑOS</h2>
     <p>A partir del diagnóstico realizado en la reunión, usted y su consultor empresarial, concertaron los siguientes sueños empresariales para su empresa o proyecto empresarial:</p>
     
-    <table>
+    <table border="1">
         <tr>
             <th>SUEÑOS CONCERTADOS</th>
         </tr>
-        <tr>
-            <td>
-             <br>
-             <br>
-            </td>
-        </tr>
-        <tr>
-            <td>
-             <br>
-             <br>
-            </td>
-        </tr>
-        <tr>
-            <td>
-             <br>
-             <br>
-            </td>
-        </tr>
-        <tr>
-            <td>
-             <br>
-             <br>
-            </td>
-        </tr>
+        {suenos_html}
     </table>
 
     <h2>RUTA DE SERVICIOS</h2>
@@ -1361,8 +1408,6 @@ def generar_pdf(request, nit):
         </tr>
         <tr>
             <td><em>Ej.: Módulo, taller, información, asesoría, consultoría, contactos</em></td>
-            <td></td>
-            <td></td>
             <td></td>
         </tr>
     </table>
@@ -1444,6 +1489,7 @@ def generar_pdf(request, nit):
 
     except Exception as e:
         return HttpResponse(f'Error: {str(e)}', status=500)
+    
 
 
 @api_view(['GET'])
