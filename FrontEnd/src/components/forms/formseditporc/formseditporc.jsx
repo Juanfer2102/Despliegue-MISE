@@ -19,10 +19,10 @@ export const Formseditporc = () => {
     const [values, setValues] = useState({
         porcentaje1: "",
         nporcentaje1: "",
-        porcentaje2: "",
-        nporcentaje2: "",
-        porcentaje3: "",
-        nporcentaje3: "",
+        // porcentaje2: "",
+        // nporcentaje2: "",
+        // porcentaje3: "",
+        // nporcentaje3: "",
     });
 
     const handleInputChange = (event) => {
@@ -64,7 +64,7 @@ export const Formseditporc = () => {
                             <ProgressCircleHero text={values.porcentaje1} value={values.nporcentaje1} />
                         </div>
                     </div>
-                    {/* Second Row */}
+                    {/* Second Row
                     <div className="flex flex-col sm:flex-row sm:justify-between gap-8">
                         <div className='flex flex-col gap-4 sm:gap-8 w-full sm:w-1/2'>
                             <Input3 name={"porcentaje2"} value={values.porcentaje2} onChange={handleInputChange} width="w-full" widthInput="w-full" DataType="Nombre" inputPlaceholder="No Desarrollado" inputType="text" />
@@ -73,8 +73,8 @@ export const Formseditporc = () => {
                         <div className='text-white w-full sm:w-1/2'>
                             <ProgressCircleHero text={values.porcentaje2} value={values.nporcentaje2} />
                         </div>
-                    </div>
-                    {/* Third Row */}
+                    </div> */}
+                    {/* Third Row
                     <div className="flex flex-col sm:flex-row sm:justify-between gap-8">
                         <div className='flex flex-col gap-4 sm:gap-8 w-full sm:w-1/2'>
                             <Input3 name={"porcentaje3"} value={values.porcentaje3} onChange={handleInputChange} width="w-full" widthInput="w-full" DataType="Nombre" inputPlaceholder="No Desarrollado" inputType="text" />
@@ -83,7 +83,7 @@ export const Formseditporc = () => {
                         <div className='text-white w-full sm:w-1/2'>
                             <ProgressCircleHero text={values.porcentaje3} value={values.nporcentaje3} />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="mt-6 flex justify-start">
                     <button

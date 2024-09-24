@@ -225,3 +225,10 @@ class AutoevaluacionSerializer(serializers.ModelSerializer):
         model = Autoevaluacion
         fields = '__all__'
 
+class PasswordResetSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validate_email(self, value):
+        if not Usuario.objects.filter(correo=value).exists():
+            raise serializers.ValidationError("Este correo no está registrado.")
+        return value
