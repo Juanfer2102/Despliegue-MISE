@@ -1,3 +1,43 @@
+/**
+ * EmpresasRegistradas.jsx
+ * 
+ * Componente para la vista del dashboard de empresas registradas. Muestra tarjetas con estadísticas de empresas y una tabla con información detallada.
+ * 
+ * Componentes utilizados:
+ * - LayoutDashboard: Componente de diseño que envuelve la página del dashboard en un diseño de panel de control.
+ * - TarjetasEmpresasreg: Componente de tarjeta para mostrar estadísticas de empresas en diferentes estados.
+ * - TablasEmpresas: Componente que muestra una tabla con información detallada de empresas.
+ * 
+ * Funcionalidad:
+ * - Muestra tarjetas con estadísticas sobre empresas vinculadas, empresas sin diagnosticar y nuevas solicitudes.
+ * - Incluye una tabla con información detallada de las empresas.
+ * 
+ * Estado:
+ * - `empresasData`: Contiene el número de empresas vinculadas, sin diagnosticar y nuevas solicitudes. Se inicializa en cero y se actualiza mediante la función `fetchData`.
+ * 
+ * Función `fetchData`:
+ * - Realiza solicitudes a dos endpoints para obtener el número de empresas sin diagnosticar y el número de nuevas solicitudes.
+ * - Actualiza el estado `empresasData` con los datos obtenidos.
+ * 
+ * Estructura del componente:
+ * - `LayoutDashboard`: Envuelve el contenido de la página proporcionando un diseño general y el título "Dashboard".
+ * - `main`: Contenedor principal con fondo y diseño responsivo.
+ * - `div` interno:
+ *   - `bg-greyBlack`: Sección de encabezado con fondo negro.
+ *   - `px-4 py-5 md:px-8`: Contenedor para el contenido principal con espaciado.
+ *   - `TarjetasEmpresasreg`: Tres tarjetas que muestran estadísticas sobre las empresas.
+ *   - `TablasEmpresas`: Tabla que muestra información detallada de empresas.
+ * 
+ * Estilos:
+ * - Usa Tailwind CSS para el diseño de la página, incluyendo clases para el fondo (`bg-greyBg`), espaciado (`px-4 py-5`), y el diseño responsivo.
+ * - Las tarjetas se muestran en una fila en pantallas grandes y en una columna en pantallas pequeñas.
+ * 
+ * Puntos clave:
+ * - El componente hace uso del hook `useState` para manejar el estado y `useEffect` para ejecutar la función `fetchData` cuando el componente se monta.
+ * - La visualización de datos incluye tarjetas con iconos y una tabla detallada, proporcionando una vista completa del estado de las empresas registradas.
+ * - El diseño es responsivo y se adapta a diferentes tamaños de pantalla mediante Tailwind CSS.
+ */
+
 import React, { useState, useEffect } from "react";
 import LayoutDashboard from "../../layouts/LayoutDashboard";
 import TarjetasEmpresasreg from "../../components/tarjetasdashboard/tarjetasEmpresasreg";

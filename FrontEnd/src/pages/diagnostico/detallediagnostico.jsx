@@ -1,3 +1,44 @@
+/**
+ * Detallediagnosticof.jsx
+ * 
+ * Componente que permite evaluar una empresa y registrar un diagnóstico inicial basado en las calificaciones y sueños seleccionados.
+ * Utiliza los datos obtenidos a través de las API para mostrar la evaluación y permite seleccionar y registrar los sueños del módulo.
+ * 
+ * Componentes utilizados:
+ * - LayoutDashboard: Componente de diseño que envuelve la página de evaluación en un diseño de panel de control.
+ * 
+ * Hooks utilizados:
+ * - useState: Para manejar el estado local del componente.
+ * - useEffect: Para obtener los datos de la empresa y las calificaciones bajas desde el backend.
+ * - useParams: Para obtener parámetros de la URL, en este caso, el NIT de la empresa.
+ * - useNavigate: Para redirigir al usuario después de registrar el diagnóstico.
+ * 
+ * Funcionalidad:
+ * - Obtiene y muestra información de la empresa y calificaciones bajas desde las API.
+ * - Permite la selección y deselección de sueños para cada módulo.
+ * - Envía los datos seleccionados al backend para registrar el diagnóstico.
+ * 
+ * Estilos:
+ * - Usa Tailwind CSS para la disposición y el diseño. La página se estructura en una vista de panel de control con estilos específicos para la tabla de calificaciones, la selección de sueños y los temas asociados.
+ * - El diseño incluye una tabla para mostrar calificaciones bajas y secciones para los sueños y temas relacionados con cada módulo.
+ * - Los botones y elementos interactivos tienen estilos personalizados con efectos de transición para mejorar la experiencia del usuario.
+ * 
+ * Estructura del componente:
+ * - useState para manejar el estado de la empresa, calificaciones bajas, y sueños seleccionados.
+ * - useEffect para realizar fetch de datos de la empresa y calificaciones bajas basadas en el NIT proporcionado en la URL.
+ * - Función handleSelectSueño para seleccionar o deseleccionar sueños.
+ * - Función registrarDiagnostico para enviar los datos de sueños seleccionados al backend.
+ * - Función renderTabla para mostrar las calificaciones bajas en una tabla.
+ * - Renderiza la interfaz de usuario con una sección de introducción, módulos de evaluación, temas asignados, y sueños del módulo.
+ * 
+ * Puntos clave:
+ * - Se obtiene la información de la empresa y calificaciones bajas mediante fetch desde las API.
+ * - La selección de sueños se maneja con un estado local que permite al usuario seleccionar y deseleccionar sueños específicos.
+ * - Los datos de diagnóstico se envían al backend en formato JSON cuando se hace clic en el botón "Registrar Diagnóstico".
+ * - La interfaz se ajusta automáticamente para mostrar los datos de manera clara y ordenada, utilizando las clases de Tailwind CSS para un diseño responsivo.
+ */
+
+
 import React, { useState, useEffect } from "react";
 import LayoutDashboard from '../../layouts/LayoutDashboard';
 import { useParams, useNavigate } from 'react-router-dom';

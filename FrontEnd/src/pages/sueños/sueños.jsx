@@ -1,3 +1,52 @@
+/**
+ * Sueos.jsx
+ * 
+ * Componente para mostrar una lista de sueños y opciones de navegación relacionadas. Este componente utiliza un contenedor
+ * para mostrar una lista de sueños y proporciona enlaces a otras secciones relevantes del dashboard.
+ * 
+ * Componentes utilizados:
+ * - LayoutDashboard: Estructura de diseño general para la página con título.
+ * - SuenosContainer: Componente que muestra una lista o contenedor de sueños.
+ * - Modalopciones: Componente para mostrar opciones de navegación con enlaces a diferentes secciones.
+ * 
+ * Estilos en JSX:
+ * - **`customScrollbar`:** Estilo para personalizar la barra de desplazamiento.
+ *   - **`scrollbarWidth: '13px'`:** Configura el ancho de la barra de desplazamiento.
+ *   - **`scrollbarColor: '#888 #262b32'`:** Color del pulgar y del track de la barra de desplazamiento.
+ * - **`customScrollbarTrack`:** Estilo del track de la barra de desplazamiento.
+ *   - **`background: '#262b32'`:** Color de fondo del track.
+ *   - **`borderRadius: '12px'`:** Radio de borde del track.
+ * - **`customScrollbarThumb`:** Estilo del pulgar de la barra de desplazamiento.
+ *   - **`background: '#888'`:** Color de fondo del pulgar.
+ *   - **`borderRadius: '10px'`:** Radio de borde del pulgar.
+ * - **`customScrollbarThumbHover`:** Estilo del pulgar cuando el ratón pasa sobre él.
+ *   - **`background: '#555'`:** Color del pulgar al pasar el ratón.
+ * 
+ * Funcionalidad:
+ * - El componente se muestra en el marco del `LayoutDashboard` con un fondo gris y una barra de navegación superior.
+ * - Utiliza el componente `SuenosContainer` para mostrar una lista de sueños dentro de un contenedor con barra de desplazamiento personalizada.
+ * - Ofrece enlaces a otras secciones del dashboard a través del componente `Modalopciones`.
+ * 
+ * Estructura del componente:
+ * - **`main`:** Contenedor principal con fondo gris y altura de pantalla completa.
+ *   - **`div` con `bg-greyBlack`:** Barra de navegación superior.
+ *   - **`div` con `bg-greyBg`:** Contenedor principal para el contenido.
+ *     - **`p`:** Título de la sección "Sueños".
+ *     - **`div` con `flex`:** Contenedor flexible que organiza el contenido.
+ *       - **`div` con `container`:** Contenedor de sueños con barra de desplazamiento personalizada.
+ *         - **`SuenosContainer`:** Muestra una lista o contenedor de sueños.
+ *       - **`div` con `flex flex-col`:** Contenedor para las opciones de navegación.
+ *         - **`Modalopciones`:** Muestra opciones para navegar a diferentes secciones del dashboard.
+ * 
+ * Puntos Clave:
+ * - El componente está diseñado para facilitar la visualización y navegación dentro de la sección de sueños del dashboard.
+ * - Utiliza una barra de desplazamiento personalizada para una mejor experiencia visual.
+ * 
+ * Notas:
+ * - Asegúrate de que el componente `SuenosContainer` esté correctamente implementado y muestre la información relevante.
+ * - El estilo personalizado de la barra de desplazamiento debe ser revisado para asegurarse de que sea consistente en todos los navegadores.
+ */
+
 import React from 'react';
 import LayoutDashboard from "../../layouts/LayoutDashboard.jsx";
 import SuenosContainer from '../../components/crearyeditar/sueñoscont.jsx';
