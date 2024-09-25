@@ -1,3 +1,44 @@
+/**
+ * aceptaremp.jsx
+ *
+ * Componente que muestra el portal del desarrollador con diferentes secciones de información,
+ * incluyendo datos del postulante, empresa, y autoevaluaciones. Permite aceptar o rechazar solicitudes
+ * de empresas, y visualiza información detallada mediante pestañas.
+ *
+ * Componentes utilizados:
+ * - ConfirmModal: Muestra un modal de confirmación para aceptar solicitudes.
+ * - CancelModal: Muestra un modal de cancelación para rechazar solicitudes.
+ * - Modalcarga: Muestra un modal de carga o éxito tras confirmar o rechazar una acción.
+ *
+ * Funcionalidad:
+ * - Permite la navegación entre tres pestañas: 'Información del Postulante', 'Información de la Empresa', y 'Autoevaluación'.
+ * - Recupera datos de la empresa, postulante y autoevaluación de una API REST utilizando `useEffect`.
+ * - Usa `useParams` para obtener el NIT de la empresa desde la URL.
+ * - Las solicitudes de aceptación y rechazo se manejan mediante `fetch` para actualizar el estado de la empresa.
+ * - Usa Tailwind CSS para los estilos, con un diseño responsivo y adaptable a diferentes tamaños de pantalla.
+ * - Los botones de aceptar y rechazar cambian su estado visual al hacer hover.
+ *
+ * Estados:
+ * - activeTab: Pestaña activa (products, infoemp, autoeva).
+ * - isOpen, isCOpen: Controla la visibilidad de los modales de confirmación y cancelación.
+ * - isSuccessModalVisible, isSuccessCModalVisible: Controla la visibilidad del modal de éxito.
+ * - companyData: Almacena los datos de la empresa recuperados de la API.
+ * - postulanteData: Almacena los datos del postulante recuperados de la API.
+ * - autoevaluacionData, calificacionesModulos: Almacenan los datos de autoevaluación y las calificaciones de los módulos.
+ * - modulos: Almacena los módulos relacionados con la autoevaluación.
+ *
+ * Estilos:
+ * - Usa clases de Tailwind CSS para la disposición de los elementos y los efectos de transición.
+ * - Scrollbars personalizados aplicados al contenido con `overflow-y-auto`.
+ *
+ * Hooks:
+ * - useState: Para manejar los estados locales del componente.
+ * - useEffect: Para realizar las llamadas a la API al cargar el componente.
+ * - useParams: Para obtener el NIT de la URL.
+ * - useNavigate: Para redirigir al usuario tras confirmar o rechazar una solicitud.
+ */
+
+
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ConfirmModal from '../../components/modales/modalconfirm';
