@@ -32,6 +32,10 @@ from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
+from .models import Temas, DiagnosticoEmpresarialSuenos, TemasPreguntas, SuenosConcretados, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .serializer import TemasSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
+from .models import Temas, DiagnosticoEmpresarialSuenos, TemasAsignados, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .serializer import TemasSerializer, PasswordResetSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from .models import Temas, DiagnosticoEmpresarialSuenos, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 from .serializer import TemasSerializer, UsuarioUpdateSerializer, SetPasswordSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from rest_framework import status, generics, serializers, viewsets
@@ -59,6 +63,13 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+import requests 
+
+from datetime import date
+
+class PasswordResetConfirmView(generics.GenericAPIView):
+    class PasswordResetConfirmSerializer(serializers.Serializer):
+        password = serializers.CharField(write_only=True)
 class PasswordResetConfirmView(APIView):
     def post(self, request, uidb64, token):
         try:
@@ -163,8 +174,6 @@ class CalificacionesBajasPorNitView(APIView):
                             "alcance": tema.alcance,
                             "contenido": tema.contenido,
                             "conferencista": tema.conferencista,
-                            "fecha": tema.fecha,
-                            "horario": tema.horario,
                             "ubicacion": tema.ubicacion
                         })
 
@@ -234,19 +243,23 @@ class ConsultarDiagnosticoView(APIView):
         
         datos_diagnostico = []
         for diagnostico in diagnosticos:
-            suenos = diagnostico.suenos.all()  # Acceder a los sueños a través de la relación inversa
+            suenos_concretados = diagnostico.suenos.all()  # Acceder a los sueños a través de la relación inversa
+            
+            # Agregar los sueños con el estado correspondiente
             datos_diagnostico.append({
                 "modulo": diagnostico.modulo.nombre,
                 "calificacion_promedio": diagnostico.calificacion_promedio,
                 "suenos": [
                     {
+                        "id": sueno.sueno.id,  # Agregar el ID del sueño aquí
                         "modulo": diagnostico.modulo.nombre,
                         "nivel": sueno.sueno.nivel,
                         "sueño": sueno.sueno.sueño,
                         "medicion": sueno.sueno.medicion,
                         "evidencia": sueno.sueno.evidencia,
+                        "estado": sueno.estado,  # Agregar el estado de los sueños concretados aquí
                     }
-                    for sueno in suenos
+                    for sueno in suenos_concretados  # Cambiar a suenos_concretados
                 ]
             })
 
@@ -255,7 +268,54 @@ class ConsultarDiagnosticoView(APIView):
             "diagnosticos": datos_diagnostico
         }, status=status.HTTP_200_OK)
 
+class TemasAsignadosPorEmpresaAPIView(APIView):
+    def get(self, request, nit):
+        try:
+            # Filtrar los temas asignados basados en el NIT
+            temas_asignados = TemasAsignados.objects.filter(nit=nit)
+            
+            # Si no hay temas asignados, devolver una respuesta vacía
+            if not temas_asignados.exists():
+                return Response({"message": "No temas found for the given NIT"}, status=status.HTTP_404_NOT_FOUND)
 
+            # Obtener la información de cada tema asignado
+            temas_data = []
+            for asignacion in temas_asignados:
+                tema = asignacion.id_tema
+                temas_data.append({
+                    "id_tema": tema.id,
+                    "id_modulo": tema.id_modulo.id_modulo,
+                    "num_sesion": tema.num_sesion,
+                    "objetivo": tema.objetivo,
+                    "alcance": tema.alcance,
+                    "contenido": tema.contenido,
+                    "conferencista": tema.conferencista,
+                    "ubicacion": tema.ubicacion,
+                    "fecha_inicio": asignacion.fecha_inicio,
+                    "fecha_fin": asignacion.fecha_fin,
+                    "estado": asignacion.estado,
+                    "criterio": asignacion.criterio,
+                })
+
+            return Response(temas_data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class ActualizarEstadoTema(APIView):
+    def put(self, request, nit, tema_id):
+        try:
+            # Buscar la relación en TemasAsignados usando nit y el id_tema
+            tema_asignado = TemasAsignados.objects.get(nit__nit=nit, id_tema__id=tema_id)
+            estado = request.data.get('estado')
+            tema_asignado.estado = estado
+            tema_asignado.save()
+            return Response({"mensaje": "Estado actualizado correctamente."}, status=status.HTTP_200_OK)
+
+        except TemasAsignados.DoesNotExist:
+            return Response({"error": "Tema no encontrado en la asignación."}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class RegistrarDiagnosticoView(APIView):
     def post(self, request, *args, **kwargs):
@@ -269,6 +329,8 @@ class RegistrarDiagnosticoView(APIView):
 
             nit = data.get('nit')
             sueños_seleccionados = data.get('sueños', [])
+            fecha_inicio = data.get('fecha_inicio')  # Extrae la fecha de inicio
+            fecha_fin = data.get('fecha_fin')        # Extrae la fecha de fin
 
             if not nit:
                 return Response({"error": "NIT no proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
@@ -292,12 +354,14 @@ class RegistrarDiagnosticoView(APIView):
                 except Modulos.DoesNotExist:
                     return Response({"error": f"Módulo {sueno_id_modulo} no encontrado"}, status=status.HTTP_404_NOT_FOUND)
 
+                # Crear o obtener el diagnóstico
                 diagnostico, created = DiagnosticoEmpresarial.objects.get_or_create(
                     empresa=empresa,
                     modulo=modulo,
                     defaults={"calificacion_promedio": 0}
                 )
 
+                # Procesar los sueños y crear registros relacionados
                 for sueno_descripcion in suenos:
                     sueno, created = Suenos.objects.get_or_create(
                         id_modulo=modulo.id_modulo,
@@ -308,7 +372,8 @@ class RegistrarDiagnosticoView(APIView):
 
                     diagnostico_sueno, created = DiagnosticoEmpresarialSuenos.objects.get_or_create(
                         diagnostico=diagnostico,
-                        sueno=sueno
+                        sueno=sueno,
+                        estado=0
                     )
 
                     suenos_registrados.append({
@@ -316,6 +381,30 @@ class RegistrarDiagnosticoView(APIView):
                         "nivel": sueno.nivel,
                         "sueño": sueno.sueño
                     })
+
+                # Obtener los temas relacionados con el módulo
+                temas_relacionados = Temas.objects.filter(id_modulo=modulo)
+
+                # Asignar los temas a la empresa en TemasAsignados
+                for tema in temas_relacionados:
+                    # Asegúrate de que las fechas son válidas
+                    if not fecha_inicio or not fecha_fin:
+                        return Response({"error": "Las fechas de inicio y fin son requeridas"}, status=status.HTTP_400_BAD_REQUEST)
+
+                    # Convierte las fechas a objetos date si es necesario
+                    try:
+                        fecha_inicio_dt = date.fromisoformat(fecha_inicio)  # Asegúrate de que la fecha tenga el formato correcto
+                        fecha_fin_dt = date.fromisoformat(fecha_fin)        # Asegúrate de que la fecha tenga el formato correcto
+                    except ValueError:
+                        return Response({"error": "Formato de fecha inválido"}, status=status.HTTP_400_BAD_REQUEST)
+
+                    TemasAsignados.objects.create(
+                        id_tema=tema,
+                        nit=empresa,
+                        fecha_inicio=fecha_inicio_dt,  # Usa la fecha de inicio seleccionada
+                        fecha_fin=fecha_fin_dt,         # Usa la fecha de fin seleccionada
+                        estado=0
+                    )
 
             return Response({
                 "empresa": empresa.nit,
@@ -332,6 +421,8 @@ class RegistrarDiagnosticoView(APIView):
             import traceback
             print("Error detallado:", traceback.format_exc())
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 
 
 class CalificacionesPorNitView(APIView):
@@ -406,7 +497,7 @@ class SaveCalificacionView(APIView):
                         calificacion_existente.save()
                     else:
                         # Crear una nueva calificación si no existe
-                        Calificaciones.objects.create(
+                        Calificaciones.objects.create( 
                             calificacion=calificacion,
                             id_pregunta=pregunta,
                             nit=empresa
@@ -820,7 +911,54 @@ class TemaDetailView(DetailView):
 
 # Crear o actualizar un tema
 
+class ConcretarSuenoAPIView(APIView):
+    def post(self, request, sueno_id):
+        try:
+            # Obtener el sueño por su ID
+            sueno = Suenos.objects.get(id=sueno_id)
 
+            # Obtener el estado y las observaciones del cuerpo de la solicitud
+            estado = request.data.get('estado')  # 1 para aprobado, 0 para no aprobado
+            observaciones = request.data.get('observaciones', '')
+
+            # Formatear la fecha actual
+            fecha_actual = datetime.now().strftime("%Y-%m-%d")
+
+            # Crear o actualizar el registro de SuenosConcretados
+            sueno_concretado, created = SuenosConcretados.objects.update_or_create(
+                id_sueno=sueno,
+                defaults={
+                    'fecha': fecha_actual,
+                    'observaciones': observaciones,
+                    'estado': estado
+                }
+            )
+
+            # Actualizar el estado en DiagnosticoEmpresarialSuenos
+            # Buscamos el diagnóstico relacionado con este sueño
+            try:
+                diagnosticos_suenos  = DiagnosticoEmpresarialSuenos.objects.filter(sueno=sueno)
+
+                if diagnosticos_suenos.exists():
+                    for diagnostico_sueno in diagnosticos_suenos:
+        # Actualizar el estado según el valor recibido
+                        if estado == 1:
+                            diagnostico_sueno.estado = 1  # Si se concretó, estado a 1
+                        elif estado == 0:
+                            diagnostico_sueno.estado = 2  # Si no se concretó, estado a 2
+
+                            diagnostico_sueno.save()  # Guarda el cambio en la base de datos
+            except DiagnosticoEmpresarialSuenos.DoesNotExist:
+                return Response({"error": "No se encontró el diagnóstico relacionado con este sueño."}, 
+                                status=status.HTTP_404_NOT_FOUND)
+
+            return Response({"message": "Sueño concretado y estado actualizado correctamente."}, 
+                            status=status.HTTP_200_OK)
+
+        except Suenos.DoesNotExist:
+            return Response({"error": "Sueño no encontrado."}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 class TemasCreateUpdateView(APIView):
     permission_classes = [AllowAny]  # Permitir acceso sin autenticación
 
@@ -1272,10 +1410,45 @@ class PreguntasNoAsignadasList(generics.ListAPIView):
 @api_view(['GET'])
 def generar_pdf(request, nit):
     try:
-
+        # Obtener la empresa por su NIT
         empresa = Empresas.objects.get(nit=nit)
         postulante = empresa.id_postulante
+        
+        # Obtener el diagnóstico empresarial asociado a la empresa
+        diagnostico = DiagnosticoEmpresarial.objects.filter(empresa=empresa).first()
+
+        # Obtener los sueños relacionados con el diagnóstico
+        suenos_asignados = DiagnosticoEmpresarialSuenos.objects.filter(diagnostico=diagnostico).select_related('sueno')
+
+        # Hacer la solicitud al API para obtener los temas
+        temas_response = requests.get(f'http://localhost:8000/api/v2/temas/empresa/{nit}/')
+        temas_response.raise_for_status()  # Lanza un error si la respuesta no es 200
+        temas = temas_response.json()
+
+        # Construir el HTML para el PDF
         fecha_actual = datetime.now().strftime("%d/%m/%Y")
+        suenos_html = ""
+        temas_html = ""
+
+        # Iterar sobre los sueños asignados y agregarlos a la tabla
+        for diagnostico_sueno in suenos_asignados:
+            sueno = diagnostico_sueno.sueno
+            suenos_html += f"""
+            <tr>
+                <td>{sueno.sueño}</td>
+            </tr>
+            """
+
+        # Iterar sobre los temas y agregarlos a la tabla
+        for tema in temas:
+            temas_html += f"""
+            <tr>
+                <td>{tema['objetivo']}</td>
+                <td>{tema['alcance']}</td>
+                <td>{tema['fecha_inicio']}</td>
+                <td>{tema['fecha_fin']}</td>
+            </tr>
+            """
 
         html_content = f"""
         <!DOCTYPE html>
@@ -1449,34 +1622,11 @@ def generar_pdf(request, nit):
     <h2>DEFINICIÓN DE SUEÑOS</h2>
     <p>A partir del diagnóstico realizado en la reunión, usted y su consultor empresarial, concertaron los siguientes sueños empresariales para su empresa o proyecto empresarial:</p>
     
-    <table>
+    <table border="1">
         <tr>
             <th>SUEÑOS CONCERTADOS</th>
         </tr>
-        <tr>
-            <td>
-             <br>
-             <br>
-            </td>
-        </tr>
-        <tr>
-            <td>
-             <br>
-             <br>
-            </td>
-        </tr>
-        <tr>
-            <td>
-             <br>
-             <br>
-            </td>
-        </tr>
-        <tr>
-            <td>
-             <br>
-             <br>
-            </td>
-        </tr>
+        {suenos_html}
     </table>
 
     <h2>RUTA DE SERVICIOS</h2>
@@ -1489,12 +1639,7 @@ def generar_pdf(request, nit):
             <th>Fecha de inicio concertada</th>
             <th>Fecha final concertada</th>
         </tr>
-        <tr>
-            <td><em>Ej.: Módulo, taller, información, asesoría, consultoría, contactos</em></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+        {temas_html}
     </table>
 
     <p><strong>Nota:</strong> Los sueños empresariales concertados y la ruta de servicios están sujetos a cambios de acuerdo con las necesidades del beneficiado. Los ajustes quedarán registrados en el formato ACTA FINAL MISE (F-7 V3).</p>
@@ -1574,6 +1719,7 @@ def generar_pdf(request, nit):
 
     except Exception as e:
         return HttpResponse(f'Error: {str(e)}', status=500)
+    
 
 
 @api_view(['GET'])

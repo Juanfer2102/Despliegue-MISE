@@ -27,7 +27,6 @@ const getColor = (calificacion) => {
 };
 
 const TablaPreguntas = ({ calificaciones = [] }) => {
-  console.log(calificaciones);
 
   // Aplana la estructura de módulos y preguntas en una sola lista de preguntas
   const preguntas = calificaciones.flatMap(modulo => 
