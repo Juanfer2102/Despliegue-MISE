@@ -40,7 +40,7 @@ const Sueos = () => {
               <div className="flex flex-col gap-5 sm:gap-10 justify-center">
                 <Modalopciones texto="Modulos" URL="/modulos" />
                 <Modalopciones texto="Preguntas" URL="/preguntas" />
-                <Modalopciones texto="Talleres" URL="/talleres" />
+                <Modalopciones texto="Temas" URL="/temas" />
               </div>
             </div>
           </div>
