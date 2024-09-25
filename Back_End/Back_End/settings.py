@@ -175,12 +175,15 @@ DOMAIN = 'http://localhost:5173'
 
 # settings.py
 
-# Configuración del backend de correo
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # Servidor SMTP para Gmail
-EMAIL_PORT = 587  # Puerto para TLS
-EMAIL_USE_TLS = True  # Usar TLS
-EMAIL_HOST_USER = 'juanfergrajales21@gmail.com'  # Tu dirección de correo de Gmail
-EMAIL_HOST_PASSWORD = 'Losdelsur123'  # Tu contraseña de Gmail
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER  # Este será el remitente por defecto
+EMAIL_HOST = 'smtp-mail.outlook.com'  # Servidor SMTP de Hotmail/Outlook
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'juanfergrajales21@hotmail.com'  # Tu dirección de correo Hotmail/Outlook
+EMAIL_HOST_PASSWORD = 'Losdelsur210206*'  # La contraseña de tu cuenta Hotmail/Outlook
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+
+# Establecer el tiempo de expiración del token de restablecimiento de contraseña en segundos
+PASSWORD_RESET_TIMEOUT = 3600  # 1 hora (3600 segundos)
