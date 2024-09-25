@@ -316,7 +316,7 @@ export const FormRegistro = () => {
                                 onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                             />
                         </div>
-                        <div className='flex flex-row gap-3'>
+                        <div className='flex flex-row gap-6'>
                             <input
                                 className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="text"
@@ -338,7 +338,7 @@ export const FormRegistro = () => {
                             />
                         </div>
 
-                        <div className='flex flex-row gap-3'>
+                        <div className='flex flex-row gap-6'>
                             <input
                                 className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="number"

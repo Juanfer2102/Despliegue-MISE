@@ -442,8 +442,8 @@ def obtener_postulante_por_nit(request, nit):
 
 
 def listar_empresas_sin_diagnostico(request):
-    # Obtener las empresas cuyo diagnostico_value es 0
-    empresas_sin_diagnostico = Empresas.objects.filter(diagnostico_value=0)
+    # Obtener las empresas cuyo diagnostico_value es 0 y su estado es 2
+    empresas_sin_diagnostico = Empresas.objects.filter(diagnostico_value=0, estado=2)
     
     # Preparar los datos para enviarlos en formato JSON
     data = []
@@ -960,6 +960,8 @@ def AutoevaluacionDetail(request, nit):
         return Response(serializer.data)
     except Empresas.DoesNotExist:
         return Response({'error': 'Empresa no encontrada'}, status=404)
+    
+
 class RegistroPostulanteEmpresa(APIView):
     
     def post(self, request, *args, **kwargs):
@@ -993,7 +995,9 @@ class PreguntasPorModuloList(generics.ListAPIView):
 
     def get_queryset(self):
         id_modulo = self.kwargs['id_modulo']  # Obtén el id_modulo de la URL
-        return Preguntas.objects.filter(id_modulo=id_modulo)  # Filtra las preguntas por id_modulo
+        return Preguntas.objects.filter(id_modulo=id_modulo, estado=0)  # Filtra por id_modulo y estado
+    
+
 class EmpresaDetailView(APIView):
     def get(self, request, nit):
         try:
@@ -1249,6 +1253,8 @@ class PreguntasNoAsignadasList(generics.ListAPIView):
 
     def get_queryset(self):
         return Preguntas.objects.filter(id_modulo__isnull=True)
+    
+
 @api_view(['GET'])
 def generar_pdf(request, nit):
     try:
