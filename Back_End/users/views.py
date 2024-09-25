@@ -6,6 +6,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from datetime import datetime
 from django.views.generic import ListView, DetailView
+from .permissions import IsAdminOrForbidden
+from rest_framework import generics
+from rest_framework.exceptions import PermissionDenied 
 
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode
@@ -15,7 +18,7 @@ from weasyprint import HTML
 import io
 from django.http import HttpResponse
 
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.contrib.auth import get_user_model, authenticate
@@ -30,7 +33,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
 from .models import Temas, DiagnosticoEmpresarialSuenos, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
-from .serializer import TemasSerializer,  SetPasswordSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
+from .serializer import TemasSerializer, UsuarioUpdateSerializer, SetPasswordSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from rest_framework import status, generics, serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -91,7 +94,7 @@ class PasswordResetView(APIView):
         send_mail(
             subject="Restablecer contraseña",
             message=f"Por favor, haz clic en el siguiente enlace para restablecer tu contraseña: {reset_link}",
-            from_email="juanfergrajales21@hotmail.com",
+            from_email="no-reply-MISe@outlook.com",
             recipient_list=[user.correo],
             fail_silently=False,
         )
@@ -1078,6 +1081,16 @@ def user_detail(request):
     user = request.user
     serializer = UsuarioSerializer(user)
     return Response(serializer.data)
+
+class UsuarioUpdateView(generics.UpdateAPIView):
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioUpdateSerializer
+    permission_classes = [AllowAny]
+    lookup_field = 'id_usuario'  # Ahora usará 'id_usuario' en lugar de 'pk'
+
+    def get_object(self):
+        return super().get_object()
+
 
 @api_view(['POST'])
 def user(request):

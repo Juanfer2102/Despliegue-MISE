@@ -207,6 +207,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
             validated_data.pop('contrasena', None)
             
         return super().update(instance, validated_data)
+    
 class ModuloAutoevaluacionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ModuloAutoevaluacion
@@ -270,3 +271,20 @@ class SetPasswordSerializer(serializers.Serializer):
         # Actualizar la contraseña
         user.set_password(new_password)
         user.save()
+
+class UsuarioUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuario
+        fields = ['id_rol', 'estado', 'correo', 'celular', 'documento', 'programa', 'nombres', 'apellidos', 'contrasena']
+        extra_kwargs = {
+            'contrasena': {'write_only': True}  # La contraseña no se debe incluir en las respuestas
+        }
+    
+    def update(self, instance, validated_data):
+        # Verificar si la contraseña se encuentra en los datos validados
+        if 'contrasena' in validated_data:
+            contrasena = validated_data.pop('contrasena')
+            instance.set_password(contrasena)  # Establecer la nueva contraseña
+
+        # Actualizar los demás campos
+        return super().update(instance, validated_data)

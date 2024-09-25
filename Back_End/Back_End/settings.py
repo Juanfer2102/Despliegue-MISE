@@ -180,8 +180,8 @@ EMAIL_HOST = 'smtp-mail.outlook.com'  # Servidor SMTP de Hotmail/Outlook
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-EMAIL_HOST_USER = 'juanfergrajales21@hotmail.com'  # Tu dirección de correo Hotmail/Outlook
-EMAIL_HOST_PASSWORD = 'Losdelsur210206*'  # La contraseña de tu cuenta Hotmail/Outlook
+EMAIL_HOST_USER = 'no-reply-MISE@outlook.com'  # Tu dirección de correo Hotmail/Outlook
+EMAIL_HOST_PASSWORD = 'MISE032024'  # La contraseña de tu cuenta Hotmail/Outlook
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 

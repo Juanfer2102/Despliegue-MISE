@@ -1,11 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import InputComponent from '../../inputs/input3/input3.jsx';
 import SelectComponent from '../../inputs/selectores/selectores.jsx';
 import ConfirmModal from '../../modales/modalconfirm';
-import Modalcarga from '../../modales/modalcarga/modalcarga.jsx';
 import { Infouser } from '../../../helpers/edituser.js';
+import { useParams } from 'react-router-dom';
 
 export const FormsEditaruser = () => {
+
+    const { id_usuario } = useParams();
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch(`http://localhost:8000/api/v2/usuario/${id_usuario}/`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setUser(data);
+                setValues({
+                    nombres: data.nombres,
+                    estado: data.estado || "Activo",
+                    apellidos: data.apellidos,
+                    documento: data.documento,
+                    correo: data.correo,
+                    celular: data.celular,
+                    contrasena: "", // Inicializar como vacío para no mostrar la contraseña
+                    id_rol: data.id_rol,
+                    programa: data.programa
+                });
+            } catch (error) {
+                console.error('Error fetching user:', error);
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUser();
+    }, [id_usuario]);
 
     const roles = [
         { value: '1', label: 'Superadmin' },
@@ -32,6 +68,16 @@ export const FormsEditaruser = () => {
         id_rol: "",
         programa: ""
     });
+
+    // Manejo de cambios y validaciones aquí (omitido para brevedad)
+
+    if (loading) {
+        return <div>Cargando usuario...</div>; // Mensaje mientras se carga
+    }
+
+    if (error) {
+        return <div>Error al cargar usuario: {error}</div>; // Mostrar error si hay uno
+    }
 
     const closeModal = () => {
         setIsOpen(false);
@@ -62,7 +108,7 @@ export const FormsEditaruser = () => {
             }
         }
 
-         if (name === "documento") {
+        if (name === "documento") {
             if (value.length > 10) {
                 return; // Evitar que se ingrese más de 10 dígitos
             }
@@ -74,13 +120,13 @@ export const FormsEditaruser = () => {
                 error = "Debe tener minimo 7 dígitos";
             }
         }
-/*
-        if (name === "contrasena") {
-            if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value)) {
-                error = "Debe contener al menos una mayúscula, un número y un carácter especial";
-            }
-        }
-*/
+        /*
+                if (name === "contrasena") {
+                    if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value)) {
+                        error = "Debe contener al menos una mayúscula, un número y un carácter especial";
+                    }
+                }
+        */
         setValues({
             ...values,
             [name]: value,
@@ -92,27 +138,55 @@ export const FormsEditaruser = () => {
         });
     };
 
-    // Función para verificar si algún campo está vacío o tiene errores
-    const isFormValid = () => {
-        return (
-            Object.values(values).every(value => value !== "") &&
-            Object.values(errors).every(error => error === "")
-        );
-    };
 
     const handleForm = async (event) => {
         event.preventDefault();
         closeModal();
-        openSuccessModal();
-    }
+
+        // Crea un objeto que contiene todos los campos del usuario
+        const dataToSend = {
+            ...user, // Copia todos los campos actuales del usuario
+            ...values // Sobreescribe los campos que han sido modificados
+        };
+
+        // Omitir contrasena si no fue modificada
+        if (!values.contrasena) {
+            delete dataToSend.contrasena; // Asegúrate de no enviar contraseñas vacías
+        }
+
+        // Comprobar si dataToSend está definido antes de usarlo
+        if (Object.keys(dataToSend).length > 0) { // Verifica si hay campos para enviar
+            try {
+                const token = localStorage.getItem('token'); // O donde almacenes el token
+                const response = await fetch(`http://localhost:8000/api/v2/act-user/${id_usuario}/`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`  // Asegúrate de enviar el token
+                    },
+                    body: JSON.stringify(dataToSend),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error al actualizar el usuario');
+                }
+
+                const result = await response.json();
+                openSuccessModal();
+            } catch (error) {
+                console.error('Error al actualizar el usuario:', error);
+                setError(error.message);
+            }
+        } else {
+            console.log("No se realizaron cambios en el formulario");
+        }
+    };
 
     const openSuccessModal = () => {
-        console.log("Inputs value:", values); // Mostrar los valores de los inputs en la consola
         setIsSuccessModalVisible(true);
         setTimeout(() => {
             setIsSuccessModalVisible(false);
-            
-        }, 1000); // 5 segundos
+        }, 5000); // 5 segundos
     };
 
     return (
@@ -125,21 +199,21 @@ export const FormsEditaruser = () => {
                             width="w-44"
                             widthInput="w-full"
                             DataType="Nombre"
-                            inputPlaceholder={Infouser[0].nombres}
+                            inputPlaceholder={user.nombres}
                             inputType="text"
                             height="h-12"
                             additionalClass="w-full"
                             name="nombres"
                             value={values.nombres}
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
-                            
+
                         />
                         {errors.nombres && <p className="text-red">{errors.nombres}</p>}
                         <InputComponent
                             width="w-44"
                             widthInput="w-full"
                             DataType="Apellido"
-                            inputPlaceholder={Infouser[0].apellidos}
+                            inputPlaceholder={user.apellidos}
                             inputType="text"
                             height="h-12"
                             additionalClass="w-full"
@@ -152,7 +226,7 @@ export const FormsEditaruser = () => {
                             width="w-44"
                             widthInput="w-full"
                             DataType="Correo"
-                            inputPlaceholder={Infouser[0].correo}
+                            inputPlaceholder={user.correo}
                             inputType="email"
                             height="h-12"
                             additionalClass=""
@@ -165,22 +239,21 @@ export const FormsEditaruser = () => {
                                 <p className="font-semibold">Rol</p>
                             </div>
                             <div className='w-[12.8rem]'>
-                               <SelectComponent
+                                <SelectComponent
                                     name="id_rol"
                                     type="Rol..."
                                     options={roles}
                                     value={values.id_rol}
                                     onChange={(value) => handleInputChange("id_rol", value)}
-                                    placeholder={Infouser[0].id_rol}
+                                    placeholder={user.id_rol}
                                 />
                             </div>
                         </div>
                         <div className='max-md:hidden xl:block'>
                             <button
                                 onClick={openModal}
-                                className={`rounded-md text-white text-center font-semibold w-[6rem] h-10 p-2 ${isFormValid() ? 'bg-principalGreen opacity-100 cursor-pointer' : 'bg-principalGreen opacity-50 cursor-not-allowed'}`}
+                                className={`rounded-md bg-principalGreen text-white text-center font-semibold w-[6rem] h-10 p-2`}
                                 type="button"
-                                disabled={!isFormValid()}
                             >
                                 <p>Guardar</p>
                             </button>
@@ -192,21 +265,21 @@ export const FormsEditaruser = () => {
                             width="w-44"
                             widthInput="w-full"
                             DataType="Celular"
-                            inputPlaceholder={Infouser[0].celular}
+                            inputPlaceholder={user.celular}
                             inputType="number"
                             height="h-12"
                             additionalClass=""
                             name="celular"
                             value={values.celular}
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
-    
+
                         />
                         {errors.celular && <p className="text-red">{errors.celular}</p>}
                         <InputComponent
                             width="w-44"
                             widthInput="w-full"
                             DataType="Documento"
-                            inputPlaceholder={Infouser[0].documento}
+                            inputPlaceholder={user.documento}
                             inputType="number"
                             height="h-12"
                             additionalClass=""
@@ -219,8 +292,8 @@ export const FormsEditaruser = () => {
                             width="w-44"
                             widthInput="w-full"
                             DataType="Contraseña"
-                            inputPlaceholder={Infouser[0].contrasena}
-                            inputType="text"
+                            inputPlaceholder={"******"}
+                            inputType="password"
                             height="h-12"
                             additionalClass=""
                             name="contrasena"
@@ -239,9 +312,8 @@ export const FormsEditaruser = () => {
                         <div className="max-md:block xl:hidden lg:hidden">
                             <button
                                 onClick={openModal}
-                                className={`rounded-md text-white text-center font-semibold w-[6rem] h-10 p-2 ${isFormValid() ? 'bg-principalGreen opacity-100 cursor-pointer' : 'bg-principalGreen opacity-50 cursor-not-allowed'}`}
+                                className={`rounded-md bg-principalGreen text-white text-center font-semibold w-[6rem] h-10 p-2`}
                                 type="button"
-                                disabled={!isFormValid()}
                             >
                                 <p>Guardar</p>
                             </button>

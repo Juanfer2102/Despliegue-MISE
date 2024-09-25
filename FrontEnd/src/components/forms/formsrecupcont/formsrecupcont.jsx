@@ -58,6 +58,10 @@ const Formsrecupcont = () => {
             setIsModalVisible(true);
         }
     };
+
+    const handleCancel = () => {
+        window.location.href = '/login'; 
+    }
     
 
     const closeModal = () => {
@@ -90,7 +94,7 @@ const Formsrecupcont = () => {
                         Pedir enlace para restablecer contraseña
                     </button>
                     <button
-                        onClick={() => window.history.back()}
+                        onClick={handleCancel}
                         className="w-full text-white text-base sm:text-lg hover:underline cursor-pointer"
                         type="button"
                     >
@@ -114,9 +118,9 @@ const Formsrecupcont = () => {
                         </div>
                         <ul className="list-disc pl-5 space-y-2">
                             {Object.values(errors).map((error, index) => (
-                                <li key={index} className="text-red">
+                                <p key={index} className="text-red">
                                     {error}
-                                </li>
+                                </p>
                             ))}
                         </ul>
                     </div>

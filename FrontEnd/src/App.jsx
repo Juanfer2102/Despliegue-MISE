@@ -105,7 +105,7 @@ const AppRoutes = () => {
               <EditarPorcentaje />
             </ProtectedRoute>
           } />
-          <Route path="/editar-usuario" element={
+          <Route path="/editar-usuario/:id_usuario" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
               <EditarUsuario />
             </ProtectedRoute>

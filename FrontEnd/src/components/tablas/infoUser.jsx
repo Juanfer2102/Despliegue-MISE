@@ -6,7 +6,7 @@ const InfoUser = ({ nombre, MISE, dataRol, id_usuario }) => {
 
     const handleEditClick = () => {
         // Redirigir a la página de edición del usuario con el id_usuario
-        window.location.href = `/editar-usuario`;
+        window.location.href = `/editar-usuario/${id_usuario}`;
     };
 
     return (
