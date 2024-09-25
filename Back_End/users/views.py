@@ -54,6 +54,8 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
+import requests 
+
 from datetime import date
 
 class PasswordResetConfirmView(generics.GenericAPIView):
@@ -486,7 +488,7 @@ class SaveCalificacionView(APIView):
                         calificacion_existente.save()
                     else:
                         # Crear una nueva calificación si no existe
-                        Calificaciones.objects.create(
+                        Calificaciones.objects.create( 
                             calificacion=calificacion,
                             id_pregunta=pregunta,
                             nit=empresa
@@ -1395,9 +1397,15 @@ def generar_pdf(request, nit):
         # Obtener los sueños relacionados con el diagnóstico
         suenos_asignados = DiagnosticoEmpresarialSuenos.objects.filter(diagnostico=diagnostico).select_related('sueno')
 
+        # Hacer la solicitud al API para obtener los temas
+        temas_response = requests.get(f'http://localhost:8000/api/v2/temas/empresa/{nit}/')
+        temas_response.raise_for_status()  # Lanza un error si la respuesta no es 200
+        temas = temas_response.json()
+
         # Construir el HTML para el PDF
         fecha_actual = datetime.now().strftime("%d/%m/%Y")
         suenos_html = ""
+        temas_html = ""
 
         # Iterar sobre los sueños asignados y agregarlos a la tabla
         for diagnostico_sueno in suenos_asignados:
@@ -1405,6 +1413,17 @@ def generar_pdf(request, nit):
             suenos_html += f"""
             <tr>
                 <td>{sueno.sueño}</td>
+            </tr>
+            """
+
+        # Iterar sobre los temas y agregarlos a la tabla
+        for tema in temas:
+            temas_html += f"""
+            <tr>
+                <td>{tema['objetivo']}</td>
+                <td>{tema['alcance']}</td>
+                <td>{tema['fecha_inicio']}</td>
+                <td>{tema['fecha_fin']}</td>
             </tr>
             """
 
@@ -1597,10 +1616,7 @@ def generar_pdf(request, nit):
             <th>Fecha de inicio concertada</th>
             <th>Fecha final concertada</th>
         </tr>
-        <tr>
-            <td><em>Ej.: Módulo, taller, información, asesoría, consultoría, contactos</em></td>
-            <td></td>
-        </tr>
+        {temas_html}
     </table>
 
     <p><strong>Nota:</strong> Los sueños empresariales concertados y la ruta de servicios están sujetos a cambios de acuerdo con las necesidades del beneficiado. Los ajustes quedarán registrados en el formato ACTA FINAL MISE (F-7 V3).</p>

@@ -33,8 +33,8 @@ const TarjetasTema = ({ nit }) => {
                 .then(response => response.json())
                 .then(data => {
                     // Filtrar temas que tengan estado 0 en temas_asignados
-                    const temasConEstadoCero = data.filter(tema => tema.estado === 0);
-                    setTemas(temasConEstadoCero);
+                    // const temasConEstadoCero = data.filter(tema => tema.estado === 0);
+                    setTemas(data);
                 })
                 .catch(error => console.error("Error fetching temas:", error));
         }
@@ -97,8 +97,10 @@ const TarjetasTema = ({ nit }) => {
                         className="relative flex items-center justify-center bg-darkGrey rounded-lg border border-principalGreen shadow-lg hover:shadow-xl hover:bg-principalGreen transition-all duration-300 cursor-pointer"
                         onClick={() => openModal(tema)}
                     >
-                        <div className="absolute inset-0 p-4 flex items-center justify-center">
+                        <div className="absolute inset-0 p-4 flex items-center justify-center flex-col">
                             <p className="text-lg font-semibold text-center">{tema.objetivo}</p>
+                            <p className="font-bold text-principalGreen">{tema.fecha_inicio} - {tema.fecha_fin}</p>
+                            <p className={`text-${tema.estado === 0 ? 'amarillo' : tema.estado === 1 ? 'principalGreen' : 'red' }`}>{tema.criterio}</p>
                         </div>
                         <div className="w-full h-full" style={{ aspectRatio: '1 / 1' }}></div>
                     </div>
@@ -136,6 +138,14 @@ const TarjetasTema = ({ nit }) => {
                                 <p className="mb-4">{selectedTema.conferencista}</p>
                             </div>
                             <div>
+                                <p className="text-lg font-semibold mb-2"><strong>Fecha de inicio:</strong></p>
+                                <p className="mb-4">{selectedTema.fecha_inicio}</p>
+                            </div>
+                            <div>
+                                <p className="text-lg font-semibold mb-2"><strong>Fecha de Fin</strong></p>
+                                <p className="mb-4">{selectedTema.fecha_fin}</p>
+                            </div>
+                            <div>
                                 <p className="text-lg font-semibold mb-2"><strong>Ubicación:</strong></p>
                                 <p className="mb-4">{selectedTema.ubicacion}</p>
                             </div>
@@ -149,7 +159,7 @@ const TarjetasTema = ({ nit }) => {
                             >
                                 Cerrar
                             </button>
-                            <div className="flex gap-4">
+                            <div className={`${selectedTema.estado === 1 && 2 ? 'hidden' : 'flex'} gap-4`}>
                                 <button
                                     className="mt-6 px-4 py-2 bg-principalGreen text-white rounded-lg hover:bg-white hover:text-principalGreen transition-colors duration-300"
                                     onClick={() => aprobarTema(1)} // Aprobado
