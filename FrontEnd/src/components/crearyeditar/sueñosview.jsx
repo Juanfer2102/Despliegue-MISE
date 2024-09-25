@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import ModalEliminar from '../modales/modaleliminar';
 
 const SuenosView = ({ suenos, modulos, onCreateOrUpdateSuenio, DeleteSuenos }) => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [currentSueño, setCurrentSueño] = useState(null);
     const [sueño, setSueño] = useState('');
@@ -86,193 +88,203 @@ const SuenosView = ({ suenos, modulos, onCreateOrUpdateSuenio, DeleteSuenos }) =
         if (currentSueño) {
             DeleteSuenos({ id: currentSueño.id, estado: 1 });
         }
+        closeModal();
         closeModals();
     };
 
+    const openModal = () => setIsOpen(true);
+
+    const closeModal = () => {
+        setIsOpen(false);
+    };
+
     return (
-        <div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6 p-2">
-                <div
-                    className="bg-transparent border border-principalGreen text-white p-4 rounded-lg shadow-md flex items-center justify-center cursor-pointer"
-                    onClick={openCreateModal}
-                >
-                    <p className="text-lg font-bold">Crear Nuevo Sueño</p>
-                </div>
-                {suenos.map((sueño) => (
+        <>
+            <ModalEliminar isOpen={isOpen} closeModal={closeModal} handleConfirm={handleClick} />
+            <div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6 p-2">
                     <div
-                        key={sueño.id}
                         className="bg-transparent border border-principalGreen text-white p-4 rounded-lg shadow-md flex items-center justify-center cursor-pointer"
-                        onClick={() => openEditModal(sueño)}
+                        onClick={openCreateModal}
                     >
-                        <p className="text-lg">{sueño.sueño}</p>
+                        <p className="text-lg font-bold">Crear Nuevo Sueño</p>
                     </div>
-                ))}
-            </div>
-
-            {/* Modal para crear sueño */}
-            {isCreateModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-greyBg text-white p-4 rounded-lg shadow-lg w-full max-w-4xl">
-                        <h3 className="text-xl font-bold mb-4">Crear Nuevo Sueño</h3>
-                        <form onSubmit={handleCreateSubmit}>
-                            <div className="mb-4">
-                                <label className="block text-white">Sueño</label>
-                                <input
-                                    type="text"
-                                    value={sueño}
-                                    onChange={handleChangeSueño}
-                                    className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
-                                    required
-                                />
-                            </div>
-
-                            <div className="mb-4">
-                                <label className="block text-white">Nivel</label>
-                                <input
-                                    type="text"
-                                    value={nivel}
-                                    onChange={handleChangeNivel}
-                                    className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
-                                    required
-                                />
-                            </div>
-
-                            <div className="mb-4">
-                                <label className="block text-white">Medicion</label>
-                                <input
-                                    type="text"
-                                    value={medicion}
-                                    onChange={handleChangeMedicion}
-                                    className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
-                                    required
-                                />
-                            </div>
-
-                            <div className="mb-4">
-                                <label className="block text-white">Evidencia</label>
-                                <textarea
-                                    value={evidencia}
-                                    onChange={handleChangeEvidencia}
-                                    className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
-                                    required
-                                />
-                            </div>
-
-                            <div className="mb-4">
-                                <label className="block text-white">Módulo</label>
-                                <select
-                                    value={id_modulo}
-                                    onChange={(e) => setId_Modulo(e.target.value)}
-                                    className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
-                                    required
-                                >
-                                    <option className='text-black' value="">Selecciona un módulo</option>
-                                    {modulos.map((modulo) => (
-                                        <option className='text-black' key={modulo.id_modulo} value={modulo.id_modulo}>
-                                            {modulo.nombre}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className="flex justify-end gap-4 mt-4">
-                                <button
-                                    type="submit"
-                                    className="bg-principalGreen text-white px-4 py-2 rounded-md hover:bg-white hover:text-principalGreen transition duration-300"
-                                >
-                                    Crear Sueño
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={closeModals}
-                                    className="bg-principalGreen text-white px-4 py-2 rounded-md hover:bg-white hover:text-principalGreen transition duration-300"
-                                >
-                                    Cancelar
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
-
-            {/* Modal para editar sueño */}
-            {isEditModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-greyBg text-white p-4 rounded-lg shadow-lg w-full max-w-lg">
-                        <div className='flex flex-row justify-between'>
-                            <h3 className="text-xl font-bold mb-4">Editar Sueño</h3>
-                            <button
-                                type="button"
-                                onClick={handleClick}
-                                className="bg-red text-white px-4 py-2 rounded-md hover:bg-white hover:text-principalGreen transition duration-300"
-                            >
-                                Eliminar Sueño
-                            </button>
+                    {suenos.map((sueño) => (
+                        <div
+                            key={sueño.id}
+                            className="bg-transparent border border-principalGreen text-white p-4 rounded-lg shadow-md flex items-center justify-center cursor-pointer"
+                            onClick={() => openEditModal(sueño)}
+                        >
+                            <p className="text-lg">{sueño.sueño}</p>
                         </div>
-                        <form onSubmit={handleEditSubmit}>
-                            <div className="mb-4">
-                                <label className="block text-white">Sueño</label>
-                                <input
-                                    type="text"
-                                    value={sueño}
-                                    onChange={handleChangeSueño}
-                                    className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
-                                    required
-                                />
-                            </div>
+                    ))}
+                </div>
 
-                            <div className="mb-4">
-                                <label className="block text-white">Nivel</label>
-                                <input
-                                    type="text"
-                                    value={nivel}
-                                    onChange={handleChangeNivel}
-                                    className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
-                                    required
-                                />
-                            </div>
+                {/* Modal para crear sueño */}
+                {isCreateModalOpen && (
+                    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                        <div className="bg-greyBg text-white p-4 rounded-lg shadow-lg w-full max-w-4xl">
+                            <h3 className="text-xl font-bold mb-4">Crear Nuevo Sueño</h3>
+                            <form onSubmit={handleCreateSubmit}>
+                                <div className="mb-4">
+                                    <label className="block text-white">Sueño</label>
+                                    <input
+                                        type="text"
+                                        value={sueño}
+                                        onChange={handleChangeSueño}
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        required
+                                    />
+                                </div>
 
-                            <div className="mb-4">
-                                <label className="block text-white">Medicion</label>
-                                <input
-                                    type="text"
-                                    value={medicion}
-                                    onChange={handleChangeMedicion}
-                                    className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
-                                    required
-                                />
-                            </div>
+                                <div className="mb-4">
+                                    <label className="block text-white">Nivel</label>
+                                    <input
+                                        type="text"
+                                        value={nivel}
+                                        onChange={handleChangeNivel}
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        required
+                                    />
+                                </div>
 
-                            <div className="mb-4">
-                                <label className="block text-white">Evidencia</label>
-                                <textarea
-                                    value={evidencia}
-                                    onChange={handleChangeEvidencia}
-                                    className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
-                                    required
-                                />
-                            </div>
+                                <div className="mb-4">
+                                    <label className="block text-white">Medicion</label>
+                                    <input
+                                        type="text"
+                                        value={medicion}
+                                        onChange={handleChangeMedicion}
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        required
+                                    />
+                                </div>
 
-                            <div className="flex justify-end gap-4 mt-4">
-                                <button
-                                    type="submit"
-                                    className="bg-principalGreen text-white px-4 py-2 rounded-md hover:bg-white hover:text-principalGreen transition duration-300"
-                                >
-                                    Actualizar Sueño
-                                </button>
+                                <div className="mb-4">
+                                    <label className="block text-white">Evidencia</label>
+                                    <textarea
+                                        value={evidencia}
+                                        onChange={handleChangeEvidencia}
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        required
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label className="block text-white">Módulo</label>
+                                    <select
+                                        value={id_modulo}
+                                        onChange={(e) => setId_Modulo(e.target.value)}
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        required
+                                    >
+                                        <option className='text-black' value="">Selecciona un módulo</option>
+                                        {modulos.map((modulo) => (
+                                            <option className='text-black' key={modulo.id_modulo} value={modulo.id_modulo}>
+                                                {modulo.nombre}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                <div className="flex justify-end gap-4 mt-4">
+                                    <button
+                                        type="submit"
+                                        className="bg-principalGreen text-white px-4 py-2 rounded-md hover:bg-white hover:text-principalGreen transition duration-300"
+                                    >
+                                        Crear Sueño
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={closeModals}
+                                        className="bg-principalGreen text-white px-4 py-2 rounded-md hover:bg-white hover:text-principalGreen transition duration-300"
+                                    >
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                )}
+
+                {/* Modal para editar sueño */}
+                {isEditModalOpen && (
+                    <div className="fixed inset-0 flex items-center justify-center z-10 bg-black bg-opacity-50">
+                        <div className="bg-greyBg text-white p-4 rounded-lg shadow-lg w-full max-w-lg">
+                            <div className='flex flex-row justify-between'>
+                                <h3 className="text-xl font-bold mb-4">Editar Sueño</h3>
                                 <button
                                     type="button"
-                                    onClick={closeModals}
-                                    className="bg-principalGreen text-white px-4 py-2 rounded-md hover:bg-white hover:text-principalGreen transition duration-300"
+                                    onClick={openModal}
+                                    className="bg-red text-white px-4 py-2 rounded-md hover:bg-white hover:text-principalGreen transition duration-300"
                                 >
-                                    Cancelar
+                                    Eliminar Sueño
                                 </button>
                             </div>
-                        </form>
+                            <form onSubmit={handleEditSubmit}>
+                                <div className="mb-4">
+                                    <label className="block text-white">Sueño</label>
+                                    <input
+                                        type="text"
+                                        value={sueño}
+                                        onChange={handleChangeSueño}
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        required
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label className="block text-white">Nivel</label>
+                                    <input
+                                        type="text"
+                                        value={nivel}
+                                        onChange={handleChangeNivel}
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        required
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label className="block text-white">Medicion</label>
+                                    <input
+                                        type="text"
+                                        value={medicion}
+                                        onChange={handleChangeMedicion}
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        required
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label className="block text-white">Evidencia</label>
+                                    <textarea
+                                        value={evidencia}
+                                        onChange={handleChangeEvidencia}
+                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
+                                        required
+                                    />
+                                </div>
+
+                                <div className="flex justify-end gap-4 mt-4">
+                                    <button
+                                        type="submit"
+                                        className="bg-principalGreen text-white px-4 py-2 rounded-md hover:bg-white hover:text-principalGreen transition duration-300"
+                                    >
+                                        Actualizar Sueño
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={closeModals}
+                                        className="bg-principalGreen text-white px-4 py-2 rounded-md hover:bg-white hover:text-principalGreen transition duration-300"
+                                    >
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )}
+            </div>
+        </>
     );
 };
 
