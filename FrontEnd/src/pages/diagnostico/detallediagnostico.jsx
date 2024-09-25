@@ -38,7 +38,6 @@
  * - La interfaz se ajusta automáticamente para mostrar los datos de manera clara y ordenada, utilizando las clases de Tailwind CSS para un diseño responsivo.
  */
 
-
 import React, { useState, useEffect } from "react";
 import LayoutDashboard from '../../layouts/LayoutDashboard';
 import { useParams, useNavigate } from 'react-router-dom';

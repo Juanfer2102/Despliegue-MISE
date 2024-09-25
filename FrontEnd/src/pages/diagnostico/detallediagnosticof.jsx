@@ -37,8 +37,6 @@
  * - El botón de descarga de PDF permite obtener un archivo con la información detallada del diagnóstico.
  */
 
-
-
 import React, { useState, useEffect } from "react";
 import LayoutDashboard from '../../layouts/LayoutDashboard';
 import DownloadPDFButton from "../../components/inputs/botones/botonpdf";
