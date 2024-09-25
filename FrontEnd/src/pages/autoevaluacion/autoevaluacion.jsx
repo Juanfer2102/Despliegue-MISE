@@ -1,3 +1,28 @@
+/**
+ * Autoevaluacion.jsx
+ * 
+ * Componente que presenta una página de autoevaluación dentro del dashboard, donde el usuario puede
+ * obtener información sobre el programa MISE y completar un formulario de autoevaluación.
+ * 
+ * Componentes utilizados:
+ * - LayoutDashboard: Estructura principal del dashboard que incluye la barra lateral y el título de la página.
+ * - FormAuto: Componente del formulario de autoevaluación para la formación empresarial.
+ * 
+ * Funcionalidad:
+ * - Muestra información detallada sobre el programa MISE, explicando sus beneficios y las áreas empresariales
+ *   que cubre. 
+ * - Proporciona un enlace para conocer más detalles sobre el programa MISE en un sitio externo.
+ * - Integra un formulario de autoevaluación para que el usuario pueda determinar si el programa MISE
+ *   es adecuado para sus necesidades empresariales.
+ * 
+ * Estilos:
+ * - Usa una combinación de estilos en línea (JSX) y Tailwind CSS para asegurar una disposición adecuada y
+ *   una apariencia moderna.
+ * - El contenedor principal tiene un fondo oscuro y el contenido se centra vertical y horizontalmente.
+ * - Las tarjetas de información están estilizadas con bordes redondeados y espaciado adecuado, mientras
+ *   que la tipografía resalta la información importante.
+ */
+
 import React from 'react';
 import LayoutDashboard from "../../layouts/LayoutDashboard";
 import FormAuto from "../../components/forms/formsautoevaluacion/formsautoevaluacion";

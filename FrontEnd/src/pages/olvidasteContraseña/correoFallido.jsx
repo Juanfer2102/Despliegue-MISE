@@ -1,3 +1,47 @@
+/**
+ * Correofallido.jsx
+ * 
+ * Componente que muestra una página de error cuando el correo electrónico ingresado es incorrecto al intentar restablecer la contraseña.
+ * 
+ * Componentes utilizados:
+ * - Logo: Componente que muestra el logotipo de la aplicación.
+ * 
+ * Funcionalidad:
+ * - Muestra un mensaje indicando que el correo electrónico ingresado es incorrecto.
+ * - Permite al usuario ingresar un correo electrónico para solicitar un enlace de restablecimiento de contraseña.
+ * 
+ * Estructura del componente:
+ * - **`main`:** Contenedor principal para la página.
+ *   - **`div` con fondo negro translúcido:** Cubre toda la pantalla para dar un efecto de superposición.
+ *   - **`img` con fondo de imagen:** Imagen de fondo fija que ocupa toda la pantalla.
+ *   - **`div` con `relative z-20`:** Contenedor principal con posición relativa y diseño flexible.
+ *     - **`Logo`:** Componente que muestra el logotipo de la aplicación, centrado vertical y horizontalmente.
+ *     - **`div` con borde izquierdo:** Espaciador con borde blanco.
+ *     - **`div` con `login-container`:** Contenedor principal del formulario con texto y campos para el restablecimiento de contraseña.
+ *       - **`p`:** Mensaje principal y secundario para el usuario.
+ *       - **`form`:** Formulario para ingresar el correo electrónico.
+ *         - **`p` con mensaje de error:** Mensaje que indica que el correo electrónico es incorrecto.
+ *         - **`button`:** Botón para solicitar un enlace de restablecimiento de contraseña.
+ *         - **`p` con texto "Cancelar":** Texto para cancelar la operación.
+ * 
+ * Estilos:
+ * - **`bg-black bg-opacity-60`:** Fondo negro translúcido para dar un efecto de superposición.
+ * - **`fixed`, `z-0`:** Imagen de fondo fija detrás del contenido.
+ * - **`relative`, `z-20`:** Contenedor principal con posición relativa para superponer otros elementos.
+ * - **`text-white`:** Color de texto blanco para el contenido.
+ * - **`px-56`, `gap-28`:** Espaciado para el contenedor del formulario.
+ * - **`bg-principalGreen`:** Fondo verde para el botón.
+ * - **`text-xl`, `text-2xl`, `text-3xl`:** Tamaños de texto para los diferentes elementos.
+ * 
+ * Puntos Clave:
+ * - La página está diseñada para manejar el error de correo electrónico incorrecto.
+ * - Proporciona un formulario para ingresar un correo electrónico y solicitar un enlace de restablecimiento de contraseña.
+ * - Incluye un botón para enviar la solicitud y un texto para cancelar la operación.
+ * 
+ * Notas:
+ * - Asegúrate de que el estilo de la clase `bg-principalGreen` y los colores estén definidos en tu archivo de estilos globales.
+ */
+
 import React from "react";
 import Logo from "../../components/logo";
 

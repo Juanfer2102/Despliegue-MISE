@@ -1,3 +1,44 @@
+/**
+ * Preguntas.jsx
+ * 
+ * Componente que representa la página para la gestión de preguntas dentro del panel de control.
+ * Permite visualizar y administrar preguntas y proporciona opciones de navegación hacia otros módulos.
+ * 
+ * Componentes utilizados:
+ * - `LayoutDashboard`: Contenedor principal para la estructura del dashboard.
+ * - `Modalopciones`: Componente de modal para navegar a otras secciones.
+ * - `PreguntasContainer`: Componente que muestra el contenedor principal de preguntas.
+ * 
+ * Funcionalidad:
+ * - Muestra una lista de preguntas en un contenedor con un scroll personalizado.
+ * - Proporciona enlaces para navegar a otras secciones relacionadas.
+ * 
+ * Estructura del componente:
+ * - **`main`:** Contenedor principal para la página.
+ *   - **`div` con fondo negro:** Encabezado del dashboard.
+ *   - **`div` con fondo gris:** Contenedor para el contenido y otros elementos.
+ *     - **`p`:** Título de la sección de preguntas.
+ *     - **`div` flexible:** Contenedor para el listado de preguntas y los botones de navegación.
+ *       - **`PreguntasContainer`:** Componente que muestra las preguntas en un contenedor con scroll personalizado.
+ *       - **`div` con `Modalopciones`:** Contiene botones para navegar a módulos relacionados (Módulos, Sueños, Temas).
+ * 
+ * Estilos:
+ * - **`bg-greyBg`:** Fondo gris claro para el contenido de la página.
+ * - **`bg-greyBlack`:** Fondo negro para la cabecera del dashboard y el contenedor de preguntas.
+ * - **`h-screen`:** Altura completa de la pantalla.
+ * - **`overflow-x-hidden`:** Oculta el desbordamiento horizontal.
+ * - **`flex`:** Utiliza un diseño flexible para la disposición de elementos.
+ * - **`customScrollbar`:** Personalización del scroll en el contenedor de preguntas.
+ * 
+ * Puntos Clave:
+ * - El componente permite la visualización y gestión de preguntas con un diseño responsivo.
+ * - Ofrece navegación a otras secciones mediante botones de opciones.
+ * 
+ * Notas:
+ * - Asegúrate de que los estilos y componentes utilizados estén correctamente definidos en tu proyecto.
+ * - Verifica que la propiedad `style` aplicada al contenedor de preguntas funcione correctamente con el scroll personalizado.
+ */
+
 import React from 'react';
 import LayoutDashboard from "../../layouts/LayoutDashboard.jsx";
 import Modalopciones from "../../components/modales/modalopciones.jsx";

@@ -1,3 +1,44 @@
+/**
+ * DetalleDiagnosticof.jsx
+ * 
+ * Componente que muestra el diagnóstico final de una empresa basado en los datos de calificaciones bajas, temas asignados y sueños del módulo.
+ * Permite ver el diagnóstico final y descargar un archivo PDF con la información detallada.
+ * 
+ * Componentes utilizados:
+ * - LayoutDashboard: Componente de diseño que envuelve la página de detalle en un diseño de panel de control.
+ * - DownloadPDFButton: Componente para descargar un archivo PDF con el diagnóstico.
+ * 
+ * Hooks utilizados:
+ * - useState: Para manejar el estado local del componente.
+ * - useEffect: Para obtener los datos de la empresa y las calificaciones bajas desde el backend.
+ * - useParams: Para obtener parámetros de la URL, en este caso, el NIT de la empresa.
+ * 
+ * Funcionalidad:
+ * - Obtiene y muestra información de la empresa y calificaciones bajas desde las API.
+ * - Permite la selección de un sueño del módulo y muestra el sueño seleccionado.
+ * - Descarga un archivo PDF con el diagnóstico final de la empresa.
+ * 
+ * Estilos:
+ * - Usa Tailwind CSS para la disposición y el diseño. La página se estructura en una vista de panel de control con estilos específicos para la tabla de calificaciones, la selección de sueños y los temas asignados.
+ * - El diseño incluye una tabla para mostrar calificaciones bajas y secciones para los temas y sueños del módulo.
+ * - Los botones y elementos interactivos tienen estilos personalizados con efectos de transición para mejorar la experiencia del usuario.
+ * 
+ * Estructura del componente:
+ * - useState para manejar el estado de la empresa, calificaciones bajas y sueños seleccionados.
+ * - useEffect para realizar fetch de datos de la empresa y calificaciones bajas basadas en el NIT proporcionado en la URL.
+ * - Función handleSelectSueño para seleccionar un sueño para el módulo.
+ * - Función renderTabla para mostrar las calificaciones bajas en una tabla.
+ * - Renderiza la interfaz de usuario con una sección de introducción, módulos de evaluación, temas asignados, y sueños del módulo.
+ * 
+ * Puntos clave:
+ * - Se obtiene la información de la empresa y calificaciones bajas mediante fetch desde las API.
+ * - La selección de sueños se maneja con un estado local que permite al usuario seleccionar un sueño específico.
+ * - La interfaz se ajusta automáticamente para mostrar los datos de manera clara y ordenada, utilizando las clases de Tailwind CSS para un diseño responsivo.
+ * - El botón de descarga de PDF permite obtener un archivo con la información detallada del diagnóstico.
+ */
+
+
+
 import React, { useState, useEffect } from "react";
 import LayoutDashboard from '../../layouts/LayoutDashboard';
 import DownloadPDFButton from "../../components/inputs/botones/botonpdf";

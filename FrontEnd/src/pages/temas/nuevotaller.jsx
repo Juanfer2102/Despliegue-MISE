@@ -1,3 +1,38 @@
+/**
+ * NuevoTaller.jsx
+ * 
+ * Componente que proporciona una interfaz para crear o editar un nuevo taller dentro del dashboard.
+ * Utiliza modales para mostrar opciones de edición y carga.
+ * 
+ * Componentes utilizados:
+ * - LayoutDashboard: Proporciona una estructura de diseño general para la página con un título específico.
+ * - Modaleditar: Componente modal para editar un taller.
+ * - BotonGuardar: Componente modal para mostrar una interfaz de carga (aunque no se utiliza directamente aquí, se puede incluir según la necesidad).
+ * 
+ * Funcionalidad:
+ * - El componente se renderiza dentro del `LayoutDashboard` con un fondo gris y una barra de navegación superior.
+ * - Usa el componente `Modaleditar` para permitir la edición de un taller, configurado con la propiedad `condicion` establecida en `8`.
+ * 
+ * Estructura del componente:
+ * - **`main`:** Contenedor principal con fondo gris y altura de pantalla completa.
+ *   - **`div` con `bg-greyBlack`:** Barra de navegación superior.
+ *   - **`div` con `bg-greyBg`:** Contenedor principal para el contenido.
+ *     - **`div` con `flex`:** Contenedor flexible que organiza el contenido.
+ *       - **`div` con `h-full flex flex-col`:** Contenedor para el `Modaleditar`, con espacio ajustado y centrado verticalmente.
+ *         - **`Modaleditar`:** Componente que permite la edición del taller, con la propiedad `condicion` configurada a `8`.
+ * 
+ * Estilos:
+ * - **`bg-greyBg`:** Fondo gris claro para el área de contenido.
+ * - **`bg-greyBlack`:** Fondo negro para la barra de navegación superior.
+ * - **`h-full`, `w-full`:** Estilos para ocupar el espacio completo del contenedor.
+ * - **`gap-[5rem]`:** Espaciado entre elementos en el contenedor de edición.
+ * 
+ * Notas:
+ * - Asegúrate de que el componente `Modaleditar` esté correctamente implementado para manejar la edición de talleres.
+ * - Considera incluir `BotonGuardar` si es necesario para mostrar una interfaz de carga o confirmación de guardado.
+ */
+
+
 import React from 'react';
 import LayoutDashboard from "../../layouts/LayoutDashboard";
 import Modaleditar from "../../components/modales/modaleditar";
