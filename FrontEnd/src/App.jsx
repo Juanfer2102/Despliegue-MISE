@@ -33,7 +33,7 @@ const EmpresasVinculacion = lazy(() => import("./pages/empresasvinculacion/empre
 
 // Componentes de módulos
 const Modulos = lazy(() => import("./pages/modulos/modulos.jsx"))
-const Editarmodulos = lazy(() => import("./pages/modulos/editarmodulos.jsx"));
+const Editarmodulos = lazy(() => import("./pages/modulos/modulos.jsx"));
 
 // Componentes de sueños
 const Sueos = lazy(() => import("./pages/sueños/sueños.jsx"));
