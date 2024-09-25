@@ -110,8 +110,6 @@ class Temas(models.Model):
     alcance = models.TextField(blank=True, null=True)
     contenido = models.TextField(blank=True, null=True)
     conferencista = models.CharField(max_length=255, blank=True, null=True)
-    fecha = models.DateField(blank=True, null=True)
-    horario = models.TimeField(blank=True, null=True)
     ubicacion = models.CharField(max_length=255, blank=True, null=True)
     estado = models.IntegerField(blank=True, null=True)
 
@@ -125,14 +123,26 @@ class Temas(models.Model):
             "alcance": self.alcance,
             "contenido": self.contenido,
             "conferencista": self.conferencista,
-            "fecha": self.fecha,
-            "horario": self.horario,
             "ubicacion": self.ubicacion
         }
-
+    
     class Meta:
         managed = False
         db_table = 'temas'
+    
+class TemasAsignados(models.Model):
+    id_tema = models.ForeignKey(Temas, models.DO_NOTHING, db_column='id_tema')
+    nit = models.ForeignKey(Empresas, models.DO_NOTHING, db_column='nit')
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
+    estado = models.IntegerField()
+    criterio = models.CharField(max_length=20, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'temas_asignados'
+
+
 
 class Escalas(models.Model):
     id_escala = models.AutoField(primary_key=True)

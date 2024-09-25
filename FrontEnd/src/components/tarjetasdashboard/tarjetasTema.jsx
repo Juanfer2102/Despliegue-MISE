@@ -29,18 +29,42 @@ const TarjetasTema = ({ nit }) => {
     useEffect(() => {
         if (nit) {
             // Obtener temas desde el endpoint
-            fetch(`http://localhost:8000/api/v2/calificaciones-bajas/empresa/${nit}/`)
+            fetch(`http://localhost:8000/api/v2/temas/empresa/${nit}/`)
                 .then(response => response.json())
                 .then(data => {
-                    // Aplana la estructura para obtener una lista de temas
-                    const extraidos = data.flatMap(calificacion =>
-                        calificacion.preguntas.flatMap(pregunta => pregunta.tema) // Asegúrate de usar flatMap aquí
-                    );
-                    setTemas(extraidos);
+                    // Filtrar temas que tengan estado 0 en temas_asignados
+                    const temasConEstadoCero = data.filter(tema => tema.estado === 0);
+                    setTemas(temasConEstadoCero);
                 })
                 .catch(error => console.error("Error fetching temas:", error));
         }
     }, [nit]);
+
+    const aprobarTema = (estado) => {
+        const temaId = selectedTema.id_tema; // Aquí deberías tener el ID del tema
+
+        fetch(`http://localhost:8000/api/v2/temas_asignados/${nit}/${temaId}/actualizar_estado/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ estado }), // Aquí envías el estado
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.mensaje) {
+                    alert(data.mensaje);
+                    closeModal();
+                    // Opcional: Actualizar la lista de temas o hacer un refresh de la página
+                    setTemas(temas.filter(tema => tema.id_tema !== selectedTema.id_tema));
+                } else {
+                    console.error("Error:", data.error);
+                }
+            })
+            .catch(error => console.error("Error actualizando el estado del tema:", error));
+    };
+
+
 
     const openModal = (tema) => {
         setSelectedTema(tema);
@@ -85,10 +109,11 @@ const TarjetasTema = ({ nit }) => {
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                     <div className="bg-greyBlack text-white p-6 rounded-lg shadow-lg w-full max-w-2xl overflow-auto">
                         <h3 className="text-2xl font-bold mb-4">Detalles del Tema</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[22rem] overflow-y-auto" style={styles.customScrollbar}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4" style={styles.customScrollbar}>
+                            {/* Información del tema */}
                             <div>
                                 <p className="text-lg font-semibold mb-2"><strong>Módulo:</strong></p>
-                                <p className="mb-4">{selectedTema.id_modulo}</p> {/* Cambia esto si tienes el nombre del módulo en el tema */}
+                                <p className="mb-4">{selectedTema.id_modulo}</p>
                             </div>
                             <div>
                                 <p className="text-lg font-semibold mb-2"><strong>Sesión:</strong></p>
@@ -111,27 +136,39 @@ const TarjetasTema = ({ nit }) => {
                                 <p className="mb-4">{selectedTema.conferencista}</p>
                             </div>
                             <div>
-                                <p className="text-lg font-semibold mb-2"><strong>Fecha:</strong></p>
-                                <p className="mb-4">{selectedTema.fecha}</p>
-                            </div>
-                            <div>
-                                <p className="text-lg font-semibold mb-2"><strong>Horario:</strong></p>
-                                <p className="mb-4">{selectedTema.horario}</p>
-                            </div>
-                            <div>
                                 <p className="text-lg font-semibold mb-2"><strong>Ubicación:</strong></p>
                                 <p className="mb-4">{selectedTema.ubicacion}</p>
                             </div>
                         </div>
-                        <button
-                            className="mt-6 px-4 py-2 bg-principalGreen text-white rounded-lg hover:bg-darkGrey transition-colors duration-300"
-                            onClick={closeModal}
-                        >
-                            Cerrar
-                        </button>
+
+                        {/* Botones Aprobó y No Aprobó */}
+                        <div className="flex justify-between mt-6">
+                            <button
+                                className="mt-6 px-4 py-2 bg-principalGreen text-white rounded-lg hover:bg-white hover:text-principalGreen transition-colors duration-300"
+                                onClick={closeModal}
+                            >
+                                Cerrar
+                            </button>
+                            <div className="flex gap-4">
+                                <button
+                                    className="mt-6 px-4 py-2 bg-principalGreen text-white rounded-lg hover:bg-white hover:text-principalGreen transition-colors duration-300"
+                                    onClick={() => aprobarTema(1)} // Aprobado
+                                >
+                                    Aprobar
+                                </button>
+                                <button
+                                    className="mt-6 px-4 py-2 bg-red text-white rounded-lg hover:bg-white hover:text-red transition-colors duration-300"
+                                    onClick={() => aprobarTema(2)} // No aprobado
+                                >
+                                    No Aprobar
+                                </button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             )}
+
         </div>
     );
 };

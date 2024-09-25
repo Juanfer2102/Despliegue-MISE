@@ -6,8 +6,13 @@ const EvaluacionEmpresa = () => {
     const { nit } = useParams();
     const [empresa, setEmpresa] = useState({});
     const [calificacionesBajas, setCalificacionesBajas] = useState([]);
-    const [sueñosSeleccionados, setSueñosSeleccionados] = useState({}); // Estado para manejar los sueños seleccionados
+    const [sueñosSeleccionados, setSueñosSeleccionados] = useState({});
+    const [fechaInicio, setFechaInicio] = useState('');
+    const [fechaFin, setFechaFin] = useState('');
+
     const navigate = useNavigate();
+
+    const [fechas, setFechas] = useState({});
 
     useEffect(() => {
         // Obtener información de la empresa
@@ -27,18 +32,26 @@ const EvaluacionEmpresa = () => {
             });
     }, [nit]);
 
-    // Manejar la selección de un sueño
+    const handleFechaChange = (temaId, tipo, valor) => {
+        setFechas(prevFechas => ({
+            ...prevFechas,
+            [temaId]: {
+                ...prevFechas[temaId],
+                [tipo]: valor,
+            }
+        }));
+    };
+    
+
     const handleSelectSueño = (id_modulo, sueñoSeleccionado) => {
         setSueñosSeleccionados(prevState => {
             const seleccionados = prevState[id_modulo] || [];
             if (seleccionados.includes(sueñoSeleccionado)) {
-                // Si el sueño ya está seleccionado, deselecciónalo
                 return {
                     ...prevState,
                     [id_modulo]: seleccionados.filter(sueño => sueño !== sueñoSeleccionado)
                 };
             } else {
-                // Si el sueño no está seleccionado, añádelo
                 return {
                     ...prevState,
                     [id_modulo]: [...seleccionados, sueñoSeleccionado]
@@ -47,45 +60,47 @@ const EvaluacionEmpresa = () => {
         });
     };
 
-    // Registrar diagnóstico (enviar sueños seleccionados al backend)
-    const registrarDiagnostico = () => {
+    const registrarDiagnostico = async () => {
         const data = {
             nit: nit,
             sueños: Object.entries(sueñosSeleccionados).map(([id_modulo, sueños]) => ({
                 id_modulo,
                 sueños
             })),
+            fechasTemas: Object.entries(fechas).map(([temaId, { fechaInicio, fechaFin }]) => ({
+                temaId,
+                fechaInicio,
+                fechaFin
+            })),
         };
-
-        console.log("Datos enviados al backend:", data); // Verifica los datos aquí
-
-        fetch('http://localhost:8000/api/v2/registrar-diagnostico/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(errData => {
-                        console.error("Error en la respuesta del backend:", errData);
-                        throw new Error("Error al registrar el diagnóstico");
-                    });
-                }
-                return response.json();
-            })
-            .then(result => {
-                alert('Diagnóstico registrado con éxito');
-                navigate(`/dashboard-emp/${nit}`);
-            })
-            .catch(error => {
-                console.error('Error al registrar el diagnóstico:', error);
+    
+        console.log('Datos a enviar:', data); // Verifica el contenido de data
+    
+        try {
+            const response = await fetch('http://localhost:8000/api/v2/registrar-diagnostico/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
             });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Error en la respuesta de la API:', errorData); // Agregar log para ver el error
+                throw new Error(errorData.error || 'Error al registrar el diagnóstico');
+            }
+            
+    
+            console.log('Diagnóstico registrado con éxito:', await response.json());
+            navigate(`/dashboard-emp/${nit}`)
+        } catch (error) {
+            console.error('Error al registrar el diagnóstico:', error);
+        }
     };
+    
 
-    // Renderiza las calificaciones bajas en una tabla
-    const renderTabla = (preguntas) => (
+    const renderTabla = (preguntas = []) => (
         <div className="flex flex-col mt-6 bg-greyBg rounded-md">
             <div className="flex bg-greyBlack text-white font-semibold">
                 <div className="flex-1 p-5 text-left">Pregunta</div>
@@ -113,7 +128,7 @@ const EvaluacionEmpresa = () => {
                                 <div className="flex justify-between pr-10">
                                     <p className='text-2xl font-bold'>Diagnóstico Inicial Empresarial {empresa.nombre_empresa}</p>
                                 </div>
-                                <div className="px-6">
+                                <div className="px-6 flex flex-col p-4">
                                     <div>
                                         <p className='font-bold text-xl'>Introducción</p>
                                         <p className='p-6 text-justify'>
@@ -132,9 +147,8 @@ const EvaluacionEmpresa = () => {
                                                     <h2 className="text-2xl font-bold">Modulo: {modulo.nombre}</h2>
                                                     <p className="text-lg">{modulo.criterio}</p>
                                                 </div>
-                                                {renderTabla(modulo.preguntas)}
+                                                {renderTabla(modulo.preguntas || [])}
 
-                                                {/* Mostrar información de los temas relacionados con el módulo */}
                                                 <div className="pt-14 flex flex-col gap-8 w-full">
                                                     <div className="temas">
                                                         <h2 className="text-2xl font-bold mb-4">Temas asignados</h2>
@@ -144,20 +158,38 @@ const EvaluacionEmpresa = () => {
 
                                                                 return (
                                                                     <div key={pregunta.id_pregunta} className="flex flex-1 flex-col gap-4 min-w-[300px] p-4 border-t border-gray-200 rounded-md shadow-md">
-                                                                        <h3 className="text-xl font-bold">{pregunta.descripcion_pregunta}</h3> {/* Mostrar la descripción de la pregunta */}
+                                                                        <h3 className="text-xl font-bold">{pregunta.descripcion_pregunta}</h3>
 
                                                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                                            {pregunta.tema.map(tema => (
-                                                                                <div key={tema.id_tema} className="p-4 border border-gray-300 rounded-md shadow-sm">
+                                                                            {/* Mostrar temas relacionados */}
+                                                                            {pregunta.tema?.map(tema => ( // Manejar tema undefined
+                                                                                <div key={tema.id_tema} className="p-4 border border-gray-300 rounded-md shadow-sm gap-2 flex flex-col">
                                                                                     <h4 className="text-lg font-semibold">{tema.titulo_formacion}</h4>
                                                                                     <p><strong>Sesión:</strong> {tema.num_sesion}</p>
                                                                                     <p><strong>Objetivo:</strong> {tema.objetivo}</p>
                                                                                     <p><strong>Alcance:</strong> {tema.alcance}</p>
                                                                                     <p><strong>Contenido:</strong> {tema.contenido}</p>
                                                                                     <p><strong>Conferencista:</strong> {tema.conferencista}</p>
-                                                                                    <p><strong>Fecha:</strong> {tema.fecha}</p>
-                                                                                    <p><strong>Horario:</strong> {tema.horario}</p>
                                                                                     <p><strong>Ubicación:</strong> {tema.ubicacion}</p>
+
+                                                                                    {/* Input para la fecha de inicio y fin */}
+                                                                                    <div className="flex justify-around">
+                                                                                        <label htmlFor={`fechaInicio-${modulo.id_modulo}`}>Fecha de Inicio:</label>
+                                                                                        <input
+                                                                                            className="bg-transparent px-2 border border-grey rounded-md"
+                                                                                            type="date"
+                                                                                            id={`fechaInicio-${tema.id_tema}`}
+                                                                                            onChange={(e) => handleFechaChange(tema.id_tema, 'fechaInicio', e.target.value)} // Cambiado aquí
+                                                                                        />
+
+                                                                                        <label htmlFor={`fechaFin-${tema.id_tema}`}>Fecha de Fin:</label>
+                                                                                        <input
+                                                                                            className="bg-transparent px-2 border border-grey rounded-md"
+                                                                                            type="date"
+                                                                                            id={`fechaFin-${tema.id_tema}`}
+                                                                                            onChange={(e) => handleFechaChange(tema.id_tema, 'fechaFin', e.target.value)} // Cambiado aquí
+                                                                                        />
+                                                                                    </div>
                                                                                 </div>
                                                                             ))}
                                                                         </div>
@@ -166,8 +198,6 @@ const EvaluacionEmpresa = () => {
                                                             })}
                                                         </div>
                                                     </div>
-
-                                                    {/* Mostrar los sueños del módulo */}
                                                     <div className="suenos pt-10">
                                                         <h2 className="text-2xl font-bold mb-4">Sueños del módulo</h2>
                                                         <div className="flex flex-wrap gap-8">
@@ -180,7 +210,7 @@ const EvaluacionEmpresa = () => {
                                                                     <p><strong>Fortalecimiento:</strong> {sueño.fortalecimiento}</p>
                                                                     <p><strong>Evidencia:</strong> {sueño.evidencia}</p>
                                                                     <button
-                                                                        className={`mt-4 p-2 bg-${sueñosSeleccionados[modulo.id_modulo]?.includes(sueño.sueño) ? 'principalGreen' : ' bg-transparent border border-white'} text-white rounded`}
+                                                                        className={`mt-4 p-2 bg-${sueñosSeleccionados[modulo.id_modulo]?.includes(sueño.sueño) ? 'principalGreen' : 'bg-transparent border border-white'} text-white rounded`}
                                                                         onClick={() => handleSelectSueño(modulo.id_modulo, sueño.sueño)}
                                                                     >
                                                                         {sueñosSeleccionados[modulo.id_modulo]?.includes(sueño.sueño) ? 'Deseleccionar' : 'Seleccionar este sueño'}
@@ -198,18 +228,14 @@ const EvaluacionEmpresa = () => {
                                                                 </ul>
                                                             </div>
                                                         )}
-                                                    </div>
+                                                    </div> {/* Aquí se cierra el div principal */}
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
-                                    <div className="flex justify-end mt-8 pb-5">
-                                        <button
-                                            onClick={registrarDiagnostico}
-                                            className="p-2 px-4 bg-principalGreen hover:bg-white hover:text-principalGreen text-white rounded-md"
-                                        >
-                                            Registrar Diagnóstico
-                                        </button>
+
+                                    <div className="flex justify-center pt-10">
+                                        <button onClick={registrarDiagnostico} className="bg-principalGreen text-white py-2 px-4 rounded">Registrar Diagnóstico</button>
                                     </div>
                                 </div>
                             </div>
@@ -217,7 +243,7 @@ const EvaluacionEmpresa = () => {
                     </div>
                 </div>
             </main>
-        </LayoutDashboard>
+        </LayoutDashboard >
     );
 };
 

@@ -31,7 +31,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
 from .models import Temas, DiagnosticoEmpresarialSuenos, TemasPreguntas, SuenosConcretados, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 from .serializer import TemasSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
-from .models import Temas, DiagnosticoEmpresarialSuenos, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .models import Temas, DiagnosticoEmpresarialSuenos, TemasAsignados, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 from .serializer import TemasSerializer, PasswordResetSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from rest_framework import status, generics, serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
@@ -53,6 +53,8 @@ from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+
+from datetime import date
 
 class PasswordResetConfirmView(generics.GenericAPIView):
     class PasswordResetConfirmSerializer(serializers.Serializer):
@@ -161,8 +163,6 @@ class CalificacionesBajasPorNitView(APIView):
                             "alcance": tema.alcance,
                             "contenido": tema.contenido,
                             "conferencista": tema.conferencista,
-                            "fecha": tema.fecha,
-                            "horario": tema.horario,
                             "ubicacion": tema.ubicacion
                         })
 
@@ -257,6 +257,54 @@ class ConsultarDiagnosticoView(APIView):
             "diagnosticos": datos_diagnostico
         }, status=status.HTTP_200_OK)
 
+class TemasAsignadosPorEmpresaAPIView(APIView):
+    def get(self, request, nit):
+        try:
+            # Filtrar los temas asignados basados en el NIT
+            temas_asignados = TemasAsignados.objects.filter(nit=nit)
+            
+            # Si no hay temas asignados, devolver una respuesta vacía
+            if not temas_asignados.exists():
+                return Response({"message": "No temas found for the given NIT"}, status=status.HTTP_404_NOT_FOUND)
+
+            # Obtener la información de cada tema asignado
+            temas_data = []
+            for asignacion in temas_asignados:
+                tema = asignacion.id_tema
+                temas_data.append({
+                    "id_tema": tema.id,
+                    "id_modulo": tema.id_modulo.id_modulo,
+                    "num_sesion": tema.num_sesion,
+                    "objetivo": tema.objetivo,
+                    "alcance": tema.alcance,
+                    "contenido": tema.contenido,
+                    "conferencista": tema.conferencista,
+                    "ubicacion": tema.ubicacion,
+                    "fecha_inicio": asignacion.fecha_inicio,
+                    "fecha_fin": asignacion.fecha_fin,
+                    "estado": asignacion.estado,
+                    "criterio": asignacion.criterio,
+                })
+
+            return Response(temas_data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class ActualizarEstadoTema(APIView):
+    def put(self, request, nit, tema_id):
+        try:
+            # Buscar la relación en TemasAsignados usando nit y el id_tema
+            tema_asignado = TemasAsignados.objects.get(nit__nit=nit, id_tema__id=tema_id)
+            estado = request.data.get('estado')
+            tema_asignado.estado = estado
+            tema_asignado.save()
+            return Response({"mensaje": "Estado actualizado correctamente."}, status=status.HTTP_200_OK)
+
+        except TemasAsignados.DoesNotExist:
+            return Response({"error": "Tema no encontrado en la asignación."}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class RegistrarDiagnosticoView(APIView):
     def post(self, request, *args, **kwargs):
@@ -270,6 +318,8 @@ class RegistrarDiagnosticoView(APIView):
 
             nit = data.get('nit')
             sueños_seleccionados = data.get('sueños', [])
+            fecha_inicio = data.get('fecha_inicio')  # Extrae la fecha de inicio
+            fecha_fin = data.get('fecha_fin')        # Extrae la fecha de fin
 
             if not nit:
                 return Response({"error": "NIT no proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
@@ -293,12 +343,14 @@ class RegistrarDiagnosticoView(APIView):
                 except Modulos.DoesNotExist:
                     return Response({"error": f"Módulo {sueno_id_modulo} no encontrado"}, status=status.HTTP_404_NOT_FOUND)
 
+                # Crear o obtener el diagnóstico
                 diagnostico, created = DiagnosticoEmpresarial.objects.get_or_create(
                     empresa=empresa,
                     modulo=modulo,
                     defaults={"calificacion_promedio": 0}
                 )
 
+                # Procesar los sueños y crear registros relacionados
                 for sueno_descripcion in suenos:
                     sueno, created = Suenos.objects.get_or_create(
                         id_modulo=modulo.id_modulo,
@@ -309,7 +361,8 @@ class RegistrarDiagnosticoView(APIView):
 
                     diagnostico_sueno, created = DiagnosticoEmpresarialSuenos.objects.get_or_create(
                         diagnostico=diagnostico,
-                        sueno=sueno
+                        sueno=sueno,
+                        estado=0
                     )
 
                     suenos_registrados.append({
@@ -317,6 +370,30 @@ class RegistrarDiagnosticoView(APIView):
                         "nivel": sueno.nivel,
                         "sueño": sueno.sueño
                     })
+
+                # Obtener los temas relacionados con el módulo
+                temas_relacionados = Temas.objects.filter(id_modulo=modulo)
+
+                # Asignar los temas a la empresa en TemasAsignados
+                for tema in temas_relacionados:
+                    # Asegúrate de que las fechas son válidas
+                    if not fecha_inicio or not fecha_fin:
+                        return Response({"error": "Las fechas de inicio y fin son requeridas"}, status=status.HTTP_400_BAD_REQUEST)
+
+                    # Convierte las fechas a objetos date si es necesario
+                    try:
+                        fecha_inicio_dt = date.fromisoformat(fecha_inicio)  # Asegúrate de que la fecha tenga el formato correcto
+                        fecha_fin_dt = date.fromisoformat(fecha_fin)        # Asegúrate de que la fecha tenga el formato correcto
+                    except ValueError:
+                        return Response({"error": "Formato de fecha inválido"}, status=status.HTTP_400_BAD_REQUEST)
+
+                    TemasAsignados.objects.create(
+                        id_tema=tema,
+                        nit=empresa,
+                        fecha_inicio=fecha_inicio_dt,  # Usa la fecha de inicio seleccionada
+                        fecha_fin=fecha_fin_dt,         # Usa la fecha de fin seleccionada
+                        estado=0
+                    )
 
             return Response({
                 "empresa": empresa.nit,
@@ -333,6 +410,8 @@ class RegistrarDiagnosticoView(APIView):
             import traceback
             print("Error detallado:", traceback.format_exc())
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 
 
 class CalificacionesPorNitView(APIView):
