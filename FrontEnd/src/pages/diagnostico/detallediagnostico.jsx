@@ -42,6 +42,7 @@ const EvaluacionEmpresa = () => {
         }));
     };
     
+    
 
     const handleSelectSueño = (id_modulo, sueñoSeleccionado) => {
         setSueñosSeleccionados(prevState => {
@@ -74,7 +75,12 @@ const EvaluacionEmpresa = () => {
             })),
         };
     
-        console.log('Datos a enviar:', data); // Verifica el contenido de data
+        // Validar si todas las fechas están completas
+        const fechasIncompletas = data.fechasTemas.some(({ fechaInicio, fechaFin }) => !fechaInicio || !fechaFin);
+        if (fechasIncompletas) {
+            console.error("Las fechas de inicio y fin son requeridas para todos los temas.");
+            return;
+        }
     
         try {
             const response = await fetch('http://localhost:8000/api/v2/registrar-diagnostico/', {
@@ -84,13 +90,14 @@ const EvaluacionEmpresa = () => {
                 },
                 body: JSON.stringify(data),
             });
+
+            console.log('Datos a enviar:', data);
     
             if (!response.ok) {
                 const errorData = await response.json();
-                console.error('Error en la respuesta de la API:', errorData); // Agregar log para ver el error
+                console.error('Error en la respuesta de la API:', errorData);
                 throw new Error(errorData.error || 'Error al registrar el diagnóstico');
             }
-            
     
             console.log('Diagnóstico registrado con éxito:', await response.json());
             navigate(`/dashboard-emp/${nit}`)
@@ -98,6 +105,7 @@ const EvaluacionEmpresa = () => {
             console.error('Error al registrar el diagnóstico:', error);
         }
     };
+    
     
 
     const renderTabla = (preguntas = []) => (
@@ -160,7 +168,7 @@ const EvaluacionEmpresa = () => {
                                                                     <div key={pregunta.id_pregunta} className="flex flex-1 flex-col gap-4 min-w-[300px] p-4 border-t border-gray-200 rounded-md shadow-md">
                                                                         <h3 className="text-xl font-bold">{pregunta.descripcion_pregunta}</h3>
 
-                                                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                                        <div className="grid grid-cols-1 gap-4">
                                                                             {/* Mostrar temas relacionados */}
                                                                             {pregunta.tema?.map(tema => ( // Manejar tema undefined
                                                                                 <div key={tema.id_tema} className="p-4 border border-gray-300 rounded-md shadow-sm gap-2 flex flex-col">

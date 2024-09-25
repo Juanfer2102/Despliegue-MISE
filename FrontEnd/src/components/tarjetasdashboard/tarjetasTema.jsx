@@ -57,12 +57,15 @@ const TarjetasTema = ({ nit }) => {
                     closeModal();
                     // Opcional: Actualizar la lista de temas o hacer un refresh de la página
                     setTemas(temas.filter(tema => tema.id_tema !== selectedTema.id_tema));
+                    location.reload()
                 } else {
                     console.error("Error:", data.error);
                 }
             })
             .catch(error => console.error("Error actualizando el estado del tema:", error));
     };
+
+
 
 
 
@@ -100,7 +103,7 @@ const TarjetasTema = ({ nit }) => {
                         <div className="absolute inset-0 p-4 flex items-center justify-center flex-col">
                             <p className="text-lg font-semibold text-center">{tema.objetivo}</p>
                             <p className="font-bold text-principalGreen">{tema.fecha_inicio} - {tema.fecha_fin}</p>
-                            <p className={`text-${tema.estado === 0 ? 'amarillo' : tema.estado === 1 ? 'principalGreen' : 'red' }`}>{tema.criterio}</p>
+                            <p className={`text-${tema.estado === 0 ? 'amarillo' : tema.estado === 1 ? 'principalGreen' : 'red'}`}>{tema.criterio}</p>
                         </div>
                         <div className="w-full h-full" style={{ aspectRatio: '1 / 1' }}></div>
                     </div>
@@ -160,7 +163,7 @@ const TarjetasTema = ({ nit }) => {
                                 Cerrar
                             </button>
                             <div className={`${selectedTema.estado === 1 && 2 ? 'hidden' : 'flex'} gap-4`}>
-                                <button
+                            <button
                                     className="mt-6 px-4 py-2 bg-principalGreen text-white rounded-lg hover:bg-white hover:text-principalGreen transition-colors duration-300"
                                     onClick={() => aprobarTema(1)} // Aprobado
                                 >
@@ -172,6 +175,7 @@ const TarjetasTema = ({ nit }) => {
                                 >
                                     No Aprobar
                                 </button>
+
                             </div>
                         </div>
 

@@ -183,7 +183,6 @@ class Suenos(models.Model):
     medicion = models.TextField(blank=True, null=True)
     evidencia = models.TextField(blank=True, null=True)
     estado = models.IntegerField(blank=True, null=True)
-    estado = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
