@@ -3,7 +3,7 @@ import React from 'react'
 const Formsreescribircont = () => {
 
     const enviar = () =>{
-        window.location.href = "/olvidasteContraseña/olvidasteContraseña";
+        window.location.href = "/olvidaste-contraseña";
     }
 
     return (
@@ -19,21 +19,12 @@ const Formsreescribircont = () => {
             <div className="flex justify-center mt-10">
 
                 <button
-                    className="bg-principalGreen px-6 py-2 text-xl h-14 rounded-lg w-full"
+                    className="bg-principalGreen hover:bg-white hover:text-principalGreen px-6 py-2 text-xl h-14 rounded-lg w-full transition-300"
                     onClick={enviar}
                 >
                     Reescribir correo electronico
                 </button>
 
-            </div>
-
-            <div className="flex justify-center mt-10">
-                <button
-                    className="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg hover:bg-white hover:text-principalGreen"
-                    
-                >
-                    Reenviar link
-                </button>
             </div>
         </div>
     )

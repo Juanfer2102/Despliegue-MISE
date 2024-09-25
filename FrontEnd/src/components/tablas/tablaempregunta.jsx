@@ -29,7 +29,12 @@ const getColor = (calificacion) => {
 const TablaPreguntas = ({ calificaciones = [] }) => {
 
   // Aplana la estructura de módulos y preguntas en una sola lista de preguntas
-  const preguntas = calificaciones.flatMap(modulo => modulo.preguntas);
+  const preguntas = calificaciones.flatMap(modulo => 
+    modulo.preguntas.map(pregunta => ({
+      ...pregunta,
+      nombre_modulo: modulo.nombre  // Agrega el nombre del módulo a cada pregunta
+    }))
+  );
 
   return (
     <div className="overflow-x-auto rounded-xl w-full h-full">
@@ -44,7 +49,7 @@ const TablaPreguntas = ({ calificaciones = [] }) => {
             preguntas.map((pregunta, index) => (
               <div key={pregunta.id_pregunta} className="flex border-r border-l border-b border-white">
                 <div className="flex-1 px-2 sm:px-4 py-2 text-xs sm:text-sm">{pregunta.descripcion}</div>
-                <div className="flex-1 px-2 sm:px-4 py-2 text-xs sm:text-sm hidden sm:block">Módulo {pregunta.id_modulo}</div>
+                <div className="flex-1 px-2 sm:px-4 py-2 text-xs sm:text-sm hidden sm:block">{pregunta.nombre_modulo}</div>
                 <div className={`flex-1 px-2 sm:px-4 py-2 text-xs sm:text-sm ${getColor(pregunta.calificacion)} ${index === preguntas.length - 1 ? 'rounded-b-xl' : ''}`}>
                   {pregunta.calificacion.toFixed(2)}
                 </div>

@@ -8,8 +8,8 @@ const Credencial = () => {
       <div className="h-full w-full absolute z-10 bg-black bg-opacity-60"></div>
       <img
         src="../src/images/loginImg/bg.jpg"
-        alt=""
-        className="w-full h-full fixed z-0"
+        alt="Background"
+        className="w-full h-full object-cover fixed z-0"
       />
       <div className="all relative z-20 flex h-screen items-center justify-center gap-0">
         <div className="w-full h-full">

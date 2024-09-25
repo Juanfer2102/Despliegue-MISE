@@ -6,6 +6,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from datetime import datetime
 from django.views.generic import ListView, DetailView
+from .permissions import IsAdminOrForbidden
+from rest_framework import generics
+from rest_framework.exceptions import PermissionDenied 
 
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode
@@ -15,7 +18,7 @@ from weasyprint import HTML
 import io
 from django.http import HttpResponse
 
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.contrib.auth import get_user_model, authenticate
@@ -33,6 +36,8 @@ from .models import Temas, DiagnosticoEmpresarialSuenos, TemasPreguntas, SuenosC
 from .serializer import TemasSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from .models import Temas, DiagnosticoEmpresarialSuenos, TemasAsignados, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 from .serializer import TemasSerializer, PasswordResetSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
+from .models import Temas, DiagnosticoEmpresarialSuenos, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
+from .serializer import TemasSerializer, UsuarioUpdateSerializer, SetPasswordSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from rest_framework import status, generics, serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -51,8 +56,12 @@ from django.utils.crypto import get_random_string
 from django.db import connection, transaction
 from django.http import JsonResponse
 import json
+from django.contrib.auth.tokens import default_token_generator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from django.utils.http import urlsafe_base64_decode
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 import requests 
 
@@ -61,55 +70,55 @@ from datetime import date
 class PasswordResetConfirmView(generics.GenericAPIView):
     class PasswordResetConfirmSerializer(serializers.Serializer):
         password = serializers.CharField(write_only=True)
+class PasswordResetConfirmView(APIView):
+    def post(self, request, uidb64, token):
+        try:
+            uid = urlsafe_base64_decode(uidb64).decode()
+            user = get_object_or_404(Usuario, pk=uid)
+        except (TypeError, ValueError, OverflowError, Usuario.DoesNotExist):
+            user = None
+        
+        if user is not None and default_token_generator.check_token(user, token):
+            # Aquí puedes actualizar la contraseña
+            return JsonResponse({'message': 'Token válido. Puedes restablecer tu contraseña.'})
+        else:
+            return JsonResponse({'error': 'El token ha expirado o no es válido.'}, status=400)
 
-    serializer_class = PasswordResetConfirmSerializer
+class PasswordResetView(APIView):
+    def post(self, request):
+        email = request.data.get('correo')
+        
+        if not email:
+            return JsonResponse({'error': 'El correo electrónico es obligatorio.'}, status=400)
 
-    def post(self, request, token, *args, **kwargs):
-        # Aquí deberías validar el token, posiblemente buscando en una tabla separada o en el usuario
-        # usuario = Usuario.objects.get(token=token)  # Ejemplo si decides almacenar el token en el modelo
-        usuario = ...  # Lógica para obtener el usuario basado en el token
+        # Obtener el usuario por correo electrónico
+        user = get_object_or_404(Usuario, correo=email)
 
-        if not usuario:  # Aquí deberías manejar si el usuario no se encuentra
-            return Response({"detail": "El enlace de recuperación es inválido."}, status=status.HTTP_400_BAD_REQUEST)
+        # Generar un token de restablecimiento de contraseña
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
 
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        # Generar el enlace de restablecimiento de contraseña
+        reset_link = f"http://localhost:5173/cambiar-contraseña/{uid}/{token}"
 
-        # Actualiza la contraseña
-        usuario.set_password(serializer.validated_data['password'])
-        usuario.save()
-
-        return Response({"detail": "Contraseña actualizada con éxito."}, status=status.HTTP_200_OK)
-
-class PasswordResetView(generics.GenericAPIView):
-    serializer_class = PasswordResetSerializer
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        email = serializer.validated_data['email']
-        usuario = Usuario.objects.get(correo=email)
-
-        # Generar un token o código único para el usuario
-        token = get_random_string(length=32)
-        # Guarda el token en el modelo del usuario o en otro modelo asociado (aquí se sugiere crear un modelo separado)
-        # usuario.token = token  # Opcional: si decides almacenar el token en el modelo
-        # usuario.save()
-
-        # Enviar el correo electrónico al usuario con el enlace de recuperación
-        reset_link = f"http://tu_dominio.com/reset_password/{token}/"  # Ajusta según tu configuración
+        # Enviar el correo electrónico
         send_mail(
-            'Solicitud de Recuperación de Contraseña',
-            f'Haz clic en el siguiente enlace para restablecer tu contraseña: {reset_link}',
-            'juanfergrajales21@gmail.com',  # Cambia esto por tu dirección de correo
-            [email],
+            subject="Restablecer contraseña",
+            message=f"Por favor, haz clic en el siguiente enlace para restablecer tu contraseña: {reset_link}",
+            from_email="no-reply-MISe@outlook.com",
+            recipient_list=[user.correo],
             fail_silently=False,
         )
 
-        return Response({"detail": "Se ha enviado un correo de recuperación."}, status=status.HTTP_200_OK)
+        return JsonResponse({'message': 'Se ha enviado un enlace para restablecer tu contraseña.'}, status=200)
 
-
+class SetPasswordView(APIView):
+    def post(self, request):
+        serializer = SetPasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Contraseña actualizada con éxito."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CalificacionesBajasPorNitView(APIView):
     def get(self, request, *args, **kwargs):
@@ -528,8 +537,8 @@ def obtener_postulante_por_nit(request, nit):
 
 
 def listar_empresas_sin_diagnostico(request):
-    # Obtener las empresas cuyo diagnostico_value es 0
-    empresas_sin_diagnostico = Empresas.objects.filter(diagnostico_value=0)
+    # Obtener las empresas cuyo diagnostico_value es 0 y su estado es 2
+    empresas_sin_diagnostico = Empresas.objects.filter(diagnostico_value=0, estado=2)
     
     # Preparar los datos para enviarlos en formato JSON
     data = []
@@ -1093,6 +1102,8 @@ def AutoevaluacionDetail(request, nit):
         return Response(serializer.data)
     except Empresas.DoesNotExist:
         return Response({'error': 'Empresa no encontrada'}, status=404)
+    
+
 class RegistroPostulanteEmpresa(APIView):
     
     def post(self, request, *args, **kwargs):
@@ -1126,7 +1137,9 @@ class PreguntasPorModuloList(generics.ListAPIView):
 
     def get_queryset(self):
         id_modulo = self.kwargs['id_modulo']  # Obtén el id_modulo de la URL
-        return Preguntas.objects.filter(id_modulo=id_modulo)  # Filtra las preguntas por id_modulo
+        return Preguntas.objects.filter(id_modulo=id_modulo, estado=0)  # Filtra por id_modulo y estado
+    
+
 class EmpresaDetailView(APIView):
     def get(self, request, nit):
         try:
@@ -1206,6 +1219,16 @@ def user_detail(request):
     user = request.user
     serializer = UsuarioSerializer(user)
     return Response(serializer.data)
+
+class UsuarioUpdateView(generics.UpdateAPIView):
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioUpdateSerializer
+    permission_classes = [AllowAny]
+    lookup_field = 'id_usuario'  # Ahora usará 'id_usuario' en lugar de 'pk'
+
+    def get_object(self):
+        return super().get_object()
+
 
 @api_view(['POST'])
 def user(request):

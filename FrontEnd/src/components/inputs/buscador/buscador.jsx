@@ -39,11 +39,14 @@ const Buscador = ({ onSearch, onRoleChange, placeholder, roles, contexto }) => {
                         className="border-2 rounded-lg border-white bg-transparent text-white p-2"
                     >
                         <option className='text-black' value="">Todos los Roles</option>
-                        {roles.map(role => (
-                            <option className='text-black' key={role.id_rol} value={role.id_rol}>
-                                {role.descripcion}
-                            </option>
-                        ))}
+                        {/* Filtra los roles para que solo se muestren los roles con id_rol entre 1 y 3 */}
+                        {roles
+                            .filter(role => role.id_rol >= 1 && role.id_rol <= 3)  // Filtrado de roles
+                            .map(role => (
+                                <option className='text-black' key={role.id_rol} value={role.id_rol}>
+                                    {role.descripcion}
+                                </option>
+                            ))}
                     </select>
                     <i className="fa-solid fa-filter text-white"></i>
                 </div>

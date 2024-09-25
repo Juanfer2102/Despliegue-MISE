@@ -1,5 +1,8 @@
 
 from rest_framework import serializers
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_decode
+from django.shortcuts import get_object_or_404
 from .models import Temas, TemasPreguntas, Autoevaluacion, DiagnosticoEmpresarialSuenos, Calificaciones, Diagnostico1, Modulo1, Respuesta1, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 
 
@@ -204,6 +207,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
             validated_data.pop('contrasena', None)
             
         return super().update(instance, validated_data)
+    
 class ModuloAutoevaluacionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ModuloAutoevaluacion
@@ -232,3 +236,55 @@ class PasswordResetSerializer(serializers.Serializer):
         if not Usuario.objects.filter(correo=value).exists():
             raise serializers.ValidationError("Este correo no está registrado.")
         return value
+    
+
+class SetPasswordSerializer(serializers.Serializer):
+    uid = serializers.CharField()
+    token = serializers.CharField()
+    new_password = serializers.CharField(min_length=8, write_only=True)
+    confirm_password = serializers.CharField(min_length=8, write_only=True)
+
+    def validate(self, attrs):
+        uid = urlsafe_base64_decode(attrs['uid']).decode()
+        token = attrs['token']
+        new_password = attrs['new_password']
+        confirm_password = attrs['confirm_password']
+
+        # Verificar que las contraseñas coinciden
+        if new_password != confirm_password:
+            raise serializers.ValidationError("Las contraseñas no coinciden.")
+
+        # Obtener el usuario
+        user = get_object_or_404(Usuario, pk=uid)
+
+        # Verificar el token
+        if not default_token_generator.check_token(user, token):
+            raise serializers.ValidationError("El token es inválido o ha expirado.")
+
+        return attrs
+
+    def save(self):
+        uid = urlsafe_base64_decode(self.validated_data['uid']).decode()
+        new_password = self.validated_data['new_password']
+        user = get_object_or_404(Usuario, pk=uid)
+
+        # Actualizar la contraseña
+        user.set_password(new_password)
+        user.save()
+
+class UsuarioUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuario
+        fields = ['id_rol', 'estado', 'correo', 'celular', 'documento', 'programa', 'nombres', 'apellidos', 'contrasena']
+        extra_kwargs = {
+            'contrasena': {'write_only': True}  # La contraseña no se debe incluir en las respuestas
+        }
+    
+    def update(self, instance, validated_data):
+        # Verificar si la contraseña se encuentra en los datos validados
+        if 'contrasena' in validated_data:
+            contrasena = validated_data.pop('contrasena')
+            instance.set_password(contrasena)  # Establecer la nueva contraseña
+
+        # Actualizar los demás campos
+        return super().update(instance, validated_data)

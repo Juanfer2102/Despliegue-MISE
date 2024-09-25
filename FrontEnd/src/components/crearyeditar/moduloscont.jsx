@@ -34,7 +34,7 @@ const ModulosContainer = () => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ nombre: modulo.nombre, preguntas: modulo.preguntas, estado: 0 })
                 });
-
+                fetchModulos();
             if (!response.ok) {
                 throw new Error('Error al guardar módulo.');
             }

@@ -1,14 +1,21 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // Importar useNavigate
 import Logo from "../../components/logo/logo";
 
 const Expirado = () => {
+  const navigate = useNavigate(); // Inicializar useNavigate
+
+  const handleClick = () => {
+    navigate('/login'); // Redirigir a la página de login
+  };
+
   return (
     <main>
       <div className="h-full w-full absolute z-10 bg-black bg-opacity-60"></div>
       <img
         src="../src/images/loginImg/bg.jpg"
         alt=""
-        className="w-full h-full fixed z-0"
+        className="w-full h-full object-cover fixed z-0"
       />
       <div className="all relative z-20 flex h-screen items-center justify-center gap-0">
         <div className="w-full h-full">
@@ -17,12 +24,10 @@ const Expirado = () => {
           </div>
         </div>
 
-        <div className="justify-center border-l h-max border-white py-96"></div>
-
-        <div className="login-container text-white w-full h-full flex flex-col justify-center px-56 gap-16">
-          <p className="font-bold text-3xl">LINK EXPIRADO</p>
+        <div className="login-container text-white w-full h-full flex flex-col justify-center pr-40 gap-3 text-center">
+          <p className="font-bold text-3xl">LINK EXPIRADO O NO VALIDO</p>
           <p className="text-2xl">
-            Tu link se ha expirado porque no lo usaste, prueba a enviar otro.
+            Tu link se ha expirado o no es valido porque no lo usaste, prueba a enviar otro.
           </p>
 
           <form action="" className="form flex flex-col">
@@ -35,12 +40,13 @@ const Expirado = () => {
 
             <div>
               <div className="flex justify-center mt-10">
-                <button className="bg-principalGreen px-6 py-2 text-xl h-14 rounded-lg w-full">
-                  Reenviar otro link
+                <button 
+                  type="button" // Asegúrate de que el botón no envíe el formulario
+                  onClick={handleClick} // Manejar el clic
+                  className="bg-principalGreen px-6 py-2 text-xl h-14 rounded-lg w-full"
+                >
+                  Volver al login
                 </button>
-              </div>
-              <div className="flex items-center justify-center mt-8">
-                <p className="text-xl text-center w-full">Cancelar</p>
               </div>
             </div>
           </form>

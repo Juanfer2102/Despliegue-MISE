@@ -5,6 +5,10 @@ const Formsrecupcont = () => {
     const [errors, setErrors] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
 
+    const [values, setValues] = useState({
+        correo: "",
+    });
+
     const validateForm = () => {
         const newErrors = {};
         if (!values.correo) {
@@ -15,10 +19,6 @@ const Formsrecupcont = () => {
         return newErrors;
     };
 
-    const [values, setValues] = useState({
-        correo: "",
-    });
-
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setValues({
@@ -28,37 +28,41 @@ const Formsrecupcont = () => {
     };
 
     const handleForm = async (event) => {
-        event.preventDefault();
-        const validationErrors = validateForm();
-        if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
-            setIsModalVisible(true);
-        } else {
-            try {
-                const response = await fetch('http://localhost:8000/api/v2/olvidaste-contraseña/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ correo: values.correo }),
-                });
-
-                if (response.ok) {
-                    setTimeout(() => {
-                        window.location.href = "/olvidasteContraseña/reescribirContraseña";
-                    }, 2000); // Redirige después de 2 segundos
-                } else {
-                    const data = await response.json();
-                    setErrors(data);
-                    setIsModalVisible(true);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                setErrors({ server: 'Hubo un error al enviar la solicitud.' });
+        event.preventDefault(); // Detener la acción por defecto del formulario
+        const validationErrors = validateForm(); // Validar el formulario
+        if (Object.keys(validationErrors).length > 0) { // Verificar si hay errores de validación
+            setErrors(validationErrors); // Establecer los errores
+            setIsModalVisible(true); // Mostrar el modal
+            return; // Detener el envío del formulario
+        }
+    
+        try {
+            const response = await fetch('http://localhost:8000/api/v2/password-reset/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ correo: values.correo }),
+            });
+    
+            if (response.ok) {
+               // Redireccionar a la página de correo enviado
+               window.location.href = '/correo-enviado'; 
+            } else {
+                const data = await response.json();
+                setErrors({ correo: data.error || 'Ocurrió un error al enviar el correo: No existe un correo asociado.' });
                 setIsModalVisible(true);
             }
+        } catch (error) {
+            setErrors({ correo: 'Error al conectar con el servidor.' });
+            setIsModalVisible(true);
         }
     };
+
+    const handleCancel = () => {
+        window.location.href = '/login'; 
+    }
+    
 
     const closeModal = () => {
         setIsModalVisible(false);
@@ -90,7 +94,7 @@ const Formsrecupcont = () => {
                         Pedir enlace para restablecer contraseña
                     </button>
                     <button
-                        onClick={() => window.history.back()}
+                        onClick={handleCancel}
                         className="w-full text-white text-base sm:text-lg hover:underline cursor-pointer"
                         type="button"
                     >
@@ -104,9 +108,9 @@ const Formsrecupcont = () => {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
                     <div className="bg-white rounded-lg p-6 max-w-sm w-full">
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-xl font-bold text-gray-800">Errores de validación</h2>
+                            <h2 className="text-xl font-bold text-black">Errores de validación</h2>
                             <button 
-                                className="text-gray-600 hover:text-gray-800"
+                                className="text-red hover:text-red"
                                 onClick={closeModal}
                             >
                                 ✕
@@ -114,9 +118,9 @@ const Formsrecupcont = () => {
                         </div>
                         <ul className="list-disc pl-5 space-y-2">
                             {Object.values(errors).map((error, index) => (
-                                <li key={index} className="text-red-500">
+                                <p key={index} className="text-red">
                                     {error}
-                                </li>
+                                </p>
                             ))}
                         </ul>
                     </div>

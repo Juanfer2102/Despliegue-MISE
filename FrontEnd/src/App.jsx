@@ -79,8 +79,8 @@ const AppRoutes = () => {
           <Route path="/registro-empresa" element={<RegistroEmpresa />} />
           <Route path="/autoevaluacion" element={<Autoevaluacion />} />
           <Route path="/olvidaste-contraseña" element={<Olvidastecontra />} />
-          <Route path="/reescribir-contraseña" element={<Rescribircontrase />} />
-          <Route path="/credenciales" element={<Credencial />} />
+          <Route path="/correo-enviado" element={<Rescribircontrase />} />
+          <Route path="/cambiar-contraseña/:uid/:token" element={<Credencial />} />
           <Route path="/expiracion" element={<Expirado />} />
 
 
@@ -105,7 +105,7 @@ const AppRoutes = () => {
               <EditarPorcentaje />
             </ProtectedRoute>
           } />
-          <Route path="/editar-usuario" element={
+          <Route path="/editar-usuario/:id_usuario" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
               <EditarUsuario />
             </ProtectedRoute>

@@ -15,8 +15,8 @@ const Olvidastecontra = () => {
         <div className="w-full lg:w-1/2 xl:1/2 flex items-center justify-center xl:pb-0 pb-10">
           <Logo />
         </div>
-        <div className="login-container text-white w-full lg:w-1/2 flex flex-col justify-center xl:justify-center items-center lg:items-start xl:items-center lg:pr-10 xl:pr-20 space-y-6 text-center lg:text-left">
-          <h1 className="font-bold text-2xl sm:text-3xl">¿Olvidaste tu Contraseña?</h1>
+        <div className="login-container text-white w-full lg:w-1/2 flex flex-col lg:justify-center justify-center xl:justify-center items-center lg:items-start xl:items-center lg:pr-20 xl:pr-20 space-y-6 text-center">
+          <h1 className="font-bold text-2xl text-center sm:text-3xl lg:pl-10">¿Olvidaste tu Contraseña?</h1>
           <p className="text-lg sm:text-xl max-w-md text-center">
             Proporciona el correo electrónico de tu cuenta para restablecer su contraseña.
           </p>

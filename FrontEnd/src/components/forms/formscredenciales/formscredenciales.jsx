@@ -1,20 +1,12 @@
-import React, {useState} from 'react'
-import './formscredenciales.css'
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import './formscredenciales.css';
 
 const Formscredenciales = () => {
-
+    const { uid, token } = useParams();
     const [errors, setErrors] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
-
-    const validateForm = () => {
-        const newErrors = {};
-
-        if (!values.contrasena) {
-            newErrors.contrasena = "La contraseña es obligatoria.";
-        }
-
-        return newErrors;
-    };
+    const [successMessage, setSuccessMessage] = useState('');
 
     const [values, setValues] = useState({
         contrasena: "",
@@ -29,19 +21,63 @@ const Formscredenciales = () => {
         });
     };
 
+    const validateForm = () => {
+        const newErrors = {};
+        if (!values.contrasena) {
+            newErrors.contrasena = "La contraseña es obligatoria.";
+        }
+        if (values.contrasena !== values.confirmcontrasena) {
+            newErrors.confirmcontrasena = "Las contraseñas no coinciden.";
+        }
+        return newErrors;
+    };
+
     const handleForm = async (event) => {
         event.preventDefault();
-
+    
         const validationErrors = validateForm();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             setIsModalVisible(true);
         } else {
-            console.log("Inputs value:", values);
-            // Redirige a la URL deseada si todo es válido
-            window.location.href = "/olvidasteContraseña/reescribirContraseña";
+            try {
+                const response = await fetch('http://localhost:8000/api/v2/set-password/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        uid: uid,
+                        token: token,
+                        new_password: values.contrasena,
+                        confirm_password: values.confirmcontrasena,
+                    }),
+                });
+    
+                if (response.ok) {
+                    setSuccessMessage("Contraseña cambiada exitosamente.");
+                    setValues({ contrasena: "", confirmcontrasena: "" });
+                    // Aquí puedes redirigir a otra página si lo deseas
+                    // window.location.href = '/login/';
+                } else {
+                    const errorData = await response.json();
+                    setErrors(errorData);
+    
+                    // Verificar si el error es específico de token inválido
+                    if (errorData.error && errorData.error.token) {
+                        // Redirigir al usuario si el token es inválido o ha expirado
+                        alert('El token es inválido o ha expirado. Redirigiendo...');
+                        window.location.href = '/expiracion'; // Redirigir a la página para solicitar un nuevo enlace
+                    } else {
+                        setIsModalVisible(true);
+                    }
+                }
+            } catch (error) {
+                console.error("Error al cambiar la contraseña:", error);
+            }
         }
     };
+    
 
     const closeModal = () => {
         setIsModalVisible(false);
@@ -49,8 +85,8 @@ const Formscredenciales = () => {
 
     return (
         <>
-            <form onSubmit={handleForm} class="form flex flex-col gap-2 ">
-                <p class="text-left w-full">Nueva contraseña</p>
+            <form onSubmit={handleForm} className="form flex flex-col gap-2 ">
+                <p className="text-left w-full">Nueva contraseña</p>
                 <input
                     className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border`}
                     type="password"
@@ -60,7 +96,7 @@ const Formscredenciales = () => {
                     autoComplete="off"
                     onChange={handleInputChange}
                 />
-                <p class="text-left w-full ">Confirma contraseña</p>
+                <p className="text-left w-full">Confirma contraseña</p>
                 <input
                     className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border`}
                     type="password"
@@ -70,52 +106,50 @@ const Formscredenciales = () => {
                     autoComplete="off"
                     onChange={handleInputChange}
                 />
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path
-                    d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"
-                ></path>
-                <path d="M3 7l9 6l9 -6"></path>
-
-
                 <div>
-                    <div class="flex justify-center">
+                    <div className="flex justify-center">
                         <button
-                            class="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg hover:bg-white hover:text-principalGreen"
+                            className="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg hover:bg-white hover:text-principalGreen"
                         >
                             Enviar
                         </button>
                     </div>
-                    <div class="flex items-center justify-center mt-8">
-                        <p class="text-xl text-center w-full">Cancelar</p>
+                    <div className="flex items-center justify-center mt-8">
+                        <p className="text-xl text-center w-full">Cancelar</p>
                     </div>
                 </div>
             </form>
 
             {/* Modal para mostrar los errores */}
-            <div
-                className={`modal-container ${isModalVisible ? 'show' : ''}`}
-            >
-                <div className="modal-header">
-                    <h2 className="text-xl font-bold">Errores de validación</h2>
-                    <button
-                        className="close-button"
-                        onClick={closeModal}
-                    >
-                        X
-                    </button>
+            {isModalVisible && (
+                <div className={`modal-container show`}>
+                    <div className="modal-header">
+                        <h2 className="text-xl font-bold">Errores de validación</h2>
+                        <button className="close-button" onClick={closeModal}>X</button>
+                    </div>
+                    <div className="modal-body">
+                        <ul>
+                            {Object.values(errors).map((error, index) => (
+                                <li key={index} className="text-red">{error}</li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
-                <div className="modal-body">
-                    <ul>
-                        {Object.values(errors).map((error, index) => (
-                            <li key={index} className="text-red">
-                                {error}
-                            </li>
-                        ))}
-                    </ul>
+            )}
+
+            {successMessage && (
+                <div className={`modal-container show`}>
+                    <div className="modal-header">
+                        <h2 className="text-xl font-bold">Éxito</h2>
+                        <button className="close-button" onClick={() => setSuccessMessage('')}>X</button>
+                    </div>
+                    <div className="modal-body">
+                        <p className="text-green">¡Se ha cambiado la contraseña!</p>
+                    </div>
                 </div>
-            </div>
+            )}
         </>
-    )
-}
+    );
+};
 
 export default Formscredenciales;
