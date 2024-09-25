@@ -105,7 +105,7 @@ class PasswordResetView(APIView):
         send_mail(
             subject="Restablecer contraseña",
             message=f"Por favor, haz clic en el siguiente enlace para restablecer tu contraseña: {reset_link}",
-            from_email="no-reply-MISe@outlook.com",
+            from_email="no-reply-MISE@outlook.com",
             recipient_list=[user.correo],
             fail_silently=False,
         )
@@ -267,6 +267,91 @@ class ConsultarDiagnosticoView(APIView):
             "empresa": empresa.nit,
             "diagnosticos": datos_diagnostico
         }, status=status.HTTP_200_OK)
+    
+class ModulosConCalificacionesBajasView(APIView):
+    def get(self, request, *args, **kwargs):
+        nit = kwargs.get('nit')
+
+        if not nit:
+            return Response({"error": "NIT no proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Filtrar todas las calificaciones con valor menor a 50
+        calificaciones_bajas = Calificaciones.objects.filter(
+            nit=nit,
+            calificacion__lt=50
+        ).select_related('id_pregunta')
+
+        # Obtener los módulos asociados a las preguntas con calificación menor a 50
+        modulos_ids = Preguntas.objects.filter(
+            id_pregunta__in=calificaciones_bajas.values_list('id_pregunta', flat=True)
+        ).values_list('id_modulo_id', flat=True).distinct()  # Usar id_modulo_id
+
+        # Filtrar DiagnosticoEmpresarial para obtener módulos que tienen preguntas con calificación menor a 50
+        modulos_diagnostico = DiagnosticoEmpresarialModulos.objects.filter(
+            nit=nit,
+            id_modulo_id__in=modulos_ids  # Usar id_modulo_id
+        ).select_related('id_modulo')
+
+        # Construir la respuesta
+        response_data = []
+
+        for diagnostico in modulos_diagnostico:
+            modulo = diagnostico.id_modulo
+            preguntas_modulo = Preguntas.objects.filter(
+                id_modulo=modulo
+            ).select_related('id_modulo')
+
+            preguntas_data = []
+            for pregunta in preguntas_modulo:
+                calificaciones_pregunta = Calificaciones.objects.filter(
+                    id_pregunta=pregunta, nit=nit, calificacion__lt=50
+                )
+
+                for calificacion in calificaciones_pregunta:
+                    # Obtener la información del tema relacionado a la pregunta
+                    tema_info = []
+                    temas_pregunta = TemasPreguntas.objects.filter(id_pregunta=pregunta).select_related('id_tema')
+
+                    for tema_pregunta in temas_pregunta:
+                        tema = tema_pregunta.id_tema
+                        tema_info.append({
+                            "id_tema": tema.id,
+                            "titulo_formacion": tema.titulo_formacion,
+                            "num_sesion": tema.num_sesion,
+                            "objetivo": tema.objetivo,
+                            "alcance": tema.alcance,
+                            "contenido": tema.contenido,
+                            "conferencista": tema.conferencista,
+                            "ubicacion": tema.ubicacion
+                        })
+
+                    preguntas_data.append({
+                        "id": calificacion.id,
+                        "calificacion": calificacion.calificacion,
+                        "criterio": calificacion.criterio,
+                        "nit": calificacion.nit.nit,
+                        "id_pregunta": calificacion.id_pregunta.id_pregunta,
+                        "descripcion_pregunta": pregunta.descripcion,
+                        "tema": tema_info  # Agregar la información del tema
+                    })
+
+            # Solo añadir el módulo a la respuesta si tiene preguntas con calificación menor a 50
+            if preguntas_data:
+                # Agregar información de sueños para el módulo
+                suenos_modulo = Suenos.objects.filter(id_modulo=modulo.id_modulo).values(
+                    'nivel', 'sueño', 'medicion', 'evidencia'
+                )
+
+                response_data.append({
+                    "id_modulo": modulo.id_modulo,
+                    "nombre": modulo.nombre,
+                    "calificacion_promedio": diagnostico.calificacion_promedio,
+                    "criterio": diagnostico.criterio,
+                    "preguntas": preguntas_data,
+                    "suenos": list(suenos_modulo)  # Añadir sueños del módulo
+                })
+
+        return Response(response_data, status=status.HTTP_200_OK)
 
 class TemasAsignadosPorEmpresaAPIView(APIView):
     def get(self, request, nit):
@@ -329,8 +414,7 @@ class RegistrarDiagnosticoView(APIView):
 
             nit = data.get('nit')
             sueños_seleccionados = data.get('sueños', [])
-            fecha_inicio = data.get('fecha_inicio')  # Extrae la fecha de inicio
-            fecha_fin = data.get('fecha_fin')        # Extrae la fecha de fin
+            fechas_temas = data.get('fechasTemas', [])  # Obtener las fechas de los temas
 
             if not nit:
                 return Response({"error": "NIT no proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
@@ -382,29 +466,34 @@ class RegistrarDiagnosticoView(APIView):
                         "sueño": sueno.sueño
                     })
 
-                # Obtener los temas relacionados con el módulo
+                # Asignar fechas a los temas relacionados con el módulo
                 temas_relacionados = Temas.objects.filter(id_modulo=modulo)
-
-                # Asignar los temas a la empresa en TemasAsignados
                 for tema in temas_relacionados:
-                    # Asegúrate de que las fechas son válidas
-                    if not fecha_inicio or not fecha_fin:
-                        return Response({"error": "Las fechas de inicio y fin son requeridas"}, status=status.HTTP_400_BAD_REQUEST)
+                    # Busca las fechas correspondientes al tema actual
+                    fecha_tema = next((f for f in fechas_temas if f['temaId'] == str(tema.id)), None)
+                    if fecha_tema:
+                        fecha_inicio = fecha_tema.get('fechaInicio')
+                        fecha_fin = fecha_tema.get('fechaFin')
 
-                    # Convierte las fechas a objetos date si es necesario
-                    try:
-                        fecha_inicio_dt = date.fromisoformat(fecha_inicio)  # Asegúrate de que la fecha tenga el formato correcto
-                        fecha_fin_dt = date.fromisoformat(fecha_fin)        # Asegúrate de que la fecha tenga el formato correcto
-                    except ValueError:
-                        return Response({"error": "Formato de fecha inválido"}, status=status.HTTP_400_BAD_REQUEST)
+                        # Verifica que las fechas estén presentes
+                        if not fecha_inicio or not fecha_fin:
+                            return Response({"error": "Las fechas de inicio y fin son requeridas"}, status=status.HTTP_400_BAD_REQUEST)
 
-                    TemasAsignados.objects.create(
-                        id_tema=tema,
-                        nit=empresa,
-                        fecha_inicio=fecha_inicio_dt,  # Usa la fecha de inicio seleccionada
-                        fecha_fin=fecha_fin_dt,         # Usa la fecha de fin seleccionada
-                        estado=0
-                    )
+                        # Convierte las fechas a objetos de tipo date
+                        try:
+                            fecha_inicio_dt = date.fromisoformat(fecha_inicio)
+                            fecha_fin_dt = date.fromisoformat(fecha_fin)
+                        except ValueError:
+                            return Response({"error": "Formato de fecha inválido"}, status=status.HTTP_400_BAD_REQUEST)
+
+                        # Asigna el tema a la empresa en TemasAsignados
+                        TemasAsignados.objects.create(
+                            id_tema=tema,
+                            nit=empresa,
+                            fecha_inicio=fecha_inicio_dt,
+                            fecha_fin=fecha_fin_dt,
+                            estado=0
+                        )
 
             return Response({
                 "empresa": empresa.nit,
@@ -421,8 +510,6 @@ class RegistrarDiagnosticoView(APIView):
             import traceback
             print("Error detallado:", traceback.format_exc())
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
 
 
 class CalificacionesPorNitView(APIView):

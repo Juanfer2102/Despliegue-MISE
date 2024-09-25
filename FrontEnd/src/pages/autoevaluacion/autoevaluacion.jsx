@@ -15,7 +15,6 @@ const cardStyle = {
 
 const Autoevaluacion = () => {
   return (
-    <LayoutDashboard title="AutoEvaluacion">
       <main
         className="flex flex-col w-full bg-greyBlack min-h-screen text-white justify-center"
         style={containerStyle}
@@ -84,7 +83,6 @@ const Autoevaluacion = () => {
           </div>
         </div>
       </main>
-    </LayoutDashboard>
   );
 };
 

@@ -15,8 +15,6 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
         alcance: '',
         contenido: '',
         conferencista: '',
-        fecha: '',
-        horario: '',
         ubicacion: '',
         preguntas: [] // Cambiado a un array para manejar múltiples preguntas
     });
@@ -54,8 +52,6 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
             alcance: '',
             contenido: '',
             conferencista: '',
-            fecha: '',
-            horario: '',
             ubicacion: '',
             id_pregunta: ''
         });
@@ -219,26 +215,6 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
                                         type="text"
                                         name="conferencista"
                                         value={newTema.conferencista}
-                                        onChange={handleChange}
-                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
-                                    />
-                                </div>
-                                <div className="mb-4">
-                                    <label className="block text-gray-700">Fecha</label>
-                                    <input
-                                        type="date"
-                                        name="fecha"
-                                        value={newTema.fecha}
-                                        onChange={handleChange}
-                                        className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
-                                    />
-                                </div>
-                                <div className="mb-4">
-                                    <label className="block text-gray-700">Horario</label>
-                                    <input
-                                        type="time"
-                                        name="horario"
-                                        value={newTema.horario}
                                         onChange={handleChange}
                                         className="mt-1 pl-1 block w-full border border-white bg-transparent rounded-md text-white"
                                     />
