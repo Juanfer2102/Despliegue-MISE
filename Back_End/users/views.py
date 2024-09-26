@@ -33,7 +33,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
 from .models import Temas, DiagnosticoEmpresarialSuenos, TemasPreguntas, SuenosConcretados, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
-from .serializer import TemasSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
+from .serializer import TemasSerializer, SuenosConcretadosSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from .models import Temas, DiagnosticoEmpresarialSuenos, TemasAsignados, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 from .serializer import TemasSerializer, PasswordResetSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from .models import Temas, DiagnosticoEmpresarialSuenos, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
@@ -308,6 +308,24 @@ class ConsultarDiagnosticoView(APIView):
             "diagnosticos": datos_diagnostico
         }, status=status.HTTP_200_OK)
     
+class SuenosConcretadosList(generics.ListAPIView):
+    serializer_class = SuenosConcretadosSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        nit = self.kwargs.get('nit')  # Obtener el NIT de los parámetros de la URL
+        # Filtrar los sueños concretados por el NIT
+        return SuenosConcretados.objects.filter(nit__nit=nit, estado=1)
+
+    def get(self, request, nit):
+        try:
+            # Obtener el queryset filtrado
+            sueños_concretados = self.get_queryset()
+            # Serializar los sueños concretados
+            serializer = self.get_serializer(sueños_concretados, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 class ModulosConCalificacionesBajasView(APIView):
     def get(self, request, *args, **kwargs):
         nit = kwargs.get('nit')
@@ -1074,6 +1092,13 @@ class ConcretarSuenoAPIView(APIView):
             # Obtener el estado y las observaciones del cuerpo de la solicitud
             estado = request.data.get('estado')  # 1 para aprobado, 0 para no aprobado
             observaciones = request.data.get('observaciones', '')
+            nit_empresa = request.data.get('nit')  # Obtener el NIT de la empresa
+
+            # Validar que la empresa existe
+            try:
+                empresa = Empresas.objects.get(nit=nit_empresa)
+            except Empresas.DoesNotExist:
+                return Response({"error": "Empresa no encontrada."}, status=status.HTTP_404_NOT_FOUND)
 
             # Formatear la fecha actual
             fecha_actual = datetime.now().strftime("%Y-%m-%d")
@@ -1084,35 +1109,37 @@ class ConcretarSuenoAPIView(APIView):
                 defaults={
                     'fecha': fecha_actual,
                     'observaciones': observaciones,
-                    'estado': estado
+                    'estado': estado,
+                    'nit': empresa  # Asignar la empresa encontrada
                 }
             )
 
             # Actualizar el estado en DiagnosticoEmpresarialSuenos
             # Buscamos el diagnóstico relacionado con este sueño
             try:
-                diagnosticos_suenos  = DiagnosticoEmpresarialSuenos.objects.filter(sueno=sueno)
+                diagnosticos_suenos = DiagnosticoEmpresarialSuenos.objects.filter(sueno=sueno)
 
                 if diagnosticos_suenos.exists():
                     for diagnostico_sueno in diagnosticos_suenos:
-        # Actualizar el estado según el valor recibido
+                        # Actualizar el estado según el valor recibido
                         if estado == 1:
                             diagnostico_sueno.estado = 1  # Si se concretó, estado a 1
                         elif estado == 0:
                             diagnostico_sueno.estado = 2  # Si no se concretó, estado a 2
 
-                            diagnostico_sueno.save()  # Guarda el cambio en la base de datos
+                        diagnostico_sueno.save()  # Guarda el cambio en la base de datos
             except DiagnosticoEmpresarialSuenos.DoesNotExist:
-                return Response({"error": "No se encontró el diagnóstico relacionado con este sueño."}, 
+                return Response({"error": "No se encontró el diagnóstico relacionado con este sueño."},
                                 status=status.HTTP_404_NOT_FOUND)
 
-            return Response({"message": "Sueño concretado y estado actualizado correctamente."}, 
+            return Response({"message": "Sueño concretado y estado actualizado correctamente."},
                             status=status.HTTP_200_OK)
 
         except Suenos.DoesNotExist:
             return Response({"error": "Sueño no encontrado."}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
 class TemasCreateUpdateView(APIView):
     permission_classes = [AllowAny]  # Permitir acceso sin autenticación
 

@@ -191,6 +191,7 @@ class Suenos(models.Model):
 
 class SuenosConcretados(models.Model):
     id = models.BigAutoField(primary_key=True)
+    nit = models.ForeignKey(Empresas, on_delete=models.CASCADE, db_column='nit')  # Agregando la llave foránea
     id_sueno = models.ForeignKey(Suenos, models.DO_NOTHING, db_column='id_sueno')
     fecha = models.DateField()
     observaciones = models.TextField(blank=True, null=True)
