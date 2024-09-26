@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { useEffect, useState } from 'react';
 import LayoutDashboard from '../../layouts/LayoutDashboard';
 import DesempenoForm from '../../components/forms/formsdiagnostico/formsdiagnostico';
@@ -9,7 +9,6 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const EvaluacionEmpresaf = () => {
-
     const { nit } = useParams();
     const [formularioData, setFormularioData] = useState({});
     const [isOpen, setIsOpen] = useState(false);
@@ -51,42 +50,49 @@ const EvaluacionEmpresaf = () => {
     const handleForm = async () => {
         try {
             const calificaciones = [];
-
+    
             // Recorre cada módulo y recoge las calificaciones
             Object.keys(formularioData).forEach(titulo => {
                 const calificacionData = formularioData[titulo];
                 Object.keys(calificacionData).forEach(key => {
                     if (key.startsWith('valoracion_')) {
                         const preguntaId = calificacionData[`pregunta_${key.split('_')[1]}`];
-                        const calificacion = calificacionData[key];
+                        let calificacion = calificacionData[key];
+                        
                         if (preguntaId && calificacion) {
+                            // Convierte la calificación a número
+                            calificacion = parseFloat(calificacion); // Usa parseInt si no aceptas decimales
+                            
+                            // Crea un objeto con la estructura deseada
                             calificaciones.push({
-                                calificacion,
-                                id_pregunta: preguntaId,
                                 nit: nit,
+                                id_pregunta: preguntaId,
+                                calificacion_final: calificacion,  // Cambiado a 'calificacion_final'
                             });
                         }
                     }
                 });
             });
-
-            console.log('Datos a enviar:', calificaciones); // Verifica los datos en la consola
-
-            const response = await fetch('http://localhost:8000/api/v2/calificacion/', {
+    
+            // Estructura los datos en un objeto antes de enviarlos
+            const dataToSend = { calificaciones };  // Envolviendo en un objeto
+    
+            console.log('Datos a enviar:', dataToSend); // Verifica los datos en la consola
+    
+            // Realiza la solicitud POST al backend
+            const response = await fetch('http://localhost:8000/api/v2/update-calificacion/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(calificaciones),
+                body: JSON.stringify(dataToSend),  // Envía el objeto
             });
-
+    
             if (response.ok) {
                 alert('Calificaciones guardadas con éxito');
                 changeDiagState(nit);
-                navigate(`/diagnosticofinal/empresa`);
             } else {
                 const errorData = await response.json();
-                console.log(nit);
                 console.error('Error al guardar las calificaciones:', errorData);
                 alert('Error al guardar las calificaciones');
             }
@@ -96,18 +102,8 @@ const EvaluacionEmpresaf = () => {
             closeModal();
         }
     };
-
-    function changeDiagState(nit) {
-        fetch(`http://localhost:8000/api/v2/update-empresa-diag-status/${nit}/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ diagnostico_value: 1 }),
-        })
-            .then(response => response.ok ? response.json() : Promise.reject('Error al actualizar el estado'))
-            .catch(error => console.error('Error:', error));
-    }
+    
+    
 
     useEffect(() => {
         const fetchEmpresaData = async () => {
@@ -189,8 +185,8 @@ const EvaluacionEmpresaf = () => {
                         <div className="bg-greyBg flex flex-col h-full w-full px-12 pt-6 overflow-auto">
                             <div className="gap-8 flex flex-col p-8 w-full h-full rounded-md">
                                 <div className="rounded-xl flex flex-col gap-6 h-full">
-                                    <GoBack text={`Diagnostico Final / ${nombreEmpresa || 'Cargando...'}`} />
-                                    <div className="flex flex-col gap-6 h-full overflow-auto custom-scrollbar" style={styles.customScrollbar} >
+                                    <GoBack text={`Evaluacion Final / ${nombreEmpresa || 'Cargando...'}`} />
+                                    <div className="flex flex-col gap-6 h-full overflow-auto custom-scrollbar" style={styles.customScrollbar}>
                                         {loading ? (
                                             <p>Cargando módulos...</p>
                                         ) : (
@@ -214,7 +210,7 @@ const EvaluacionEmpresaf = () => {
                 </main>
             </LayoutDashboard>
         </>
-    )
+    );
 }
 
 export default EvaluacionEmpresaf;

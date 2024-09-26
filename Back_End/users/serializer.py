@@ -30,6 +30,18 @@ class CalificacionesSerializer(serializers.ModelSerializer):
         model = Calificaciones
         fields = '__all__'
 
+class CalificacionUpdateSerializer(serializers.Serializer):
+    nit = serializers.CharField(max_length=50)
+    id_pregunta = serializers.IntegerField()
+    calificacion_final = serializers.DecimalField(max_digits=5, decimal_places=2)
+
+    def update_calificacion(self):
+        nit = self.validated_data['nit']
+        id_pregunta = self.validated_data['id_pregunta']
+        calificacion_final = self.validated_data['calificacion_final']
+
+        # Actualiza la calificacion_final para el nit y id_pregunta dados
+        Calificaciones.objects.filter(nit=nit, id_pregunta=id_pregunta).update(calificacion_final=calificacion_final)
 
 class Respuesta1Serializer(serializers.ModelSerializer):
     class Meta:

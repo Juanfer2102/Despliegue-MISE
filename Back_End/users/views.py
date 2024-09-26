@@ -37,7 +37,7 @@ from .serializer import TemasSerializer, CalificacionPreguntaSerializer, Calific
 from .models import Temas, DiagnosticoEmpresarialSuenos, TemasAsignados, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
 from .serializer import TemasSerializer, PasswordResetSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from .models import Temas, DiagnosticoEmpresarialSuenos, TemasPreguntas, DiagnosticoEmpresarial, DiagnosticoEmpresarialModulos, Diagnostico1, Calificaciones, Escalas, Diagnostico, Modulo1, Respuesta1, Autoevaluacion, CalificacionModulo, ModuloAutoevaluacion, Empresas, Modulos, Postulante, Preguntas, Programas, Registros, Rol, Suenos, Talleres, Usuario
-from .serializer import TemasSerializer, UsuarioUpdateSerializer, SetPasswordSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
+from .serializer import TemasSerializer, UsuarioUpdateSerializer, CalificacionUpdateSerializer, SetPasswordSerializer, CalificacionPreguntaSerializer, CalificacionesPreguntasSerializer, Diagnostico1Serializer, CalificacionesSerializer, AutoevaluacionSerializer, CalificacionModuloSerializer, ModuloAutoevaluacionSerializer, UsuarioSerializer, EmpresasSerializer, ModulosSerializer, PostulanteSerializer, PreguntasSerializer, ProgramasSerializer, RegistrosSerializer, RolSerializer, SuenosSerializer, TalleresSerializer 
 from rest_framework import status, generics, serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -557,6 +557,32 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from .models import Calificaciones, Preguntas, Empresas
+
+class UpdateCalificacionAPIView(APIView):
+    
+    def post(self, request, *args, **kwargs):
+        calificaciones = request.data.get('calificaciones', [])
+        errors = []
+        
+        # Itera sobre cada calificación en la lista
+        for calificacion_data in calificaciones:
+            serializer = CalificacionUpdateSerializer(data=calificacion_data)
+            
+            if serializer.is_valid():
+                try:
+                    # Llama al método para actualizar la calificación
+                    serializer.update_calificacion()
+                except Calificaciones.DoesNotExist:
+                    errors.append({"error": f"Registro no encontrado para NIT: {calificacion_data['nit']} y Pregunta ID: {calificacion_data['id_pregunta']}"})
+            else:
+                errors.append(serializer.errors)
+
+        # Si hay errores, devuelve un error 400
+        if errors:
+            return Response({"errors": errors}, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response({"message": "Calificaciones actualizadas correctamente"}, status=status.HTTP_200_OK)
+
 
 class SaveCalificacionView(APIView):
         def post(self, request, *args, **kwargs):
