@@ -123,7 +123,7 @@ const Sidebar = ({ condicion, nombre }) => {
                   </div>
                 </div>
                 <img
-                  className="h-6 w-6 relative overflow-hidden shrink-0 block cursor-pointer"
+                  className="h-8 w-8 pr-1.5 relative overflow-hidden shrink-0 block cursor-pointer"
                   onClick={handleOpenModal}
                   loading="lazy"
                   alt=""
@@ -198,7 +198,7 @@ const Sidebar = ({ condicion, nombre }) => {
                   </div>
                 </div>
                 <img
-                  className="h-6 w-6 relative overflow-hidden shrink-0 block cursor-pointer"
+                  className="h-8 w-8 pr-1.5 relative overflow-hidden shrink-0 block cursor-pointer"
                   onClick={handleOpenModal}
                   loading="lazy"
                   alt=""
@@ -273,7 +273,7 @@ const Sidebar = ({ condicion, nombre }) => {
                   </div>
                 </div>
                 <img
-                    className="h-6 w-6 relative overflow-hidden shrink-0 block cursor-pointer"
+                    className="h-8 w-8 pr-1.5 relative overflow-hidden shrink-0 block cursor-pointer"
                     onClick={handleOpenModal}
                     loading="lazy"
                     alt=""
