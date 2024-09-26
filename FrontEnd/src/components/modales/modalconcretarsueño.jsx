@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useParams } from 'react-router-dom';
 
 // Componente Modal para concretar el sueño
 const ModalConcretarSueno = ({ sueno, onClose }) => {
+    const { nit } = useParams();
     const [estado, setEstado] = useState(0); // Estado por defecto: "No"
     const [observaciones, setObservaciones] = useState(""); // Observaciones vacías
 
@@ -20,6 +22,7 @@ const ModalConcretarSueno = ({ sueno, onClose }) => {
                 body: JSON.stringify({
                     estado, // Enviar el estado del sueño
                     observaciones, // Enviar observaciones
+                    nit: nit, // Enviar el NIT de la empresa asociada
                 }),
             });
 
