@@ -145,34 +145,40 @@ export const FormsEditaruser = () => {
 
         // Crea un objeto que contiene todos los campos del usuario
         const dataToSend = {
-            ...user, // Copia todos los campos actuales del usuario
-            ...values // Sobreescribe los campos que han sido modificados
+            ...user,
+            ...values
         };
 
         // Omitir contrasena si no fue modificada
         if (!values.contrasena) {
-            delete dataToSend.contrasena; // Asegúrate de no enviar contraseñas vacías
+            delete dataToSend.contrasena;
         }
 
-        // Comprobar si dataToSend está definido antes de usarlo
-        if (Object.keys(dataToSend).length > 0) { // Verifica si hay campos para enviar
+        // Verificar el contenido de dataToSend
+        console.log("Datos a enviar:", dataToSend);
+
+        if (Object.keys(dataToSend).length > 0) {
             try {
-                const token = localStorage.getItem('token'); // O donde almacenes el token
+                const token = localStorage.getItem('token');
                 const response = await fetch(`http://localhost:8000/api/v2/act-user/${id_usuario}/`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`  // Asegúrate de enviar el token
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify(dataToSend),
                 });
 
+                // Comprobar la respuesta
                 if (!response.ok) {
-                    throw new Error('Error al actualizar el usuario');
+                    const errorData = await response.json(); // Obtiene el mensaje de error
+                    throw new Error(`Error al actualizar el usuario: ${errorData.detail || 'Error desconocido'}`);
                 }
 
                 const result = await response.json();
+                console.log("Resultado de la actualización:", result);
                 openSuccessModal();
+                window.location.reload();
             } catch (error) {
                 console.error('Error al actualizar el usuario:', error);
                 setError(error.message);

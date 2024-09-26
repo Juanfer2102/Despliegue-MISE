@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import IconProfile from "../../images/sideBarImg/avatar@2x.png";
+import IconProfile from "../../images/sideBarImg/avatar@2x.svg";
 
 const InfoModal = ({ isOpen, onClose }) => {
    const [userData, setUserData] = useState({ nombre: '', rol: '', correo: '', celular: ''  });
@@ -50,7 +50,7 @@ const InfoModal = ({ isOpen, onClose }) => {
                     <img
                         src={IconProfile}
                         alt="Perfil"
-                        className="rounded-full h-16 w-16 object-cover"
+                        className="rounded-full h-24 w-24 object-cover"
                     />
 
                     <div className="ml-4">
