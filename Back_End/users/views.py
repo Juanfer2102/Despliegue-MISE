@@ -9,6 +9,7 @@ from django.views.generic import ListView, DetailView
 from .permissions import IsAdminOrForbidden
 from rest_framework import generics
 from rest_framework.exceptions import PermissionDenied 
+from django.templatetags.static import static
 
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode
@@ -1969,209 +1970,215 @@ def generar_pdf(request, nit):
 @api_view(['GET'])
 def generar_pdf_final(request, nit):
     try:
-
         empresa = Empresas.objects.get(nit=nit)
         postulante = empresa.id_postulante
         fecha_actual = datetime.now().strftime("%d/%m/%Y")
 
+        # Hacer la solicitud a la API de sueños concretados
+        response_suenos = requests.get(f'http://localhost:8000/api/v2/suenos-concretados/{nit}/')
+        suenos_concretados = response_suenos.json() if response_suenos.status_code == 200 else []
+
+        # Construir el contenido HTML para los sueños concretados
+        suenos_html = ""
+        diagnostico_salida_html = ""
+
+        for sueno in suenos_concretados:
+            nombre_sueno = sueno['sueno'].get('sueño', 'Sin nombre')
+            estado = "Sí" if sueno.get('estado') == 1 else "No"  # Puedes ajustar esto si necesitas más lógica
+            fecha_concretacion = sueno.get('fecha', 'No disponible')
+            observaciones = sueno.get('observaciones', 'Sin observaciones')
+
+            # HTML para los sueños concretados
+            suenos_html += f"""
+            <tr>
+                <td>{nombre_sueno}</td>
+                <td>{estado}</td>
+                <td>{fecha_concretacion}</td>
+                <td>{observaciones}</td>
+            </tr>
+            """
+        
+            # HTML para el diagnóstico de salida (solo sueño y nivel)
+            nivel_sueno = sueno['sueno'].get('nivel', 'Sin nivel')
+            diagnostico_salida_html += f"""
+            <tr>
+                <td>{nombre_sueno}</td>
+                <td>{nivel_sueno}</td>
+            </tr>
+            """
+
+
+        ruta_imagen = static('img/LogoPrincipal.png')
         html_content = f"""
         <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ACTA FINAL DE SERVICIO DE ACOMPAÑAMIENTO MISE</title>
-    <style>
-        body {{
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }}
-        h1, h2 {{
-            color: #005a87;
-            text-align: center;
-        }}
-        table {{
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }}
-        th, td {{
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }}
-        th {{
-            background-color: #f2f2f2;
-        }}
-        ul {{
-            list-style-type: disc;
-            margin-left: 20px;
-        }}
-        .container {{
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>ACTA FINAL DE SERVICIO DE ACOMPAÑAMIENTO MISE</title>
+            <style>
+                body {{
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                    color: #333;
+                    max-width: 800px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }}
+                h1, h2 {{
+                    color: #005a87;
+                    text-align: center;
+                }}
+                table {{
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 20px;
+                }}
+                th, td {{
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                    text-align: left;
+                }}
+                th {{
+                    background-color: #f2f2f2;
+                }}
+                ul {{
+                    list-style-type: disc;
+                    margin-left: 20px;
+                }}
+                .container {{
                     display: flex;
-                    justify-content: space-between; /* Espacio entre los divs */
-                    width: 100%; /* Ajusta el ancho total según lo necesites */
-                    max-width: 600px; /* Ancho máximo del contenedor */
+                    justify-content: space-between;
+                    width: 100%;
+                    max-width: 600px;
                 }}
                 .signature-section {{
                     text-align: center;
-                    margin: 0 20px; /* Espacio horizontal entre los divs */
+                    margin: 0 20px;
                 }}
                 .line {{
                     border-bottom: 1px solid #000;
-                    width: 200px; /* Ajusta el ancho de la línea según lo necesites */
+                    width: 200px;
                     display: inline-block;
                     margin: 0 auto;
                 }}
-    </style>
-</head>
-<body>
-    <h1>ACTA FINAL DE SERVICIO DE ACOMPAÑAMIENTO MISE</h1>
-    <h2>PROCESO DE DESARROLLO EMPRESARIAL</h2>
+            </style>
+        </head>
+        <body>
 
-    <h2>1. CIERRE</h2>
-    <p>
-        Por medio del servicio de acompañamiento del Modelo Integral de Servicios Empresariales (MISE), en su dimensión de 
-        FORTALECIMIENTO (dirigido a empresas), que le ofrece la Cámara de Comercio de Palmira (CCP), formalizamos acta final de MISE donde 
-        se detallan las modificaciones del proceso, el cumplimiento de sueños, diagnóstico de salida de sus resultados en el programa y 
-        observaciones o recomendaciones.
-    </p>
+            <img src="{ruta_imagen}" alt=""/>
 
-    <table>
-        <tr>
-            <th>Campo</th>
-            <th>Información</th>
-        </tr>
-        <tr>
-            <td>Fecha de cierre</td>
-            <td>{fecha_actual}</td>
-        </tr>
-        <tr>
-            <td>Nombre de quien diligencia el diagnóstico</td>
-            <td>{postulante.nombres_postulante} {postulante.apellidos_postulante}</td>
-        </tr>
-        <tr>
-            <td>N° de documento de identificación</td>
-            <td>{postulante.no_documento}</td>
-        </tr>
-        <tr>
-            <td>Cargo en la empresa</td>
-            <td>{postulante.cargo}</td>
-        </tr>
-        <tr>
-            <td>Nombre o razón social de la empresa</td>
-            <td>{empresa.razon_social}</td>
-        </tr>
-    </table>
+            <h1>ACTA FINAL DE SERVICIO DE ACOMPAÑAMIENTO MISE</h1>
+            <h2>PROCESO DE DESARROLLO EMPRESARIAL</h2>
 
-    <h2>2. MODIFICACIONES DEL PROCESO</h2>
-    <p>Describa las modificaciones a los sueños empresariales y la ruta de servicios que se realizaron durante todo el proceso:</p>
-    <br>
-    <br>
-    <br>
+            <h2>1. CIERRE</h2>
+            <p>
+                Por medio del servicio de acompañamiento del Modelo Integral de Servicios Empresariales (MISE), en su dimensión de 
+                FORTALECIMIENTO (dirigido a empresas), que le ofrece la Cámara de Comercio de Palmira (CCP), formalizamos acta final de MISE donde 
+                se detallan las modificaciones del proceso, el cumplimiento de sueños, diagnóstico de salida de sus resultados en el programa y 
+                observaciones o recomendaciones.
+            </p>
 
-    <table>
-        <tr>
-            <th>MODIFICACIONES DEL PROCESO</th>
-        </tr>
-        <tr>
-            <td>
-             <br>
-             <br>
-             <br>
-             <br>
-             <br>
-             <br>
-            </td>
-        </tr>
-    </table>
+            <table>
+                <tr>
+                    <th>Campo</th>
+                    <th>Información</th>
+                </tr>
+                <tr>
+                    <td>Fecha de cierre</td>
+                    <td>{fecha_actual}</td>
+                </tr>
+                <tr>
+                    <td>Nombre de quien diligencia el diagnóstico</td>
+                    <td>{postulante.nombres_postulante} {postulante.apellidos_postulante}</td>
+                </tr>
+                <tr>
+                    <td>N° de documento de identificación</td>
+                    <td>{postulante.no_documento}</td>
+                </tr>
+                <tr>
+                    <td>Cargo en la empresa</td>
+                    <td>{postulante.cargo}</td>
+                </tr>
+                <tr>
+                    <td>Nombre o razón social de la empresa</td>
+                    <td>{empresa.razon_social}</td>
+                </tr>
+            </table>
 
-    <h2>3. CUMPLIMIENTO DE SUEÑOS</h2>
-    <table>
-        <tr>
-            <th>SUEÑOS CONCERTADOS</th>
-            <th>¿Se cumplió?</th>
-            <th>Fecha en que se cumplió el sueño</th>
-            <th>Observaciones</th>
-        </tr>
-        <tr>
-            <td></td>
-            <td>Sí/No</td>
-            <td></td>
-            <td>Puntualmente qué actividades se hicieron para el cumplimiento del sueño</td>
-        </tr>
-    </table>
+            <h2>2. MODIFICACIONES DEL PROCESO</h2>
+            <p>Describa las modificaciones a los sueños empresariales y la ruta de servicios que se realizaron durante todo el proceso:</p>
+            <br><br><br>
 
-    <h2>4. DIAGNÓSTICO DE SALIDA</h2>
-    <p>
-        Después de finalizada la ruta de servicios y el cumplimiento de sueños se realiza junto con el beneficiado el diagnóstico de cierre de brechas donde 
-        se evidencia el avance en su nivel de fortalecimiento empresarial. El diagnóstico muestra solo avance en los ejes y sueños que se priorizaron o que 
-        durante el proceso se modificaron o adicionaron. Se muestran los resultados:
-    </p>
+            <table>
+                <tr>
+                    <th>MODIFICACIONES DEL PROCESO</th>
+                </tr>
+                <tr>
+                    <td><br><br><br><br><br><br></td>
+                </tr>
+            </table>
 
-    <table>
-        <tr>
-            <th>DIAGNÓSTICO DE SALIDA</th>
-        </tr>
-        <tr>
-            <td>
-             <br>
-             <br>
-             <br>
-             <br>
-             <br>
-             <br>
-            </td>
-        </tr>
-    </table>
+            <h2>3. CUMPLIMIENTO DE SUEÑOS</h2>
+            <table>
+                <tr>
+                    <th>SUEÑOS CONCERTADOS</th>
+                    <th>¿Se cumplió?</th>
+                    <th>Fecha en que se cumplió el sueño</th>
+                    <th>Observaciones</th>
+                </tr>
+                {suenos_html}
+            </table>
 
-    <h2>5. OBSERVACIONES O RECOMENDACIONES</h2>
+            <h2>4. DIAGNÓSTICO DE SALIDA</h2>
+            <p>
+                Después de finalizada la ruta de servicios y el cumplimiento de sueños se realiza junto con el beneficiado el diagnóstico de cierre de brechas donde 
+                se evidencia el avance en su nivel de fortalecimiento empresarial. El diagnóstico muestra solo avance en los ejes y sueños que se priorizaron o que 
+                durante el proceso se modificaron o adicionaron. Se muestran los resultados:
+            </p>
 
-    <table>
-        <tr>
-            <th>OBSERVACIONES O RECOMENDACIONES</th>
-        </tr>
-        <tr>
-            <td>
-             <br>
-             <br>
-             <br>
-             <br>
-             <br>
-             <br>
-            </td>
-        </tr>
-    </table>
+            <table>
+                <tr>
+                    <th>SUEÑO</th>
+                    <th>NIVEL</th>
+                </tr>
+                {diagnostico_salida_html}
+            </table>
 
-    <p>
-        Al diligenciar y firmar este formulario autoriza a La Cámara de Comercio de Palmira - CCP, identificada con el NIT. 891.380.012-0, domiciliada y 
-        ubicada en Palmira – Valle - Colombia en la Calle 28 # 31-30, para el tratamiento de sus datos personales conforme a lo establecido en la Ley 1581 
-        de 2012 de Protección de Datos Personales y su Decreto reglamentario 1377 de 2013. Para más información, consulte nuestra política de 
-        tratamiento de datos en <a href="http://www.ccpalmira.org.co">www.ccpalmira.org.co</a>.
-    </p>
+            <h2>5. OBSERVACIONES O RECOMENDACIONES</h2>
+            <table>
+                <tr>
+                    <th>OBSERVACIONES O RECOMENDACIONES</th>
+                </tr>
+                <tr>
+                    <td><br><br><br><br><br><br></td>
+                </tr>
+            </table>
 
-    <br>
+            <p>
+                Al diligenciar y firmar este formulario autoriza a La Cámara de Comercio de Palmira - CCP, identificada con el NIT. 891.380.012-0, domiciliada y 
+                ubicada en Palmira – Valle - Colombia en la Calle 28 # 31-30, para el tratamiento de sus datos personales conforme a lo establecido en la Ley 1581 
+                de 2012 de Protección de Datos Personales y su Decreto reglamentario 1377 de 2013. Para más información, consulte nuestra política de 
+                tratamiento de datos en <a href="http://www.ccpalmira.org.co">www.ccpalmira.org.co</a>.
+            </p>
 
-    <div> 
+            <br>
 
-    <div class="container">
-        <div class="signature-section">
-            <p class="line"></p>
-            <p>FIRMA DEL REPRESENTANTE LEGAL</p>
-        </div>
-        <div class="signature-section">
-            <p class="line"></p>
-            <p>FIRMA DEL CONSULTOR MISE ASIGNADO</p>
-        </div>
-    </div>.
-
-    <p>EMPRESA: CÁMARA DE COMERCIO DE PALMIRA</p>
-</body>
-</html>
+            <div> 
+                <div class="container">
+                    <div class="signature-section">
+                        <p class="line"></p>
+                        <p>FIRMA DEL REPRESENTANTE LEGAL</p>
+                    </div>
+                    <div class="signature-section">
+                        <p class="line"></p>
+                        <p>FIRMA DEL CONSULTOR MISE ASIGNADO</p>
+                    </div>
+                </div>
+                <p>EMPRESA: CÁMARA DE COMERCIO DE PALMIRA</p>
+            </div>
+        </body>
+        </html>
         """
 
         pdf_file = io.BytesIO()
@@ -2184,3 +2191,4 @@ def generar_pdf_final(request, nit):
 
     except Exception as e:
         return HttpResponse(f'Error: {str(e)}', status=500)
+
