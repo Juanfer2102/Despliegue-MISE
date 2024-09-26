@@ -589,19 +589,31 @@ class CalificacionesPorNitView(APIView):
             # Obtener todas las preguntas relacionadas con el módulo
             preguntas = Preguntas.objects.filter(id_modulo=modulo.id_modulo)
 
+            # Obtener las calificaciones para cada pregunta
+            calificaciones = Calificaciones.objects.filter(nit=nit, id_pregunta__id_modulo=modulo.id_modulo)
+
+            # Construir la información del módulo
+            preguntas_info = []
+            for pregunta in preguntas:
+                calificacion = calificaciones.filter(id_pregunta=pregunta.id_pregunta).first()
+                pregunta_info = PreguntasSerializer(pregunta).data  # Usar el serializer para obtener toda la info
+                pregunta_info['calificacion_final'] = calificacion.calificacion_final if calificacion else None
+                
+                preguntas_info.append(pregunta_info)
+
             modulos_info.append({
                 'id_modulo': modulo.id_modulo,
                 'nombre': modulo.nombre,
                 'calificacion_promedio': diagnostico.calificacion_promedio if diagnostico else None,
                 'criterio': diagnostico.criterio if diagnostico else None,
-                'preguntas': PreguntasSerializer(
-                    preguntas,
-                    many=True,
-                    context={'nit': nit}
-                ).data
+                'preguntas': preguntas_info
             })
 
         return Response(modulos_info, status=status.HTTP_200_OK)
+
+
+
+
 
 class CalificacionesListView(generics.ListAPIView):
     queryset = Calificaciones.objects.select_related('id_pregunta').all()
