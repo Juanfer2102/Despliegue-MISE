@@ -82,7 +82,7 @@ const TarjetasTema = ({ nit }) => {
     return (
         <div className="bg-greyBlack rounded-xl p-4 text-white w-full">
 
-            <div className="flex flex-row justify-between py-2">4
+            <div className="flex flex-row justify-between py-2">
                 <h2 className="text-2xl font-bold mb-4 text-center">Procesos en los que se encuentra la empresa</h2>
                 <div className=" flex flex-row gap-5">
                     <a href={`/diagnostico/empresa/${nit}`}><button className="bg-transparent border border-white hover:bg-white rounded-md text-white hover:text-principalGreen text-center font-semibold cursor-pointer w-auto h-10 p-2">

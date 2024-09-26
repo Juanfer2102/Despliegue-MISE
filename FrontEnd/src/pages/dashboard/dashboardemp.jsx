@@ -4,7 +4,7 @@ import LayoutDashboard from "../../layouts/LayoutDashboard.jsx";
 import TarjetasTema from "../../components/tarjetasdashboard/tarjetasTema.jsx";
 import TablaPreguntas from "../../components/tablas/tablaempregunta.jsx";
 import ValidacionDeSueños from "../../components/tablas/validacionSuenos.jsx";
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 const DashboardEmp = () => {
   const { nit } = useParams();
@@ -14,6 +14,8 @@ const DashboardEmp = () => {
   const [calificaciones, setCalificaciones] = useState([]);
   const [postulante, setPostulante] = useState([]);
   const [isButtonEnabled, setIsButtonEnabled] = useState(false); // Estado para el botón
+
+  const navigate = useNavigate(); // Hook para navegar
 
   useEffect(() => {
     if (nit) {
@@ -69,12 +71,16 @@ const DashboardEmp = () => {
   // Effecto para habilitar el botón "Terminar Proceso"
   useEffect(() => {
     const allTopicsApproved = calificaciones.every(calificacion => calificacion.estado !== 0);
-    const allSuenosApproved = diagnosticos.every(diagnostico => 
+    const allSuenosApproved = diagnosticos.every(diagnostico =>
       diagnostico.suenos.every(sueño => sueño.estado !== 0)
     );
 
     setIsButtonEnabled(allTopicsApproved && allSuenosApproved);
   }, [calificaciones, diagnosticos]);
+
+  const handleProcess = (nit) => {
+    navigate(`/evaluacionfinal/empresa/${nit}`); // Usar navigate para navegar
+  };
 
   return (
     <LayoutDashboard title="Dashboard">
@@ -87,9 +93,11 @@ const DashboardEmp = () => {
               <button
                 className={`px-4 py-2 rounded-lg transition-colors duration-300 ${isButtonEnabled ? 'bg-principalGreen text-white hover:bg-white hover:text-principalGreen' : 'hidden'}`}
                 disabled={!isButtonEnabled} // Deshabilitar botón si no se cumplen las condiciones
+                onClick={() => handleProcess(nit)} // Aquí se usa una función de flecha para evitar la ejecución inmediata
               >
                 Terminar Proceso
               </button>
+
             </div>
             <div className="flex flex-col xl:flex-col lg:w-full lg:flex-col xl:gap-[2rem] lg:gap-[3rem] gap-10">
               <p className="text-white font-bold pr-24">

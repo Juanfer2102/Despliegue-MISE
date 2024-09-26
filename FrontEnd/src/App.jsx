@@ -177,7 +177,7 @@ const AppRoutes = () => {
             </ProtectedRoute>
           } />
 
-          <Route path="/evaluacionfinal/empresa" element={
+          <Route path="/evaluacionfinal/empresa/:nit" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
               <EvaluacionEmpresaf />
             </ProtectedRoute>

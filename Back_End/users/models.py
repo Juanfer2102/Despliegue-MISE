@@ -238,6 +238,7 @@ class Talleres(models.Model):
 class Calificaciones(models.Model):
     id = models.BigAutoField(primary_key=True)
     calificacion = models.DecimalField(max_digits=5, decimal_places=2)
+    calificacion_final = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     id_pregunta = models.ForeignKey('Preguntas', models.DO_NOTHING, db_column='id_pregunta')
     nit = models.ForeignKey('Empresas', models.DO_NOTHING, db_column='nit')
     
