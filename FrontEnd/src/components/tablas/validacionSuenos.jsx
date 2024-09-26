@@ -20,6 +20,7 @@ const styles = {
   }
 };
 
+// Arreglo de estilos para la validación de sueños con colores de borde diferentes
 const validacionDeSueños = [
   {
     bordeColor: "border-azulclaro",
@@ -32,6 +33,19 @@ const validacionDeSueños = [
   },
 ];
 
+/**
+ * Componente `ValidacionDeSueños`
+ * 
+ * Este componente muestra una lista de sueños con una validación visual basada en colores.
+ * Utiliza una estructura de cuadrícula para mostrar los sueños en una caja de desplazamiento.
+ * 
+ * Props:
+ * - `diagnosticos` (array): Un arreglo de objetos que contienen una lista de sueños. Cada sueño es un objeto con una propiedad `sueño` que representa el texto del sueño.
+ * 
+ * @param {Object} props - Props del componente.
+ * @param {Array} props.diagnosticos - Lista de objetos de diagnóstico que contienen los sueños a mostrar.
+ * @returns {JSX.Element} Elemento JSX para la visualización de sueños.
+ */
 const ValidacionDeSueños = ({ diagnosticos }) => {
   const [suenoSeleccionado, setSuenoSeleccionado] = useState(null);
   const [suenos, setSuenos] = useState([]);

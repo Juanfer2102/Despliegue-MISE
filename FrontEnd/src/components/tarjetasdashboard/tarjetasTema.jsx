@@ -2,6 +2,18 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import DownloadPDFButton from "../inputs/botones/botonpdf";
 
+/**
+ * Componente `TarjetasTema`
+ * 
+ * Este componente muestra una serie de tarjetas que representan temas obtenidos desde un endpoint. Cada tarjeta puede ser clicada para abrir un modal con detalles adicionales del tema.
+ * 
+ * Props:
+ * - `nit` (string): Identificador de la empresa que se usa para obtener los temas relacionados desde la API.
+ * 
+ * @param {Object} props - Props del componente.
+ * @param {string} props.nit - Identificador de la empresa para la consulta de temas.
+ * @returns {JSX.Element} Elemento JSX que representa las tarjetas de temas y un modal para detalles adicionales.
+ */
 const TarjetasTema = ({ nit }) => {
     const [temas, setTemas] = useState([]);
     const [selectedTema, setSelectedTema] = useState(null);
@@ -85,9 +97,10 @@ const TarjetasTema = ({ nit }) => {
             <div className="flex flex-row justify-between py-2">
                 <h2 className="text-2xl font-bold mb-4 text-center">Procesos en los que se encuentra la empresa</h2>
                 <div className=" flex flex-row gap-5">
-                    <a href={`/diagnostico/empresa/${nit}`}><button className="bg-transparent border border-white hover:bg-white rounded-md text-white hover:text-principalGreen text-center font-semibold cursor-pointer w-auto h-10 p-2">
-                        Ir a Diagnostico Inicial
-                    </button>
+                    <a href={`/diagnostico/empresa/${nit}`}>
+                        <button className="bg-transparent border border-white hover:bg-white rounded-md text-white hover:text-principalGreen text-center font-semibold cursor-pointer w-auto h-10 p-2">
+                            Ir a Diagnostico Inicial
+                        </button>
                     </a>
                     <DownloadPDFButton tipo={"Inicial"} pdfType={"inicial"} />
                 </div>

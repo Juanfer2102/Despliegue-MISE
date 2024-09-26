@@ -1,9 +1,29 @@
 import { useState } from "react";
 
+/**
+ * Componente `DesempenoForm` para la evaluación de criterios mediante un formulario,
+ * donde los usuarios pueden ingresar valoraciones para cada criterio.
+ * 
+ * @param {Object} props - Las propiedades del componente.
+ * @param {Array} props.criterios - Lista de criterios a evaluar, donde cada criterio tiene un id_pregunta y una descripción.
+ * @param {string} props.titulo - El título del formulario.
+ * @param {string} props.nit - Número de identificación tributaria, no utilizado en el código pero proporcionado como prop.
+ * @param {Function} props.onFormSubmit - Función de callback que se llama al enviar el formulario, pasando el título y los valores del formulario.
+ * 
+ * @returns {JSX.Element} El componente `DesempenoForm`.
+ */
 const DesempenoForm = ({ criterios, titulo, nit, onFormSubmit }) => {
+  // Estado para almacenar los valores del formulario
   const [values, setValues] = useState({});
 
+  /**
+   * Maneja el cambio en los campos de entrada del formulario.
+   * 
+   * @param {number} index - Índice del criterio en la lista.
+   * @param {string} value - El valor ingresado en el campo.
+   */
   const handleInputChange = (index, value) => {
+    // Validación del valor ingresado: debe ser un número con hasta 2 decimales y <= 100
     if (value === "" || (/^\d{0,3}(\.\d{0,2})?$/.test(value) && value <= 100)) {
       const questionKey = `pregunta_${index + 1}`;
       const valoracionKey = `valoracion_${index + 1}`;
@@ -13,7 +33,7 @@ const DesempenoForm = ({ criterios, titulo, nit, onFormSubmit }) => {
         [valoracionKey]: value,
       };
       setValues(newValues);
-      onFormSubmit(titulo, newValues); // Asegúrate de enviar todos los valores
+      onFormSubmit(titulo, newValues); // Envía los valores del formulario al callback
     }
   };
 

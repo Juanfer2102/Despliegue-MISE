@@ -2,17 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './formscredenciales.css';
 
+/**
+ * Componente `Formscredenciales` para la gestión de credenciales de usuario, 
+ * permitiendo cambiar la contraseña y validar el formulario.
+ * 
+ * @returns {JSX.Element} El componente `Formscredenciales`.
+ */
 const Formscredenciales = () => {
     const { uid, token } = useParams();
     const [errors, setErrors] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
 
-    const [values, setValues] = useState({
-        contrasena: "",
-        confirmcontrasena: "",
-    });
-
+    /**
+     * Maneja el cambio de valor de los campos del formulario.
+     * 
+     * @param {React.ChangeEvent<HTMLInputElement>} event - El evento de cambio del campo.
+     */
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setValues({
@@ -37,8 +43,8 @@ const Formscredenciales = () => {
     
         const validationErrors = validateForm();
         if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
-            setIsModalVisible(true);
+            setErrors(validationErrors); // Establece los errores de validación
+            setIsModalVisible(true); // Muestra el modal de errores
         } else {
             try {
                 const response = await fetch('http://localhost:8000/api/v2/set-password/', {
@@ -79,6 +85,9 @@ const Formscredenciales = () => {
     };
     
 
+    /**
+     * Cierra el modal de errores.
+     */
     const closeModal = () => {
         setIsModalVisible(false);
     };

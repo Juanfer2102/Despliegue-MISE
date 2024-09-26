@@ -1,5 +1,15 @@
-import React from 'react'
+// Modalopciones.jsx
+import React from 'react';
 
+/**
+ * Componente de Modal que muestra un mensaje y un botón para redirigir a una URL especificada.
+ *
+ * @param {Object} props - Props del componente.
+ * @param {string} props.texto - Texto que se muestra en el mensaje del modal y en el botón.
+ * @param {string} props.URL - URL a la que el botón redirige al hacer clic.
+ *
+ * @returns {JSX.Element} - Un modal con un mensaje y un botón para redirigir a la URL proporcionada.
+ */
 const Modalopciones = ({ texto, URL }) => {
   return (
     <div className="flex flex-col gap-2 text-white w-full max-w-sm">
@@ -19,6 +29,6 @@ const Modalopciones = ({ texto, URL }) => {
       </div>
     </div>
   );
-}
+};
 
 export default Modalopciones;

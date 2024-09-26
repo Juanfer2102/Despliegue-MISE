@@ -1,6 +1,22 @@
 import React from 'react';
 import './input3.css'; // Asegúrate de incluir el archivo CSS
 
+/**
+ * Componente de entrada de texto personalizable.
+ *
+ * @param {string} inputType - El tipo de entrada (por ejemplo, "text", "email").
+ * @param {string} inputPlaceholder - El texto de marcador de posición para el campo de entrada.
+ * @param {string} DataType - El tipo de datos que se va a mostrar como etiqueta.
+ * @param {string} width - Clases de ancho para el contenedor de la etiqueta.
+ * @param {string} widthInput - Clases de ancho para el campo de entrada.
+ * @param {string} height - Clases de altura para el campo de entrada.
+ * @param {string} additionalClass - Clases adicionales para personalizar el contenedor del componente.
+ * @param {string} value - El valor actual del campo de entrada.
+ * @param {function} onChange - Función que se llama cada vez que el valor del campo cambia.
+ * @param {string} name - El nombre del campo de entrada.
+ *
+ * @returns {JSX.Element} - Un elemento de entrada HTML estilizado con etiqueta.
+ */
 const InputComponent = ({
   inputType,
   inputPlaceholder,

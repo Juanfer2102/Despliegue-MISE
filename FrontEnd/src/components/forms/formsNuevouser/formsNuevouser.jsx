@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import InputComponent from '../../inputs/input3/input3.jsx';
-import SelectComponent from '../../inputs/selectores/selectores.jsx';
-import ConfirmModal from '../../modales/modalconfirm';
-import Modalcarga from '../../modales/modalcarga/modalcarga.jsx';
+import InputComponent from '../../inputs/input3/input3.jsx'; // Componente para inputs genéricos
+import SelectComponent from '../../inputs/selectores/selectores.jsx'; // Componente para selección de opciones
+import ConfirmModal from '../../modales/modalconfirm'; // Modal de confirmación
+import Modalcarga from '../../modales/modalcarga/modalcarga.jsx'; // Modal de carga (no se utiliza en el código actual)
 
 export const FormsNuevouser = () => {
 
+    // Opciones para los roles y programas
     const roles = [
         { value: '1', label: 'Superadmin' },
         { value: '2', label: 'Coordinador' },
@@ -16,10 +17,12 @@ export const FormsNuevouser = () => {
         { value: 'MISE - Fortalecimiento', label: 'MISE - Fortalecimiento' },
     ];
 
+    // Estados para la visibilidad de modales y manejo de errores
     const [isOpen, setIsOpen] = useState(false);
     const [errors, setErrors] = useState({});
     const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
 
+    // Estado para los valores del formulario
     const [values, setValues] = useState({
         nombres: "",
         estado: "Activo",
@@ -32,16 +35,19 @@ export const FormsNuevouser = () => {
         programa: ""
     });
 
+    // Función para cerrar el modal de confirmación
     const closeModal = () => {
         setIsOpen(false);
     };
 
+    // Función para abrir el modal de confirmación
     const openModal = () => setIsOpen(true);
 
+    // Función para manejar los cambios en los inputs
     const handleInputChange = (name, value) => {
-        // Validaciones de campo específicas
         let error = "";
 
+        // Validaciones específicas para ciertos campos
         if (name === "nombres" || name === "apellidos") {
             if (/[^a-zA-Z\s]/.test(value)) {
                 error = "No se permiten números ni caracteres especiales";
@@ -54,32 +60,23 @@ export const FormsNuevouser = () => {
             }
             if (!/^\d*$/.test(value)) {
                 error = "Solo se permiten números";
-            }
-
-            else if (value.length < 10) {
+            } else if (value.length < 10) {
                 error = "Debe tener minimo 10 dígitos";
             }
         }
 
-         if (name === "documento") {
+        if (name === "documento") {
             if (value.length > 10) {
                 return; // Evitar que se ingrese más de 10 dígitos
             }
             if (!/^\d*$/.test(value)) {
                 error = "Solo se permiten números";
-            }
-
-            else if (value.length < 7) {
+            } else if (value.length < 7) {
                 error = "Debe tener minimo 7 dígitos";
             }
         }
-/*
-        if (name === "contrasena") {
-            if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value)) {
-                error = "Debe contener al menos una mayúscula, un número y un carácter especial";
-            }
-        }
-*/
+
+        // Actualización de los valores y errores
         setValues({
             ...values,
             [name]: value,
@@ -91,7 +88,7 @@ export const FormsNuevouser = () => {
         });
     };
 
-    // Función para verificar si algún campo está vacío o tiene errores
+    // Función para verificar si el formulario es válido
     const isFormValid = () => {
         return (
             Object.values(values).every(value => value !== "") &&
@@ -99,11 +96,13 @@ export const FormsNuevouser = () => {
         );
     };
 
+    // Función para manejar el envío del formulario
     const handleForm = async (event) => {
         event.preventDefault();
         console.log("Inputs value:", values); // Mostrar los valores de los inputs en la consola
         closeModal();
         openSuccessModal();
+
         try {
             const response = await fetch('http://localhost:8000/api/v2/user', {
                 method: 'POST',
@@ -127,20 +126,24 @@ export const FormsNuevouser = () => {
         }
     }
 
+    // Función para abrir el modal de éxito y recargar la página después de un tiempo
     const openSuccessModal = () => {
         setIsSuccessModalVisible(true);
         setTimeout(() => {
             setIsSuccessModalVisible(false);
             location.reload();
-        }, 1000); // 5 segundos
+        }, 1000); // 1 segundo
     };
 
     return (
         <>
+            {/* Modal de confirmación para enviar el formulario */}
             <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleForm} />
+            
+            {/* Formulario */}
             <form className="flex flex-col text-textBg w-full font-semibold gap-5 py-2 overflow-y-visible">
                 <div className='flex flex-row gap-5'>
-                    <div className=' flex flex-col pl-3 font-semibold gap-5 py-2'>
+                    <div className='flex flex-col pl-3 font-semibold gap-5 py-2'>
                         <InputComponent
                             width="w-44"
                             widthInput="w-full"
@@ -152,9 +155,9 @@ export const FormsNuevouser = () => {
                             name="nombres"
                             value={values.nombres}
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
-                            
                         />
                         {errors.nombres && <p className="text-red">{errors.nombres}</p>}
+                        
                         <InputComponent
                             width="w-44"
                             widthInput="w-full"
@@ -168,6 +171,7 @@ export const FormsNuevouser = () => {
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
                         {errors.apellidos && <p className="text-red">{errors.apellidos}</p>}
+                        
                         <InputComponent
                             width="w-44"
                             widthInput="w-full"
@@ -180,6 +184,8 @@ export const FormsNuevouser = () => {
                             value={values.correo}
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
+                        
+                        {/* Selector de roles */}
                         <div className={`text-textBg items-center text-start content-center flex flex-row`}>
                             <div className="w-[11rem]">
                                 <p className="font-semibold">Rol</p>
@@ -188,6 +194,7 @@ export const FormsNuevouser = () => {
                                 <SelectComponent name="id_rol" type="Rol..." options={roles} value={values.id_rol} onChange={(value) => handleInputChange("id_rol", value)} />
                             </div>
                         </div>
+                        
                         <div>
                             <button
                                 onClick={openModal}
@@ -214,6 +221,7 @@ export const FormsNuevouser = () => {
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
                         {errors.celular && <p className="text-red">{errors.celular}</p>}
+                        
                         <InputComponent
                             width="w-44"
                             widthInput="w-full"
@@ -227,6 +235,7 @@ export const FormsNuevouser = () => {
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
                         {errors.documento && <p className="text-red">{errors.documento}</p>}
+                        
                         <InputComponent
                             width="w-44"
                             widthInput="w-full"
@@ -240,6 +249,8 @@ export const FormsNuevouser = () => {
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
                         {errors.contrasena && <p className="text-red">{errors.contrasena}</p>}
+                        
+                        {/* Selector de programas */}
                         <div className={`text-textBg items-center text-start content-center flex flex-row`}>
                             <div className="w-[11rem]">
                                 <p className="font-semibold">MISE</p>
@@ -251,6 +262,7 @@ export const FormsNuevouser = () => {
                     </div>
                 </div>
             </form>
+            
             {/* Modal de éxito */}
             {isSuccessModalVisible && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">

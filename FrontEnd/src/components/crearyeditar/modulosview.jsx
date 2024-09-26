@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ModalEliminar from '../modales/modaleliminar';
 
-const ModulosView = ({ modulos, onCreateOrUpdateModulo, DeleteModulo }) => {
+const ModulosView = ({ modulos, onCreateOrUpdateModulo }) => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [currentModulo, setCurrentModulo] = useState(null);
@@ -32,20 +32,24 @@ const ModulosView = ({ modulos, onCreateOrUpdateModulo, DeleteModulo }) => {
         setCurrentModulo(null);
     };
 
+    // Maneja el cambio del nombre del módulo
     const handleChangeNombre = (e) => {
         setNuevoNombre(e.target.value);
     };
 
+    // Maneja el cambio en la pregunta en el índice especificado
     const handleChangePregunta = (index, value) => {
         const updatedPreguntas = [...preguntas];
         updatedPreguntas[index] = value;
         setPreguntas(updatedPreguntas);
     };
 
+    // Añade una nueva pregunta vacía
     const handleAddPregunta = () => {
         setPreguntas([...preguntas, '']);
     };
 
+    // Maneja el envío del formulario de creación de módulo
     const handleCreateSubmit = (e) => {
         e.preventDefault();
         const preguntasData = preguntas.map(descripcion => ({
@@ -61,6 +65,7 @@ const ModulosView = ({ modulos, onCreateOrUpdateModulo, DeleteModulo }) => {
         closeModals();
     };
 
+    // Maneja el envío del formulario de edición del módulo
     const handleEditSubmit = (e) => {
         e.preventDefault();
         onCreateOrUpdateModulo({
@@ -70,6 +75,7 @@ const ModulosView = ({ modulos, onCreateOrUpdateModulo, DeleteModulo }) => {
         closeModals();
     };
 
+    // Maneja la eliminación del módulo actual
     const handleClick = () => {
         if (currentModulo) {
             DeleteModulo({ id_modulo: currentModulo.id_modulo, estado: 1 });
@@ -216,9 +222,10 @@ const ModulosView = ({ modulos, onCreateOrUpdateModulo, DeleteModulo }) => {
     );
 };
 
+// Validación de las props que recibe el componente
 ModulosView.propTypes = {
-    modulos: PropTypes.array.isRequired,
-    onCreateOrUpdateModulo: PropTypes.func.isRequired
+    modulos: PropTypes.array.isRequired,  // Array de módulos
+    onCreateOrUpdateModulo: PropTypes.func.isRequired,  // Función para crear o actualizar módulos
 };
 
 export default ModulosView;
