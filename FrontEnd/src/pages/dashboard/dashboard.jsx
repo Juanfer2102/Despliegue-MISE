@@ -37,9 +37,9 @@ const Dashboard = () => {
                   <p className="pt-1 text-center sm:text-left">Porcentaje de Desarrollo</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-5 pt-8 sm:pt-12 justify-center">
-                  <ProgressCircleHero text="No Desarro..." value={"49.00"} width="w-full sm:w-1/3 max-w-[13rem]" />
-                  <ProgressCircleHero text="Parcial... Desa.." value={"80.00"} width="w-full sm:w-1/3 max-w-[13rem]" />
-                  <ProgressCircleHero text="Desarro..." value={"100"} width="w-full sm:w-1/3 max-w-[13rem]" />
+                  <ProgressCircleHero text="No Desarro..." value={"49"} value1={"0"} value2={"49"} width="w-full sm:w-1/3 max-w-[13rem]" />
+                  <ProgressCircleHero text="Parcial... Desa.." value={"79"} value1={"50"} value2={"79"} width="w-full sm:w-1/3 max-w-[13rem]" />
+                  <ProgressCircleHero text="Desarro..." value={"100"} value1={"80"} value2={"100"} width="w-full sm:w-1/3 max-w-[13rem]" />
                 </div>
               </div>
               {/* Sección de la tabla con el estado de las empresas */}

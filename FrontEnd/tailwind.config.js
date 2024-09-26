@@ -6,8 +6,7 @@ export default {
     "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}"],
   theme: {
     colors: {
-      barColor1: '#4ECDC4',
-      barColor2: '#FF6B6B',
+      amarillodark: "#b8b814",
       darkslategray: "#262b32",
       azulclaro: "#00B0F0",
       fucsia: "#FF33CC",
