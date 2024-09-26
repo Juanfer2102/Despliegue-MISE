@@ -30,7 +30,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-const DownloadPDFButton = ({ filename, pdfType }) => {
+const DownloadPDFButton = ({ filename, pdfType, tipo }) => {
     // Obtener el NIT desde los parámetros de la URL usando useParams
     const { nit } = useParams();
 
@@ -85,7 +85,7 @@ const DownloadPDFButton = ({ filename, pdfType }) => {
 
     return (
         <button onClick={handleDownload} className='bg-principalGreen hover:bg-white rounded-md text-white hover:text-principalGreen text-center font-semibold cursor-pointer w-auto h-10 p-2'>
-            Descargar Acta Inicial / Final
+            Descargar Acta {tipo}
         </button>
     );
 };
