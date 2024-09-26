@@ -67,6 +67,25 @@ import requests
 
 from datetime import date
 
+
+class EmpresasView(APIView):
+    def get(self, request, *args, **kwargs):
+        # Obtener las empresas con estado 3
+        empresas_estado_3 = Empresas.objects.filter(estado=3)
+        
+        # Obtener las empresas con estado 2 y diagnostico_value igual a 1
+        empresas_estado_2_diagnostico_1 = Empresas.objects.filter(estado=2, diagnostico_value=1)
+        
+        # Serializar los datos
+        empresas_estado_3_serializadas = EmpresasSerializer(empresas_estado_3, many=True).data
+        empresas_estado_2_diagnostico_1_serializadas = EmpresasSerializer(empresas_estado_2_diagnostico_1, many=True).data
+        
+        # Responder con ambas listas
+        return Response({
+            'empresas_estado_3': empresas_estado_3_serializadas,
+            'empresas_estado_2_diagnostico_1': empresas_estado_2_diagnostico_1_serializadas
+        })
+
 class PasswordResetConfirmView(generics.GenericAPIView):
     class PasswordResetConfirmSerializer(serializers.Serializer):
         password = serializers.CharField(write_only=True)
@@ -101,12 +120,33 @@ class PasswordResetView(APIView):
         # Generar el enlace de restablecimiento de contraseña
         reset_link = f"http://localhost:5173/cambiar-contraseña/{uid}/{token}"
 
+        # Mensaje de texto plano (opcional)
+        plain_message = f"Por favor, haz clic en el siguiente enlace para restablecer tu contraseña: {reset_link}"
+
+        # Mensaje con HTML
+        html_message = f"""
+        <html>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6;">
+            <h1 style="color: #333;">Restablecer contraseña</h1>
+            <p>Hola <strong>{user.nombres}</strong>,</p>
+            <p>Has solicitado restablecer tu contraseña. Haz clic en el siguiente enlace para proceder:</p>
+            <a href="{reset_link}" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Restablecer contraseña</a>
+            <p>O copia y pega el siguiente enlace en tu navegador:</p>
+            <p><a href="{reset_link}">{reset_link}</a></p>
+            <p>Si no solicitaste este cambio, puedes ignorar este correo.</p>
+            <p>Gracias,</p>
+            <p>El equipo de MISE</p>
+        </body>
+        </html>
+        """
+
         # Enviar el correo electrónico
         send_mail(
             subject="Restablecer contraseña",
-            message=f"Por favor, haz clic en el siguiente enlace para restablecer tu contraseña: {reset_link}",
+            message=plain_message,  # Mensaje de texto plano
             from_email="no-reply-MISE@outlook.com",
             recipient_list=[user.correo],
+            html_message=html_message,  # Mensaje HTML
             fail_silently=False,
         )
 

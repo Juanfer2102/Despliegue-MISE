@@ -33,7 +33,6 @@ const EmpresasVinculacion = lazy(() => import("./pages/empresasvinculacion/empre
 
 // Componentes de módulos
 const Modulos = lazy(() => import("./pages/modulos/modulos.jsx"))
-const Editarmodulos = lazy(() => import("./pages/modulos/editarmodulos.jsx"));
 
 // Componentes de sueños
 const Sueos = lazy(() => import("./pages/sueños/sueños.jsx"));
@@ -51,6 +50,7 @@ const Autoevaluacion = lazy(() => import("./pages/autoevaluacion/autoevaluacion.
 const VerEmpDiag = lazy(() => import("./pages/diagnostico/verempdiag.jsx"));
 const EvaluacionEmpresa = lazy(() => import("./pages/diagnostico/diagnosticoempresa.jsx"));
 const EvaluacionEmpresaNuevas = lazy (() => import("./pages/diagnostico/diagnosticoempresas.jsx"))
+const EvaluacionEmpresaNuevasf = lazy (() => import("./pages/diagnostico/diagnosticoempresasf.jsx"))
 const EvaluacionEmpresaf = lazy(() => import("./pages/diagnostico/diagnosticoempresaf.jsx"));
 const DiagnosticoEmpresa = lazy(() => import("./pages/diagnostico/detallediagnostico.jsx"));
 const DetalleDiagnosticof = lazy(() => import("./pages/diagnostico/detallediagnosticof.jsx"));
@@ -136,11 +136,6 @@ const AppRoutes = () => {
               <Sueos />
             </ProtectedRoute>
           } />
-          <Route path="/editar-modulos/:id" element={
-            <ProtectedRoute allowedRoles={[1, 2, 3]}>
-              <Editarmodulos />
-            </ProtectedRoute>
-          } />
           <Route path="/preguntas" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
               <Preguntas />
@@ -190,6 +185,11 @@ const AppRoutes = () => {
           <Route path="/diagnostico/empresa-vista/:nit" element={
             <ProtectedRoute allowedRoles={[1, 2, 3]}>
               <EvaluacionEmpresaNuevas />
+            </ProtectedRoute>
+          } />
+          <Route path="/diagnostico/empresa-vista-final/:nit" element={
+            <ProtectedRoute allowedRoles={[1, 2, 3]}>
+              <EvaluacionEmpresaNuevasf />
             </ProtectedRoute>
           } />
           <Route path="/diagnosticofinal/empresa" element={
