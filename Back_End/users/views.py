@@ -326,6 +326,7 @@ class SuenosConcretadosList(generics.ListAPIView):
 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
 class ModulosConCalificacionesBajasView(APIView):
     def get(self, request, *args, **kwargs):
         nit = kwargs.get('nit')

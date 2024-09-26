@@ -1,4 +1,3 @@
-
 from rest_framework import serializers
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_decode
@@ -140,7 +139,7 @@ class ModulosSerializer(serializers.ModelSerializer):
 
     def get_calificaciones(self, obj):
         # Este método puede estar realizando alguna lógica que no es necesario cambiar,
-        # pero asegúrate de que `self.context['nit']` esté disponible o modifica según sea necesario.
+        # pero asegúrate de que self.context['nit'] esté disponible o modifica según sea necesario.
         calificaciones = Calificaciones.objects.filter(
             id_pregunta__id_modulo=obj.id_modulo,
             nit=self.context.get('nit')
