@@ -3,16 +3,24 @@ import LayoutDashboard from '../../layouts/LayoutDashboard';
 import { useParams } from 'react-router-dom';
 import DownloadPDFButton from "../../components/inputs/botones/botonpdf";
 import TarjetasTemaFinal from "../../components/tarjetasdashboard/tarjetasTemaFinal";
-import TablaPreguntas from "../../components/tablas/tablaempregunta";
+import TablaPreguntasf from "../../components/tablas/tablaemfpregunta";
 
 const EvaluacionEmpresaNuevasf = () => {
     const { nit } = useParams();
     const [empresa, setEmpresa] = useState({});
-    const [calificacionesBajas, setCalificacionesBajas] = useState([]);
     const [calificaciones, setCalificaciones] = useState([]);
     const [postulante, setPostulante] = useState([]);
-    const [temasAsignados, setTemasAsignados] = useState([]);
-    const [suenosAsignados, setSuenosAsignados] = useState([]);
+
+
+    // Fetch para obtener las calificaciones de la empresa
+    useEffect(() => {
+        if (nit) {
+            fetch(`http://localhost:8000/api/v2/calificaciones/empresa/${nit}/`)
+                .then(response => response.json())
+                .then(data => setCalificaciones(data))
+                .catch(error => console.error("Error fetching calificaciones:", error));
+        }
+    }, [nit]);
 
     useEffect(() => {
         if (nit) {
@@ -32,56 +40,6 @@ const EvaluacionEmpresaNuevasf = () => {
             });
     }, [nit]);
 
-    useEffect(() => {
-        // Obtener calificaciones bajas
-        fetch(`http://localhost:8000/api/v2/modulos/calificaciones-bajas/${nit}/`)
-            .then(response => response.json())
-            .then(data => {
-                setCalificacionesBajas(data);
-
-                // Mapear temas y sueños
-                const nuevosTemas = [];
-                const nuevosSuenos = [];
-
-                data.forEach(modulo => {
-                    // Extraer temas
-                    modulo.preguntas.forEach(pregunta => {
-                        if (pregunta.tema) {
-                            nuevosTemas.push(...pregunta.tema);
-                        }
-                    });
-
-                    // Extraer sueños
-                    if (modulo.suenos) {
-                        nuevosSuenos.push(...modulo.suenos);
-                    }
-                });
-
-                setTemasAsignados(nuevosTemas);
-                setSuenosAsignados(nuevosSuenos);
-            });
-    }, [nit]);
-
-    // Método para renderizar la tabla de calificaciones bajas
-    const renderTabla = () => (
-        <div className="flex flex-col mt-6 bg-greyBg rounded-md">
-            <div className="flex bg-greyBlack text-white font-semibold">
-                <div className="flex-1 p-5 text-left">Pregunta</div>
-                <div className="flex-1 p-5 text-center">Calificación</div>
-                <div className="flex-1 p-5 text-center">Criterio</div>
-            </div>
-            {calificacionesBajas.map((modulo) =>
-                modulo.preguntas.map((item, index) => (
-                    <div key={item.id} className="flex border-t border-white">
-                        <div className="flex-1 p-5 text-left">{item.descripcion_pregunta}</div>
-                        <div className="flex-1 p-5 text-center">{item.calificacion}</div>
-                        <div className="flex-1 p-5 text-center">{item.criterio}</div>
-                    </div>
-                ))
-            )}
-        </div>
-    );
-
     return (
         <LayoutDashboard title="Dashboard">
             <main className="bg-greyBg w-full h-screen overflow-x-hidden">
@@ -89,7 +47,7 @@ const EvaluacionEmpresaNuevasf = () => {
                     <div className="bg-greyBlack xl:h-20 lg:h-20 w-full"></div>
                     <div className="bg-greyBg flex flex-col py-2 xl:gap-5 lg:gap-5 gap-4 w-full xl:h-full px-4 lg:px-12 xl:px-12 pt-4 xl:pt-6">
                         <div className="flex flex-row-reverse justify-between items-center pt-5">
-                            <DownloadPDFButton tipo={"Final"} pdfType={"Final"} />
+                            <DownloadPDFButton tipo={"Final"} pdfType={"final"} />
                             <div className="w-[60rem]">
                                 <p className='font-bold text-white text-xl'>Introducción</p>
                                 <p className='p-6 text-white text-justify'>
@@ -105,7 +63,7 @@ const EvaluacionEmpresaNuevasf = () => {
                             </div>
                         </div>
                         <div className="flex flex-col xl:flex-row lg:flex-row gap-8 max-md:pb-2 xl:pb-2 lg:pb-2 xl:justify-between h-full">
-                            <TablaPreguntas calificaciones={calificaciones} />
+                            <TablaPreguntasf calificaciones={calificaciones} />
                         </div>
                         <div className="flex xl:flex-row lg:flex-row flex-col xl:gap-[5rem] lg:gap-[5rem]">
                             <div className="w-full">
