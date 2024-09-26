@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import LayoutDashboard from '../../layouts/LayoutDashboard';
-import DesempenoForm from '../../components/forms/formsdiagnostico/formsdiagnostico';
+import DesempenoForm from '../../components/forms/formsdiagnostico/formsdiagnosticoini';
 import GoBack from '../../components/inputs/goback/GoBack';
 import Boton from '../../components/inputs/botones/boton';
 import ConfirmModal from '../../components/modales/modalconfirm';

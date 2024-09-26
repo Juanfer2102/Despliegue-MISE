@@ -26,16 +26,14 @@ const DesempenoForm = ({ criterios, titulo, nit, onFormSubmit }) => {
         <thead>
           <tr>
             <th className="py-2 px-4 text-left border-b">Pregunta</th>
-            <th className="py-2 px-4 border-b">Valoración Inicial</th>
-            <th className="py-2 px-4 border-b">Valoración Final</th>
+            <th className="py-2 px-4 border-b">Valoración</th>
           </tr>
         </thead>
         <tbody>
           {criterios.map((criterio, index) => (
             <tr key={index} className="border-b">
               <td className="py-2 px-4 w-[75rem]">{criterio.descripcion}</td>
-              <td className="flex justify-center py-6 w-[10rem]">{criterio.calificacion}</td>
-              <td className="px-8 w-[10rem]">
+              <td className="py-2 px-4 w-[10rem]">
                 <input
                   type="number"
                   name={`valoracion_${index + 1}`}
@@ -43,7 +41,7 @@ const DesempenoForm = ({ criterios, titulo, nit, onFormSubmit }) => {
                   step="0.01"
                   min="0"
                   max="100"
-                  className="border border-white p-1 rounded-md text-white bg-transparent"
+                  className="border border-gray-300 p-1 rounded-md text-black"
                   onChange={(e) => handleInputChange(index, e.target.value)}
                 />
               </td>

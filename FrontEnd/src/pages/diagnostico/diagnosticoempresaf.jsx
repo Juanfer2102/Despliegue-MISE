@@ -90,7 +90,7 @@ const EvaluacionEmpresaf = () => {
     
             if (response.ok) {
                 alert('Calificaciones guardadas con éxito');
-                changeDiagState(nit);
+                navigate(`/diagnostico/empresa-vista-final/${nit}`);
             } else {
                 const errorData = await response.json();
                 console.error('Error al guardar las calificaciones:', errorData);

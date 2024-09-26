@@ -64,9 +64,13 @@ export const EmpresasRegistradas = () => {
       const dataNuevasSolicitudes = await resNuevasSolicitudes.json();
       const numNuevasSolicitudes = dataNuevasSolicitudes.length;
 
+      const resCulminadas = await fetch("http://localhost:8000/api/v2/empresas-culminadas/");
+      const dataCulminadas = await resCulminadas.json();
+      const numCulminadas = dataCulminadas.length;
+
       // Actualiza el estado con los datos obtenidos
       setEmpresasData({
-        empresasVinculadas: empresasData.empresasVinculadas, // Mantén el valor actual
+        empresasCulminadas: numCulminadas, // Mantén el valor actual
         empresasSinDiagnostico: numEmpresasSinDiagnostico,
         nuevasSolicitudes: numNuevasSolicitudes,
       });
@@ -101,9 +105,9 @@ export const EmpresasRegistradas = () => {
                     {/* Primera tarjeta: Empresas en proceso de vinculación */}
                     <TarjetasEmpresasreg
                       empresaicon="fa-solid fa-building-circle-check"
-                      tipoTarjeta="En Proceso de Vinculacion"
-                      numeroEmpresas={empresasData.empresasVinculadas}
-                      URL="/empresas-vinculadas"
+                      tipoTarjeta="Procesos Culminados"
+                      numeroEmpresas={empresasData.empresasCulminadas}
+                      URL="/empresas-culminadas"
                     />
 
                     {/* Segunda tarjeta: Empresas sin diagnosticar */}

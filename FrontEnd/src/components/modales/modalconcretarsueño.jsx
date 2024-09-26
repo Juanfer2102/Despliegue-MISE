@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 
 // Componente Modal para concretar el sueño
@@ -6,6 +6,18 @@ const ModalConcretarSueno = ({ sueno, onClose }) => {
     const { nit } = useParams();
     const [estado, setEstado] = useState(0); // Estado por defecto: "No"
     const [observaciones, setObservaciones] = useState(""); // Observaciones vacías
+
+    // useEffect para loguear cuando el componente se monta o cuando el sueño cambia
+    useEffect(() => {
+        if (sueno && sueno.id) {
+            console.log(`Modal abierto para concretar el sueño con ID: ${sueno.id}`);
+        }
+    }, [sueno]); // Solo se ejecuta cuando `sueno` cambia
+
+    // useEffect para registrar cambios en el estado del sueño
+    useEffect(() => {
+        console.log(`Estado del sueño actualizado a: ${estado === 1 ? 'Sí' : 'No'}`);
+    }, [estado]); // Se ejecuta cada vez que `estado` cambia
 
     const concretarSueno = async () => {
         if (!sueno || !sueno.id) {

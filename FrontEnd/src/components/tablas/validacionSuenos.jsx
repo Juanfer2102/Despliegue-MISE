@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ModalConcretarSueno from "../modales/modalconcretarsueño";
 
 // Estilos en JSX
@@ -34,9 +34,18 @@ const validacionDeSueños = [
 
 const ValidacionDeSueños = ({ diagnosticos }) => {
   const [suenoSeleccionado, setSuenoSeleccionado] = useState(null);
+  const [suenos, setSuenos] = useState([]);
 
-  // Obtener la lista de todos los sueños
-  const suenos = diagnosticos.flatMap(diagnostico => diagnostico.suenos);
+  // Obtener la lista de sueños cuando se monta el componente
+  useEffect(() => {
+    setSuenos(diagnosticos.flatMap(diagnostico => diagnostico.suenos));
+  }, [diagnosticos]);
+
+  // Función para actualizar los sueños después de concretar uno
+  const recargarSuenos = () => {
+    // Aquí puedes recargar los datos si es necesario, en este caso simplemente filtraremos los sueños concretados.
+    setSuenos(suenos.filter(sueno => sueno.estado !== 1)); // Asumiendo que "1" significa que ya está concretado.
+  };
 
   return (
     <div className="p-4 bg-greyBlack xl:w-[45rem] lg:w-[35rem] text-white rounded-lg" style={styles.customScrollbar}>
@@ -67,6 +76,7 @@ const ValidacionDeSueños = ({ diagnosticos }) => {
         <ModalConcretarSueno
           sueno={suenoSeleccionado} // Pasar el sueño seleccionado
           onClose={() => setSuenoSeleccionado(null)} // Cerrar modal
+          onSuenoConcretado={recargarSuenos} // Recargar los sueños cuando se concrete uno
         />
       )}
     </div>

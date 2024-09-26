@@ -719,6 +719,34 @@ def obtener_postulante_por_nit(request, nit):
     except Postulante.DoesNotExist:
         return JsonResponse({'error': 'No se encontró el postulante asociado a la empresa.'}, status=404)
 
+def listar_empresas_culminadas(request):
+    # Obtener las empresas cuyo estado es 3
+    empresas_culminadas = Empresas.objects.filter(estado=3)
+    
+    # Preparar los datos para enviarlos en formato JSON
+    data = []
+    for empresa in empresas_culminadas:
+        data.append({
+            'nit': empresa.nit,
+            'nombre_empresa': empresa.nombre_empresa,
+            'celular': empresa.celular,
+            'razon_social': empresa.razon_social,
+            'direccion': empresa.direccion,
+            'act_economica': empresa.act_economica,
+            'gerente': empresa.gerente,
+            'producto_servicio': empresa.producto_servicio,
+            'correo': empresa.correo,
+            'pagina_web': empresa.pagina_web,
+            'fecha_creacion': empresa.fecha_creacion,
+            'ventas_ult_ano': empresa.ventas_ult_ano,
+            'costos_ult_ano': empresa.costos_ult_ano,
+            'empleados_perm': empresa.empleados_perm,
+            'sector': empresa.sector,
+            'estado': empresa.estado
+        })
+    
+    # Devolver la lista de empresas activas como JSON
+    return JsonResponse(data, safe=False)   
 
 def listar_empresas_sin_diagnostico(request):
     # Obtener las empresas cuyo diagnostico_value es 0 y su estado es 2
@@ -1362,6 +1390,16 @@ class UpdateEmpresaStatus(APIView):
         try:
             empresa = Empresas.objects.get(nit=nit)
             empresa.estado = '2'  # Actualiza el estado a 2
+            empresa.save()
+            return Response({'success': 'Estado actualizado correctamente'}, status=status.HTTP_200_OK)
+        except Empresas.DoesNotExist:
+            return Response({'error': 'Empresa no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+        
+class UpdateEmpresaStatusFinish(APIView):
+    def post(self, request, nit):
+        try:
+            empresa = Empresas.objects.get(nit=nit)
+            empresa.estado = '3'  # Actualiza el estado a 3
             empresa.save()
             return Response({'success': 'Estado actualizado correctamente'}, status=status.HTTP_200_OK)
         except Empresas.DoesNotExist:

@@ -34,10 +34,10 @@
 
 import React from "react";
 import LayoutDashboard from "../../layouts/LayoutDashboard";
-import TablaEmpresasVin from "../../components/tablas/tablaEmpresasVin";
+import TablaEmpresasCul from "../../components/tablas/tablaEmpresasCul";
 import GoBack from "../../components/inputs/goback/GoBack";
 
-export const EmpresasVinculacion = () => {
+export const EmpresasCulminadas = () => {
 
   return (
     <LayoutDashboard title="Dashboard">
@@ -48,13 +48,13 @@ export const EmpresasVinculacion = () => {
             <div className="w-full px-4 py-5 md:px-8">
               <div className="text-white gap-6">
                 <div className="flex flex-col">
-                    <GoBack text={"Empresas en Proceso de Vinculacion"} />
+                    <GoBack text={"Empresas Culminadas"} />
 
                   {/* Tabla de empresas */}
                   <div className="rounded-xl px-5 md:px-10 pb-5 h-full flex flex-col gap-2">
                     <div className="rounded-xl">
                       <div className="">
-                        <TablaEmpresasVin />
+                        <TablaEmpresasCul />
                       </div>
                     </div>
                   </div>
@@ -69,4 +69,4 @@ export const EmpresasVinculacion = () => {
 
 };
 
-export default EmpresasVinculacion;
+export default EmpresasCulminadas;
