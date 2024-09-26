@@ -82,11 +82,11 @@ const EvaluacionEmpresaf = () => {
 
             if (response.ok) {
                 alert('Calificaciones guardadas con éxito');
-                changeDiagState(nit)
+                changeDiagState(nit);
                 navigate(`/diagnosticofinal/empresa`);
             } else {
                 const errorData = await response.json();
-                console.log(nit)
+                console.log(nit);
                 console.error('Error al guardar las calificaciones:', errorData);
                 alert('Error al guardar las calificaciones');
             }
@@ -130,7 +130,7 @@ const EvaluacionEmpresaf = () => {
     useEffect(() => {
         const fetchModulos = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/v2/modulos/');
+                const response = await fetch(`http://localhost:8000/api/v2/calificaciones/empresa/${nit}/`);
                 if (response.ok) {
                     const data = await response.json();
                     setModulos(data);
@@ -145,46 +145,39 @@ const EvaluacionEmpresaf = () => {
         };
 
         fetchModulos();
-    }, []);
+    }, [nit]); // Añadir nit como dependencia
 
     useEffect(() => {
-        const fetchPreguntasPorModulo = async (idModulo) => {
+        const fetchCalificacionesPorEmpresa = async (nit) => {
             try {
-                const response = await fetch(`http://localhost:8000/api/v2/preguntas/modulo/${idModulo}/`);
+                const response = await fetch(`http://localhost:8000/api/v2/calificaciones/empresa/${nit}/`);
                 if (response.ok) {
                     const data = await response.json();
-                    if (Array.isArray(data)) {
-                        setPreguntas(prevState => ({
-                            ...prevState,
-                            [idModulo]: data,
-                        }));
-                    } else {
-                        console.error(`Datos de preguntas no válidos para el módulo ${idModulo}:`, data);
-                        setPreguntas(prevState => ({
-                            ...prevState,
-                            [idModulo]: [],
-                        }));
-                    }
+    
+                    // Suponiendo que data es un array que contiene la información de los módulos
+                    const nuevasPreguntas = {};
+                    data.forEach(modulo => {
+                        // Guardamos las preguntas por id_modulo
+                        nuevasPreguntas[modulo.id_modulo] = modulo.preguntas;
+                    });
+    
+                    setPreguntas(nuevasPreguntas);
                 } else {
-                    console.error(`Error al obtener las preguntas para el módulo ${idModulo}:`, response.statusText);
-                    setPreguntas(prevState => ({
-                        ...prevState,
-                        [idModulo]: [],
-                    }));
+                    console.error(`Error al obtener las calificaciones para la empresa ${nit}:`, response.statusText);
+                    setPreguntas({});
                 }
             } catch (error) {
-                console.error(`Error de red al obtener las preguntas para el módulo ${idModulo}:`, error);
-                setPreguntas(prevState => ({
-                    ...prevState,
-                    [idModulo]: [],
-                }));
+                console.error(`Error de red al obtener las calificaciones para la empresa ${nit}:`, error);
+                setPreguntas({});
             }
         };
-
-        modulos.forEach(modulo => {
-            fetchPreguntasPorModulo(modulo.id_modulo);
-        });
-    }, [modulos]);
+    
+        // Llama a la función para obtener las calificaciones y preguntas
+        if (nit) {
+            fetchCalificacionesPorEmpresa(nit);
+        }
+    }, [nit]);
+    
 
     return (
         <>
@@ -196,7 +189,7 @@ const EvaluacionEmpresaf = () => {
                         <div className="bg-greyBg flex flex-col h-full w-full px-12 pt-6 overflow-auto">
                             <div className="gap-8 flex flex-col p-8 w-full h-full rounded-md">
                                 <div className="rounded-xl flex flex-col gap-6 h-full">
-                                    <GoBack text={`Diagnostico / ${nombreEmpresa || 'Cargando...'}`} />
+                                    <GoBack text={`Diagnostico Final / ${nombreEmpresa || 'Cargando...'}`} />
                                     <div className="flex flex-col gap-6 h-full overflow-auto custom-scrollbar" style={styles.customScrollbar} >
                                         {loading ? (
                                             <p>Cargando módulos...</p>
@@ -204,7 +197,7 @@ const EvaluacionEmpresaf = () => {
                                             modulos.map((modulo, index) => (
                                                 <div key={index} className="flex-1">
                                                     <DesempenoForm
-                                                        criterios={preguntas[modulo.id_modulo]?.map(pregunta => ({ descripcion: pregunta.descripcion, id_pregunta: pregunta.id_pregunta })) || []}
+                                                        criterios={preguntas[modulo.id_modulo]?.map(pregunta => ({ descripcion: pregunta.descripcion, id_pregunta: pregunta.id_pregunta, calificacion: pregunta.calificacion })) || []}
                                                         titulo={modulo.nombre || 'Sin título'}
                                                         nit={nit}
                                                         onFormSubmit={handleFormChange}

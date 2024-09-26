@@ -442,6 +442,8 @@ class ActualizarEstadoTema(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+
 class RegistrarDiagnosticoView(APIView):
     def post(self, request, *args, **kwargs):
         try:
@@ -487,11 +489,9 @@ class RegistrarDiagnosticoView(APIView):
 
                 # Procesar los sueños y crear registros relacionados
                 for sueno_descripcion in suenos:
-                    sueno, created = Suenos.objects.get_or_create(
+                    sueno = Suenos.objects.get(
                         id_modulo=modulo.id_modulo,
-                        nivel="Nivel predeterminado",  # Ajusta el criterio según tu lógica
                         sueño=sueno_descripcion,
-                        defaults={"medicion": "Medición predeterminada", "evidencia": "Evidencia predeterminada"}
                     )
 
                     diagnostico_sueno, created = DiagnosticoEmpresarialSuenos.objects.get_or_create(
@@ -878,6 +878,7 @@ def check_auth(request):
     except Exception:
         return Response({'isAuthenticated': False}, status=status.HTTP_401_UNAUTHORIZED)
     
+
 class RegistroPostulanteEmpresa(APIView):
     
     def post(self, request, *args, **kwargs):
@@ -1546,6 +1547,13 @@ def generar_pdf(request, nit):
 
         # Obtener los sueños relacionados con el diagnóstico
         suenos_asignados = DiagnosticoEmpresarialSuenos.objects.filter(diagnostico=diagnostico).select_related('sueno')
+        print(len(suenos_asignados))
+
+         # Hacer la solicitud al API para obtener el diagnóstico con sus sueños
+        diagnostico_response = requests.get(f'http://localhost:8000/api/v2/diagnostico/{nit}/')
+        diagnostico_response.raise_for_status()  # Lanza un error si la respuesta no es 200
+        diagnostico_data = diagnostico_response.json()
+
 
         # Hacer la solicitud al API para obtener los temas
         temas_response = requests.get(f'http://localhost:8000/api/v2/temas/empresa/{nit}/')
@@ -1557,14 +1565,19 @@ def generar_pdf(request, nit):
         suenos_html = ""
         temas_html = ""
 
-        # Iterar sobre los sueños asignados y agregarlos a la tabla
-        for diagnostico_sueno in suenos_asignados:
-            sueno = diagnostico_sueno.sueno
+        # Iterar sobre los diagnósticos y sueños asignados
+        for diagnostico in diagnostico_data['diagnosticos']:
             suenos_html += f"""
             <tr>
-                <td>{sueno.sueño}</td>
+                <td colspan="2"><b>Módulo: {diagnostico['modulo']}</b></td>
             </tr>
             """
+            for sueno in diagnostico['suenos']:
+                suenos_html += f"""
+                <tr>
+                    <td>{sueno['sueño']}</td>
+                </tr>
+                """
 
         # Iterar sobre los temas y agregarlos a la tabla
         for tema in temas:
@@ -1750,11 +1763,11 @@ def generar_pdf(request, nit):
     <p>A partir del diagnóstico realizado en la reunión, usted y su consultor empresarial, concertaron los siguientes sueños empresariales para su empresa o proyecto empresarial:</p>
     
     <table border="1">
-        <tr>
-            <th>SUEÑOS CONCERTADOS</th>
-        </tr>
-        {suenos_html}
-    </table>
+                <tr>
+                    <th>Sueño</th>
+                </tr>
+                {suenos_html}
+            </table>
 
     <h2>RUTA DE SERVICIOS</h2>
     <p>A partir del análisis y verificación realizados en la reunión, usted y su consultor empresarial, concertaron la siguiente ruta de servicios:</p>
