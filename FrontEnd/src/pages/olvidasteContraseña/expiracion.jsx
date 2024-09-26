@@ -1,3 +1,47 @@
+/**
+ * Expirado.jsx
+ * 
+ * Este componente muestra una página que informa al usuario que un enlace ha expirado y le da la opción de solicitar un nuevo enlace.
+ * 
+ * Componentes utilizados:
+ * - Logo: Componente que muestra el logotipo de la aplicación.
+ * 
+ * Funcionalidad:
+ * - Muestra un mensaje informando al usuario que el enlace ha expirado.
+ * - Incluye un botón para reenviar un nuevo enlace y un enlace para cancelar la acción.
+ * 
+ * Estructura del componente:
+ * - **`main`:** Contenedor principal que ocupa toda la pantalla.
+ *   - **`div` con `bg-black bg-opacity-60`:** Fondo oscuro con opacidad, creando un efecto de superposición sobre la imagen de fondo.
+ *   - **`img`:** Imagen de fondo que cubre toda la pantalla y permanece fija mientras se hace scroll.
+ *   - **`div` con `all relative z-20 flex h-screen items-center justify-center gap-0`:** Contenedor central que alinea el logotipo y el mensaje.
+ *     - **`div` con `w-full h-full`:** Contenedor para el logotipo que ocupa toda la altura y anchura de la pantalla.
+ *       - **`div` con `flex w-full h-full items-center justify-center`:** Posiciona el logotipo en el centro.
+ *         - **`Logo`:** Muestra el logotipo de la aplicación.
+ *     - **`div` con `justify-center border-l h-max border-white py-96`:** Separador visual que añade un borde blanco entre el logotipo y el contenido.
+ *     - **`div` con `login-container text-white w-full h-full flex flex-col justify-center px-56 gap-16`:** Contenedor para el texto del mensaje y el formulario de solicitud de nuevo enlace.
+ *       - **`p` con `font-bold text-3xl`:** Mensaje principal indicando que el enlace ha expirado.
+ *       - **`p` con `text-2xl`:** Mensaje que detalla la razón de la expiración del enlace.
+ *       - **`form` con `flex flex-col`:** Formulario para que el usuario pueda reenviar un nuevo enlace.
+ *         - **`div` con `flex justify-center mt-10`:** Contiene el botón para reenviar el enlace.
+ *           - **`button` con `bg-principalGreen px-6 py-2 text-xl h-14 rounded-lg w-full`:** Botón para solicitar el nuevo enlace, con estilos definidos.
+ *         - **`div` con `flex items-center justify-center mt-8`:** Contiene la opción de cancelar, que se muestra centrada.
+ *           - **`p` con `text-xl text-center w-full`:** Texto de "Cancelar" para permitir al usuario regresar o cancelar la acción.
+ * 
+ * Estilos:
+ * - **`bg-black bg-opacity-60`:** Fondo oscuro semi-transparente.
+ * - **`w-full h-full`:** Elementos que ocupan toda la pantalla.
+ * - **`fixed z-0`:** La imagen de fondo se mantiene fija.
+ * - **`relative z-20`:** Contenedor que se posiciona sobre la imagen de fondo.
+ * - **`border-l border-white`:** Añade una línea blanca que separa el logotipo del contenido de la página.
+ * - **`bg-principalGreen`:** Estilo del botón con un color de fondo verde.
+ * - **`px-56` y `gap-16`:** Añade márgenes laterales y espaciado entre los elementos.
+ * 
+ * Notas:
+ * - El botón de "Reenviar otro link" debe tener una funcionalidad para solicitar el nuevo enlace.
+ * - Asegúrate de que la ruta de la imagen de fondo (`src="../src/images/loginImg/bg.jpg"`) sea válida.
+ */
+
 import React from "react";
 import Logo from "../../components/logo/logo";
 

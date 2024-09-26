@@ -1,7 +1,20 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Componente SuenosView
+ * 
+ * Este componente maneja la visualización, creación, edición y eliminación de sueños.
+ * Permite a los usuarios agregar nuevos sueños, editar los existentes y eliminarlos.
+ *
+ * Props:
+ * - suenos (array): Lista de sueños existentes.
+ * - modulos (array): Lista de módulos disponibles para seleccionar.
+ * - onCreateOrUpdateSuenio (func): Función que maneja la creación o actualización de un sueño.
+ * - DeleteSuenos (func): Función que maneja la eliminación de un sueño.
+ */
 const SuenosView = ({ suenos, modulos, onCreateOrUpdateSuenio, DeleteSuenos }) => {
+    // Estados locales del componente
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [currentSueño, setCurrentSueño] = useState(null);
@@ -11,51 +24,78 @@ const SuenosView = ({ suenos, modulos, onCreateOrUpdateSuenio, DeleteSuenos }) =
     const [evidencia, setEvidencia] = useState('');
     const [id_modulo, setId_Modulo] = useState('');
 
-    // Función para abrir el modal de creación de sueño
+    /**
+     * Abre el modal de creación de sueño y resetea los valores del formulario.
+     */
     const openCreateModal = () => {
         setCurrentSueño(null);
         setSueño('');
         setNivel('');
         setMedicion('');
         setEvidencia('');
-        setId_Modulo();
+        setId_Modulo('');
         setIsCreateModalOpen(true);
     };
 
-    // Función para abrir el modal de edición de sueño
+    /**
+     * Abre el modal de edición de sueño y carga los valores del sueño seleccionado.
+     * @param {Object} sueño - Sueño seleccionado para editar.
+     */
     const openEditModal = (sueño) => {
         setCurrentSueño(sueño);
         setSueño(sueño.sueño);
         setNivel(sueño.nivel);
         setMedicion(sueño.medicion);
         setEvidencia(sueño.evidencia);
-        setId_Modulo(sueño.id_modulo); // Suponiendo que cada sueño tiene un moduloId asociado
+        setId_Modulo(sueño.id_modulo); // Suponiendo que cada sueño tiene un módulo asociado
         setIsEditModalOpen(true);
     };
 
-    // Función para cerrar ambos modales
+    /**
+     * Cierra ambos modales y resetea el sueño actual.
+     */
     const closeModals = () => {
         setIsCreateModalOpen(false);
         setIsEditModalOpen(false);
         setCurrentSueño(null);
     };
 
+    /**
+     * Actualiza el estado del campo de sueño.
+     * @param {Object} e - Evento de cambio.
+     */
     const handleChangeSueño = (e) => {
         setSueño(e.target.value);
     };
 
+    /**
+     * Actualiza el estado del campo nivel.
+     * @param {Object} e - Evento de cambio.
+     */
     const handleChangeNivel = (e) => {
         setNivel(e.target.value);
     };
 
+    /**
+     * Actualiza el estado del campo medición.
+     * @param {Object} e - Evento de cambio.
+     */
     const handleChangeMedicion = (e) => {
         setMedicion(e.target.value);
     };
 
+    /**
+     * Actualiza el estado del campo evidencia.
+     * @param {Object} e - Evento de cambio.
+     */
     const handleChangeEvidencia = (e) => {
         setEvidencia(e.target.value);
     };
 
+    /**
+     * Maneja el envío del formulario para crear un nuevo sueño.
+     * @param {Object} e - Evento de envío del formulario.
+     */
     const handleCreateSubmit = (e) => {
         e.preventDefault();
         onCreateOrUpdateSuenio({
@@ -69,6 +109,10 @@ const SuenosView = ({ suenos, modulos, onCreateOrUpdateSuenio, DeleteSuenos }) =
         closeModals();
     };
 
+    /**
+     * Maneja el envío del formulario para actualizar un sueño existente.
+     * @param {Object} e - Evento de envío del formulario.
+     */
     const handleEditSubmit = (e) => {
         e.preventDefault();
         onCreateOrUpdateSuenio({
@@ -82,6 +126,9 @@ const SuenosView = ({ suenos, modulos, onCreateOrUpdateSuenio, DeleteSuenos }) =
         closeModals();
     };
 
+    /**
+     * Maneja la eliminación del sueño actual.
+     */
     const handleClick = () => {
         if (currentSueño) {
             DeleteSuenos({ id: currentSueño.id, estado: 1 });
@@ -276,10 +323,11 @@ const SuenosView = ({ suenos, modulos, onCreateOrUpdateSuenio, DeleteSuenos }) =
     );
 };
 
+// Validación de las propiedades del componente
 SuenosView.propTypes = {
     suenos: PropTypes.array.isRequired,
     modulos: PropTypes.array.isRequired,
-    onCreateOrUpdateSuenio: PropTypes.func.isRequired
+    onCreateOrUpdateSuenio: PropTypes.func.isRequired,
 };
 
 export default SuenosView;

@@ -1,11 +1,27 @@
-import React, {useState} from 'react'
-import './formscredenciales.css'
+import React, { useState } from 'react';
+import './formscredenciales.css';
 
+/**
+ * Componente `Formscredenciales` para la gestión de credenciales de usuario, 
+ * permitiendo cambiar la contraseña y validar el formulario.
+ * 
+ * @returns {JSX.Element} El componente `Formscredenciales`.
+ */
 const Formscredenciales = () => {
+    const [errors, setErrors] = useState({}); // Estado para almacenar errores de validación
+    const [isModalVisible, setIsModalVisible] = useState(false); // Estado para mostrar el modal de errores
 
-    const [errors, setErrors] = useState({});
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    // Hook para definir los valores iniciales del formulario
+    const [values, setValues] = useState({
+        contrasena: "",
+        confirmcontrasena: "",
+    });
 
+    /**
+     * Valida el formulario de credenciales.
+     * 
+     * @returns {Object} Un objeto con los errores de validación.
+     */
     const validateForm = () => {
         const newErrors = {};
 
@@ -13,14 +29,19 @@ const Formscredenciales = () => {
             newErrors.contrasena = "La contraseña es obligatoria.";
         }
 
+        // Verificar que las contraseñas coincidan
+        if (values.contrasena !== values.confirmcontrasena) {
+            newErrors.confirmcontrasena = "Las contraseñas no coinciden.";
+        }
+
         return newErrors;
     };
 
-    const [values, setValues] = useState({
-        contrasena: "",
-        confirmcontrasena: "",
-    });
-
+    /**
+     * Maneja el cambio de valor de los campos del formulario.
+     * 
+     * @param {React.ChangeEvent<HTMLInputElement>} event - El evento de cambio del campo.
+     */
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setValues({
@@ -29,13 +50,18 @@ const Formscredenciales = () => {
         });
     };
 
+    /**
+     * Maneja el envío del formulario.
+     * 
+     * @param {React.FormEvent} event - El evento de envío del formulario.
+     */
     const handleForm = async (event) => {
         event.preventDefault();
 
         const validationErrors = validateForm();
         if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
-            setIsModalVisible(true);
+            setErrors(validationErrors); // Establece los errores de validación
+            setIsModalVisible(true); // Muestra el modal de errores
         } else {
             console.log("Inputs value:", values);
             // Redirige a la URL deseada si todo es válido
@@ -43,14 +69,17 @@ const Formscredenciales = () => {
         }
     };
 
+    /**
+     * Cierra el modal de errores.
+     */
     const closeModal = () => {
         setIsModalVisible(false);
     };
 
     return (
         <>
-            <form onSubmit={handleForm} class="form flex flex-col gap-2 ">
-                <p class="text-left w-full">Nueva contraseña</p>
+            <form onSubmit={handleForm} className="form flex flex-col gap-2">
+                <p className="text-left w-full">Nueva contraseña</p>
                 <input
                     className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border`}
                     type="password"
@@ -60,7 +89,7 @@ const Formscredenciales = () => {
                     autoComplete="off"
                     onChange={handleInputChange}
                 />
-                <p class="text-left w-full ">Confirma contraseña</p>
+                <p className="text-left w-full">Confirma contraseña</p>
                 <input
                     className={`h-full w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border`}
                     type="password"
@@ -70,23 +99,17 @@ const Formscredenciales = () => {
                     autoComplete="off"
                     onChange={handleInputChange}
                 />
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path
-                    d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"
-                ></path>
-                <path d="M3 7l9 6l9 -6"></path>
-
 
                 <div>
-                    <div class="flex justify-center">
+                    <div className="flex justify-center">
                         <button
-                            class="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg hover:bg-white hover:text-principalGreen"
+                            className="bg-principalGreen px-6 py-2 font-bold text-2xl rounded-lg hover:bg-white hover:text-principalGreen"
                         >
                             Enviar
                         </button>
                     </div>
-                    <div class="flex items-center justify-center mt-8">
-                        <p class="text-xl text-center w-full">Cancelar</p>
+                    <div className="flex items-center justify-center mt-8">
+                        <p className="text-xl text-center w-full">Cancelar</p>
                     </div>
                 </div>
             </form>
@@ -115,7 +138,7 @@ const Formscredenciales = () => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default Formscredenciales;

@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, onCreateOrUpdateTema, DeleteTema }) => {
+    // Estado para controlar la visibilidad del modal
     const [isModalOpen, setIsModalOpen] = useState(false);
+    // Estado para almacenar el tema actualmente en el modal
     const [modalTema, setModalTema] = useState(null);
+    // Estado para almacenar las preguntas obtenidas de la API
     const [preguntas_, setPreguntas] = useState([]);
 
+    // Estado para manejar los datos del nuevo tema
     const [newTema, setNewTema] = useState({
         id: null,
         id_modulo: '',
@@ -21,7 +25,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
         preguntas: [] // Cambiado a un array para manejar múltiples preguntas
     });
 
-
+    // useEffect para obtener las preguntas cuando se selecciona un módulo
     useEffect(() => {
         if (selectedModulo) {
             // Fetch preguntas based on selected modulo
@@ -33,6 +37,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
         }
     }, [selectedModulo]);
 
+    // Abre el modal y configura el estado del tema a editar o crear
     const openModal = (tema) => {
         setModalTema(tema);
         setNewTema({
@@ -42,6 +47,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
         setIsModalOpen(true);
     };
 
+    // Cierra el modal y resetea el estado del tema
     const closeModal = () => {
         setIsModalOpen(false);
         setModalTema(null);
@@ -61,6 +67,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
         });
     };
 
+    // Maneja los cambios en los campos del formulario
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === 'preguntas') {
@@ -77,7 +84,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
         }
     };
 
-
+    // Maneja el envío del formulario
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(newTema); // Verifica que preguntas se envían correctamente
@@ -85,6 +92,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
         closeModal();
     };
 
+    // Maneja el clic en el botón de eliminar en el modal
     const handleClick = () => {
         if (modalTema) {
             DeleteTema({ id: modalTema.id, estado: 1 });
@@ -274,6 +282,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
     );
 };
 
+// Definición de los tipos de las propiedades esperadas
 TemasView.propTypes = {
     temas: PropTypes.array.isRequired,
     modulos: PropTypes.array.isRequired,

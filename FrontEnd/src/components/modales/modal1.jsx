@@ -1,9 +1,15 @@
 import React from 'react';
 import IconCheck from "../../images/icons/iconsmodales/Icon1.png";
 
+/**
+ * Componente de Notificación que muestra un mensaje de éxito con un icono de verificación y un botón para cerrar la notificación.
+ *
+ * @returns {JSX.Element} - Un componente de notificación con un icono, un mensaje y un botón de cierre.
+ */
 export default function Notification() {
   return (
     <div className="w-120 h-32 bg-white rounded-lg flex flex-row gap-6 p-2">
+      {/* Icono de verificación */}
       <svg
         className="pt-5"
         width="90px"
@@ -22,6 +28,7 @@ export default function Notification() {
         />
       </svg>
 
+      {/* Contenido de la notificación */}
       <div className="flex flex-col gap-4 justify-center">
         <p className="text-xl font-bold">¡Aplicado Correctamente!</p>
         <p className="opacity-60">
@@ -29,6 +36,7 @@ export default function Notification() {
         </p>
       </div>
 
+      {/* Botón de cierre */}
       <svg
         className="p-0.5 cursor-pointer"
         width="34px"

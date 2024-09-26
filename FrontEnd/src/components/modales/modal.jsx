@@ -1,5 +1,14 @@
-import React from 'react'
+import React from 'react';
 
+/**
+ * Componente de Modal que se utiliza para mostrar un bloque de contenido centrado con estilo personalizable.
+ *
+ * @param {Object} props - Propiedades del componente.
+ * @param {string} props.texto - Texto que se mostrará en el modal.
+ * @param {string} props.colorborde - Clase de Tailwind CSS para el color del borde.
+ * @param {string} props.colorhover - Clase de Tailwind CSS para el color y efecto al pasar el ratón sobre el modal.
+ * @returns {JSX.Element} - Un modal con estilo personalizado y efectos de transición.
+ */
 const Modal = ({ texto, colorborde, colorhover }) => {
   return (
     <div
@@ -22,4 +31,5 @@ const Modal = ({ texto, colorborde, colorhover }) => {
     </div>
   );
 }
+
 export default Modal;

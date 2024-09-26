@@ -1,8 +1,19 @@
+// InfoModal.jsx
 import React, { useEffect, useState } from 'react';
 import IconProfile from "../../images/sideBarImg/avatar@2x.png";
 
+/**
+ * Componente de Modal de Información del Usuario que muestra los detalles del perfil del usuario.
+ *
+ * @param {Object} props - Props del componente.
+ * @param {boolean} props.isOpen - Estado que determina si el modal está abierto o cerrado.
+ * @param {Function} props.onClose - Función para cerrar el modal.
+ *
+ * @returns {JSX.Element | null} - Un modal que muestra la información del usuario, o `null` si el modal está cerrado.
+ */
 const InfoModal = ({ isOpen, onClose }) => {
-   const [userData, setUserData] = useState({ nombre: '', rol: '', correo: '', celular: ''  });
+    // Estado para almacenar los datos del usuario
+    const [userData, setUserData] = useState({ nombre: '', rol: '', correo: '', celular: '' });
 
     useEffect(() => {
         // Obtiene los datos del usuario almacenados en localStorage después del login
@@ -14,11 +25,12 @@ const InfoModal = ({ isOpen, onClose }) => {
                 rol: storedUserData.id_rol,
                 correo: storedUserData.correo,
                 celular: storedUserData.celular
-                  // Cambia 'rol' por 'id_rol' si así lo guardaste
+                // Cambia 'rol' por 'id_rol' si así lo guardaste
             });
         }
     }, []);
 
+    // Función para obtener el nombre del rol basado en el id del rol
     const getRolName = (idRol) => {
         switch(idRol) {
             case 1:
@@ -32,6 +44,7 @@ const InfoModal = ({ isOpen, onClose }) => {
         }
     };
 
+    // Si el modal no está abierto, no renderiza nada
     if (!isOpen) return null;
 
     return (

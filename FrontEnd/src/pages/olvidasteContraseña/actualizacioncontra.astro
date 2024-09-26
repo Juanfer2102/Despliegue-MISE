@@ -4,6 +4,49 @@ import Logo from "../../components/logo.astro";
 import InputText from "../../components/inputs/InputText.astro";
 ---
 
+/**
+ * Correofallido.astro
+ * 
+ * Este componente representa una página que muestra un mensaje de éxito cuando la contraseña ha sido actualizada y permite al usuario iniciar sesión.
+ * 
+ * Componentes utilizados:
+ * - Layout: El diseño base que envuelve el contenido principal.
+ * - Logo: Muestra el logotipo de la aplicación.
+ * - InputText: Un componente de entrada de texto (aunque no se usa en este caso).
+ * 
+ * Funcionalidad:
+ * - Informa al usuario que la contraseña se ha actualizado correctamente.
+ * - Proporciona un botón para iniciar sesión nuevamente tras el cambio de contraseña.
+ * 
+ * Estructura del componente:
+ * - **`Layout`:** Envuelve todo el contenido y define el título de la página.
+ *   - **`main`:** Contenedor principal que ocupa toda la pantalla.
+ *     - **`div` con `h-full w-full absolute z-10 bg-black bg-opacity-60`:** Crea una capa semitransparente sobre la imagen de fondo.
+ *     - **`img`:** Imagen de fondo que cubre toda la pantalla y está fijada para no desplazarse.
+ *     - **`div` con `all relative z-20 flex h-screen items-center justify-center`:** Contenedor que alinea el logotipo y el contenido principal en el centro de la pantalla.
+ *       - **`div` con `w-full h-full`:** Contenedor para el logotipo.
+ *         - **`Logo`:** Componente que muestra el logotipo de la aplicación.
+ *       - **`div` con `justify-center border-l h-max border-white py-96`:** Separador visual que añade un borde blanco entre el logotipo y el contenido.
+ *       - **`div` con `login-container text-white w-full h-full flex flex-col justify-center px-56 gap-8`:** Contenedor principal del mensaje de confirmación y el formulario.
+ *         - **`p` con `font-bold text-3xl`:** Muestra el mensaje principal "CONTRASEÑA ACTUALIZADA".
+ *         - **`p` con `text-2xl mb-20`:** Texto informativo que indica que la contraseña ha sido actualizada.
+ *         - **`form` con `form flex flex-col`:** Formulario que contiene el botón de inicio de sesión.
+ *           - **`div` con `flex justify-center mt-10`:** Posiciona el botón de inicio de sesión en el centro.
+ *             - **`button` con `bg-principalGreen px-6 py-2 text-xl h-14 rounded-lg w-full`:** Botón para iniciar sesión, con estilos personalizados que incluyen un fondo verde y bordes redondeados.
+ * 
+ * Estilos:
+ * - **`bg-black bg-opacity-60`:** Crea una superposición semitransparente sobre la imagen de fondo.
+ * - **`w-full h-full fixed z-0`:** Imagen de fondo fija que cubre toda la pantalla.
+ * - **`relative z-20`:** El contenido se muestra sobre la imagen de fondo.
+ * - **`border-l border-white`:** Añade un borde blanco vertical que separa el logotipo del contenido principal.
+ * - **`bg-principalGreen`:** Color de fondo verde para el botón de inicio de sesión.
+ * - **`px-56` y `gap-8`:** Añade relleno lateral y espaciado entre los elementos del formulario.
+ * 
+ * Notas:
+ * - Asegúrate de que la ruta de la imagen de fondo (`src="../src/images/loginImg/bg.jpg"`) sea correcta y accesible.
+ * - El botón de "Iniciar sesión" debería redirigir a la página de inicio de sesión correspondiente.
+ */
+
 <Layout title="Correofallido">
     <main>
         <div class="h-full w-full absolute z-10 bg-black bg-opacity-60"></div>

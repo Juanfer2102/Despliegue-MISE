@@ -1,5 +1,18 @@
+// Buscador.jsx
 import { useState } from 'react';
 
+/**
+ * Componente de búsqueda con filtros para diferentes contextos.
+ * 
+ * @param {Object} props - Propiedades del componente.
+ * @param {Function} props.onSearch - Función que se ejecuta al cambiar el término de búsqueda.
+ * @param {Function} props.onRoleChange - Función que se ejecuta al cambiar el rol seleccionado.
+ * @param {string} props.placeholder - Texto que se muestra como placeholder en el campo de búsqueda.
+ * @param {Array} props.roles - Lista de roles para el selector, utilizada solo en el contexto 'usuarios'.
+ * @param {string} props.contexto - Contexto en el que se usa el componente, determina la visibilidad de filtros adicionales.
+ * 
+ * @returns {JSX.Element} - Componente que permite buscar y filtrar datos según el contexto.
+ */
 const Buscador = ({ onSearch, onRoleChange, placeholder, roles, contexto }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [roleId, setRoleId] = useState('');  // Por defecto no se filtra ningún rol
@@ -52,6 +65,7 @@ const Buscador = ({ onSearch, onRoleChange, placeholder, roles, contexto }) => {
             {/* Puedes agregar más filtros según el contexto */}
             {contexto === 'empresas' && (
                 <div className="flex items-center gap-2 sm:gap-4">
+                    {/* Filtros adicionales para el contexto 'empresas' pueden ser agregados aquí */}
                 </div>
             )}
         </div>
