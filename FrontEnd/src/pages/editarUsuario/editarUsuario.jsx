@@ -94,7 +94,10 @@ const EditarUsuario = ({ nombres, correo, rol }) => {
             <GoBack text={`Usuarios Registrados / ${user.nombres} ${user.apellidos}`} />
             <div className="bg-greyBlack flex flex-col gap-2 lg:gap-8 p-4 lg:p-5 w-full rounded-md">
               <div className="flex flex-col w-full px-6 py-2">
-                <p className="text-white text-3xl">Información Personal</p>
+                <div className='flex flex-col gap-2'>
+                  <p className="text-white text-3xl">Información Personal</p>
+                  <p className="text-white text-xl">ATENCION: Debe escribir la misma contraseña o una nueva contraseña para efectuar los cambios, asegurate de comunicarle al usuario la nueva contraseña.</p>
+                </div>
                 <FormsEditaruser />
               </div>
             </div>

@@ -6,7 +6,7 @@ import Logomini from "../../images/sideBarImg/Logomini.png";
 import { Elementoscript } from "../../helpers/elements.js";
 import { Elementoscriptadmin } from "../../helpers/elementsadmin.js";
 import IconLogOut from "../../images/sideBarsvg/log_out.svg";
-import IconProfile from "../../images/sideBarImg/avatar@2x.png";
+import IconProfile from "../../images/sideBarImg/avatar@2x.svg";
 import InfoModal from "../modales/modalinfouser.jsx";
 import ModalLogout from "../modales/modalcs.jsx";
 import Modalcarga from '../modales/modalcarga/modalcarga.jsx';

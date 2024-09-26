@@ -305,4 +305,8 @@ class UsuarioUpdateSerializer(serializers.ModelSerializer):
             instance.set_password(contrasena)  # Establecer la nueva contraseña
 
         # Actualizar los demás campos
-        return super().update(instance, validated_data)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()  # Guardar la instancia actualizada
+        return instance
