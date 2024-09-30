@@ -107,7 +107,7 @@ const Form = () => {
                     type="email"
                     value={values.correo}
                     name="correo"
-                    placeholder="Ingrese su correo..."
+                    placeholder="Ingrese su correo"
                     autoComplete="off"
                     onChange={handleInputChange}
                 />
@@ -117,7 +117,7 @@ const Form = () => {
                     type={showPassword ? "text" : "password"}
                     value={values.contrasena}
                     name="contrasena"
-                    placeholder="Ingrese su contraseña..."
+                    placeholder="Ingrese su contraseña"
                     onChange={handleInputChange}
                 />
 

@@ -93,7 +93,7 @@ const Formscredenciales = () => {
                     type="password"
                     value={values.contrasena}
                     name="contrasena"
-                    placeholder="Ingrese su nueva contraseña..."
+                    placeholder="Ingrese su nueva contraseña"
                     autoComplete="off"
                     onChange={handleInputChange}
                 />
@@ -103,7 +103,7 @@ const Formscredenciales = () => {
                     type="password"
                     value={values.confirmcontrasena}
                     name="confirmcontrasena"
-                    placeholder="Confirme su contraseña..."
+                    placeholder="Confirme su contraseña"
                     autoComplete="off"
                     onChange={handleInputChange}
                 />
