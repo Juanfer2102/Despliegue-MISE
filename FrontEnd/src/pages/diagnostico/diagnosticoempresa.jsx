@@ -4,22 +4,27 @@ import DesempenoForm from '../../components/forms/formsdiagnostico/formsdiagnost
 import GoBack from '../../components/inputs/goback/GoBack';
 import Boton from '../../components/inputs/botones/boton';
 import ConfirmModal from '../../components/modales/modalconfirm';
+import Modalcarga from "../modales/modalcarga/modalcarga";
+import ModalInformativo from "../modales/modalexito";
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const EvaluacionEmpresa = () => {
     const { nit } = useParams();
     const [formularioData, setFormularioData] = useState({});
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false); // Modal de confirmación
+    const [isLoading, setIsLoading] = useState(false); // Modal de carga
+    const [showInformativeModal, setShowInformativeModal] = useState(false); // Modal informativo
+    const [mensajeModal, setMensajeModal] = useState(''); // Mensaje para el modal informativo
     const [nombreEmpresa, setNombreEmpresa] = useState('');
     const [modulos, setModulos] = useState([]);
     const [preguntas, setPreguntas] = useState({});
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate(); // Inicializa useNavigate
+    const navigate = useNavigate();
 
     const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
-
+    
     const handleFormChange = (titulo, data) => {
         setFormularioData(prevState => ({
             ...prevState,
@@ -27,27 +32,12 @@ const EvaluacionEmpresa = () => {
         }));
     };
 
-    // Estilos en JSX
-    const styles = {
-        customScrollbar: {
-            scrollbarWidth: '13px',
-            scrollbarColor: '#888 #262b32',
-        },
-        customScrollbarTrack: {
-            background: '#262b32',
-            borderRadius: '12px',
-        },
-        customScrollbarThumb: {
-            background: '#888',
-            borderRadius: '10px',
-        },
-        customScrollbarThumbHover: {
-            background: '#555',
-        }
-    };
+    // Función para cerrar el modal informativo
+    const closeInformativeModal = () => setShowInformativeModal(false);
 
     const handleForm = async () => {
         try {
+            setIsLoading(true); // Mostrar modal de carga
             const calificaciones = [];
 
             // Recorre cada módulo y recoge las calificaciones
@@ -79,18 +69,22 @@ const EvaluacionEmpresa = () => {
             });
 
             if (response.ok) {
-                alert('Calificaciones guardadas con éxito');
-                changeDiagState(nit)
+                setMensajeModal('Calificaciones guardadas con éxito');
+                changeDiagState(nit);
+                setShowInformativeModal(true); // Mostrar modal informativo
                 navigate(`/diagnostico/empresa/${nit}`);
             } else {
                 const errorData = await response.json();
-                console.log(nit)
                 console.error('Error al guardar las calificaciones:', errorData);
-                alert('Error al guardar las calificaciones');
+                setMensajeModal('Error al guardar las calificaciones');
+                setShowInformativeModal(true); // Mostrar modal informativo
             }
         } catch (error) {
             console.error('Error al guardar las calificaciones:', error);
+            setMensajeModal('Error al guardar las calificaciones');
+            setShowInformativeModal(true); // Mostrar modal informativo
         } finally {
+            setIsLoading(false); // Ocultar modal de carga
             closeModal();
         }
     };
@@ -186,6 +180,8 @@ const EvaluacionEmpresa = () => {
 
     return (
         <>
+            {isLoading && <Modalcarga />} {/* Modal de carga */}
+            {showInformativeModal && <ModalInformativo mensaje={mensajeModal} onClose={closeInformativeModal} />} {/* Modal informativo */}
             <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleForm} />
             <LayoutDashboard title="MISE">
                 <main className="flex flex-row w-full bg-greyBlack h-screen">
@@ -210,8 +206,10 @@ const EvaluacionEmpresa = () => {
                                                 </div>
                                             ))
                                         )}
-                                        <Boton text={"Guardar"} onClick={openModal} />
                                     </div>
+                                </div>
+                                <div className="flex justify-end w-full">
+                                    <Boton onClick={openModal} text="Guardar Calificación" />
                                 </div>
                             </div>
                         </div>
