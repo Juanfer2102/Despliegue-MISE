@@ -1694,21 +1694,45 @@ def generar_pdf(request, nit):
                 <td>{tema['fecha_fin']}</td>
             </tr>
             """
+        ruta_logo = "https://www.ccpalmira.org.co/wp-content/uploads/2023/12/LOGO-CCP-PNG-300x290.png"
 
         html_content = f"""
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ACTA INICIAL DE SERVICIO DE ACOMPAÑAMIENTO MISE FORTALECIMIENTO</title>
     <style>
+                @page {{
+            size: A4;
+            margin: 2.54cm 2.54cm 2.54cm 2.54cm;
+            @top-right {{
+                content: counter(page);
+                font-family: Times New Roman, serif;
+                font-size: 12pt;
+            }}
+            }}
+            @page {{
+            @top-left {{
+                content: element(header);
+            }}
+            }}
+            .header {{
+                position: running(header);
+                height: 60px;
+                padding: 10px 0;
+            }}
+            .logo {{
+                height: 60px;  /* Adjust logo height */
+                width: auto;  /* Maintain aspect ratio */
+            }}
+                
                 body {{
                     font-family: Arial, sans-serif;
                     line-height: 1.6;
                     color: #333;
                     max-width: 800px;
-                    margin: 0 auto;
                     padding: 20px;
                 }}
                 h1, h2 {{
@@ -1744,9 +1768,24 @@ def generar_pdf(request, nit):
                     display: inline-block;
                     margin: 0 auto;
                 }}
+                header {{
+            position: absolute; /* El logo se posiciona absolutamente */
+            top: 20px; /* Ajusta según sea necesario */
+            left: 20px; /* Ajusta según sea necesario */
+            height: 100px; /* Ajusta la altura del logo */
+        }}
+
+        header img {{
+            height: 100px; /* Ajusta la altura del logo */
+        }}
+
     </style>
 </head>
 <body>
+    <div class="header">
+        <img src="https://www.ccpalmira.org.co/wp-content/uploads/2023/12/LOGO-CCP-PNG-300x290.png" alt="Logo" class="logo">
+    </div>
+    <main>
     <h1>ACTA INICIAL DE SERVICIO DE ACOMPAÑAMIENTO MISE FORTALECIMIENTO</h1>
     <h2>DESARROLLO EMPRESARIAL</h2>
 
@@ -1862,17 +1901,16 @@ def generar_pdf(request, nit):
     </table>
 
     <p>A continuación, se muestra el resultado del diagnóstico de la empresa:</p>
-    <!-- Aquí se puede agregar una tabla o gráfico con los resultados del diagnóstico -->
 
     <h2>DEFINICIÓN DE SUEÑOS</h2>
     <p>A partir del diagnóstico realizado en la reunión, usted y su consultor empresarial, concertaron los siguientes sueños empresariales para su empresa o proyecto empresarial:</p>
     
     <table border="1">
-                <tr>
-                    <th>Sueño</th>
-                </tr>
-                {suenos_html}
-            </table>
+        <tr>
+            <th>Sueño</th>
+        </tr>
+        {suenos_html}
+    </table>
 
     <h2>RUTA DE SERVICIOS</h2>
     <p>A partir del análisis y verificación realizados en la reunión, usted y su consultor empresarial, concertaron la siguiente ruta de servicios:</p>
@@ -1950,6 +1988,7 @@ def generar_pdf(request, nit):
 
 
     <p>EMPRESA: CÁMARA DE COMERCIO DE PALMIRA</p>
+    </main>
         </body>
         </html>
         """

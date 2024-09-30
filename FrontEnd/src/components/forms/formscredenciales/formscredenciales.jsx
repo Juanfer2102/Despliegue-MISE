@@ -13,6 +13,7 @@ const Formscredenciales = () => {
     const [errors, setErrors] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
+    const [values, setValues] = useState({ contrasena: '', confirmcontrasena: '' }); // Inicializar el estado
 
     /**
      * Maneja el cambio de valor de los campos del formulario.
@@ -64,7 +65,8 @@ const Formscredenciales = () => {
                     setSuccessMessage("Contraseña cambiada exitosamente.");
                     setValues({ contrasena: "", confirmcontrasena: "" });
                     // Aquí puedes redirigir a otra página si lo deseas
-                    // window.location.href = '/login/';
+                    window.location.href = '/';
+
                 } else {
                     const errorData = await response.json();
                     setErrors(errorData);

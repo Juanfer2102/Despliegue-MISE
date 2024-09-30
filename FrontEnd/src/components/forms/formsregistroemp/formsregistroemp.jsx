@@ -412,6 +412,9 @@ export const FormRegistro = () => {
                         />
 
                         <DatePicker
+                            color = ''
+                            placeholder='Fecha de Creacion'
+                            enableYearNavigation = {true}
                             name="fecha_creacion"
                             className="mx-auto pt-2 h-[3.5rem] colors:tremor-background-subtle z-0"
                             onValueChange={(value) => {
