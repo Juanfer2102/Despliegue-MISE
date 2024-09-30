@@ -4,16 +4,20 @@ import './formsrecupcont.css';
 const Formsrecupcont = () => {
     const [errors, setErrors] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [attempts, setAttempts] = useState(0); // Contador para limitar intentos de fuerza bruta
 
     const [values, setValues] = useState({
         correo: "",
     });
 
+    // Validar correo electrónico y evitar fuerza bruta (ejemplo: max 5 intentos)
     const validateForm = () => {
         const newErrors = {};
-        if (!values.correo) {
+        if (attempts >= 5) {
+            newErrors.general = "Se han alcanzado el número máximo de intentos. Intente nuevamente más tarde.";
+        } else if (!values.correo) {
             newErrors.correo = "El correo electrónico es obligatorio.";
-        } else if (!/\S+@\S+\.\S+/.test(values.correo)) {
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.correo)) {
             newErrors.correo = "El correo electrónico no es válido.";
         }
         return newErrors;
@@ -23,7 +27,7 @@ const Formsrecupcont = () => {
         const { name, value } = event.target;
         setValues({
             ...values,
-            [name]: value,
+            [name]: value.trim(), // Eliminar espacios innecesarios
         });
     };
 
@@ -35,19 +39,21 @@ const Formsrecupcont = () => {
             setIsModalVisible(true); // Mostrar el modal
             return; // Detener el envío del formulario
         }
-    
+
+        setAttempts(attempts + 1); // Incrementar el contador de intentos
+
         try {
-            const response = await fetch('http://localhost:8000/api/v2/password-reset/', {
+            const response = await fetch('https://tuservidorseguro.com/api/v2/password-reset/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ correo: values.correo }),
             });
-    
+
             if (response.ok) {
-               // Redireccionar a la página de correo enviado
-               window.location.href = '/correo-enviado'; 
+                // Redireccionar a la página de correo enviado
+                window.location.href = '/correo-enviado';
             } else {
                 const data = await response.json();
                 setErrors({ correo: data.error || 'Ocurrió un error al enviar el correo: No existe un correo asociado.' });
@@ -60,9 +66,8 @@ const Formsrecupcont = () => {
     };
 
     const handleCancel = () => {
-        window.location.href = '/login'; 
-    }
-    
+        window.location.href = '/login';
+    };
 
     const closeModal = () => {
         setIsModalVisible(false);
@@ -81,7 +86,7 @@ const Formsrecupcont = () => {
                         type="email"
                         value={values.correo}
                         name="correo"
-                        placeholder="Ingrese su correo..."
+                        placeholder="Ingrese su correo"
                         autoComplete="off"
                         onChange={handleInputChange}
                     />
@@ -109,7 +114,7 @@ const Formsrecupcont = () => {
                     <div className="bg-white rounded-lg p-6 max-w-sm w-full">
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-xl font-bold text-black">Errores de validación</h2>
-                            <button 
+                            <button
                                 className="text-red hover:text-red"
                                 onClick={closeModal}
                             >

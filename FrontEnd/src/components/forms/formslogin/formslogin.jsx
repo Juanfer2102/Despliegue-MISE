@@ -8,31 +8,25 @@ const Form = () => {
         correo: "",
         contrasena: "",
     });
-
     const [errorMessage, setErrorMessage] = useState('');
-
-
     const [errors, setErrors] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isModalisVisible, setIsModalIsVisible] = useState(false);
     const [nombres, setNombres] = useState('');  // Estado para almacenar los nombres
 
+    // Manejador de cambios en los inputs
     const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setValues({
-        ...values,
-        [name]: value,
-    });
+        const { name, value } = event.target;
+        setValues({
+            ...values,
+            [name]: value,
+        });
+        if (errorMessage) setErrorMessage(''); // Limpiar mensaje de error
+    };
 
-    // Limpiar el mensaje de error al cambiar el valor del input
-    if (errorMessage) {
-        setErrorMessage('');
-    }
-};
-
+    // Validación del formulario
     const validateForm = () => {
         const newErrors = {};
-
         if (!values.correo) {
             newErrors.correo = "El correo electrónico es obligatorio.";
         } else if (!/\S+@\S+\.\S+/.test(values.correo)) {
@@ -41,58 +35,54 @@ const Form = () => {
 
         if (!values.contrasena) {
             newErrors.contrasena = "La contraseña es obligatoria.";
-        } else {
-            if (values.contrasena.length < 6) {
-                newErrors.contrasena = "La contraseña debe tener al menos 6 caracteres.";
-            }
+        } else if (values.contrasena.length < 6) {
+            newErrors.contrasena = "La contraseña debe tener al menos 6 caracteres.";
         }
 
         return newErrors;
     };
 
+    // Manejador del formulario
     const handleForm = async (event) => {
-    event.preventDefault();
-
-    const validationErrors = validateForm();
-    if (Object.keys(validationErrors).length > 0) {
-        setErrors(validationErrors);
-        setIsModalVisible(true);
-        return; // Salir si hay errores de validación
-    }
-
-    try {
-        const response = await fetch("http://localhost:8000/api/v2/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(values),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            setNombres(data.data.nombres);
-            setIsModalIsVisible(true);
-            localStorage.setItem("access_token", data.access_token);
-            localStorage.setItem("refresh_token", data.refresh_token);
-            setErrorMessage(''); // Limpiar mensaje de error al hacer login exitoso
-            localStorage.setItem('userData', JSON.stringify(data.data));
-        } else {
-            if (data.error) {
-                setErrorMessage(data.error); // Almacenar el mensaje de error
-            }
-            console.log("Error al iniciar sesión:", data);
+        event.preventDefault();
+        const validationErrors = validateForm();
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            setIsModalVisible(true);
+            return; // Salir si hay errores de validación
         }
-    } catch (error) {
-        console.error("Error en la solicitud:", error);
-        setErrorMessage('Error en la solicitud. Por favor, inténtalo de nuevo más tarde.');
-    }
-};
 
+        try {
+            const response = await fetch("http://localhost:8000/api/v2/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                setNombres(data.data.nombres);
+                setIsModalIsVisible(true);
+                localStorage.setItem("access_token", data.access_token);
+                localStorage.setItem("refresh_token", data.refresh_token);
+                setErrorMessage(''); // Limpiar mensaje de error al hacer login exitoso
+                localStorage.setItem('userData', JSON.stringify(data.data));
+            } else {
+                if (data.error) {
+                    setErrorMessage(data.error); // Almacenar el mensaje de error
+                }
+                console.log("Error al iniciar sesión:", data);
+            }
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+            setErrorMessage('Error en la solicitud. Por favor, inténtalo de nuevo más tarde.');
+        }
+    };
 
     const toggleShowPassword = () => {
-        setShowPassword(!showPassword);
+        setShowPassword((prev) => !prev);
     };
 
     const closeModal = () => {
@@ -101,7 +91,7 @@ const Form = () => {
 
     const closeModalis = () => {
         setIsModalIsVisible(false);
-        window.location.href = "/dashboard"
+        window.location.href = "/dashboard";
     };
 
     return (
@@ -160,30 +150,30 @@ const Form = () => {
             </form>
 
             {/* Modal de errores */}
-            <div
-                className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center ${isModalVisible ? '' : 'hidden'}`}
-            >
-                <div className="bg-red rounded-lg p-6 max-w-sm w-full">
-                    <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-xl font-bold">Errores de validación</h2>
-                        <button
-                            className="text-gray-500 hover:text-gray-700"
-                            onClick={closeModal}
-                        >
-                            ✕
-                        </button>
-                    </div>
-                    <div>
-                        <ul>
-                            {Object.values(errors).map((error, index) => (
-                                <li key={index} className="text-white mb-2">
-                                    {error}
-                                </li>
-                            ))}
-                        </ul>
+            {isModalVisible && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                    <div className="bg-red rounded-lg p-6 max-w-sm w-full">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-bold">Errores de validación</h2>
+                            <button
+                                className="text-gray-500 hover:text-gray-700"
+                                onClick={closeModal}
+                            >
+                                ✕
+                            </button>
+                        </div>
+                        <div>
+                            <ul>
+                                {Object.values(errors).map((error, index) => (
+                                    <li key={index} className="text-white mb-2">
+                                        {error}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
 
             <ModalLogIn
                 isOpen={isModalisVisible && nombres}

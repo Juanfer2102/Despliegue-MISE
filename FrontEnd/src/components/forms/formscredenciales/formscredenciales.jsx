@@ -23,18 +23,24 @@ const Formscredenciales = () => {
 
     const validateForm = () => {
         const newErrors = {};
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/; // Mínimo 8 caracteres, al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.
+
         if (!values.contrasena) {
             newErrors.contrasena = "La contraseña es obligatoria.";
+        } else if (!passwordRegex.test(values.contrasena)) {
+            newErrors.contrasena = "La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una letra minúscula, un número y un carácter especial.";
         }
+
         if (values.contrasena !== values.confirmcontrasena) {
             newErrors.confirmcontrasena = "Las contraseñas no coinciden.";
         }
+
         return newErrors;
     };
 
     const handleForm = async (event) => {
         event.preventDefault();
-    
+
         const validationErrors = validateForm();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -53,21 +59,17 @@ const Formscredenciales = () => {
                         confirm_password: values.confirmcontrasena,
                     }),
                 });
-    
+
                 if (response.ok) {
                     setSuccessMessage("Contraseña cambiada exitosamente.");
                     setValues({ contrasena: "", confirmcontrasena: "" });
-                    // Aquí puedes redirigir a otra página si lo deseas
-                    // window.location.href = '/login/';
                 } else {
                     const errorData = await response.json();
                     setErrors(errorData);
-    
-                    // Verificar si el error es específico de token inválido
+
                     if (errorData.error && errorData.error.token) {
-                        // Redirigir al usuario si el token es inválido o ha expirado
                         alert('El token es inválido o ha expirado. Redirigiendo...');
-                        window.location.href = '/expiracion'; // Redirigir a la página para solicitar un nuevo enlace
+                        window.location.href = '/expiracion';
                     } else {
                         setIsModalVisible(true);
                     }
@@ -77,7 +79,6 @@ const Formscredenciales = () => {
             }
         }
     };
-    
 
     const closeModal = () => {
         setIsModalVisible(false);
