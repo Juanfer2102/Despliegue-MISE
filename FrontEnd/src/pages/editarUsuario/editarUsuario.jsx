@@ -42,7 +42,6 @@
 
 import React, { useState, useEffect } from 'react';
 import LayoutDashboard from "../../layouts/LayoutDashboard";
-import iconUser from "../../images/icons/iconsEditUser/User.png";
 import FormsEditaruser from "../../components/forms/formsEditaruser/formsEditaruser.jsx";
 import BackButton from '../../components/inputs/goback/BackButton.jsx';
 import { Infouser } from '../../helpers/edituser.js';
