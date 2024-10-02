@@ -203,7 +203,7 @@ export const FormRegistro = () => {
                         type="text"
                         value={values.nombres_postulante || ''}
                         name="nombres_postulante"
-                        placeholder="Ingrese su nombre..."
+                        placeholder="Ingrese su nombre"
                         autoComplete="off"
                         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                     />
@@ -212,7 +212,7 @@ export const FormRegistro = () => {
                         type="text"
                         value={values.apellidos_postulante || ''}
                         name="apellidos_postulante"
-                        placeholder="Ingrese su apellido..."
+                        placeholder="Ingrese su apellido"
                         autoComplete="off"
                         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                     />
@@ -221,7 +221,7 @@ export const FormRegistro = () => {
                 {/* Campos de tipo de documento y número de documento */}
                 <div className="flex flex-row w-full gap-5">
                     <SelectComponent
-                        type="Tipo de documento..."
+                        type="Tipo de documento"
                         Select="tipo_documento"
                         options={optionsdocu}
                         value={values.tipo_documento || ''}
@@ -233,7 +233,7 @@ export const FormRegistro = () => {
                         type="number"
                         value={values.no_documento || ''}
                         name="no_documento"
-                        placeholder="Ingrese su número de documento..."
+                        placeholder="Ingrese su número de documento"
                         autoComplete="off"
                         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                     />
@@ -245,7 +245,7 @@ export const FormRegistro = () => {
                     type="email"
                     value={values.correo || ''}
                     name="correo"
-                    placeholder="Ingrese su correo..."
+                    placeholder="Ingrese su correo"
                     autoComplete="off"
                     onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                 />
@@ -254,7 +254,7 @@ export const FormRegistro = () => {
                     type="number"
                     value={values.celular || ''}
                     name="celular"
-                    placeholder="Ingrese su número de celular..."
+                    placeholder="Ingrese su número de celular"
                     autoComplete="off"
                     onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                 />
@@ -262,7 +262,7 @@ export const FormRegistro = () => {
                 {/* Campos de género y municipio */}
                 <div className="flex flex-row w-full gap-5">
                     <SelectComponent
-                        type="Género..."
+                        type="Género"
                         Select="genero"
                         options={optionsgender}
                         value={values.genero || ''}
@@ -270,7 +270,7 @@ export const FormRegistro = () => {
                         className={`${errors.genero ? 'border-red-500' : ''}`}
                     />
                     <SelectComponent
-                        type="Municipio..."
+                        type="Municipio"
                         Select="municipio"
                         options={optionscity}
                         value={values.municipio || ''}
@@ -282,14 +282,14 @@ export const FormRegistro = () => {
                 {/* Campos de educación y cargo */}
                 <div className="flex flex-row w-full gap-5">
                     <SelectComponent
-                        type="Educación Superior..."
+                        type="Educación Superior"
                         Select="educacion"
                         options={optionseducacion}
                         value={values.educacion || ''}
                         onChange={(value) => handleInputChange("educacion", value)}
                     />
                     <SelectComponent
-                        type="Cargo en la empresa..."
+                        type="Cargo en la empresa"
                         Select="cargo"
                         options={optionscargo}
                         value={values.cargo || ''}

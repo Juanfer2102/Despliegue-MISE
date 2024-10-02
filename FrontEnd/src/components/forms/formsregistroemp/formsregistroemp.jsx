@@ -55,6 +55,7 @@ export const FormRegistro = () => {
 
 
     const handleBlur = (name) => {
+        
         // Ajusta los nombres para que coincidan con los nombres de los inputs
         if (name === 'costos_ult_ano' || name === 'ventas_ult_ano') {
             setValues(prevValues => ({
@@ -67,6 +68,12 @@ export const FormRegistro = () => {
 
 
     const handleInputChange = (name, value) => {
+
+        setValues((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+        }));
+        
         // Validación de celular: solo permite números, longitud máxima de 10
         if (name === "celular") {
             const regex = /^[0-9\b]+$/; // Solo números
@@ -111,15 +118,15 @@ export const FormRegistro = () => {
         if (name === "correo") {
             const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex para validar correo
             if (!regex.test(value)) {
-                return; // Evitar correos inválidos
+                return; // Si el correo no es válido, no actualizamos el estado
             }
         }
-
-        // Validación de página web: debe tener un formato válido
+    
+        // Validación de página web
         if (name === "pagina_web") {
             const regex = /^(https?:\/\/)?([\w-]+)+[\w-]+(\.[\w-]{2,})+\/?$/; // Regex para URL
             if (!regex.test(value)) {
-                return; // Evitar URLs no válidas
+                return; // Si la URL no es válida, no actualizamos el estado
             }
         }
 
@@ -128,6 +135,8 @@ export const FormRegistro = () => {
             ...prevValues,
             [name]: value,
         }));
+
+        
     };
 
 
