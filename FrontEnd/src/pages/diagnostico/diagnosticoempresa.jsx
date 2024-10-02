@@ -5,7 +5,7 @@ import BackButton from '../../components/inputs/goback/BackButton';
 import Boton from '../../components/inputs/botones/boton';
 import ConfirmModal from '../../components/modales/modalconfirm';
 import Modalcarga from '../../components/modales/modalcarga/modalcarga';
-import ModalInformativo from "../modales/modalexito";
+import ModalInformativo from '../../components/modales/modalexito';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
