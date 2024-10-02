@@ -94,12 +94,14 @@ WSGI_APPLICATION = 'Back_End.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    'default': dj_database_url.config(
+        default='mysql://if0_37432251:basededatosmise@sql203.infinityfree.com/if0_37432251_mise'
+    )
 }
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
+ALLOWED_HOSTS = ['despliegue-mise.onrender.com', 'localhost', '127.0.0.1']
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
