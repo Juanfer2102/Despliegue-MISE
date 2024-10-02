@@ -1,6 +1,6 @@
 // InfoModal.jsx
 import React, { useEffect, useState } from 'react';
-import IconProfile from "../../images/sideBarImg/avatar@2x.svg";
+import IconProfile from "/images/sideBarImg/avatar@2x.svg";
 
 /**
  * Componente de Modal de Información del Usuario que muestra los detalles del perfil del usuario.
