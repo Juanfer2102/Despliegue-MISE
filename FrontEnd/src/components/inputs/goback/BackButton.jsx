@@ -2,7 +2,7 @@ import React from 'react';
 import iconGB from "../../../images/icons/iconsEditUser/GoBack.png";
 
 // Componente funcional para el botón de "Regresar"
-const GoBack = ({ text }) => {
+const BackButton  = ({ text }) => {
     return (
         <div className="flex flex-row items-center gap-3 py-2 text-lg md:text-xl text-textBg font-semibold">
             {/* Icono para el botón de regresar */}
@@ -18,4 +18,4 @@ const GoBack = ({ text }) => {
     );
 }
 
-export default GoBack;
+export default BackButton;
