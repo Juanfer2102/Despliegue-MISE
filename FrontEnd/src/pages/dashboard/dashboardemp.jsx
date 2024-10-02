@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import GoBack from "../../components/inputs/goback/GoBack.jsx";
+import GoBack from "../../components/inputs/goback/GoBack";
 import LayoutDashboard from "../../layouts/LayoutDashboard.jsx";
 import TarjetasTema from "../../components/tarjetasdashboard/tarjetasTema.jsx";
 import TablaPreguntas from "../../components/tablas/tablaempregunta.jsx";

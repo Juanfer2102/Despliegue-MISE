@@ -32,7 +32,7 @@
 
 import LayoutDashboard from "../../layouts/LayoutDashboard";
 import { Formseditporc } from "../../components/forms/formseditporc/formseditporc.jsx";
-import GoBack from "../../components/inputs/goback/GoBack.jsx";
+import GoBack from "../../components/inputs/goback/GoBack";
 
 const EditarPorcentaje = () => {
   return (

@@ -4,7 +4,6 @@ import Boton from '../inputs/botones/boton.jsx';
 import { TextareaHero } from '../inputs/textarea/TextArea.jsx';
 import ConfirmModal from './modalconfirm.jsx';
 import SelectComponent from '../inputs/selectores/selectores.jsx';
-import GoBack from '../inputs/goback/goBack.jsx';
 import Selectormultiple from '../inputs/selectores/selectormultiple.jsx';
 
 
