@@ -35,7 +35,7 @@
 import React from "react";
 import LayoutDashboard from "../../layouts/LayoutDashboard";
 import TablaEmpresasCul from "../../components/tablas/tablaEmpresasCul";
-import GoBack from "../../components/inputs/goback/GoBack";
+import BackButton from "../../components/inputs/goback/BackButton";
 
 export const EmpresasCulminadas = () => {
 
@@ -48,7 +48,7 @@ export const EmpresasCulminadas = () => {
             <div className="w-full px-4 py-5 md:px-8">
               <div className="text-white gap-6">
                 <div className="flex flex-col">
-                    <GoBack text={"Empresas Culminadas"} />
+                    <BackButton text={"Empresas Culminadas"} />
 
                   {/* Tabla de empresas */}
                   <div className="rounded-xl px-5 md:px-10 pb-5 h-full flex flex-col gap-2">
