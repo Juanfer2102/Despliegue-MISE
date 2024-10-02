@@ -46,7 +46,7 @@ const Olvidastecontra = () => {
     <main className="relative min-h-screen">
       <div className="absolute inset-0 z-10 bg-black bg-opacity-60"></div>
       <img
-        src="../src/images/loginImg/bg.jpg"
+        src="/images/loginImg/bg-v2.jpg"
         alt="Background"
         className="w-full h-full object-cover fixed z-0"
       />

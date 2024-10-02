@@ -71,7 +71,7 @@ const RegistroEmpresa = () => {
       {/* Imagen de fondo */}
       <div className="flex flex-col">
         <img
-          src="../src/images/loginImg/bg.jpg"
+          src="/images/loginImg/bg-v2.jpg"
           alt=""
           className="w-full h-full fixed z-0 object-cover"
         />

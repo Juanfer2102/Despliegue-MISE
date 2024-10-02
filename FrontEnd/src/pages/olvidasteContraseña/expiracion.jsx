@@ -57,7 +57,7 @@ const Expirado = () => {
     <main>
       <div className="h-full w-full absolute z-10 bg-black bg-opacity-60"></div>
       <img
-        src="../src/images/loginImg/bg.jpg"
+        src="/images/loginImg/bg-v2.jpg"
         alt=""
         className="w-full h-full object-cover fixed z-0"
       />
