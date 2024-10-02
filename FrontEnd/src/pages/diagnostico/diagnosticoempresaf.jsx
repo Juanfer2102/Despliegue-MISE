@@ -1,110 +1,92 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LayoutDashboard from '../../layouts/LayoutDashboard';
 import DesempenoForm from '../../components/forms/formsdiagnostico/formsdiagnostico';
 import GoBack from '../../components/inputs/goback/GoBack';
 import Boton from '../../components/inputs/botones/boton';
 import ConfirmModal from '../../components/modales/modalconfirm';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import Modalcarga from '../../components/modales/modalcarga/modalcarga';
+import ModalInformativo from '../../components/modales/modalexito';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const EvaluacionEmpresaf = () => {
     const { nit } = useParams();
     const [formularioData, setFormularioData] = useState({});
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false); // Para confirmar modal
     const [nombreEmpresa, setNombreEmpresa] = useState('');
     const [modulos, setModulos] = useState([]);
     const [preguntas, setPreguntas] = useState({});
-    const [loading, setLoading] = useState(true);
-    const navigate = useNavigate(); // Inicializa useNavigate
-
+    const [loading, setLoading] = useState(true); // Para mostrar "Cargando módulos..."
+    
+    const [isModalCargaOpen, setModalCargaOpen] = useState(false); // Para el modal de carga
+    const [isModalInformativoOpen, setModalInformativoOpen] = useState(false); // Para el modal informativo
+    const [modalMensaje, setModalMensaje] = useState(''); // Para el mensaje del modal
+    const navigate = useNavigate(); // Para redirigir
+    
     const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
-
+    
     const handleFormChange = (titulo, data) => {
         setFormularioData(prevState => ({
             ...prevState,
             [titulo]: data,
         }));
     };
-
-    // Estilos en JSX
-    const styles = {
-        customScrollbar: {
-            scrollbarWidth: '13px',
-            scrollbarColor: '#888 #262b32',
-        },
-        customScrollbarTrack: {
-            background: '#262b32',
-            borderRadius: '12px',
-        },
-        customScrollbarThumb: {
-            background: '#888',
-            borderRadius: '10px',
-        },
-        customScrollbarThumbHover: {
-            background: '#555',
-        }
-    };
-
+    
     const handleForm = async () => {
+        closeModal(); // Cerramos el modal de confirmación inmediatamente
+        setModalCargaOpen(true); // Mostramos el modal de carga
+        
         try {
             const calificaciones = [];
     
-            // Recorre cada módulo y recoge las calificaciones
             Object.keys(formularioData).forEach(titulo => {
                 const calificacionData = formularioData[titulo];
                 Object.keys(calificacionData).forEach(key => {
                     if (key.startsWith('valoracion_')) {
                         const preguntaId = calificacionData[`pregunta_${key.split('_')[1]}`];
                         let calificacion = calificacionData[key];
-                        
                         if (preguntaId && calificacion) {
-                            // Convierte la calificación a número
-                            calificacion = parseFloat(calificacion); // Usa parseInt si no aceptas decimales
-                            
-                            // Crea un objeto con la estructura deseada
+                            calificacion = parseFloat(calificacion); 
                             calificaciones.push({
                                 nit: nit,
                                 id_pregunta: preguntaId,
-                                calificacion_final: calificacion,  // Cambiado a 'calificacion_final'
+                                calificacion_final: calificacion,  
                             });
                         }
                     }
                 });
             });
     
-            // Estructura los datos en un objeto antes de enviarlos
-            const dataToSend = { calificaciones };  // Envolviendo en un objeto
+            const dataToSend = { calificaciones }; 
     
-            console.log('Datos a enviar:', dataToSend); // Verifica los datos en la consola
-    
-            // Realiza la solicitud POST al backend
             const response = await fetch('http://localhost:8000/api/v2/update-calificacion/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(dataToSend),  // Envía el objeto
+                body: JSON.stringify(dataToSend),
             });
     
             if (response.ok) {
-                alert('Calificaciones guardadas con éxito');
-                navigate(`/diagnostico/empresa-vista-final/${nit}`);
+                setModalMensaje('Calificaciones guardadas con éxito');
+                setModalInformativoOpen(true); // Mostramos el modal informativo de éxito
+                
+                setTimeout(() => {
+                    navigate(`/diagnostico/empresa-vista-final/${nit}`);
+                }, 2000); // Redirigir después de 2 segundos
             } else {
                 const errorData = await response.json();
-                console.error('Error al guardar las calificaciones:', errorData);
-                alert('Error al guardar las calificaciones');
+                setModalMensaje(`Error al guardar las calificaciones: ${errorData.message}`);
+                setModalInformativoOpen(true); // Mostramos el modal informativo con el error
             }
         } catch (error) {
-            console.error('Error al guardar las calificaciones:', error);
+            setModalMensaje(`Error al guardar las calificaciones: ${error.message}`);
+            setModalInformativoOpen(true); // Mostramos el modal informativo con el error
         } finally {
-            closeModal();
+            setModalCargaOpen(false); // Ocultamos el modal de carga al finalizar
         }
     };
     
-    
-
     useEffect(() => {
         const fetchEmpresaData = async () => {
             try {
@@ -119,7 +101,6 @@ const EvaluacionEmpresaf = () => {
                 console.error('Error de red al obtener los datos de la empresa', error);
             }
         };
-
         fetchEmpresaData();
     }, [nit]);
 
@@ -139,9 +120,8 @@ const EvaluacionEmpresaf = () => {
                 setLoading(false);
             }
         };
-
         fetchModulos();
-    }, [nit]); // Añadir nit como dependencia
+    }, [nit]);
 
     useEffect(() => {
         const fetchCalificacionesPorEmpresa = async (nit) => {
@@ -149,14 +129,10 @@ const EvaluacionEmpresaf = () => {
                 const response = await fetch(`http://localhost:8000/api/v2/calificaciones/empresa/${nit}/`);
                 if (response.ok) {
                     const data = await response.json();
-    
-                    // Suponiendo que data es un array que contiene la información de los módulos
                     const nuevasPreguntas = {};
                     data.forEach(modulo => {
-                        // Guardamos las preguntas por id_modulo
                         nuevasPreguntas[modulo.id_modulo] = modulo.preguntas;
                     });
-    
                     setPreguntas(nuevasPreguntas);
                 } else {
                     console.error(`Error al obtener las calificaciones para la empresa ${nit}:`, response.statusText);
@@ -167,17 +143,16 @@ const EvaluacionEmpresaf = () => {
                 setPreguntas({});
             }
         };
-    
-        // Llama a la función para obtener las calificaciones y preguntas
         if (nit) {
             fetchCalificacionesPorEmpresa(nit);
         }
     }, [nit]);
-    
 
     return (
         <>
             <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleForm} />
+            {isModalCargaOpen && <Modalcarga />}
+            {isModalInformativoOpen && <ModalInformativo mensaje={modalMensaje} onClose={() => setModalInformativoOpen(false)} />}
             <LayoutDashboard title="MISE">
                 <main className="flex flex-row w-full bg-greyBlack h-screen">
                     <div className="flex flex-col w-full h-full">
@@ -186,7 +161,7 @@ const EvaluacionEmpresaf = () => {
                             <div className="gap-8 flex flex-col p-8 w-full h-full rounded-md">
                                 <div className="rounded-xl flex flex-col gap-6 h-full">
                                     <GoBack text={`Evaluacion Final / ${nombreEmpresa || 'Cargando...'}`} />
-                                    <div className="flex flex-col gap-6 h-full overflow-auto custom-scrollbar" style={styles.customScrollbar}>
+                                    <div className="flex flex-col gap-6 h-full overflow-auto custom-scrollbar">
                                         {loading ? (
                                             <p>Cargando módulos...</p>
                                         ) : (

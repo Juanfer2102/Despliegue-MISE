@@ -1,5 +1,4 @@
 import React from 'react';
-import './modalcarga.css';
 
 const ModalInformativo = ({ mensaje, onClose }) => {
     return (

@@ -64,7 +64,6 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-import requests 
 
 from datetime import date
 
