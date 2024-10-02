@@ -71,7 +71,7 @@ const Registro = () => {
       {/* Imagen de fondo */}
       <div className="absolute inset-0 z-0">
         <img
-          src="../src/images/loginImg/bg.jpg"
+          src="/images/loginImg/bg.jpg"
           alt="Background"
           className="w-full h-full object-cover"
         />
