@@ -38,7 +38,7 @@
 import React from 'react';
 import FormsNuevouser from "../../components/forms/formsNuevouser/formsNuevouser.jsx";
 import LayoutDashboard from "../../layouts/LayoutDashboard";
-import GoBack from '../../components/inputs/goback/GoBack';
+import GoBack from '../../components/inputs/goback/GoBack.jsx';
 
 
 const NuevoUser = () => {
