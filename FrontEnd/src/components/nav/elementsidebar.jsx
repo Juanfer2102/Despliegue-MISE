@@ -1,5 +1,17 @@
+// ElementSidebar.jsx
 import React from "react";
 
+/**
+ * Componente para un elemento de la barra lateral.
+ * 
+ * @param {Object} props - Propiedades del componente.
+ * @param {string} props.icon - Clase del icono a mostrar (debe ser una clase de FontAwesome u otro ícono).
+ * @param {string} props.texto - Texto a mostrar al lado del icono.
+ * @param {string} props.URL - URL a la que el enlace debe redirigir.
+ * @param {boolean} props.sidebarExpanded - Booleano que determina si la barra lateral está expandida o contraída.
+ * 
+ * @returns {JSX.Element} - Componente que representa un elemento de la barra lateral.
+ */
 const ElementSidebar = ({ icon, texto, URL, sidebarExpanded }) => {
     return (
         <a
@@ -10,7 +22,7 @@ const ElementSidebar = ({ icon, texto, URL, sidebarExpanded }) => {
                 <i className={`text-2xl text-textBg group-hover:text-white ${icon}`}></i>
             </div>
             <div
-                className={`sidebar-element font-semibold text-textBg group-hover:text-white pt-1 px-2 overflow-hidden whitespace-nowrap transition-all  ease-in-out ${sidebarExpanded ? "block" : "hidden"}`}
+                className={`sidebar-element font-semibold text-textBg group-hover:text-white pt-1 px-2 overflow-hidden whitespace-nowrap transition-all ease-in-out ${sidebarExpanded ? "block" : "hidden"}`}
             >
                 {texto}
             </div>
@@ -19,3 +31,4 @@ const ElementSidebar = ({ icon, texto, URL, sidebarExpanded }) => {
 };
 
 export default ElementSidebar;
+

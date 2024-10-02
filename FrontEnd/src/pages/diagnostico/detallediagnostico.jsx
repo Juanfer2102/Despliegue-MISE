@@ -205,7 +205,7 @@ const EvaluacionEmpresa = () => {
                                                                 if (!pregunta.tema || pregunta.tema.length === 0) return null; // Verifica si hay temas
 
                                                                 return (
-                                                                    <div key={pregunta.id_pregunta} className="flex flex-1 flex-col gap-4 xl:min-w-[300px] lg:min-w-[45rem] p-4 border-t border-gray-200 rounded-md shadow-md">
+                                                                    <div key={pregunta.id_pregunta} className="flex flex-1 flex-col gap-4 xl:min-w-[500px] lg:min-w-[45rem] p-4 border-t border-gray-200 rounded-md shadow-md">
                                                                         <h3 className="text-xl font-bold">{pregunta.descripcion_pregunta}</h3>
 
                                                                         <div className="grid grid-cols-1 gap-4">

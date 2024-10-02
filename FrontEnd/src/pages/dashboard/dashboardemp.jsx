@@ -79,6 +79,7 @@ const DashboardEmp = () => {
   }, [calificaciones, diagnosticos]);
 
   const handleProcess = (nit) => {
+
     navigate(`/evaluacionfinal/empresa/${nit}`); // Usar navigate para navegar
   };
 
@@ -165,7 +166,7 @@ const DashboardEmp = () => {
                       </div>
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Fecha Inicio</h2>
-                        <p className="text-principalGreen font-semibold">{empresa.fecha_creacion}</p>
+                        <p className="text-principalGreen font-semibold">{empresa.fecha_inicio}</p>
                       </div>
                     </div>
                     <div className="space-y-4">
@@ -175,11 +176,11 @@ const DashboardEmp = () => {
                       </div>
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Telefono</h2>
-                        <p className="text-principalGreen font-semibold">{empresa.celular}</p>
+                        <p className="text-principalGreen font-semibold">{empresa.telefono}</p>
                       </div>
                       <div>
                         <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-white">Email</h2>
-                        <p className="text-principalGreen font-semibold">{empresa.correo}</p>
+                        <p className="text-principalGreen font-semibold">{empresa.email}</p>
                       </div>
                     </div>
                   </div>

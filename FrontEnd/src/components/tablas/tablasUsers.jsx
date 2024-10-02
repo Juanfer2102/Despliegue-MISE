@@ -3,42 +3,46 @@ import InfoUser from './infoUser';
 import Buscador from '../inputs/buscador/buscador';
 
 const UserTable = () => {
-    const [usuarios, setUsuarios] = useState([]);
-    const [roles, setRoles] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [usuarios, setUsuarios] = useState([]);  // Estado para almacenar los usuarios
+    const [roles, setRoles] = useState([]);  // Estado para almacenar los roles
+    const [searchTerm, setSearchTerm] = useState('');  // Estado para almacenar el término de búsqueda
     const [selectedRoleId, setSelectedRoleId] = useState('');  // Para almacenar el rol seleccionado por ID
 
     useEffect(() => {
+        // Función asíncrona para obtener los usuarios desde la API
         const fetchUsuarios = async () => {
             try {
                 const response = await fetch('http://localhost:8000/api/v2/usuario/');
                 const data = await response.json();
-                setUsuarios(data);
+                setUsuarios(data);  // Actualiza el estado con los datos de los usuarios
             } catch (error) {
                 console.log('Error al obtener los usuarios:', error);
             }
         };
 
+        // Función asíncrona para obtener los roles desde la API
         const fetchRoles = async () => {
             try {
                 const response = await fetch('http://localhost:8000/api/v2/rol/');
                 const data = await response.json();
-                setRoles(data);
+                setRoles(data);  // Actualiza el estado con los datos de los roles
             } catch (error) {
                 console.log('Error al obtener los roles:', error);
             }
         };
 
-        fetchUsuarios();
-        fetchRoles();
+        fetchUsuarios();  // Llama a la función para obtener los usuarios
+        fetchRoles();  // Llama a la función para obtener los roles
     }, []);
 
+    // Manejador para actualizar el término de búsqueda
     const handleSearch = (term) => {
         setSearchTerm(term);
     };
 
+    // Manejador para actualizar el ID del rol seleccionado
     const handleRoleChange = (roleId) => {
-        setSelectedRoleId(roleId);  // Actualiza el ID del rol seleccionado
+        setSelectedRoleId(roleId);
     };
 
     // Estilos en JSX
@@ -60,10 +64,11 @@ const UserTable = () => {
         }
     };
 
+    // Filtra los usuarios según el término de búsqueda y el rol seleccionado
     const filteredUsuarios = usuarios.filter(usuario => {
         const nombreCompleto = `${usuario.nombres} ${usuario.apellidos}`.toLowerCase();
 
-        // Filtra por término de búsqueda y por rol si es necesario
+        // Filtro por término de búsqueda y por rol si es necesario
         return nombreCompleto.includes(searchTerm) &&
             (selectedRoleId === '' || usuario.id_rol === parseInt(selectedRoleId));  // Filtro por ID de rol
     });

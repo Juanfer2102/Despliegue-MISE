@@ -613,6 +613,10 @@ class CalificacionesPorNitView(APIView):
 
         return Response(modulos_info, status=status.HTTP_200_OK)
 
+
+
+
+
 class CalificacionesListView(generics.ListAPIView):
     queryset = Calificaciones.objects.select_related('id_pregunta').all()
     serializer_class = CalificacionesPreguntasSerializer
@@ -716,6 +720,34 @@ def obtener_postulante_por_nit(request, nit):
     except Postulante.DoesNotExist:
         return JsonResponse({'error': 'No se encontró el postulante asociado a la empresa.'}, status=404)
 
+def listar_empresas_culminadas(request):
+    # Obtener las empresas cuyo estado es 3
+    empresas_culminadas = Empresas.objects.filter(estado=3)
+    
+    # Preparar los datos para enviarlos en formato JSON
+    data = []
+    for empresa in empresas_culminadas:
+        data.append({
+            'nit': empresa.nit,
+            'nombre_empresa': empresa.nombre_empresa,
+            'celular': empresa.celular,
+            'razon_social': empresa.razon_social,
+            'direccion': empresa.direccion,
+            'act_economica': empresa.act_economica,
+            'gerente': empresa.gerente,
+            'producto_servicio': empresa.producto_servicio,
+            'correo': empresa.correo,
+            'pagina_web': empresa.pagina_web,
+            'fecha_creacion': empresa.fecha_creacion,
+            'ventas_ult_ano': empresa.ventas_ult_ano,
+            'costos_ult_ano': empresa.costos_ult_ano,
+            'empleados_perm': empresa.empleados_perm,
+            'sector': empresa.sector,
+            'estado': empresa.estado
+        })
+    
+    # Devolver la lista de empresas activas como JSON
+    return JsonResponse(data, safe=False)   
 
 def listar_empresas_sin_diagnostico(request):
     # Obtener las empresas cuyo diagnostico_value es 0 y su estado es 2
@@ -1363,6 +1395,16 @@ class UpdateEmpresaStatus(APIView):
             return Response({'success': 'Estado actualizado correctamente'}, status=status.HTTP_200_OK)
         except Empresas.DoesNotExist:
             return Response({'error': 'Empresa no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+        
+class UpdateEmpresaStatusFinish(APIView):
+    def post(self, request, nit):
+        try:
+            empresa = Empresas.objects.get(nit=nit)
+            empresa.estado = '3'  # Actualiza el estado a 3
+            empresa.save()
+            return Response({'success': 'Estado actualizado correctamente'}, status=status.HTTP_200_OK)
+        except Empresas.DoesNotExist:
+            return Response({'error': 'Empresa no encontrada'}, status=status.HTTP_404_NOT_FOUND)
 
 class UpdateEmpresaDiagStatus(APIView):
     def post(self, request, nit):
@@ -1652,21 +1694,45 @@ def generar_pdf(request, nit):
                 <td>{tema['fecha_fin']}</td>
             </tr>
             """
+        ruta_logo = "https://www.ccpalmira.org.co/wp-content/uploads/2023/12/LOGO-CCP-PNG-300x290.png"
 
         html_content = f"""
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ACTA INICIAL DE SERVICIO DE ACOMPAÑAMIENTO MISE FORTALECIMIENTO</title>
     <style>
+                @page {{
+            size: A4;
+            margin: 2.54cm 2.54cm 2.54cm 2.54cm;
+            @top-right {{
+                content: counter(page);
+                font-family: Times New Roman, serif;
+                font-size: 12pt;
+            }}
+            }}
+            @page {{
+            @top-left {{
+                content: element(header);
+            }}
+            }}
+            .header {{
+                position: running(header);
+                height: 60px;
+                padding: 10px 0;
+            }}
+            .logo {{
+                height: 60px;  /* Adjust logo height */
+                width: auto;  /* Maintain aspect ratio */
+            }}
+                
                 body {{
                     font-family: Arial, sans-serif;
                     line-height: 1.6;
                     color: #333;
                     max-width: 800px;
-                    margin: 0 auto;
                     padding: 20px;
                 }}
                 h1, h2 {{
@@ -1702,9 +1768,24 @@ def generar_pdf(request, nit):
                     display: inline-block;
                     margin: 0 auto;
                 }}
+                header {{
+            position: absolute; /* El logo se posiciona absolutamente */
+            top: 20px; /* Ajusta según sea necesario */
+            left: 20px; /* Ajusta según sea necesario */
+            height: 100px; /* Ajusta la altura del logo */
+        }}
+
+        header img {{
+            height: 100px; /* Ajusta la altura del logo */
+        }}
+
     </style>
 </head>
 <body>
+    <div class="header">
+        <img src="https://www.ccpalmira.org.co/wp-content/uploads/2023/12/LOGO-CCP-PNG-300x290.png" alt="Logo" class="logo">
+    </div>
+    <main>
     <h1>ACTA INICIAL DE SERVICIO DE ACOMPAÑAMIENTO MISE FORTALECIMIENTO</h1>
     <h2>DESARROLLO EMPRESARIAL</h2>
 
@@ -1820,17 +1901,16 @@ def generar_pdf(request, nit):
     </table>
 
     <p>A continuación, se muestra el resultado del diagnóstico de la empresa:</p>
-    <!-- Aquí se puede agregar una tabla o gráfico con los resultados del diagnóstico -->
 
     <h2>DEFINICIÓN DE SUEÑOS</h2>
     <p>A partir del diagnóstico realizado en la reunión, usted y su consultor empresarial, concertaron los siguientes sueños empresariales para su empresa o proyecto empresarial:</p>
     
     <table border="1">
-                <tr>
-                    <th>Sueño</th>
-                </tr>
-                {suenos_html}
-            </table>
+        <tr>
+            <th>Sueño</th>
+        </tr>
+        {suenos_html}
+    </table>
 
     <h2>RUTA DE SERVICIOS</h2>
     <p>A partir del análisis y verificación realizados en la reunión, usted y su consultor empresarial, concertaron la siguiente ruta de servicios:</p>
@@ -1908,6 +1988,7 @@ def generar_pdf(request, nit):
 
 
     <p>EMPRESA: CÁMARA DE COMERCIO DE PALMIRA</p>
+    </main>
         </body>
         </html>
         """

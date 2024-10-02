@@ -1,10 +1,15 @@
-import React from 'react'
+import React from 'react';
 import Input3 from "../input3/input3";
 import TextareaHero from "../textarea/TextArea";
 import "./modaleditar.css";
 
-
-
+/**
+ * Componente para mostrar diferentes tipos de formularios basados en la condición proporcionada.
+ *
+ * @param {Object} props - Las propiedades del componente.
+ * @param {number} props.condicion - Identificador que determina qué formulario se muestra.
+ * @returns {JSX.Element} - Un formulario basado en el valor de la propiedad `condicion`.
+ */
 export const modaleditar = ({condicion}) => {
   
   return (
@@ -143,4 +148,4 @@ export const modaleditar = ({condicion}) => {
       )}
     </div>
   );
-}
+};

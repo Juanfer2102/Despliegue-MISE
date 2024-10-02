@@ -2,13 +2,17 @@ import React, { useState, useEffect } from 'react';
 import TemasView from './temasview';
 
 const TemasContainer = () => {
+    // Estado para almacenar la lista de temas
     const [temas, setTemas] = useState([]);
+    // Estado para almacenar la lista de módulos
     const [modulos, setModulos] = useState([]);
+    // Estado para almacenar la lista de preguntas
     const [preguntas, setPreguntas] = useState([]);
 
+    // Estado para almacenar el módulo seleccionado
     const [selectedModulo, setSelectedModulo] = useState(null);
 
-    // Función para obtener todos los temas
+    // Función para obtener todos los temas desde el servidor
     const fetchTemas = async () => {
         try {
             const response = await fetch('http://localhost:8000/api/v2/temas/');
@@ -19,7 +23,7 @@ const TemasContainer = () => {
         }
     };
 
-    // Función para obtener todos los módulos
+    // Función para obtener todos los módulos desde el servidor
     const fetchModulos = async () => {
         try {
             const response = await fetch('http://localhost:8000/api/v2/modulos/');
@@ -50,10 +54,11 @@ const TemasContainer = () => {
     // Función para crear o actualizar un tema
     const createOrUpdateTema = async (temaData) => {
         try {
+            // Determinar el método HTTP basado en la existencia del ID del tema
             const method = temaData.id ? 'PUT' : 'POST';
             const url = 'http://localhost:8000/api/v2/temas/create-update/';
     
-            // Formateo de las preguntas para asegurarse de que solo pasen sus IDs
+            // Formateo de las preguntas para asegurarse de que solo se envíen los IDs
             const temaDataFormatted = {
                 ...temaData,
                 preguntas: temaData.preguntas.map(pregunta => ({ id_pregunta: pregunta })) // Enviar como un objeto con `id_pregunta`
@@ -79,6 +84,7 @@ const TemasContainer = () => {
         }
     };
     
+    // Función para eliminar un tema (cambiar su estado a inhabilitado)
     const DeleteTema = async (tema) => {
         try {
             const response = await fetch(`http://localhost:8000/api/v2/eliminar/temas/${tema.id}/`, {
@@ -90,13 +96,14 @@ const TemasContainer = () => {
             if (!response.ok) {
                 throw new Error('Error al inhabilitar tema.');
             }
-            fetchTemas();
+            fetchTemas(); // Refrescar la lista de temas
         } catch (error) {
             setError('Error al inhabilitar tema.');
             console.error('Error al inhabilitar tema:', error);
         }
     };
 
+    // useEffect para cargar los temas y módulos al montar el componente
     useEffect(() => {
         fetchTemas();
         fetchModulos();
