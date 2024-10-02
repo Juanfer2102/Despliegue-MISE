@@ -44,7 +44,7 @@ import React, { useState, useEffect } from 'react';
 import LayoutDashboard from "../../layouts/LayoutDashboard";
 import iconUser from "../../images/icons/iconsEditUser/User.png";
 import FormsEditaruser from "../../components/forms/formsEditaruser/formsEditaruser.jsx";
-import GoBack from '../../components/inputs/goback/GoBack';
+import GoBack from '../../components/inputs/goback/GoBack.jsx';
 import { Infouser } from '../../helpers/edituser.js';
 import { useParams } from 'react-router-dom';
 
