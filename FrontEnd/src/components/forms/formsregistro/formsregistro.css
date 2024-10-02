@@ -1,0 +1,51 @@
+/* FormRegistro.css */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 30%;
+  border-radius: 30px;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateX(100%);
+  transition: transform 0.5s ease-in-out;
+  z-index: 1000;
+}
+
+.modal.show {
+  transform: translateX(0);
+}
+
+.modal-header {
+  background: red;
+  border-radius: 30px;
+  color: white;
+  padding: 1rem;
+  position: relative;
+  font-weight: bold;
+}
+
+.modal-header button {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 1rem;
+}
