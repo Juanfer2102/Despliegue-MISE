@@ -21,7 +21,7 @@
  */
 
 import LayoutDashboard from '../../layouts/LayoutDashboard.jsx';
-import TableComponent from '../../components/tablas/TablasAceptarEmpresa';
+import TableComponent from '../../components/tablas/tablasaceptarempresa.jsx';
 import GoBack from '../../components/inputs/goback/GoBack';
 
 const AceptarEmpresas = () => {
