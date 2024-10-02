@@ -149,6 +149,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:5175", # Cambia este valor según la URL de tu frontend
+    "https://despliegue-mise-wugf-git-main-juan-grajales-projects.vercel.app/",
 ]
 
 PASSWORD_HASHERS = [
