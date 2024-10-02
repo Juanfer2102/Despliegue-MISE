@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import LayoutDashboard from '../../layouts/LayoutDashboard';
 import DesempenoForm from '../../components/forms/formsdiagnostico/formsdiagnostico';
-import GoBack from '../../components/inputs/goback/GoBack';
+import BackButton from '../../components/inputs/goback/BackButton';
 import Boton from '../../components/inputs/botones/boton';
 import ConfirmModal from '../../components/modales/modalconfirm';
 import Modalcarga from '../../components/modales/modalcarga/modalcarga';
@@ -160,7 +160,7 @@ const EvaluacionEmpresaf = () => {
                         <div className="bg-greyBg flex flex-col h-full w-full px-12 pt-6 overflow-auto">
                             <div className="gap-8 flex flex-col p-8 w-full h-full rounded-md">
                                 <div className="rounded-xl flex flex-col gap-6 h-full">
-                                    <GoBack text={`Evaluacion Final / ${nombreEmpresa || 'Cargando...'}`} />
+                                    <BackButton text={`Evaluacion Final / ${nombreEmpresa || 'Cargando...'}`} />
                                     <div className="flex flex-col gap-6 h-full overflow-auto custom-scrollbar">
                                         {loading ? (
                                             <p>Cargando módulos...</p>
