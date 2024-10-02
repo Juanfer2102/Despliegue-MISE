@@ -36,7 +36,7 @@
  */
 
 import React from "react";
-import Logo from "../../components/logo/logo";
+import Logo from '../../components/logo/logo';
 import Formlogin from "../../components/forms/formslogin/formslogin";
 
 const Login = () => {
