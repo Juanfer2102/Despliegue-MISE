@@ -1,5 +1,5 @@
 import React from 'react';
-import iconGB from "../../../images/icons/iconsEditUser/GoBack.png";
+import iconGB from "/images/icons/iconsEditUser/GoBack.png";
 
 // Componente funcional para el botón de "Regresar"
 const BackButton  = ({ text }) => {
