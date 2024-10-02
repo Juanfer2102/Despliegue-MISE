@@ -331,7 +331,7 @@ export const FormRegistro = () => {
                     <div className="flex flex-col gap-6 w-full">
                         <div className='flex flex-row gap-6 w-full'>
                             <input
-                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border px-2 py-2.5 pr-8 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="text"
                                 value={values.nombre_empresa}
                                 name="nombre_empresa"
@@ -341,7 +341,7 @@ export const FormRegistro = () => {
                             />
 
                             <input
-                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border px-2 py-2.5 pr-8 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="text"
                                 value={values.direccion}
                                 name="direccion"
@@ -352,7 +352,7 @@ export const FormRegistro = () => {
                         </div>
                         <div className='flex flex-row gap-6'>
                             <input
-                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border px-2 py-2.5 pr-8 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="text"
                                 value={values.razon_social}
                                 name="razon_social"
@@ -362,7 +362,7 @@ export const FormRegistro = () => {
                             />
 
                             <input
-                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border px-2 py-2.5 pr-8 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="number"
                                 value={values.celular}
                                 name="celular"
@@ -374,7 +374,7 @@ export const FormRegistro = () => {
 
                         <div className='flex flex-row gap-6'>
                             <input
-                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border px-2 py-2.5 pr-8 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="number"
                                 value={values.empleados_perm}
                                 name="empleados_perm"
@@ -384,7 +384,7 @@ export const FormRegistro = () => {
                             />
 
                             <input
-                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border px-2 py-2.5 pr-8 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="number"
                                 value={values.nit}
                                 name="nit"
@@ -395,7 +395,7 @@ export const FormRegistro = () => {
                         </div>
                         <div className='flex flex-row gap-6 w-full'>
                             <input
-                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border px-2 py-2.5 pr-8 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="text"
                                 value={values.act_economica}
                                 name="act_economica"
@@ -405,7 +405,7 @@ export const FormRegistro = () => {
                             />
 
                             <input
-                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border px-2 py-2.5 pr-8 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="text"
                                 value={values.gerente}
                                 name="gerente"
@@ -416,7 +416,7 @@ export const FormRegistro = () => {
                         </div>
                         <div className='flex flex-row gap-6 w-full'>
                             <input
-                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border px-2 py-2.5 pr-8 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="email"
                                 value={values.correo}
                                 name="correo"
@@ -426,7 +426,7 @@ export const FormRegistro = () => {
                             />
 
                             <input
-                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border px-2 py-2.5 pr-8 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
                                 type="text"
                                 value={values.pagina_web}
                                 name="pagina_web"
@@ -435,26 +435,58 @@ export const FormRegistro = () => {
                                 onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                             />
                         </div>
-                        <input
-                            className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
-                            type="text"
-                            value={values.producto_servicio}
-                            name="producto_servicio"
-                            placeholder="Producto o Servicio"
-                            autoComplete="off"
-                            onChange={(e) => handleInputChange(e.target.name, e.target.value)}
-                        />
-
+                        <div className='flex flex-row gap-6 w-full'>
+                            <input
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border px-2 py-2.5 pr-8 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                                type="text"
+                                value={values.producto_servicio}
+                                name="producto_servicio"
+                                placeholder="Producto o Servicio"
+                                autoComplete="off"
+                                onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+                            />
+                            <input
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border px-2 py-2.5 pr-8 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                                type="text"
+                                value={values.sector}
+                                name="sector"
+                                placeholder="Ingrese el sector empresarial"
+                                autoComplete="off"
+                                onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+                            />
+                        </div>
                         <DatePicker
-                            color = ''
+                            color=''
                             placeholder='Fecha de Creacion'
-                            enableYearNavigation = {true}
+                            enableYearNavigation={true}
                             name="fecha_creacion"
                             className="mx-auto pt-2 h-[3.5rem] colors:tremor-background-subtle z-0"
                             onValueChange={(value) => {
                                 handleInputChange('fecha_creacion', value);
                             }}
                         />
+                        <div className='flex flex-row gap-6 w-full'>
+                            <input
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border px-2 py-2.5 pr-8 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                                type="text"
+                                value={values.ventas_ult_ano}
+                                name="ventas_ult_ano"
+                                placeholder="Ingrese el total de ventas del año anterior"
+                                autoComplete="off"
+                                onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+                                onBlur={() => handleBlur('ventas_ult_ano')}
+                            />
+                            <input
+                                className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border px-2 py-2.5 pr-8 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
+                                type="text"
+                                value={values.costos_ult_ano}
+                                name="costos_ult_ano"
+                                placeholder="Ingrese el total de gastos y costos del año anterior"
+                                autoComplete="off"
+                                onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+                                onBlur={() => handleBlur('costos_ult_ano')}
+                            />
+                        </div>
                         {/*
                         <SelectComponent
                             type={"Tamaño de la empresa..."}
@@ -463,36 +495,7 @@ export const FormRegistro = () => {
                             value={values.estado || ''}
                             onChange={(value) => handleInputChange("estado", value)}
                         />
-*/}
-                        <input
-                            className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
-                            type="text"
-                            value={values.ventas_ult_ano}
-                            name="ventas_ult_ano"
-                            placeholder="Ingrese el total de ventas del año anterior"
-                            autoComplete="off"
-                            onChange={(e) => handleInputChange(e.target.name, e.target.value)}
-                            onBlur={() => handleBlur('ventas_ult_ano')}
-                        />
-                        <input
-                            className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
-                            type="text"
-                            value={values.costos_ult_ano}
-                            name="costos_ult_ano"
-                            placeholder="Ingrese el total de gastos y costos del año anterior"
-                            autoComplete="off"
-                            onChange={(e) => handleInputChange(e.target.name, e.target.value)}
-                            onBlur={() => handleBlur('costos_ult_ano')}
-                        />
-                        <input
-                            className={`h-[3.5rem] w-full rounded-lg caret-white bg-transparent text-white peer border p-5 font-sans text-lg font-normal outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-white placeholder-shown:border-t-white`}
-                            type="text"
-                            value={values.sector}
-                            name="sector"
-                            placeholder="Ingrese el sector empresarial"
-                            autoComplete="off"
-                            onChange={(e) => handleInputChange(e.target.name, e.target.value)}
-                        />
+                        */}
                         <div className="flex justify-end pb-2">
                             <Boton text={"Siguiente"} onClick={openModal} />
                         </div>
