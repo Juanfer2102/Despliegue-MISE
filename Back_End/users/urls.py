@@ -11,7 +11,7 @@ from .views import TemasListView, listar_empresas_culminadas, SuenosConcretadosL
 router = routers.DefaultRouter()
 
 urlpatterns = [
-    path('', HomeView.as_view(), name='home'),
+    path('', HomeView, name='home'),
     path('login', views.login),
     path('user', views.user),
     path('act-user/<int:id_usuario>/', UsuarioUpdateView.as_view(), name='usuario-detail'),
