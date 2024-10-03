@@ -67,6 +67,9 @@ from django.utils.translation import gettext_lazy as _
 
 from datetime import date
 
+def HomeView(request):
+    return JsonResponse({'message': 'API is running'})
+
 
 class EmpresasView(APIView):
     def get(self, request, *args, **kwargs):
