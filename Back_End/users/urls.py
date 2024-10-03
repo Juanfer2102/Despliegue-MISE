@@ -12,8 +12,6 @@ from .views import TemasListView, listar_empresas_culminadas, SuenosConcretadosL
 router = routers.DefaultRouter()
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/v2/', include('users.urls')),
     path('', HomeView, name='home'),
     path('login', views.login),
     path('user', views.user),
