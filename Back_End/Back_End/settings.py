@@ -180,7 +180,7 @@ SIMPLE_JWT = {
 
 # settings.py
 
-DOMAIN = 'http://localhost:5173'
+DOMAIN = 'https://despliegue-mise-wugf.vercel.app/'
 
 # settings.py
 
