@@ -165,7 +165,7 @@ export const FormRegistro = () => {
                 id_rol: values.id_rol
             };
 
-            fetch('http://localhost:8000/api/v2/registro-postulante/', {
+            fetch('https://despliegue-mise.onrender.com/api/v2/registro-postulante/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

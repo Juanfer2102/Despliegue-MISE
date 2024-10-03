@@ -34,7 +34,7 @@ const ModulosContainer = () => {
         setLoading(true);
         try {
             // Realiza una llamada GET a la API
-            const response = await fetch('http://localhost:8000/api/v2/modulos/');
+            const response = await fetch('https://despliegue-mise.onrender.com/api/v2/modulos/');
             const data = await response.json();
             setModulos(data);  // Almacena los módulos obtenidos en el estado
         } catch (error) {
@@ -54,12 +54,12 @@ const ModulosContainer = () => {
         setLoading(true);
         try {
             const response = modulo.id_modulo
-                ? await fetch(`http://localhost:8000/api/v2/modulos/${modulo.id_modulo}/`, {
+                ? await fetch(`https://despliegue-mise.onrender.com/api/v2/modulos/${modulo.id_modulo}/`, {
                     method: 'PUT',  // Actualiza el módulo
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ nombre: modulo.nombre })
                 })
-                : await fetch('http://localhost:8000/api/v2/cmodulos/', {
+                : await fetch('https://despliegue-mise.onrender.com/api/v2/cmodulos/', {
                     method: 'POST',  // Crea un nuevo módulo
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ nombre: modulo.nombre, preguntas: modulo.preguntas, estado: 0 })
@@ -86,7 +86,7 @@ const ModulosContainer = () => {
     const DeleteModulo = async (modulo) => {
         setLoading(true);
         try {
-            const response = await fetch(`http://localhost:8000/api/v2/eliminar/modulos/${modulo.id_modulo}/`, {
+            const response = await fetch(`https://despliegue-mise.onrender.com/api/v2/eliminar/modulos/${modulo.id_modulo}/`, {
                 method: 'PUT',  // Cambia el estado del módulo
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ estado: modulo.estado })

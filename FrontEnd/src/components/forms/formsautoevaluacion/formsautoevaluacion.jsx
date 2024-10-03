@@ -149,7 +149,7 @@ export const FormAuto = () => {
             };
 
             // Enviar los datos de la autoevaluación
-            fetch('http://localhost:8000/api/v2/registro-autoevaluacion/', {
+            fetch('https://despliegue-mise.onrender.com/api/v2/registro-autoevaluacion/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

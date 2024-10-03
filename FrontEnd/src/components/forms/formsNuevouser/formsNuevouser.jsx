@@ -102,7 +102,7 @@ export const FormsNuevouser = () => {
         openSuccessModal();
 
         try {
-            const response = await fetch('http://localhost:8000/api/v2/user', {
+            const response = await fetch('https://despliegue-mise.onrender.com/api/v2/user', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

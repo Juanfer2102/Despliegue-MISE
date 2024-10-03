@@ -9,7 +9,7 @@ const PreguntasContainer = () => {
     // Función para obtener todos los módulos
     const fetchModulos = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/v2/modulos/');
+            const response = await fetch('https://despliegue-mise.onrender.com/api/v2/modulos/');
             const data = await response.json();
             setModulos(data);
         } catch (error) {
@@ -20,7 +20,7 @@ const PreguntasContainer = () => {
     // Función para obtener todas las preguntas
     const fetchPreguntas = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/v2/preguntas/');
+            const response = await fetch('https://despliegue-mise.onrender.com/api/v2/preguntas/');
             const data = await response.json();
             console.log('Preguntas recibidas:', data);
             setPreguntas(data);
@@ -32,7 +32,7 @@ const PreguntasContainer = () => {
     // Función para actualizar una pregunta
     const updatePregunta = async (preguntaData) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/v2/preguntas/${preguntaData.id_pregunta}/`, {
+            const response = await fetch(`https://despliegue-mise.onrender.com/api/v2/preguntas/${preguntaData.id_pregunta}/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ const PreguntasContainer = () => {
 
     const DeletePregunta = async (pregunta) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/v2/eliminar/preguntas/${pregunta.id_pregunta}/`, {
+            const response = await fetch(`https://despliegue-mise.onrender.com/api/v2/eliminar/preguntas/${pregunta.id_pregunta}/`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ estado: pregunta.estado })

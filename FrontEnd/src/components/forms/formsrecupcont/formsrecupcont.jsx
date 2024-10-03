@@ -43,7 +43,7 @@ const Formsrecupcont = () => {
         setAttempts(attempts + 1); // Incrementar el contador de intentos
 
         try {
-            const response = await fetch('https://tuservidorseguro.com/api/v2/password-reset/', {
+            const response = await fetch('https://despliegue-mise.onrender.com/api/v2/password-reset/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

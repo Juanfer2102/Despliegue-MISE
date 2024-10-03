@@ -253,7 +253,7 @@ export const FormRegistro = () => {
             };
 
             // Primero registrar la empresa
-            fetch('http://localhost:8000/api/v2/registro-empresa/', {
+            fetch('https://despliegue-mise.onrender.com/api/v2/registro-empresa/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

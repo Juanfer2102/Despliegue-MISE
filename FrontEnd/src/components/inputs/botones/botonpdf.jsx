@@ -36,7 +36,7 @@ const DownloadPDFButton = ({ filename, pdfType, tipo }) => {
 
     // Función para descargar el PDF inicial
     const downloadPDF = async () => {
-        const response = await fetch(`http://localhost:8000/api/v2/generar-pdf/${nit}/`, {
+        const response = await fetch(`https://despliegue-mise.onrender.com/api/v2/generar-pdf/${nit}/`, {
             method: 'GET',
         });
 
@@ -56,7 +56,7 @@ const DownloadPDFButton = ({ filename, pdfType, tipo }) => {
 
     // Función para descargar el PDF final
     const downloadPDF_final = async () => {
-        const response = await fetch(`http://localhost:8000/api/v2/generar-pdf-final/${nit}/`, {
+        const response = await fetch(`https://despliegue-mise.onrender.com/api/v2/generar-pdf-final/${nit}/`, {
             method: 'GET',
         });
 

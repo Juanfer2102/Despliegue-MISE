@@ -15,7 +15,7 @@ const SuenosContainer = () => {
     const fetchSuenos = async () => {
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:8000/api/v2/suenos/');
+            const response = await fetch('https://despliegue-mise.onrender.com/api/v2/suenos/');
             const data = await response.json();
             setSuenos(data);
         } catch (error) {
@@ -30,7 +30,7 @@ const SuenosContainer = () => {
     const fetchModulos = async () => {
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:8000/api/v2/modulos/');
+            const response = await fetch('https://despliegue-mise.onrender.com/api/v2/modulos/');
             const data = await response.json();
             setModulos(data);
         } catch (error) {

@@ -47,7 +47,7 @@ const Formscredenciales = () => {
             setIsModalVisible(true);
         } else {
             try {
-                const response = await fetch('http://localhost:8000/api/v2/set-password/', {
+                const response = await fetch('https://despliegue-mise.onrender.com/api/v2/set-password/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

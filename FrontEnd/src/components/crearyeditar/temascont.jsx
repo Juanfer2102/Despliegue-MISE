@@ -15,7 +15,7 @@ const TemasContainer = () => {
     // Función para obtener todos los temas desde el servidor
     const fetchTemas = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/v2/temas/');
+            const response = await fetch('https://despliegue-mise.onrender.com/api/v2/temas/');
             const data = await response.json();
             setTemas(data);
         } catch (error) {
@@ -26,7 +26,7 @@ const TemasContainer = () => {
     // Función para obtener todos los módulos desde el servidor
     const fetchModulos = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/v2/modulos/');
+            const response = await fetch('https://despliegue-mise.onrender.com/api/v2/modulos/');
             const data = await response.json();
             setModulos(data);
         } catch (error) {
@@ -37,7 +37,7 @@ const TemasContainer = () => {
     // Función para obtener todas las preguntas basadas en el módulo seleccionado
     const fetchPreguntas = async (moduloId) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/v2/preguntas/?id_modulo=${moduloId}`);
+            const response = await fetch(`https://despliegue-mise.onrender.com/api/v2/preguntas/?id_modulo=${moduloId}`);
             const data = await response.json();
             setPreguntas(data);
         } catch (error) {
@@ -56,7 +56,7 @@ const TemasContainer = () => {
         try {
             // Determinar el método HTTP basado en la existencia del ID del tema
             const method = temaData.id ? 'PUT' : 'POST';
-            const url = 'http://localhost:8000/api/v2/temas/create-update/';
+            const url = 'https://despliegue-mise.onrender.com/api/v2/temas/create-update/';
     
             // Formateo de las preguntas para asegurarse de que solo se envíen los IDs
             const temaDataFormatted = {
@@ -87,7 +87,7 @@ const TemasContainer = () => {
     // Función para eliminar un tema (cambiar su estado a inhabilitado)
     const DeleteTema = async (tema) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/v2/eliminar/temas/${tema.id}/`, {
+            const response = await fetch(`https://despliegue-mise.onrender.com/api/v2/eliminar/temas/${tema.id}/`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ estado: tema.estado })
