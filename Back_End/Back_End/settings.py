@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'Back_End.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='mysql://if0_37432251:basededatosmise@sql203.infinityfree.com:3306/if0_37432251_mise'
+        default=os.getenv('DATABASE_URL')
     )
 }
 
