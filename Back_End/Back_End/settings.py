@@ -101,7 +101,7 @@ DATABASES = {
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-ALLOWED_HOSTS = ['https://despliegue-mise.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['despliegue-mise.onrender.com', 'localhost', '127.0.0.1']
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
