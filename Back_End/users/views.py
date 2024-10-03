@@ -25,7 +25,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model, authenticate
 
 from rest_framework_simplejwt.tokens import RefreshToken, UntypedToken
-
+import requests
 from rest_framework.views import APIView
 
 from django.db import connection, transaction
