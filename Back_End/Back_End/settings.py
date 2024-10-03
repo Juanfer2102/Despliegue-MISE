@@ -149,12 +149,10 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:4321", 
-    "http://localhost:5173",
-    "http://localhost:5174",
-    "http://localhost:5175", # Cambia este valor según la URL de tu frontend
     "https://despliegue-mise-wugf-9juv4876g-juan-grajales-projects.vercel.app",
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
