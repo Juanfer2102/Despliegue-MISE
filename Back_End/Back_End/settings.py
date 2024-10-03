@@ -101,7 +101,7 @@ DATABASES = {
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-ALLOWED_HOSTS = ["https://despliegue-mise-wugf-juan-grajales-projects.vercel.app", '', '127.0.0.1']
+ALLOWED_HOSTS = ['despliegue-mise.onrender.com', 'localhost', '127.0.0.1']
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -153,7 +153,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:5175", # Cambia este valor según la URL de tu frontend
-    "https://despliegue-mise.onrender.com",
+    "https://despliegue-mise-wugf-9juv4876g-juan-grajales-projects.vercel.app",
 ]
 
 PASSWORD_HASHERS = [
@@ -177,6 +177,19 @@ SIMPLE_JWT = {
     'USER_ID_FIELD': 'id_usuario',
     'USER_ID_CLAIM': 'user_id',
 }
+
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "DELETE",
+    "OPTIONS"
+]
+
+CORS_ALLOW_HEADERS = [
+    "content-type",
+    "authorization",
+]
 
 # settings.py
 
