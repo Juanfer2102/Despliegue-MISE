@@ -55,16 +55,16 @@ export const EmpresasRegistradas = () => {
   const fetchData = async () => {
     try {
       // Obtén el número de empresas sin diagnosticar
-      const resSinDiagnostico = await fetch("http://localhost:8000/api/v2/empresas-sin-diagnostico/");
+      const resSinDiagnostico = await fetch("https://despliegue-mise.onrender.com/api/v2/empresas-sin-diagnostico/");
       const dataSinDiagnostico = await resSinDiagnostico.json();
       const numEmpresasSinDiagnostico = dataSinDiagnostico.length;
 
       // Obtén el número de nuevas solicitudes
-      const resNuevasSolicitudes = await fetch("http://localhost:8000/api/v2/empresas-por-aceptar/");
+      const resNuevasSolicitudes = await fetch("https://despliegue-mise.onrender.com/api/v2/empresas-por-aceptar/");
       const dataNuevasSolicitudes = await resNuevasSolicitudes.json();
       const numNuevasSolicitudes = dataNuevasSolicitudes.length;
 
-      const resCulminadas = await fetch("http://localhost:8000/api/v2/empresas-culminadas/");
+      const resCulminadas = await fetch("https://despliegue-mise.onrender.com/api/v2/empresas-culminadas/");
       const dataCulminadas = await resCulminadas.json();
       const numCulminadas = dataCulminadas.length;
 

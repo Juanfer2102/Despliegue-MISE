@@ -23,7 +23,7 @@ const DashboardEmp = () => {
 
   useEffect(() => {
     if (nit) {
-      fetch(`http://localhost:8000/api/v2/empresas/${nit}/`)
+      fetch(`https://despliegue-mise.onrender.com/api/v2/empresas/${nit}/`)
         .then(response => response.json())
         .then(data => setEmpresa(data))
         .catch(error => console.error("Error fetching empresa:", error));
@@ -32,7 +32,7 @@ const DashboardEmp = () => {
 
   useEffect(() => {
     if (nit) {
-      fetch(`http://localhost:8000/api/v2/calificaciones-bajas/empresa/${nit}/`)
+      fetch(`https://despliegue-mise.onrender.com/api/v2/calificaciones-bajas/empresa/${nit}/`)
         .then(response => response.json())
         .then(data => setCalificacionesBajas(data))
         .catch(error => console.error("Error fetching calificaciones bajas:", error));
@@ -41,7 +41,7 @@ const DashboardEmp = () => {
 
   useEffect(() => {
     if (nit) {
-      fetch(`http://localhost:8000/api/v2/diagnostico/${nit}/`)
+      fetch(`https://despliegue-mise.onrender.com/api/v2/diagnostico/${nit}/`)
         .then(response => response.json())
         .then(data => {
           const filteredDiagnosticos = data.diagnosticos.map(diagnostico => ({
@@ -56,7 +56,7 @@ const DashboardEmp = () => {
 
   useEffect(() => {
     if (nit) {
-      fetch(`http://localhost:8000/api/v2/calificaciones/empresa/${nit}/`)
+      fetch(`https://despliegue-mise.onrender.com/api/v2/calificaciones/empresa/${nit}/`)
         .then(response => response.json())
         .then(data => setCalificaciones(data))
         .catch(error => console.error("Error fetching calificaciones:", error));
@@ -65,7 +65,7 @@ const DashboardEmp = () => {
 
   useEffect(() => {
     if (nit) {
-      fetch(`http://localhost:8000/api/v2/postulante/num/${nit}/`)
+      fetch(`https://despliegue-mise.onrender.com/api/v2/postulante/num/${nit}/`)
         .then(response => response.json())
         .then(data => setPostulante(data))
         .catch(error => console.error("Error fetching postulante:", error));

@@ -172,7 +172,7 @@ export const FormAuto = () => {
 
                     // Enviar las calificaciones individualmente al endpoint de calificación de módulos
                     Promise.all(calificaciones.map((calificacion) => 
-                        fetch('http://localhost:8000/api/v2/calificacion-modulo/', {
+                        fetch('https://despliegue-mise.onrender.com/api/v2/calificacion-modulo/', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',

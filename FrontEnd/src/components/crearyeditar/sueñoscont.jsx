@@ -52,12 +52,12 @@ const SuenosContainer = () => {
         setLoading(true);
         try {
             const response = sueño.id
-                ? await fetch(`http://localhost:8000/api/v2/suenos/${sueño.id}/`, {
+                ? await fetch(`https://despliegue-mise.onrender.com/api/v2/suenos/${sueño.id}/`, {
                     method: 'PUT', // Actualiza un sueño existente
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ sueño: sueño.sueño, medicion: sueño.medicion, nivel: sueño.nivel, evidencia: sueño.evidencia, estado: sueño.estado })
                 })
-                : await fetch('http://localhost:8000/api/v2/crear-suenos/', {
+                : await fetch('https://despliegue-mise.onrender.com/api/v2/crear-suenos/', {
                     method: 'POST', // Crea un nuevo sueño
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(sueño)
@@ -79,7 +79,7 @@ const SuenosContainer = () => {
     const DeleteSueno = async (sueno) => {
         setLoading(true);
         try {
-            const response = await fetch(`http://localhost:8000/api/v2/eliminar/suenos/${sueno.id}/`, {
+            const response = await fetch(`https://despliegue-mise.onrender.com/api/v2/eliminar/suenos/${sueno.id}/`, {
                 method: 'PUT', // Actualiza el estado del sueño para inhabilitarlo
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ estado: sueno.estado })

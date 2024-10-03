@@ -10,7 +10,7 @@ const TablaDiagnostico = () => {
     useEffect(() => {
         const fetchEmpresas = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/v2/empresas/');
+                const response = await fetch('https://despliegue-mise.onrender.com/api/v2/empresas/');
                 const data = await response.json();
 
                 // Filtrar empresas que tienen diagnostico_value igual a 0 y estado igual a 2

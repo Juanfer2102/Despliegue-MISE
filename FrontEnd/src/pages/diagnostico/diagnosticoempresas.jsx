@@ -11,7 +11,7 @@ const EvaluacionEmpresaNuevas = () => {
 
     useEffect(() => {
         // Obtener información de la empresa
-        fetch(`http://localhost:8000/api/v2/empresas/${nit}/`)
+        fetch(`https://despliegue-mise.onrender.com/api/v2/empresas/${nit}/`)
             .then(response => response.json())
             .then(data => {
                 setEmpresa(data);
@@ -20,7 +20,7 @@ const EvaluacionEmpresaNuevas = () => {
 
     useEffect(() => {
         // Obtener calificaciones bajas
-        fetch(`http://localhost:8000/api/v2/modulos/calificaciones-bajas/${nit}/`)
+        fetch(`https://despliegue-mise.onrender.com/api/v2/modulos/calificaciones-bajas/${nit}/`)
             .then(response => response.json())
             .then(data => {
                 setCalificacionesBajas(data);

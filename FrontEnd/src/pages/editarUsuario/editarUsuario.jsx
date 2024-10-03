@@ -57,7 +57,7 @@ const EditarUsuario = ({ nombres, correo, rol }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/v2/usuario/${id_usuario}/`); // Cambié a usar id_usuario
+        const response = await fetch(`https://despliegue-mise.onrender.com/api/v2/usuario/${id_usuario}/`); // Cambié a usar id_usuario
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

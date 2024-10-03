@@ -59,7 +59,7 @@ const EvaluacionEmpresaf = () => {
     
             const dataToSend = { calificaciones }; 
     
-            const response = await fetch('http://localhost:8000/api/v2/update-calificacion/', {
+            const response = await fetch('https://despliegue-mise.onrender.com/api/v2/update-calificacion/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ const EvaluacionEmpresaf = () => {
     useEffect(() => {
         const fetchEmpresaData = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/api/v2/empresas/${nit}/`);
+                const response = await fetch(`https://despliegue-mise.onrender.com/api/v2/empresas/${nit}/`);
                 if (response.ok) {
                     const data = await response.json();
                     setNombreEmpresa(data.nombre_empresa);
@@ -107,7 +107,7 @@ const EvaluacionEmpresaf = () => {
     useEffect(() => {
         const fetchModulos = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/api/v2/calificaciones/empresa/${nit}/`);
+                const response = await fetch(`https://despliegue-mise.onrender.com/api/v2/calificaciones/empresa/${nit}/`);
                 if (response.ok) {
                     const data = await response.json();
                     setModulos(data);
@@ -126,7 +126,7 @@ const EvaluacionEmpresaf = () => {
     useEffect(() => {
         const fetchCalificacionesPorEmpresa = async (nit) => {
             try {
-                const response = await fetch(`http://localhost:8000/api/v2/calificaciones/empresa/${nit}/`);
+                const response = await fetch(`https://despliegue-mise.onrender.com/api/v2/calificaciones/empresa/${nit}/`);
                 if (response.ok) {
                     const data = await response.json();
                     const nuevasPreguntas = {};

@@ -56,7 +56,7 @@ const EvaluacionEmpresa = () => {
 
     useEffect(() => {
         // Obtener información de la empresa
-        fetch(`http://localhost:8000/api/v2/empresas/${nit}/`)
+        fetch(`https://despliegue-mise.onrender.com/api/v2/empresas/${nit}/`)
             .then(response => response.json())
             .then(data => {
                 setEmpresa(data);
@@ -65,7 +65,7 @@ const EvaluacionEmpresa = () => {
 
     useEffect(() => {
         // Obtener calificaciones bajas
-        fetch(`http://localhost:8000/api/v2/calificaciones-bajas/empresa/${nit}/`)
+        fetch(`https://despliegue-mise.onrender.com/api/v2/calificaciones-bajas/empresa/${nit}/`)
             .then(response => response.json())
             .then(data => {
                 setCalificacionesBajas(data);
@@ -123,7 +123,7 @@ const EvaluacionEmpresa = () => {
         }
     
         try {
-            const response = await fetch('http://localhost:8000/api/v2/registrar-diagnostico/', {
+            const response = await fetch('https://despliegue-mise.onrender.com/api/v2/registrar-diagnostico/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

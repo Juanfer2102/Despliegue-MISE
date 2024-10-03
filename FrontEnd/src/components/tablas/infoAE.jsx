@@ -19,7 +19,7 @@ const InfoAE = ({ nit, nombre_empresa, representante, razon_social }) => {
 
     // Maneja la confirmación del estado de la empresa
     const handleConfirm = () => {
-        fetch(`http://localhost:8000/api/v2/update-empresa-status/${nit}/`, {
+        fetch(`https://despliegue-mise.onrender.com/api/v2/update-empresa-status/${nit}/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

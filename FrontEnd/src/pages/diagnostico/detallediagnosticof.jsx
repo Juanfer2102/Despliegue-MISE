@@ -50,7 +50,7 @@ const DetalleDiagnosticof = () => {
 
     useEffect(() => {
         // Obtener información de la empresa
-        fetch(`http://localhost:8000/api/v2/empresas/${nit}/`)
+        fetch(`https://despliegue-mise.onrender.com/api/v2/empresas/${nit}/`)
             .then(response => response.json())
             .then(data => {
                 setEmpresa(data);
@@ -59,7 +59,7 @@ const DetalleDiagnosticof = () => {
 
     useEffect(() => {
         // Obtener calificaciones bajas
-        fetch(`http://localhost:8000/api/v2/calificaciones-bajas/empresa/${nit}/`)
+        fetch(`https://despliegue-mise.onrender.com/api/v2/calificaciones-bajas/empresa/${nit}/`)
             .then(response => response.json())
             .then(data => {
                 setCalificacionesBajas(data);

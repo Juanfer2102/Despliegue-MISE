@@ -22,7 +22,7 @@ const Register = () => {
 
     // Maneja el registro del usuario
     const handleRegister = async () => {
-        const response = await fetch('http://localhost:8000/api/register/', {
+        const response = await fetch('https://despliegue-mise.onrender.com/api/register/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json' // Especifica que se está enviando JSON

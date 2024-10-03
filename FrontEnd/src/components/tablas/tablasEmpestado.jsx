@@ -24,7 +24,7 @@ const TablasEmpestado = () => {
 
   useEffect(() => {
     // Llamada a la API para obtener los datos de las empresas
-    fetch('http://localhost:8000/api/v2/estado/empresas/')  // Cambia la URL según tu configuración
+    fetch('https://despliegue-mise.onrender.com/api/v2/estado/empresas/')  // Cambia la URL según tu configuración
       .then((response) => response.json())
       .then((data) => {
         const empresasEstado2 = data.empresas_estado_2_diagnostico_1 || [];

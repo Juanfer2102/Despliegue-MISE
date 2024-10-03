@@ -29,7 +29,7 @@ const TemasView = ({ temas, modulos, preguntas, selectedModulo, onModuloChange, 
     useEffect(() => {
         if (selectedModulo) {
             // Fetch preguntas based on selected modulo
-            fetch(`http://localhost:8000/api/v2/preguntas/?id_modulo=${selectedModulo}`)
+            fetch(`https://despliegue-mise.onrender.com/api/v2/preguntas/?id_modulo=${selectedModulo}`)
                 .then(response => response.json())
                 .then(data => {
                     setPreguntas(data);

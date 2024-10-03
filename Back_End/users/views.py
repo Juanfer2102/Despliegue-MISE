@@ -121,7 +121,7 @@ class PasswordResetView(APIView):
         uid = urlsafe_base64_encode(force_bytes(user.pk))
 
         # Generar el enlace de restablecimiento de contraseña
-        reset_link = f"http://localhost:5173/cambiar-contraseña/{uid}/{token}"
+        reset_link = f"http://MISE/cambiar-contraseña/{uid}/{token}"
 
         # Mensaje de texto plano (opcional)
         plain_message = f"Por favor, haz clic en el siguiente enlace para restablecer tu contraseña: {reset_link}"
@@ -1657,13 +1657,13 @@ def generar_pdf(request, nit):
         print(len(suenos_asignados))
 
          # Hacer la solicitud al API para obtener el diagnóstico con sus sueños
-        diagnostico_response = requests.get(f'http://localhost:8000/api/v2/diagnostico/{nit}/')
+        diagnostico_response = requests.get(f'https://despliegue-mise.onrender.com/api/v2/diagnostico/{nit}/')
         diagnostico_response.raise_for_status()  # Lanza un error si la respuesta no es 200
         diagnostico_data = diagnostico_response.json()
 
 
         # Hacer la solicitud al API para obtener los temas
-        temas_response = requests.get(f'http://localhost:8000/api/v2/temas/empresa/{nit}/')
+        temas_response = requests.get(f'https://despliegue-mise.onrender.com/api/v2/temas/empresa/{nit}/')
         temas_response.raise_for_status()  # Lanza un error si la respuesta no es 200
         temas = temas_response.json()
 
@@ -2016,7 +2016,7 @@ def generar_pdf_final(request, nit):
         fecha_actual = datetime.now().strftime("%d/%m/%Y")
 
         # Hacer la solicitud a la API de sueños concretados
-        response_suenos = requests.get(f'http://localhost:8000/api/v2/suenos-concretados/{nit}/')
+        response_suenos = requests.get(f'https://despliegue-mise.onrender.com/api/v2/suenos-concretados/{nit}/')
         suenos_concretados = response_suenos.json() if response_suenos.status_code == 200 else []
 
         # Construir el contenido HTML para los sueños concretados

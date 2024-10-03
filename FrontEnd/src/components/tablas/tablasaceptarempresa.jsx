@@ -13,7 +13,7 @@ const TableComponent = () => {
     // Función para obtener empresas
     const fetchEmpresas = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/v2/empresas/');
+        const response = await fetch('https://despliegue-mise.onrender.com/api/v2/empresas/');
         const data = await response.json();
         // Convertir datos en array si es necesario
         const dataArray = Array.isArray(data) ? data : Object.values(data);

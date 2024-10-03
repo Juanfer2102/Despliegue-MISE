@@ -12,7 +12,7 @@ const UserTable = () => {
         // Función asíncrona para obtener los usuarios desde la API
         const fetchUsuarios = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/v2/usuario/');
+                const response = await fetch('https://despliegue-mise.onrender.com/api/v2/usuario/');
                 const data = await response.json();
                 setUsuarios(data);  // Actualiza el estado con los datos de los usuarios
             } catch (error) {
@@ -23,7 +23,7 @@ const UserTable = () => {
         // Función asíncrona para obtener los roles desde la API
         const fetchRoles = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/v2/rol/');
+                const response = await fetch('https://despliegue-mise.onrender.com/api/v2/rol/');
                 const data = await response.json();
                 setRoles(data);  // Actualiza el estado con los datos de los roles
             } catch (error) {

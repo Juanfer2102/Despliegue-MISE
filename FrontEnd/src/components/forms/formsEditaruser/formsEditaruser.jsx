@@ -182,7 +182,7 @@ export const FormsEditaruser = () => {
         if (Object.keys(dataToSend).length > 0) {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:8000/api/v2/act-user/${id_usuario}/`, {
+                const response = await fetch(`https://despliegue-mise.onrender.com/api/v2/act-user/${id_usuario}/`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',

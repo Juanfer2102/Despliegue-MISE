@@ -35,7 +35,7 @@ const TarjetasTemaFinal = ({ nit }) => {
     useEffect(() => {
         if (nit) {
             // Obtener temas desde el endpoint
-            fetch(`http://localhost:8000/api/v2/temas/empresa/${nit}/`)
+            fetch(`https://despliegue-mise.onrender.com/api/v2/temas/empresa/${nit}/`)
                 .then(response => response.json())
                 .then(data => {
                     setTemas(data);
@@ -43,7 +43,7 @@ const TarjetasTemaFinal = ({ nit }) => {
                 .catch(error => console.error("Error fetching temas:", error));
 
             // Obtener sueños evaluados desde el nuevo endpoint
-            fetch(`http://localhost:8000/api/v2/suenos-concretados/${nit}/`)
+            fetch(`https://despliegue-mise.onrender.com/api/v2/suenos-concretados/${nit}/`)
                 .then(response => response.json())
                 .then(data => {
                     setSuenos(data); // Guardar sueños concretados en el estado

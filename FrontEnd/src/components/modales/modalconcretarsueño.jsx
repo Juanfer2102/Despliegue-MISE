@@ -15,7 +15,7 @@ const ModalConcretarSueno = ({ sueno, onClose }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/api/v2/concretar-sueno/${sueno.id}/`,
+        `https://despliegue-mise.onrender.com/api/v2/concretar-sueno/${sueno.id}/`,
         {
           method: "POST",
           headers: {

@@ -60,7 +60,7 @@ const EvaluacionEmpresa = () => {
 
             console.log('Datos a enviar:', calificaciones); // Verifica los datos en la consola
 
-            const response = await fetch('http://localhost:8000/api/v2/calificacion/', {
+            const response = await fetch('https://despliegue-mise.onrender.com/api/v2/calificacion/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ const EvaluacionEmpresa = () => {
     };
 
     function changeDiagState(nit) {
-        fetch(`http://localhost:8000/api/v2/update-empresa-diag-status/${nit}/`, {
+        fetch(`https://despliegue-mise.onrender.com/api/v2/update-empresa-diag-status/${nit}/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ const EvaluacionEmpresa = () => {
     useEffect(() => {
         const fetchEmpresaData = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/api/v2/empresas/${nit}/`);
+                const response = await fetch(`https://despliegue-mise.onrender.com/api/v2/empresas/${nit}/`);
                 if (response.ok) {
                     const data = await response.json();
                     setNombreEmpresa(data.nombre_empresa);
@@ -122,7 +122,7 @@ const EvaluacionEmpresa = () => {
     useEffect(() => {
         const fetchModulos = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/v2/modulos/');
+                const response = await fetch('https://despliegue-mise.onrender.com/api/v2/modulos/');
                 if (response.ok) {
                     const data = await response.json();
                     setModulos(data);
@@ -142,7 +142,7 @@ const EvaluacionEmpresa = () => {
     useEffect(() => {
         const fetchPreguntasPorModulo = async (idModulo) => {
             try {
-                const response = await fetch(`http://localhost:8000/api/v2/preguntas/modulo/${idModulo}/`);
+                const response = await fetch(`https://despliegue-mise.onrender.com/api/v2/preguntas/modulo/${idModulo}/`);
                 if (response.ok) {
                     const data = await response.json();
                     if (Array.isArray(data)) {
