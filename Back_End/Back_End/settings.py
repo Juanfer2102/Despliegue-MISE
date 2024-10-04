@@ -150,6 +150,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     r"^https://despliegue-mise-wugf-.*\.vercel\.app$",
+    "https://despliegue-mise-wugf-3s7th5iln-juan-grajales-projects.vercel.app",
 ]
 
 CORS_ORIGIN_REGEX_WHITELIST = [
