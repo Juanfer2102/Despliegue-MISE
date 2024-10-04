@@ -150,6 +150,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     "https://despliegue-mise-wugf-9juv4876g-juan-grajales-projects.vercel.app",
+    "https://despliegue-mise-wugf-4som9o2de-juan-grajales-projects.vercel.app",
+    "https://despliegue-mise.onrender.com/api/v2/generar-pdf/254693658/",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
