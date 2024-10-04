@@ -43,8 +43,13 @@ export const FormRegistro = () => {
         diagnostico_value: 0,
     });
 
+    const [formattedValues, setFormattedValues] = useState({
+        ventas_ult_ano: '', // Para almacenar el valor formateado temporalmente
+        costos_ult_ano: '',
+    });
+
     const formatCurrency = (value) => {
-        const number = parseFloat(value.replace(/[^0-9.-]+/g, ''));
+        const number = parseFloat(value);
         if (isNaN(number)) return '';
         return new Intl.NumberFormat('es-CO', {
             style: 'currency',
@@ -53,18 +58,19 @@ export const FormRegistro = () => {
         }).format(number);
     };
 
+    const parseCurrencyToInteger = (value) => {
+        return parseInt(value.replace(/[^0-9]/g, ''), 10) || 0;
+    };
 
     const handleBlur = (name) => {
-        
-        // Ajusta los nombres para que coincidan con los nombres de los inputs
         if (name === 'costos_ult_ano' || name === 'ventas_ult_ano') {
-            setValues(prevValues => ({
-                ...prevValues,
-                [name]: formatCurrency(prevValues[name]), // Aplicar formato de moneda
+            const formattedValue = formatCurrency(values[name]); // Formatear solo para mostrar en el input
+            setFormattedValues(prev => ({
+                ...prev,
+                [name]: formattedValue,
             }));
         }
     };
-
 
 
     const handleInputChange = (name, value) => {
@@ -73,7 +79,7 @@ export const FormRegistro = () => {
             ...prevValues,
             [name]: value,
         }));
-        
+
         // Validación de celular: solo permite números, longitud máxima de 10
         if (name === "celular") {
             const regex = /^[0-9\b]+$/; // Solo números
@@ -87,22 +93,6 @@ export const FormRegistro = () => {
             const regex = /^[0-9\b]+$/; // Solo números
             if (!regex.test(value) || value.length > 9) {
                 return; // Evitar que se ingrese caracteres no válidos o más de 9 dígitos
-            }
-        }
-
-        // Validación de número de documento: solo permite números, longitud máxima de 5
-        if (name === "ndocumento") {
-            const regex = /^[0-9\b]+$/; // Solo números
-            if (!regex.test(value) || value.length > 5) {
-                return; // Evitar que se ingrese caracteres no válidos o más de 5 dígitos
-            }
-        }
-
-        // Validación de ventas del año pasado: solo números y longitud máxima de 10
-        if (name === "ventas_anopasado") {
-            const regex = /^[0-9\b]+$/; // Solo números
-            if (!regex.test(value) || value.length > 10) {
-                return; // Evitar que se ingrese caracteres no válidos o más de 10 dígitos
             }
         }
 
@@ -121,7 +111,7 @@ export const FormRegistro = () => {
                 return; // Si el correo no es válido, no actualizamos el estado
             }
         }
-    
+
         // Validación de página web
         if (name === "pagina_web") {
             const regex = /^(https?:\/\/)?([\w-]+)+[\w-]+(\.[\w-]{2,})+\/?$/; // Regex para URL
@@ -130,13 +120,31 @@ export const FormRegistro = () => {
             }
         }
 
+        if (name === 'ventas_ult_ano' || name === 'costos_ult_ano') {
+            // Almacenamos el valor como número en el estado "values"
+            const parsedValue = parseCurrencyToInteger(value); // Convertir el valor ingresado en número entero
+            setValues(prevValues => ({
+                ...prevValues,
+                [name]: parsedValue, // Guardamos el número real en el estado
+            }));
+
+            // Actualizamos el valor temporal formateado para mostrar en el input
+            setFormattedValues(prevFormattedValues => ({
+                ...prevFormattedValues,
+                [name]: value, // Mantenemos el valor que el usuario ingresa sin formatearlo mientras escribe
+            }));
+        } else {
+            setValues((prevValues) => ({
+                ...prevValues,
+                [name]: value,
+            }));
+        }
         // Actualiza el estado solo si todas las validaciones se cumplen
         setValues(prevValues => ({
             ...prevValues,
             [name]: value,
         }));
 
-        
     };
 
 
