@@ -23,7 +23,7 @@
 import React from 'react';
 import DeveloperPortal from './aceptaremp';
 import LayoutDashboard from '../../layouts/LayoutDashboard';
-import GoBack from '../../components/inputs/goback/GoBack';
+import BackButton from '../../components/inputs/goback/BackButton';
 
 const DetalleEmpresas = () => {
   return (
@@ -33,7 +33,7 @@ const DetalleEmpresas = () => {
           <div className="bg-greyBlack h-20 w-full">
           </div>
           <div className="bg-greyBg flex flex-col px-6 py-6 h-full w-full overflow-y-auto">
-            <GoBack text="Informacion Empresas" />
+            <BackButton text="Informacion Empresas" />
             <DeveloperPortal />
           </div>
         </div>
