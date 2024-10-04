@@ -195,7 +195,7 @@ export const FormsEditaruser = () => {
                 console.log("Resultado de la actualización:", result);
     
                 // Verificar si el usuario editado es el mismo que el logueado
-                const usuarioLogueado = JSON.parse(localStorage.getItem('usuario'));
+                const usuarioLogueado = JSON.parse(localStorage.getItem('userData'));
                 if (usuarioLogueado && usuarioLogueado.correo === result.data.correo) {
                     // Si es el mismo usuario logueado, actualizar el localStorage
                     localStorage.setItem('userData', JSON.stringify(result.data));
