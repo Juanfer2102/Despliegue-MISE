@@ -138,8 +138,8 @@ export const FormsEditaruser = () => {
 
         // Validación de contraseña
         if (name === "contrasena") {
-            if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value)) {
-                error = "Debe contener al menos una mayúscula, un número y un carácter especial";
+            if (value.length < 8) {
+                error = "La contraseña debe tener al menos 8 caracteres";
             }
         }
 
@@ -199,8 +199,18 @@ export const FormsEditaruser = () => {
 
                 const result = await response.json();
                 console.log("Resultado de la actualización:", result);
+
+                // Verificar si el usuario editado es el mismo que el logueado
+                const usuarioLogueado = JSON.parse(localStorage.getItem('usuario'));
+                if (usuarioLogueado && usuarioLogueado.correo === result.data.correo) {
+                    // Si es el mismo usuario logueado, actualizar el localStorage
+                    localStorage.removeItem('usuario');
+                    localStorage.setItem('usuario', JSON.stringify(result.data));
+                    console.log('Información del usuario logueado actualizada en el localStorage.');
+                }
+
                 openSuccessModal();
-                window.location.reload();
+                window.location.reload();  // Recarga la página para reflejar los cambios
             } catch (error) {
                 console.error('Error al actualizar el usuario:', error);
                 setError(error.message);
@@ -209,6 +219,7 @@ export const FormsEditaruser = () => {
             console.log("No se realizaron cambios en el formulario");
         }
     };
+
 
     /**
      * Abre el modal de éxito y lo cierra automáticamente después de 1 segundo.
@@ -224,7 +235,7 @@ export const FormsEditaruser = () => {
         <>
             {/* Modal de confirmación */}
             <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleForm} />
-            
+
             <form autoComplete='off' className="flex flex-col text-textBg w-full font-semibold gap-5 py-2 overflow-y-visible">
                 <div className='flex xl:flex-row lg:flex-row flex-col gap-5'>
                     <div className='flex flex-col pl-3 font-semibold gap-5 py-4'>
@@ -267,7 +278,7 @@ export const FormsEditaruser = () => {
                             value={values.correo}
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
-                        
+
                         {/* Selector de rol */}
                         <div className={`text-textBg items-center text-start content-center flex xl:flex-row lg:flex-row flex-col xl:gap-0 gap-2`}>
                             <div className="w-[10.5rem]">
@@ -284,7 +295,7 @@ export const FormsEditaruser = () => {
                                 />
                             </div>
                         </div>
-                        
+
                         <div className='max-md:hidden xl:block'>
                             {/* Botón de guardar */}
                             <button
@@ -338,19 +349,19 @@ export const FormsEditaruser = () => {
                             onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                         />
                         {errors.contrasena && <p className="text-red">{errors.contrasena}</p>}
-                        
+
                         {/* Selector de programa */}
                         <div className={`text-textBg items-center text-start content-center flex xl:flex-row lg:flex-row flex-col xl:gap-0 gap-2`}>
                             <div className="w-[10.5rem]">
                                 <p className="font-semibold">MISE</p>
                             </div>
                             <div className='w-[12.8rem]'>
-                                <SelectComponent 
-                                    name="programa" 
-                                    type="Programa..." 
-                                    options={programas} 
-                                    value={values.programa} 
-                                    onChange={(value) => handleInputChange("programa", value)} 
+                                <SelectComponent
+                                    name="programa"
+                                    type="Programa..."
+                                    options={programas}
+                                    value={values.programa}
+                                    onChange={(value) => handleInputChange("programa", value)}
                                 />
                             </div>
                         </div>
@@ -367,7 +378,7 @@ export const FormsEditaruser = () => {
                     </div>
                 </div>
             </form>
-            
+
             {/* Modal de éxito */}
             {isSuccessModalVisible && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">

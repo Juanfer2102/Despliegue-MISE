@@ -107,7 +107,7 @@ const TarjetasTema = ({ nit }) => {
           Procesos en los que se encuentra la empresa
         </h2>
         <div className=" flex flex-row gap-5">
-          <a href={`/diagnostico/empresa/${nit}`}>
+          <a href={`/diagnostico/empresa-vista/${nit}`}>
             <button className="bg-transparent border border-white hover:bg-white rounded-md text-white hover:text-principalGreen text-center font-semibold cursor-pointer w-auto h-10 p-2">
               Ir a Diagnostico Inicial
             </button>
@@ -159,7 +159,7 @@ const TarjetasTema = ({ nit }) => {
           <div className="bg-greyBlack text-white p-6 rounded-lg shadow-lg w-full max-w-2xl overflow-auto">
             <h3 className="text-2xl font-bold mb-4">Detalles del Tema</h3>
             <div
-              className="grid grid-cols-1 md:grid-cols-2 gap-4"
+              className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[15rem]"
               style={styles.customScrollbar}
             >
               {/* Información del tema */}

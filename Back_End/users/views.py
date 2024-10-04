@@ -1459,7 +1459,41 @@ class UsuarioUpdateView(generics.UpdateAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioUpdateSerializer
     permission_classes = [AllowAny]
-    lookup_field = 'id_usuario'  # Ahora usará 'id_usuario' en lugar de 'pk'
+    lookup_field = 'id_usuario'  # Usar 'id_usuario' en lugar de 'pk'
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        
+        # Guardar la información actualizada
+        self.perform_update(serializer)
+
+        # Verificar si el usuario logueado es el mismo que el que está siendo editado
+        user_logged_in = request.user
+        if user_logged_in.id == instance.id:
+            # Si el usuario logueado es el mismo que el editado, preparar la respuesta con la nueva data
+            dataUserClean = {
+                "nombres": instance.nombres,
+                "apellidos": instance.apellidos,
+                "correo": instance.correo,
+                "estado": instance.estado,
+                "id_rol": instance.id_rol_id,
+                "celular": instance.celular
+            }
+
+            # Retornar la respuesta indicando que se debe actualizar el localStorage
+            return Response({
+                'message': 'Usuario editado con éxito. Actualizar información de la sesión.',
+                'data': dataUserClean
+            }, status=status.HTTP_200_OK)
+
+        # Si no es el usuario logueado, retornar la respuesta normal
+        return Response({
+            'message': 'Usuario editado con éxito.',
+            'data': serializer.data
+        }, status=status.HTTP_200_OK)
 
     def get_object(self):
         return super().get_object()
