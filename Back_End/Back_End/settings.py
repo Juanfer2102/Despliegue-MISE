@@ -194,14 +194,11 @@ DOMAIN = 'https://despliegue-mise-wugf.vercel.app/'
 # settings.py
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp-mail.outlook.com'  # Servidor SMTP de Hotmail/Outlook
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-EMAIL_HOST_USER = 'no-reply-MISE@outlook.com'  # Tu dirección de correo Hotmail/Outlook
-EMAIL_HOST_PASSWORD = 'MISE032024'  # La contraseña de tu cuenta Hotmail/Outlook
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
+EMAIL_HOST_USER = 'misepalmira@gmail.com'
+EMAIL_HOST_PASSWORD = 'vltm ozrb iznv aaes'
 
 # Establecer el tiempo de expiración del token de restablecimiento de contraseña en segundos
 PASSWORD_RESET_TIMEOUT = 3600  # 1 hora (3600 segundos)

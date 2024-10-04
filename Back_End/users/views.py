@@ -147,7 +147,7 @@ class PasswordResetView(APIView):
         send_mail(
             subject="Restablecer contraseña",
             message=plain_message,  # Mensaje de texto plano
-            from_email="no-reply-MISE@outlook.com",
+            from_email="misepalmira@gmail.com",
             recipient_list=[user.correo],
             html_message=html_message,  # Mensaje HTML
             fail_silently=False,
