@@ -121,7 +121,7 @@ class PasswordResetView(APIView):
         uid = urlsafe_base64_encode(force_bytes(user.pk))
 
         # Generar el enlace de restablecimiento de contraseña
-        reset_link = f"https://despliegue-mise-wugf-5uyrvkk4v-juan-grajales-projects.vercel.app/cambiar-contraseña/{uid}/{token}"
+        reset_link = f"https://despliegue-mise-wugf-4bmx61qjw-juan-grajales-projects.vercel.app/cambiar-contraseña/{uid}/{token}"
 
         # Mensaje de texto plano (opcional)
         plain_message = f"Por favor, haz clic en el siguiente enlace para restablecer tu contraseña: {reset_link}"
