@@ -1459,7 +1459,7 @@ class UsuarioUpdateView(generics.UpdateAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioUpdateSerializer
     permission_classes = [AllowAny]
-    lookup_field = 'id_usuario'  # Usar 'id_usuario' en lugar de 'pk'
+    lookup_field = 'id_usuario'  # Usar 'id_usuario' como clave primaria
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
@@ -1472,7 +1472,9 @@ class UsuarioUpdateView(generics.UpdateAPIView):
 
         # Verificar si el usuario logueado es el mismo que el que está siendo editado
         user_logged_in = request.user
-        if user_logged_in.id == instance.id:
+        
+        # Cambiar de 'instance.id' a 'instance.id_usuario' ya que es tu clave primaria
+        if user_logged_in.id == instance.id_usuario:  # Comparar con 'id_usuario'
             # Si el usuario logueado es el mismo que el editado, preparar la respuesta con la nueva data
             dataUserClean = {
                 "nombres": instance.nombres,
@@ -1497,7 +1499,6 @@ class UsuarioUpdateView(generics.UpdateAPIView):
 
     def get_object(self):
         return super().get_object()
-
 
 @api_view(['POST'])
 def user(request):
