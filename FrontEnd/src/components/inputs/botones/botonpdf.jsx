@@ -38,7 +38,6 @@ const DownloadPDFButton = ({ filename, pdfType, tipo }) => {
     const downloadPDF = async () => {
         const response = await fetch(`https://despliegue-mise.onrender.com/api/v2/generar-pdf/${nit}/`, {
             method: 'GET',
-            mode: 'no-cors',
         });
 
         if (response.ok) {
