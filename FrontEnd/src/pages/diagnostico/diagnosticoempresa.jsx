@@ -24,7 +24,25 @@ const EvaluacionEmpresa = () => {
 
     const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
-    
+
+    const styles = {
+        customScrollbar: {
+            scrollbarWidth: '13px',
+            scrollbarColor: '#888 #262b32',
+        },
+        customScrollbarTrack: {
+            background: '#262b32',
+            borderRadius: '12px',
+        },
+        customScrollbarThumb: {
+            background: '#888',
+            borderRadius: '10px',
+        },
+        customScrollbarThumbHover: {
+            background: '#555',
+        }
+    };
+
     const handleFormChange = (titulo, data) => {
         setFormularioData(prevState => ({
             ...prevState,
