@@ -41,7 +41,7 @@ const DesempenoForm = ({ criterios, titulo, nit, onFormSubmit }) => {
                   step="0.01"
                   min="0"
                   max="100"
-                  className="border border-gray-300 p-1 rounded-md text-black"
+                  className="border border-gray-300 p-1 rounded-md text-black bg-transparent"
                   onChange={(e) => handleInputChange(index, e.target.value)}
                 />
               </td>
