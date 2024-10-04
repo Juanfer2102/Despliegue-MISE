@@ -171,11 +171,6 @@ export const FormsEditaruser = () => {
             ...values
         };
 
-        // Omitir contrasena si no fue modificada
-        if (!values.contrasena) {
-            delete dataToSend.contrasena;
-        }
-
         // Verificar el contenido de dataToSend
         console.log("Datos a enviar:", dataToSend);
 

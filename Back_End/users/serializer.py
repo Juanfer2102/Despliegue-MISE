@@ -295,18 +295,19 @@ class UsuarioUpdateSerializer(serializers.ModelSerializer):
         model = Usuario
         fields = ['id_rol', 'estado', 'correo', 'celular', 'documento', 'programa', 'nombres', 'apellidos', 'contrasena']
         extra_kwargs = {
-            'contrasena': {'write_only': True}
+            'contrasena': {'write_only': True, 'required': False}  # Aquí 'required' está en False
         }
     
     def update(self, instance, validated_data):
+        # Verificar si se proporcionó una nueva contraseña
         if 'contrasena' in validated_data:
             contrasena = validated_data.pop('contrasena')
             instance.set_password(contrasena)
-
+        
+        # Actualizar el resto de los campos
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
-
+        
         instance.save()
 
-        # Retornar la instancia actualizada para usarla en la respuesta
         return instance
