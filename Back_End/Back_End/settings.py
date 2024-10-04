@@ -149,10 +149,11 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    "https://despliegue-mise-wugf-",
-    "https://despliegue-mise-wugf-9juv4876g-juan-grajales-projects.vercel.app",
-    "https://despliegue-mise-wugf-4som9o2de-juan-grajales-projects.vercel.app",
-    "https://despliegue-mise.onrender.com/api/v2/generar-pdf/254693658/",
+    r"^https://despliegue-mise-wugf-.*\.vercel\.app$",
+]
+
+CORS_ORIGIN_REGEX_WHITELIST = [
+    r"^https://despliegue-mise-wugf-.*\.vercel\.app$",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
