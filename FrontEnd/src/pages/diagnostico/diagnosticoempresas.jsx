@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import LayoutDashboard from '../../layouts/LayoutDashboard';
 import { useParams } from 'react-router-dom';
+import BackButton from "../../components/inputs/goback/BackButton";
 
 const EvaluacionEmpresaNuevas = () => {
     const { nit } = useParams();
@@ -75,10 +76,8 @@ const EvaluacionEmpresaNuevas = () => {
                     <div className="flex content-center justify-end h-20 w-full" />
                     <div className="bg-greyBg flex flex-col h-full w-full px-6 pt-6 overflow-auto">
                         <div className="gap-8 flex flex-col px-8 w-full h-full rounded-md">
+                            <BackButton text={`Evaluación Inicial de ${empresa.nombre_empresa || 'Cargando...'}`} />
                             <div className="rounded-xl flex flex-col gap-6 h-full py-6">
-                                <div className="flex justify-between pr-10">
-                                    <p className='text-2xl font-bold'>Evaluación Inicial de {empresa.nombre_empresa || 'Cargando...'}</p>
-                                </div>
                                 <div className="px-6 flex flex-col p-4 gap-8">
                                     <div>
                                         <h1 className="text-3xl font-bold">Calificaciones Bajas</h1>

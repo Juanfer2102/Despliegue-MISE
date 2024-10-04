@@ -9,7 +9,8 @@ const TarjetasTema = ({ nit }) => {
   const [temas, setTemas] = useState([]);
   const [selectedTema, setSelectedTema] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isConfirmCModalOpen, setIsConfirmCModalOpen] = useState(false);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [infoMessage, setInfoMessage] = useState("");
@@ -37,7 +38,7 @@ const TarjetasTema = ({ nit }) => {
     if (nit) {
       // Obtener temas desde el endpoint
       setLoading(true); // Mostrar el modal de carga
-      fetch(`https://despliegue-mise.onrender.com/api/v2/temas/empresa/${nit}/`)
+      fetch(`http://localhost:8000/api/v2/temas/empresa/${nit}/`)
         .then((response) => response.json())
         .then((data) => {
           setTemas(data);
@@ -49,35 +50,35 @@ const TarjetasTema = ({ nit }) => {
 
   const aprobarTema = (estado) => {
     const temaId = selectedTema.id_tema; // Aquí deberías tener el ID del tema
+    setLoading(true); // Mostrar el modal de carga
 
     fetch(
-      `https://despliegue-mise.onrender.com/api/v2/temas_asignados/${nit}/${temaId}/actualizar_estado/`,
+      `http://localhost:8000/api/v2/temas_asignados/${nit}/${temaId}/actualizar_estado/`,
       {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ estado }), // Aquí envías el estado
       }
     )
       .then((response) => response.json())
       .then((data) => {
+        setLoading(false); // Ocultar el modal de carga
         if (data.mensaje) {
           setInfoMessage(data.mensaje);
           setIsInfoModalOpen(true); // Mostrar modal informativo
-          closeModal();
           // Opcional: Actualizar la lista de temas o hacer un refresh de la página
-          setTemas(
-            temas.filter((tema) => tema.id_tema !== selectedTema.id_tema)
-          );
-          location.reload();
+          setTemas(temas.filter((tema) => tema.id_tema !== selectedTema.id_tema));
+          // location.reload(); // Si decides recargar la página
         } else {
-          console.error("Error:", data.error);
+          console.error('Error:', data.error);
         }
       })
-      .catch((error) =>
-        console.error("Error actualizando el estado del tema:", error)
-      );
+      .catch((error) => {
+        setLoading(false); // Ocultar el modal de carga en caso de error
+        console.error('Error actualizando el estado del tema:', error);
+      });
   };
 
   const openModal = (tema) => {
@@ -90,14 +91,30 @@ const TarjetasTema = ({ nit }) => {
     setSelectedTema(null);
   };
 
+  const ConfirmModalOpen = () => {
+    setIsOpen(true);
+  };
+
+  const ConfirmModalClose = () => {
+    setIsOpen(false);
+  };
+
+  const ConfirmCModalOpen = () => {
+    setIsConfirmCModalOpen(true);
+  };
+
+  const ConfirmCModalClose = () => {
+    setIsConfirmCModalOpen(false);
+  };
+
   const handleConfirmAprobar = () => {
     aprobarTema(1); // Aprobar tema
-    setIsConfirmModalOpen(false); // Cerrar modal de confirmación
+    ConfirmModalClose(); // Cerrar modal de confirmación
   };
 
   const handleConfirmNoAprobar = () => {
     aprobarTema(2); // No aprobar tema
-    setIsConfirmModalOpen(false); // Cerrar modal de confirmación
+    ConfirmCModalClose(); // Cerrar modal de confirmación
   };
 
   return (
@@ -134,13 +151,12 @@ const TarjetasTema = ({ nit }) => {
                 {tema.fecha_inicio} - {tema.fecha_fin}
               </p>
               <p
-                className={`text-${
-                  tema.estado === 0
-                    ? "amarillo"
-                    : tema.estado === 1
+                className={`text-${tema.estado === 0
+                  ? "amarillo"
+                  : tema.estado === 1
                     ? "principalGreen"
                     : "red"
-                }`}
+                  }`}
               >
                 {tema.criterio}
               </p>
@@ -156,10 +172,10 @@ const TarjetasTema = ({ nit }) => {
       {/* Modal de detalles del tema */}
       {isModalOpen && selectedTema && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-          <div className="bg-greyBlack text-white p-6 rounded-lg shadow-lg w-full max-w-2xl overflow-auto">
+          <div className="bg-greyBlack text-white p-6 rounded-lg shadow-lg w-full max-w-2xl overflow-auto h-[30rem]" style={styles.customScrollbar}>
             <h3 className="text-2xl font-bold mb-4">Detalles del Tema</h3>
             <div
-              className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[15rem]"
+              className="grid grid-cols-1 md:grid-cols-2 gap-4"
               style={styles.customScrollbar}
             >
               {/* Información del tema */}
@@ -228,21 +244,20 @@ const TarjetasTema = ({ nit }) => {
                 Cerrar
               </button>
               <div
-                className={`${
-                  selectedTema.estado === 1 || selectedTema.estado === 2
-                    ? "hidden"
-                    : "flex"
-                } gap-4`}
+                className={`${selectedTema.estado === 1 || selectedTema.estado === 2
+                  ? "hidden"
+                  : "flex"
+                  } gap-4`}
               >
                 <button
                   className="mt-6 px-4 py-2 bg-principalGreen text-white rounded-lg hover:bg-white hover:text-principalGreen transition-colors duration-300"
-                  onClick={() => setIsConfirmModalOpen(true)} // Abrir modal de confirmación para aprobar
+                  onClick={ConfirmModalOpen} // Abrir modal de confirmación para aprobar
                 >
                   Aprobar
                 </button>
                 <button
                   className="mt-6 px-4 py-2 bg-red text-white rounded-lg hover:bg-white hover:text-red transition-colors duration-300"
-                  onClick={() => aprobarTema(2)} // No aprobar tema directamente
+                  onClick={ConfirmCModalOpen} // Abrir modal de confirmación para no aprobar
                 >
                   No aprobar
                 </button>
@@ -253,19 +268,31 @@ const TarjetasTema = ({ nit }) => {
       )}
 
       {/* Modal de confirmación para aprobar */}
-      {isConfirmModalOpen && (
+      {isOpen && (
         <ConfirmModal
-          title="¿Estás seguro de aprobar este tema?"
-          onConfirm={handleConfirmAprobar}
-          onCancel={() => setIsConfirmModalOpen(false)}
+          isOpen={isOpen}  // Agrega el prop isOpen
+          handleConfirm={handleConfirmAprobar}
+          closeModal={ConfirmModalClose}
         />
       )}
 
-      {/* Modal de información */}
+      {isConfirmCModalOpen && (
+        <ConfirmModal
+          isOpen={isConfirmCModalOpen}  // Agrega el prop isOpen
+          handleConfirm={handleConfirmNoAprobar}
+          closeModal={ConfirmCModalClose}
+        />
+      )}
+
+      {/* Modal informativo */}
       {isInfoModalOpen && (
         <ModalInformativo
-          message={infoMessage}
-          onClose={() => setIsInfoModalOpen(false)}
+          mensaje={infoMessage}
+          onClose={() => {
+            setIsInfoModalOpen(false);
+            // Recargar la página al cerrar el modal informativo
+            location.reload();
+          }}
         />
       )}
 

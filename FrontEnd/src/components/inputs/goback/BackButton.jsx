@@ -13,7 +13,7 @@ const BackButton  = ({ text }) => {
                 className="w-6 h-6 md:w-8 md:h-8 cursor-pointer" // Estilos para el tamaño del icono y cursor
             />
             {/* Texto del botón, proporcionado a través de props */}
-            <p className="text-base md:text-lg">{text}</p>
+            <h1 className="md:text-lg">{text}</h1>
         </div>
     );
 }

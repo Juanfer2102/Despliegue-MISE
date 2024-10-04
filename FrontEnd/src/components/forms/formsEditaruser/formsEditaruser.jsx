@@ -163,16 +163,16 @@ export const FormsEditaruser = () => {
      */
     const handleForm = async (event) => {
         event.preventDefault();
-    
+
         // Crea un objeto que contiene todos los campos del usuario
         const dataToSend = {
             ...user,
             ...values
         };
-    
+
         // Verificar el contenido de dataToSend
         console.log("Datos a enviar:", dataToSend);
-    
+
         if (Object.keys(dataToSend).length > 0) {
             try {
                 const token = localStorage.getItem('token');
@@ -184,16 +184,16 @@ export const FormsEditaruser = () => {
                     },
                     body: JSON.stringify(dataToSend),
                 });
-    
+
                 // Comprobar la respuesta
                 if (!response.ok) {
                     const errorData = await response.json(); // Obtiene el mensaje de error
                     throw new Error(`Error al actualizar el usuario: ${errorData.detail || 'Error desconocido'}`);
                 }
-    
+
                 const result = await response.json();
                 console.log("Resultado de la actualización:", result);
-    
+
                 // Verificar si el usuario editado es el mismo que el logueado
                 const usuarioLogueado = JSON.parse(localStorage.getItem('userData'));
                 if (usuarioLogueado && usuarioLogueado.correo === result.data.correo) {
@@ -201,14 +201,14 @@ export const FormsEditaruser = () => {
                     localStorage.setItem('userData', JSON.stringify(result.data));
                     console.log('Información del usuario logueado actualizada en el localStorage.');
                 }
-    
+
                 // Mostrar modal de éxito
                 openSuccessModal();
-                // Actualizar el estado en React (si aplicable) aquí
-                // Cerrar el modal solo después de la actualización
-                closeModal();
-                // Considera no recargar la página si puedes evitarlo
-    
+                // Cerrar el modal de carga antes de recargar la página
+                closeModal();  // Asegúrate de que esta función cierre el modal de carga
+                // Recargar la página
+                window.location.reload();
+
             } catch (error) {
                 console.error('Error al actualizar el usuario:', error);
                 setError(error.message);
@@ -216,7 +216,7 @@ export const FormsEditaruser = () => {
         } else {
             console.log("No se realizaron cambios en el formulario");
         }
-    };    
+    };
 
     /**
      * Abre el modal de éxito y lo cierra automáticamente después de 1 segundo.
