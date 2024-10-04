@@ -57,7 +57,7 @@ from django.utils.crypto import get_random_string
 from django.db import connection, transaction
 from django.http import JsonResponse
 import json
-from django.contrib.auth.tokens import default_token_generator
+from users.tokens import default_token_generator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.utils.http import urlsafe_base64_decode
