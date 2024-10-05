@@ -226,7 +226,7 @@ const EvaluacionEmpresa = () => {
                                         )}
                                     </div>
                                 </div>
-                                <div className="flex justify-end w-full">
+                                <div className="flex justify-end w-full px-2">
                                     <Boton onClick={openModal} text="Guardar Calificación" />
                                 </div>
                             </div>
