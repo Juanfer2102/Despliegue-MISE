@@ -146,8 +146,10 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ORIGIN_REGEX_WHITELIST = [
-    r"^https://despliegue-mise-wugf-.*\.vercel\.app$",
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "https://despliegue-mise-wugf.vercel.app",
 ]
 
 PASSWORD_HASHERS = [
@@ -183,11 +185,12 @@ CORS_ALLOW_METHODS = [
 CORS_ALLOW_HEADERS = [
     "content-type",
     "authorization",
+    "x-requested-with",
 ]
 
 # settings.py
 
-DOMAIN = 'https://despliegue-mise-wugf.vercel.app/'
+DOMAIN = 'https://despliegue-mise-wugf.vercel.app'
 
 # settings.py
 
