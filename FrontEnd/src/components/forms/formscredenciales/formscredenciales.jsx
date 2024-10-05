@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import './formscredenciales.css';
+import ModalInformativo from '../../modales/modalexito';
 
 const Formscredenciales = () => {
     const { uid, token } = useParams();
@@ -23,12 +24,10 @@ const Formscredenciales = () => {
 
     const validateForm = () => {
         const newErrors = {};
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/; // Mínimo 8 caracteres, al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.
 
-        if (!values.contrasena) {
-            newErrors.contrasena = "La contraseña es obligatoria.";
-        } else if (!passwordRegex.test(values.contrasena)) {
-            newErrors.contrasena = "La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una letra minúscula, un número y un carácter especial.";
+        // Solo verificar que la contraseña tenga más de 8 caracteres
+        if (values.contrasena.length <= 8) {
+            newErrors.contrasena = "La contraseña debe tener más de 8 caracteres.";
         }
 
         if (values.contrasena !== values.confirmcontrasena) {
@@ -139,15 +138,12 @@ const Formscredenciales = () => {
             )}
 
             {successMessage && (
-                <div className={`modal-container show`}>
-                    <div className="modal-header">
-                        <h2 className="text-xl font-bold">Éxito</h2>
-                        <button className="close-button" onClick={() => setSuccessMessage('')}>X</button>
-                    </div>
-                    <div className="modal-body">
-                        <p className="text-green">¡Se ha cambiado la contraseña!</p>
-                    </div>
-                </div>
+                <ModalInformativo
+                    mensaje={successMessage}
+                    onClose={() => {
+                        window.location.href = '/login';
+                    }}
+                />
             )}
         </>
     );

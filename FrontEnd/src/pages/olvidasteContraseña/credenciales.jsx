@@ -59,8 +59,6 @@ const Credencial = () => {
         <div className="login-container text-white w-full h-full flex flex-col justify-center pr-40 gap-3 text-center">
           <p className="font-bold text-2xl">Nuevas Credenciales</p>
           <p>La contraseña debe tener como mínimo 8 caracteres.</p>
-          <p>La contraseña debe tener una mayúscula, un carácter especial y un número.</p>
-
           <Formscredenciales client:visible />
         </div>
       </div>

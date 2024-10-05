@@ -38,7 +38,7 @@ const TarjetasTema = ({ nit }) => {
     if (nit) {
       // Obtener temas desde el endpoint
       setLoading(true); // Mostrar el modal de carga
-      fetch(`http://localhost:8000/api/v2/temas/empresa/${nit}/`)
+      fetch(`https://despliegue-mise.onrender.com/api/v2/temas/empresa/${nit}/`)
         .then((response) => response.json())
         .then((data) => {
           setTemas(data);
@@ -53,7 +53,7 @@ const TarjetasTema = ({ nit }) => {
     setLoading(true); // Mostrar el modal de carga
 
     fetch(
-      `http://localhost:8000/api/v2/temas_asignados/${nit}/${temaId}/actualizar_estado/`,
+      `https://despliegue-mise.onrender.com/api/v2/temas_asignados/${nit}/${temaId}/actualizar_estado/`,
       {
         method: 'PUT',
         headers: {
