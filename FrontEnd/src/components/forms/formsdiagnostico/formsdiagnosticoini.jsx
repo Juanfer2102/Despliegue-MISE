@@ -34,16 +34,19 @@ const DesempenoForm = ({ criterios, titulo, nit, onFormSubmit }) => {
             <tr key={index} className="border-b">
               <td className="py-2 px-4 w-[75rem]">{criterio.descripcion}</td>
               <td className="py-2 px-4 w-[10rem]">
-                <input
+              <input
                   type="number"
                   name={`valoracion_${index + 1}`}
                   value={values[`valoracion_${index + 1}`] || ""}
                   step="0.01"
                   min="0"
                   max="100"
-                  className="border border-gray-300 p-1 rounded-md text-black bg-transparent"
+                  className={`border ${errors[`valoracion_${index + 1}`] ? 'border-red' : 'border-white'} p-1 rounded-md text-white bg-transparent`}
                   onChange={(e) => handleInputChange(index, e.target.value)}
                 />
+                {errors[`valoracion_${index + 1}`] && (
+                  <div className="text-red text-sm mt-1">{errors[`valoracion_${index + 1}`]}</div>
+                )}
               </td>
             </tr>
           ))}
