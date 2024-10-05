@@ -13,7 +13,7 @@ import React from 'react';
 const Boton = ({ onClick, text }) => {
   return (
     <div
-      className="bg-principalGreen rounded-md text-white text-center font-semibold cursor-pointer w-[10rem] h-10 p-2"
+      className="bg-principalGreen rounded-md text-white text-center font-semibold cursor-pointer w-[10rem] h-auto p-2"
       type="submit"
       onClick={onClick}
     >
