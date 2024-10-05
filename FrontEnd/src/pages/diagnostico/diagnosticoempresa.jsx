@@ -226,7 +226,7 @@ const EvaluacionEmpresa = () => {
                                         )}
                                     </div>
                                 </div>
-                                <div className="flex justify-end w-full py-2">
+                                <div className="flex justify-end w-full pb-4">
                                     <Boton onClick={openModal} text="Guardar" />
                                 </div>
                             </div>
