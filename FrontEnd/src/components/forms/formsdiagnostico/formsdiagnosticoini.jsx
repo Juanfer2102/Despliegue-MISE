@@ -2,18 +2,32 @@ import { useState } from "react";
 
 const DesempenoForm = ({ criterios, titulo, nit, onFormSubmit }) => {
   const [values, setValues] = useState({});
+  const [errors, setErrors] = useState({});
 
   const handleInputChange = (index, value) => {
-    if (value === "" || (/^\d{0,3}(\.\d{0,2})?$/.test(value) && value <= 100)) {
-      const questionKey = `pregunta_${index + 1}`;
-      const valoracionKey = `valoracion_${index + 1}`;
+    // Validar solo números, sin caracteres no deseados y rango válido
+    const questionKey = `pregunta_${index + 1}`;
+    const valoracionKey = `valoracion_${index + 1}`;
+
+    // Expresión regular para permitir solo números y un decimal opcional
+    const isValidNumber = /^\d*\.?\d*$/.test(value);
+    const isInRange = value === "" || (parseFloat(value) >= 0 && parseFloat(value) <= 100);
+
+    if (isValidNumber && isInRange) {
       const newValues = {
         ...values,
         [questionKey]: criterios[index].id_pregunta,
         [valoracionKey]: value,
       };
       setValues(newValues);
-      onFormSubmit(titulo, newValues); // Asegúrate de enviar todos los valores
+      setErrors((prevErrors) => ({ ...prevErrors, [valoracionKey]: '' })); // Limpiar el error
+      onFormSubmit(titulo, newValues);
+    } else {
+      // Establecer el mensaje de error correspondiente
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [valoracionKey]: value === "" ? 'El campo no puede estar vacío.' : 'Por favor, ingrese un número válido entre 0 y 100.'
+      }));
     }
   };
 
