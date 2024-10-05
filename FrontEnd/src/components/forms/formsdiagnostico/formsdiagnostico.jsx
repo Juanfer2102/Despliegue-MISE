@@ -57,11 +57,11 @@ const DesempenoForm = ({ criterios, titulo, nit, onFormSubmit }) => {
                   step="0.01"
                   min="0"
                   max="100"
-                  className={`border ${errors[`valoracion_${index + 1}`] ? 'border-red-500' : 'border-white'} p-1 rounded-md text-black bg-transparent`}
+                  className={`border ${errors[`valoracion_${index + 1}`] ? 'border-red-500' : 'border-white'} p-1 rounded-md text-white bg-transparent`}
                   onChange={(e) => handleInputChange(index, e.target.value)}
                 />
                 {errors[`valoracion_${index + 1}`] && (
-                  <div className="text-red-500 text-sm mt-1">{errors[`valoracion_${index + 1}`]}</div>
+                  <div className="text-red text-sm mt-1">{errors[`valoracion_${index + 1}`]}</div>
                 )}
               </td>
             </tr>
