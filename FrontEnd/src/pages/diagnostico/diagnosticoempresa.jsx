@@ -205,7 +205,7 @@ const EvaluacionEmpresa = () => {
                 <main className="flex flex-row w-full bg-greyBlack h-screen">
                     <div className="flex flex-col w-full h-full">
                         <div className="flex content-center justify-end h-20 w-full" />
-                        <div className="bg-greyBg flex flex-col h-full w-full px-12 pt-6 overflow-auto">
+                        <div className="bg-greyBg flex flex-col h-full w-full px-12 pt-2 overflow-auto">
                             <div className="gap-8 flex flex-col p-8 w-full h-full rounded-md">
                                 <div className="rounded-xl flex flex-col gap-6 h-full">
                                     <BackButton text={`Diagnostico / ${nombreEmpresa || 'Cargando...'}`} />
