@@ -40,7 +40,7 @@ const InfoAE = ({ nit, nombre_empresa, representante, razon_social }) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ estado: 3 }), // Envía la actualización del estado de la empresa
+            body: JSON.stringify({ estado: 0 }), // Envía la actualización del estado de la empresa
         })
             .then(response => response.ok ? response.json() : Promise.reject('Error al actualizar el estado'))
             .then(() => openSuccessModal()) // Muestra el modal de éxito si se actualiza correctamente

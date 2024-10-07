@@ -191,7 +191,7 @@ const DeveloperPortal = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ estado: 3 }), // Estado 3 para rechazo
+                body: JSON.stringify({ estado: 0 }), // Estado 3 para rechazo
             })
                 .then(response => {
                     if (!response.ok) {
