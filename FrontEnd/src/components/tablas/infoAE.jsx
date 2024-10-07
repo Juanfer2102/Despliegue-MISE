@@ -35,8 +35,18 @@ const InfoAE = ({ nit, nombre_empresa, representante, razon_social }) => {
 
     // Maneja la cancelación de una acción
     const handleCancel = () => {
-        openSuccessModal(); // Abre el modal de éxito al cancelar
-        closeCModal(); // Cierra el modal de cancelación
+        fetch(`https://despliegue-mise.onrender.com/api/v2/update-empresa-status-final/${nit}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ estado: 3 }), // Envía la actualización del estado de la empresa
+        })
+            .then(response => response.ok ? response.json() : Promise.reject('Error al actualizar el estado'))
+            .then(() => openSuccessModal()) // Muestra el modal de éxito si se actualiza correctamente
+            .catch(error => console.error('Error:', error));
+
+        closeModal(); // Cierra el modal de confirmación
     };
 
     // Abre el modal de éxito por un segundo y luego recarga la página
