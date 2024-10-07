@@ -347,7 +347,7 @@ const DeveloperPortal = () => {
         <>
             <ConfirmModal isOpen={isOpen} closeModal={closeModal} handleConfirm={handleConfirm} />
             <CancelModal isCOpen={isCOpen} closeCModal={closeCModal} handleCancel={handleCancel} />
-            <div className="p-2 xl:w-[83.5rem] lg:w-[55rem]">
+            <div className="p-2 xl:w-[83.5rem] lg:w-[70rem]">
                 <div className="flex xl:flex-row lg:flex-row flex-col xl:space-x-8">
                     <div className='flex flex-row xl:space-x-8 lg:space-x-8 space-x-7 mb-6 xl:w-full lg:w-full max-md:max-w-[25rem] overflow-x-auto'>
                         <button
