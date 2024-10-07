@@ -155,12 +155,12 @@ const DeveloperPortal = () => {
     const openCModal = () => setIsCOpen(true);
 
     const handleCancel = () => {
-        openSuccessModal();
+        openSuccessCModal();
         closeCModal();
     };
 
     const handleConfirm = () => {
-        openSuccessCModal();
+        openSuccessModal();
         closeModal();
     };
 
@@ -186,7 +186,7 @@ const DeveloperPortal = () => {
     const openSuccessCModal = () => {
         setIsSuccessCModalVisible(true);
         setTimeout(() => {
-            fetch(`https://despliegue-mise.onrender.com/api/v2/update-empresa-status/${nit}/`, {
+            fetch(`https://despliegue-mise.onrender.com/api/v2/update-empresa-status-final/${nit}/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
