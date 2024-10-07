@@ -30,7 +30,7 @@ const EvaluacionEmpresaNuevasf = () => {
     // Fetch para obtener las calificaciones de la empresa
     useEffect(() => {
         if (nit) {
-            fetch(`http://localhost:8000/api/v2/calificaciones/empresa/${nit}/`)
+            fetch(`https://despliegue-mise.onrender.com/api/v2/calificaciones/empresa/${nit}/`)
                 .then(response => response.json())
                 .then(data => setCalificaciones(data))
                 .catch(error => console.error("Error fetching calificaciones:", error));
@@ -39,7 +39,7 @@ const EvaluacionEmpresaNuevasf = () => {
 
     useEffect(() => {
         if (nit) {
-            fetch(`http://localhost:8000/api/v2/postulante/num/${nit}/`)
+            fetch(`https://despliegue-mise.onrender.com/api/v2/postulante/num/${nit}/`)
                 .then(response => response.json())
                 .then(data => setPostulante(data))
                 .catch(error => console.error("Error fetching postulante:", error));
@@ -48,7 +48,7 @@ const EvaluacionEmpresaNuevasf = () => {
 
     useEffect(() => {
         // Obtener información de la empresa
-        fetch(`http://localhost:8000/api/v2/empresas/${nit}/`)
+        fetch(`https://despliegue-mise.onrender.com/api/v2/empresas/${nit}/`)
             .then(response => response.json())
             .then(data => {
                 setEmpresa(data);
@@ -58,7 +58,7 @@ const EvaluacionEmpresaNuevasf = () => {
 
 
     const handleConfirm = () => {
-        fetch(`http://localhost:8000/api/v2/update-empresa-status-final/${nit}/`, {
+        fetch(`https://despliegue-mise.onrender.com/api/v2/update-empresa-status-final/${nit}/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
