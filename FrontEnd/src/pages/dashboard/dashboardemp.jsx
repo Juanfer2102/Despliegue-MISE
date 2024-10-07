@@ -114,7 +114,7 @@ const DashboardEmp = () => {
             <div className="bg-greyBlack xl:h-20 lg:h-20 w-full"></div>
             <div className="bg-greyBg flex flex-col py-2 xl:gap-5 lg:gap-5 gap-4 w-full xl:h-full px-4 lg:px-12 xl:px-12 pt-4 xl:pt-6">
               <div className="flex justify-between items-center">
-                <BackButton text={`Empresas Registradas / ${empresa.nombre_empresa || 'Cargando...'}`} />
+                <BackButton navigateUrl="/empresas-registradas" text={`Empresas Registradas / ${empresa.nombre_empresa || 'Cargando...'}`} />
                 <button
                   className={`px-4 py-2 rounded-lg transition-colors duration-300 ${isButtonEnabled ? 'bg-principalGreen text-white hover:bg-white hover:text-principalGreen' : 'hidden'}`}
                   disabled={!isButtonEnabled} // Deshabilitar botón si no se cumplen las condiciones

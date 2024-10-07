@@ -76,7 +76,7 @@ const EvaluacionEmpresaNuevas = () => {
                     <div className="flex content-center justify-end h-20 w-full" />
                     <div className="bg-greyBg flex flex-col h-full w-full px-6 pt-6 overflow-auto">
                         <div className="gap-8 flex flex-col px-8 w-full h-full rounded-md">
-                            <BackButton text={`Evaluación Inicial de ${empresa.nombre_empresa || 'Cargando...'}`} />
+                            <BackButton navigateUrl={`/dashboard-emp/${nit}/`} text={`Evaluación Inicial de ${empresa.nombre_empresa || 'Cargando...'}`} />
                             <div className="rounded-xl flex flex-col gap-6 h-full py-6">
                                 <div className="px-6 flex flex-col p-4 gap-8">
                                     <div>

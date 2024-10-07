@@ -41,7 +41,7 @@ const EditarPorcentaje = () => {
         <div className="flex flex-col w-full h-full">
           <div className="bg-greyBlack h-20 w-full" />
           <div className="bg-greyBg flex flex-col gap-1 w-full xl:h-full px-4 xl:px-12 pt-4 xl:pt-6">
-            <BackButton text={"Porcentajes de Desarrollo"} />
+            <BackButton navigateUrl="/otra-ruta" text={"Porcentajes de Desarrollo"} />
             <Formseditporc client:load />
           </div>
         </div>

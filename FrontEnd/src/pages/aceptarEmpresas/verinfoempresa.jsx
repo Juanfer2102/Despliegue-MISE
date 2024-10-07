@@ -33,7 +33,7 @@ const DetalleEmpresas = () => {
           <div className="bg-greyBlack h-20 w-full">
           </div>
           <div className="bg-greyBg flex flex-col px-6 py-6 h-full w-full overflow-y-auto">
-            <BackButton text="Informacion Empresas" />
+            <BackButton text="Informacion Empresas" navigateUrl="/aceptar-empresas" />
             <DeveloperPortal />
           </div>
         </div>

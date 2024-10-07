@@ -48,8 +48,7 @@ export const EmpresasCulminadas = () => {
             <div className="w-full px-4 py-5 md:px-8">
               <div className="text-white gap-6">
                 <div className="flex flex-col">
-                    <BackButton text={"Empresas Culminadas"} />
-
+                    <BackButton navigateUrl="/empresas-registradas" text={"Empresas Culminadas"} />
                   {/* Tabla de empresas */}
                   <div className="rounded-xl px-5 md:px-10 pb-5 h-full flex flex-col gap-2">
                     <div className="rounded-xl">

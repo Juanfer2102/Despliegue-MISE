@@ -32,7 +32,7 @@ const AceptarEmpresas = () => {
           <div className="w-full h-full">
             <div className="bg-greyBlack h-20"></div>
             <div className="w-full px-8 pt-5 h-full text-white gap-8">
-              <BackButton text="Aceptar Empresas" />
+              <BackButton text="Aceptar Empresas" navigateUrl="/empresas-registradas" />
               <div className="rounded-xl xl:py-10 lg:py-5 py-5 h-full w-full flex gap-2 flex-col overflow-y-auto custom-scrollbar">
                 <div className="rounded-xl">
                   <TableComponent />

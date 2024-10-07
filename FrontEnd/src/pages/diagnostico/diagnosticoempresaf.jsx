@@ -160,7 +160,7 @@ const EvaluacionEmpresaf = () => {
                         <div className="bg-greyBg flex flex-col h-full w-full px-12 pt-6 overflow-auto">
                             <div className="gap-8 flex flex-col p-8 w-full h-full rounded-md">
                                 <div className="rounded-xl flex flex-col gap-6 h-full">
-                                    <BackButton text={`Evaluacion Final / ${nombreEmpresa || 'Cargando...'}`} />
+                                    <BackButton navigateUrl={`/dashboard-emp/${nit}/`} text={`Evaluacion Final / ${nombreEmpresa || 'Cargando...'}`} />
                                     <div className="flex flex-col gap-6 h-full overflow-auto custom-scrollbar">
                                         {loading ? (
                                             <p>Cargando módulos...</p>

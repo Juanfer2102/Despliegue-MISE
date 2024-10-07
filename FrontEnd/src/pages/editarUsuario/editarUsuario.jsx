@@ -90,7 +90,7 @@ const EditarUsuario = ({ nombres, correo, rol }) => {
         <div className="flex flex-col w-full h-full">
           <div className="bg-greyBlack h-20 w-full" />
           <div className="bg-greyBg flex flex-col px-4 gap-2 py-2 sm:px-8 h-full w-full">
-            <BackButton text={`Usuarios Registrados / ${user.nombres} ${user.apellidos}`} />
+            <BackButton navigateUrl="/visualizar-users" text={`Editar / ${user.nombres} ${user.apellidos}`} />
             <div className="bg-greyBlack flex flex-col gap-2 lg:gap-8 p-4 lg:p-5 w-full rounded-md">
               <div className="flex flex-col w-full px-6 py-2">
                 <div className='flex flex-col gap-2'>
