@@ -1402,7 +1402,7 @@ class UpdateEmpresaStatusFinish(APIView):
     def post(self, request, nit):
         try:
             empresa = Empresas.objects.get(nit=nit)
-            empresa.estado = '3'  # Actualiza el estado a 3
+            empresa.estado = '0'  # Actualiza el estado a 0
             empresa.save()
             return Response({'success': 'Estado actualizado correctamente'}, status=status.HTTP_200_OK)
         except Empresas.DoesNotExist:
