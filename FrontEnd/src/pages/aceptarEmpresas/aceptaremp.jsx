@@ -64,21 +64,21 @@ const DeveloperPortal = () => {
     useEffect(() => {
         if (nit) {
             // Fetch company data based on NIT
-            fetch(`http://localhost:8000/api/v2/empresas/${nit}/`)
+            fetch(`https://despliegue-mise.onrender.com/api/v2/empresas/${nit}/`)
                 .then(response => response.json())
                 .then(data => {
                     setCompanyData(data);
 
                     // Fetch postulante data based on postulante ID
                     if (data.id_postulante) {
-                        fetch(`http://localhost:8000/api/v2/postulante/${data.id_postulante}/`)
+                        fetch(`https://despliegue-mise.onrender.com/api/v2/postulante/${data.id_postulante}/`)
                             .then(response => response.json())
                             .then(postulante => setPostulanteData(postulante))
                             .catch(error => console.error('Error fetching postulante data:', error));
                     }
 
                     // Fetch autoevaluacion data based on company nit
-                    fetch(`http://localhost:8000/api/v2/autoevaluacion/`)
+                    fetch(`https://despliegue-mise.onrender.com/api/v2/autoevaluacion/`)
                         .then(response => response.json())
                         .then(autoevaluaciones => {
                             console.log('Autoevaluacion data:', autoevaluaciones);
@@ -91,13 +91,13 @@ const DeveloperPortal = () => {
                                 const autoevaluacionId = autoevaluacionData[0].id_autoevaluacion; // Solo toma la primera autoevaluación con el NIT
 
                                 // Fetch calificaciones de módulos
-                                fetch(`http://localhost:8000/api/v2/calificaciones-modulos/${autoevaluacionId}/`)
+                                fetch(`https://despliegue-mise.onrender.com/api/v2/calificaciones-modulos/${autoevaluacionId}/`)
                                     .then(response => response.json())
                                     .then(calificaciones => {
                                         console.log('Calificaciones data:', calificaciones);
 
                                         // Fetch modulos data
-                                        fetch('http://localhost:8000/api/v2/modulo-autoevaluacion/')
+                                        fetch('https://despliegue-mise.onrender.com/api/v2/modulo-autoevaluacion/')
                                             .then(response => response.json())
                                             .then(modulosData => {
                                                 console.log('Modulos data:', modulosData);
