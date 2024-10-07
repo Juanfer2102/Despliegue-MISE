@@ -344,6 +344,7 @@ export const FormRegistro = () => {
                 </svg>
             </div>
             <form className="form custom-scrollbar w-full max-h-[50rem] overflow-y-auto flex flex-row bg-greyBlack rounded-xl gap-3">
+                <h1 className="font-bold text-xl">Todos los campos son requeridos.</h1>
                 <div className='flex flex-col gap-6 w-full p-6 rounded-xl'>
                     <div className="flex flex-col gap-6 w-full">
                         <div className='flex flex-row gap-6 w-full'>
